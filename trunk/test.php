@@ -1,1 +1,0 @@
-no he wasnt! owned
