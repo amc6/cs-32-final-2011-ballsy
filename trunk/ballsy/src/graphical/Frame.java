@@ -26,7 +26,7 @@ public class Frame extends PApplet {
 	}
 
 	public void draw() {
-		background(100);
+		background(200);
 		// Move and display all "stripes"
 		for (int i = 0; i < stripes.length; i++) {
 			stripes[i].move();
