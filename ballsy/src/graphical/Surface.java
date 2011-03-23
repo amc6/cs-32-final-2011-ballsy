@@ -43,10 +43,10 @@ class Surface {
 			// and up on the other
 			float y;
 			if (x > _level.width/2) {
-				y = 0 + (_level.width - x)*1.1f + PApplet.map(_level.noise(xoff),0,1,-80,80);
+				y = 100 + (_level.width - x)*1.1f + PApplet.map(_level.noise(xoff),0,1,-80,80);
 			} 
 			else {
-				y = 0 + x*1.1f + PApplet.map(_level.noise(xoff),0,1,-80,80);
+				y = 100 + x*1.1f + PApplet.map(_level.noise(xoff),0,1,-80,80);
 			}
 
 			// The edge point in our window

@@ -50,7 +50,7 @@ public class Level extends PApplet {
 		// Create the surface
 		_surface = new Surface(this, _box2d);
 		
-		this.frameRate(120);
+		//this.frameRate(120);
 		
 
 	}
