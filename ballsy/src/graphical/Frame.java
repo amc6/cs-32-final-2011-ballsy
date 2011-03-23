@@ -33,7 +33,7 @@ public class Frame extends PApplet {
 	}
 
 	public void draw(){
-		background(48,139,206);
+		background(248,39,206);
 		s1.update(mouseX, mouseY);
 		s1.display(mouseX, mouseY);
 		//s2.update(s1.x, s1.y);
