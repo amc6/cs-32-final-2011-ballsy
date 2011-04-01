@@ -69,7 +69,7 @@ public class Level extends PApplet {
 		// We must always step through time!
 		_box2d.step();
 
-		background(248,139,206);
+		background(255,255,255);
 
 		// Draw the surface
 		_surface.display();
