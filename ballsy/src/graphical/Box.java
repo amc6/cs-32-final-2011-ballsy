@@ -92,7 +92,7 @@ public class Box  {
 		// Give it some initial random velocity
 		body.setLinearVelocity(new Vec2(_level.random(-5,5),_level.random(2,5)));
 		body.setAngularVelocity(_level.random(-5,5));
-
+	
 	}
 
 }
