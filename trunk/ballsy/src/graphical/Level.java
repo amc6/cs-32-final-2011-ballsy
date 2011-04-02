@@ -39,6 +39,8 @@ public class Level extends PApplet {
 		
 		smooth();
 		
+		this.frameRate(120);
+		
 		// Initialize box2d physics and create the world
 		_box2d = new PBox2D(this);
 		_box2d.createWorld();
