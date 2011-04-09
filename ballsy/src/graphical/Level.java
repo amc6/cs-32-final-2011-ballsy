@@ -119,6 +119,14 @@ public class Level extends AbstractLevel {
 		
 	}
 
+
+
+	@Override
+	public void destroy(BallsyObject object) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 
