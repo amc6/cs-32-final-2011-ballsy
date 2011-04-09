@@ -5,9 +5,8 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import pbox2d.PBox2D;
-
-
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
@@ -34,12 +33,13 @@ public class Level extends PApplet {
 		// Get the current screen size
 		Dimension scrnsize = toolkit.getScreenSize();
 
-		size(scrnsize.width, scrnsize.height);
+		this.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
+		this.hint(PConstants.ENABLE_OPENGL_4X_SMOOTH);
 		
 		
 		smooth();
 		
-		this.frameRate(120);
+		this.frameRate(60);
 		
 		// Initialize box2d physics and create the world
 		_box2d = new PBox2D(this);

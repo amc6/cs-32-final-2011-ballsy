@@ -95,6 +95,10 @@ public class Box  {
 		body.setAngularVelocity(_level.random(-5,5));
 	
 	}
+	
+	public void applyForce(Vec2 vector){
+		body.applyImpulse(vector, body.getWorldCenter());
+	}
 
 }
 
