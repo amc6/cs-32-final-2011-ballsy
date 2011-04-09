@@ -25,13 +25,15 @@ public class Level2 extends AbstractLevel {
 	
 	private Box _mainBox;
 
-
+	public Level2(Main window) {
+		super(window);
+		// TODO Auto-generated constructor stub
+	}
+	
 	public void setup() {
-		size(400,300);
-		smooth();
-
+		
 		// Initialize box2d physics and create the world
-		box2d = new PhysicsWorld(this);
+		box2d = new PhysicsWorld(_window);
 		box2d.createWorld();
 		// We are setting a custom gravity
 		box2d.setGravity(0, -20);
@@ -41,24 +43,24 @@ public class Level2 extends AbstractLevel {
 		boundaries = new ArrayList<Boundary>();
 
 		// Add a bunch of fixed boundaries
-		boundaries.add(new Boundary(width/2, 0, width, 10, box2d, this));
-		boundaries.add(new Boundary(width/2, height - 5, width, 10, box2d, this));
-		boundaries.add(new Boundary(width-5,height/2,10,height,box2d,this));
-		boundaries.add(new Boundary(5,height/2,10,height,box2d,this));
+		boundaries.add(new Boundary(_window.width/2, 0, _window.width, 10, box2d, _window));
+		boundaries.add(new Boundary(_window.width/2, _window.height - 5, _window.width, 10, box2d, _window));
+		boundaries.add(new Boundary(_window.width-5,_window.height/2,10,_window.height,box2d,_window));
+		boundaries.add(new Boundary(5,_window.height/2,10,_window.height,box2d,_window));
 		
-		_mainBox = new Box(width/3,height-50,box2d,this);
+		_mainBox = new Box(_window.width/3,_window.height-50,box2d,_window);
 		boxes.add(_mainBox);
 	}
 
 	public void draw() {
-		background(255);
+		_window.background(255);
 
 		// We must always step through time!
 		box2d.step();
 
 		// When the mouse is clicked, add a new Box object
-		if (mousePressed) {
-			Box p = new Box(mouseX,mouseY,box2d,this);
+		if (_window.mousePressed) {
+			Box p = new Box(_window.mouseX,_window.mouseY,box2d,_window);
 			boxes.add(p);
 		}
 
@@ -84,7 +86,7 @@ public class Level2 extends AbstractLevel {
 	
 	public void keyPressed() {
 	
-		switch (this.keyCode){
+		switch (_window.keyCode){
 		case PConstants.LEFT:
 			_mainBox.applyForce(new Vec2(-35,0));
 			break;
@@ -98,6 +100,24 @@ public class Level2 extends AbstractLevel {
 			_mainBox.applyForce(new Vec2(0,35));
 			break;				
 		}
+	}
+
+	@Override
+	public void destroy(BallsyObject object) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
