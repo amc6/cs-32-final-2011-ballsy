@@ -16,6 +16,13 @@ import processing.core.PConstants;
 
 public class Level extends AbstractLevel {
 	
+	public Level(Main window) {
+		super(window);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	//A reference to our box2d world
 	private PhysicsWorld _box2d;
 	
@@ -33,16 +40,16 @@ public class Level extends AbstractLevel {
 		// Get the current screen size
 		Dimension scrnsize = toolkit.getScreenSize();
 
-		this.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
-		this.hint(PConstants.ENABLE_OPENGL_4X_SMOOTH);
+		_window.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
+		_window.hint(PConstants.ENABLE_OPENGL_4X_SMOOTH);
 		
 		
-		smooth();
+		_window.smooth();
 		
-		this.frameRate(60);
+		_window.frameRate(60);
 		
 		// Initialize box2d physics and create the world
-		_box2d = new PhysicsWorld(this);
+		_box2d = new PhysicsWorld(_window);
 		_box2d.createWorld();
 		// We are setting a custom gravity
 		_box2d.setGravity(0, -20);
@@ -50,7 +57,7 @@ public class Level extends AbstractLevel {
 		// Create the empty list
 		_particles = new ArrayList<Particle>();
 		// Create the surface
-		_surface = new Surface(this, _box2d);
+		_surface = new Surface(_window, _box2d);
 		//this.frameRate(120);
 		
 
@@ -62,15 +69,15 @@ public class Level extends AbstractLevel {
 		
 		
 		// If the mouse is pressed, we make new particles
-		if (mousePressed) {
-			float sz = random(2,6);
-			_particles.add(new Particle(mouseX,mouseY,sz, _box2d, this));
+		if (_window.mousePressed) {
+			float sz = _window.random(2,6);
+			_particles.add(new Particle(_window.mouseX,_window.mouseY,sz, _box2d, _window));
 		}
 
 		// We must always step through time!
 		_box2d.step();
 
-		background(255,255,255);
+		_window.background(255,255,255);
 
 		// Draw the surface
 		_surface.display();
@@ -90,9 +97,25 @@ public class Level extends AbstractLevel {
 		}
 
 		// Just drawing the framerate to see how many particles it can handle
-		fill(0);
-		textSize(20);
-		text("framerate: " + (int)frameRate,12,46);
+		_window.fill(0);
+		_window.textSize(20);
+		_window.text("framerate: " + (int)_window.frameRate,12,46);
+		
+	}
+
+
+
+	@Override
+	public void mousePressed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void mouseReleased() {
+		// TODO Auto-generated method stub
 		
 	}
 

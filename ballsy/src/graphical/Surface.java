@@ -20,11 +20,11 @@ import processing.core.PApplet;
 class Surface {
 	// We'll keep track of all of the surface points
 	ArrayList<Vec2> surface;
-	private Level _level;
+	private Main _level;
 	private PhysicsWorld _box2d;
 
 
-	Surface(Level level, PhysicsWorld box2d) {
+	Surface(Main level, PhysicsWorld box2d) {
 		_level = level;
 		_box2d = box2d;
 		surface = new ArrayList<Vec2>();

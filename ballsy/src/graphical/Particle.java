@@ -21,15 +21,26 @@ public class Particle {
 	private Body body;
 	private float r;
 	private PhysicsWorld _box2d;
-	private Level _level;
+	private Main _level;
 
-	public Particle(float x, float y, float r_, PhysicsWorld box2d, Level level) {
+	public Particle(float x, float y, float r_, PhysicsWorld box2d, Main _window) {
 		r = r_;
 		_box2d = box2d;
-		_level = level;
+		_level = _window;
 		// This function puts the particle in the Box2d world
 		makeBody(x,y,r);
 
+	}
+
+	
+	//alternate constructor
+	public Particle(int x, int y, float r_, PhysicsWorld box2d,
+			Main _window) {
+		r = r_;
+		_box2d = box2d;
+		_level = _window;
+		// This function puts the particle in the Box2d world
+		makeBody(x,y,r);
 	}
 
 	// This function removes the particle from the box2d world
