@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
@@ -14,10 +14,10 @@ import processing.core.PConstants;
 //PBox2D example
 
 
-public class Level extends PApplet {
+public class Level extends AbstractLevel {
 	
 	//A reference to our box2d world
-	private PBox2D _box2d;
+	private PhysicsWorld _box2d;
 	
 	//An ArrayList of particles that will fall on the surface
 	ArrayList<Particle> _particles;
@@ -42,7 +42,7 @@ public class Level extends PApplet {
 		this.frameRate(60);
 		
 		// Initialize box2d physics and create the world
-		_box2d = new PBox2D(this);
+		_box2d = new PhysicsWorld(this);
 		_box2d.createWorld();
 		// We are setting a custom gravity
 		_box2d.setGravity(0, -20);

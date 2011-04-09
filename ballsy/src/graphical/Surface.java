@@ -7,7 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 import processing.core.PApplet;
 
 //The Nature of Code
@@ -21,10 +21,10 @@ class Surface {
 	// We'll keep track of all of the surface points
 	ArrayList<Vec2> surface;
 	private Level _level;
-	private PBox2D _box2d;
+	private PhysicsWorld _box2d;
 
 
-	Surface(Level level, PBox2D box2d) {
+	Surface(Level level, PhysicsWorld box2d) {
 		_level = level;
 		_box2d = box2d;
 		surface = new ArrayList<Vec2>();

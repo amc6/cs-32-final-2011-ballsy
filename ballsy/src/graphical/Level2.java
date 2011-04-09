@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 import processing.core.PConstants;
 
 //The Nature of Code
@@ -13,10 +13,10 @@ import processing.core.PConstants;
 //PBox2D example
 
 
-public class Level2 extends Level {
+public class Level2 extends AbstractLevel {
 
 	//A reference to our box2d world
-	private PBox2D box2d;
+	private PhysicsWorld box2d;
 
 	// A list we'll use to track fixed objects
 	ArrayList<Boundary> boundaries;
@@ -31,7 +31,7 @@ public class Level2 extends Level {
 		smooth();
 
 		// Initialize box2d physics and create the world
-		box2d = new PBox2D(this);
+		box2d = new PhysicsWorld(this);
 		box2d.createWorld();
 		// We are setting a custom gravity
 		box2d.setGravity(0, -20);

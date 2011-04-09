@@ -5,7 +5,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 import processing.core.PApplet;
 
 //The Nature of Code
@@ -24,10 +24,10 @@ public class Boundary {
 	float h;
 	// But we also have to make a body for box2d to know about it
 	Body b;
-	private PBox2D _box2d;
+	private PhysicsWorld _box2d;
 	private PApplet _level;
 
-	Boundary(float x_,float y_, float w_, float h_, PBox2D box2d, PApplet level) {
+	Boundary(float x_,float y_, float w_, float h_, PhysicsWorld box2d, PApplet level) {
 		_box2d = box2d;
 		_level = level;
 		x = x_;

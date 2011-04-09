@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 
 import processing.core.PApplet;
 
-public class Frame extends PApplet {
+public class Frame extends AbstractLevel {
 
 	//	An array of stripes
 	//Stripe[] stripes = new Stripe[50];

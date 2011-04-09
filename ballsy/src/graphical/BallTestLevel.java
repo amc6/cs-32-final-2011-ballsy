@@ -2,7 +2,7 @@ package graphical;
 
 import java.util.ArrayList;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 import processing.core.PApplet;
 
 //The Nature of Code
@@ -14,7 +14,7 @@ import processing.core.PApplet;
 public class BallTestLevel extends PApplet {
 	
 	//A reference to our box2d world
-	private PBox2D _box2d;
+	private PhysicsWorld _box2d;
 	private ArrayList<Boundary> _boundary;
 	
 	
@@ -23,7 +23,7 @@ public class BallTestLevel extends PApplet {
 		this.size(700,600);
 		this.smooth();
 		
-		_box2d = new PBox2D(this);
+		_box2d = new PhysicsWorld(this);
 		_box2d.createWorld();
 		// We are setting a custom gravity
 		_box2d.setGravity(0, -20);

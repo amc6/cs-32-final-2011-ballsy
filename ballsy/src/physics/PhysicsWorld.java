@@ -7,7 +7,7 @@
  * Daniel Shiffman <http://www.shiffman.net>
  */
 
-package pbox2d;
+package physics;
 
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
@@ -21,7 +21,7 @@ import org.jbox2d.dynamics.joints.JointDef;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class PBox2D {
+public class PhysicsWorld {
 
 	PApplet parent;
 
@@ -37,11 +37,11 @@ public class PBox2D {
 	PContactListener contactlistener;
 
 	// Construct with a default scaleFactor of 10
-	public PBox2D(PApplet p) {
+	public PhysicsWorld(PApplet p) {
 		this(p,10);
 	}
 
-	public PBox2D(PApplet p, float sf) {
+	public PhysicsWorld(PApplet p, float sf) {
 		parent = p;
 		transX = parent.width/2;
 		transY = parent.height/2;
