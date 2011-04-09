@@ -93,7 +93,7 @@ public class Level extends PApplet {
 		// Just drawing the framerate to see how many particles it can handle
 		fill(0);
 		textSize(20);
-		text("framerate: " + (int)frameRate,12,26);
+		text("framerate: " + (int)frameRate,12,46);
 		
 	}
 
