@@ -43,7 +43,7 @@ public class Boundary {
 		// Define the polygon
 		PolygonDef sd = new PolygonDef();
 		sd.setAsBox(box2dW, box2dH);
-		sd.density = 0;    // No density means it won't move!
+		sd.density = 1.0f;    // No density means it won't move!
 		sd.friction = 0.3f;
 
 		// Create the body
@@ -51,6 +51,7 @@ public class Boundary {
 		bd.position.set(box2d.coordPixelsToWorld(center));
 		b = box2d.createBody(bd);
 		b.createShape(sd);
+		//b.setMassFromShapes();
 	}
 
 	// Draw the boundary, if it were at an angle we'd have to do something fancier

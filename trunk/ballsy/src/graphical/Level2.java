@@ -2,8 +2,10 @@ package graphical;
 
 import java.util.ArrayList;
 
+import org.jbox2d.common.Vec2;
+
 import pbox2d.PBox2D;
-import processing.core.PApplet;
+import processing.core.PConstants;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
@@ -20,6 +22,8 @@ public class Level2 extends Level {
 	ArrayList<Boundary> boundaries;
 	// A list for all of our rectangles
 	ArrayList<Box> boxes;
+	
+	private Box _mainBox;
 
 
 	public void setup() {
@@ -37,10 +41,13 @@ public class Level2 extends Level {
 		boundaries = new ArrayList<Boundary>();
 
 		// Add a bunch of fixed boundaries
-		boundaries.add(new Boundary(width/4,height-5,width/2-50,10,box2d,this));
-		boundaries.add(new Boundary(3*width/4,height-5,width/2-50,10,box2d,this));
+		boundaries.add(new Boundary(width/2, 0, width, 10, box2d, this));
+		boundaries.add(new Boundary(width/2, height - 5, width, 10, box2d, this));
 		boundaries.add(new Boundary(width-5,height/2,10,height,box2d,this));
 		boundaries.add(new Boundary(5,height/2,10,height,box2d,this));
+		
+		_mainBox = new Box(width/3,height-50,box2d,this);
+		boxes.add(_mainBox);
 	}
 
 	public void draw() {
@@ -72,6 +79,24 @@ public class Level2 extends Level {
 			if (b.done()) {
 				boxes.remove(i);
 			}
+		}
+	}
+	
+	public void keyPressed() {
+	
+		switch (this.keyCode){
+		case PConstants.LEFT:
+			_mainBox.applyForce(new Vec2(-35,0));
+			break;
+		case PConstants.RIGHT:
+			_mainBox.applyForce(new Vec2(35,0));
+			break;
+		case PConstants.DOWN:
+			_mainBox.applyForce(new Vec2(0,-35));
+			break;
+		case PConstants.UP:
+			_mainBox.applyForce(new Vec2(0,35));
+			break;				
 		}
 	}
 
