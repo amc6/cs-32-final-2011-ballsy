@@ -6,7 +6,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
@@ -20,10 +20,10 @@ public class Particle {
 	// We need to keep track of a Body and a radius
 	private Body body;
 	private float r;
-	private PBox2D _box2d;
+	private PhysicsWorld _box2d;
 	private Level _level;
 
-	public Particle(float x, float y, float r_, PBox2D box2d, Level level) {
+	public Particle(float x, float y, float r_, PhysicsWorld box2d, Level level) {
 		r = r_;
 		_box2d = box2d;
 		_level = level;

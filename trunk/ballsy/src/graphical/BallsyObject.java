@@ -3,15 +3,19 @@ package graphical;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import pbox2d.PBox2D;
+import physics.PhysicsDef;
+import physics.PhysicsWorld;
 
 public abstract class BallsyObject {
 
 	protected Body _body;
-	protected PBox2D _box2d;
-	protected Level _level;
+	private PhysicsWorld _world;
+	private AbstractLevel _level;
 	
-	public BallsyObject(PBox2D box2d, Level level){
+	public BallsyObject(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, PathDef path){
+		_level = level;
+		_world = world;
+		
 		_box2d = box2d;
 		_level = level;
 	}

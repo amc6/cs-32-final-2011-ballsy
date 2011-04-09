@@ -1,4 +1,4 @@
-package pbox2d;
+package physics;
 
 import processing.core.PApplet;
 

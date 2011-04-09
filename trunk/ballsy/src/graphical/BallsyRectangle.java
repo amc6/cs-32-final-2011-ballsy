@@ -1,10 +1,10 @@
 package graphical;
 
-import pbox2d.PBox2D;
+import physics.PhysicsWorld;
 
 public class BallsyRectangle extends BallsyObject {
 	
-	public BallsyRectangle(float xPos, float yPos, float width, float height, PBox2D box2d, Level level){
+	public BallsyRectangle(float xPos, float yPos, float width, float height, PhysicsWorld box2d, Level level){
 		super(box2d, level);
 		
 	}
