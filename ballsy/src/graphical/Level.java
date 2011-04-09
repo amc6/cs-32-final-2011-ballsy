@@ -51,7 +51,6 @@ public class Level extends PApplet {
 		_particles = new ArrayList<Particle>();
 		// Create the surface
 		_surface = new Surface(this, _box2d);
-		
 		//this.frameRate(120);
 		
 
