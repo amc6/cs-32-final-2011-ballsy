@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
 import pbox2d.PBox2D;
+import processing.core.PApplet;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
@@ -24,9 +25,9 @@ public class Boundary {
 	// But we also have to make a body for box2d to know about it
 	Body b;
 	private PBox2D _box2d;
-	private Level _level;
+	private PApplet _level;
 
-	Boundary(float x_,float y_, float w_, float h_, PBox2D box2d, Level level) {
+	Boundary(float x_,float y_, float w_, float h_, PBox2D box2d, PApplet level) {
 		_box2d = box2d;
 		_level = level;
 		x = x_;
