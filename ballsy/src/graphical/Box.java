@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
 import pbox2d.PBox2D;
+import processing.core.PApplet;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
@@ -20,10 +21,10 @@ public class Box  {
 	float w;
 	float h;
 	private PBox2D _box2d;
-	private Level _level;
+	private PApplet _level;
 
 	// Constructor
-	Box(float x, float y, PBox2D box2d, Level level) {
+	Box(float x, float y, PBox2D box2d, PApplet level) {
 		_box2d = box2d;
 		_level = level;
 		
