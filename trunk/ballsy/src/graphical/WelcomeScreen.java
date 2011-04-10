@@ -19,8 +19,8 @@ public class WelcomeScreen extends Screen {
 	public void setup() {
 
 		
-		_newGame = "src/images/new_game.png";
-		_pickLevel = "src/images/pick_level.png";
+		_newGame = "res/new_game.png";
+		_pickLevel = "res/pick_level.png";
 	}
 	
 	
@@ -34,10 +34,10 @@ public class WelcomeScreen extends Screen {
 		int y_top = 400;
 		int y_bottom = 500;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_newGame = "src/images/new_game_hover.png";			
+			_newGame = "res/new_game_hover.png";			
 		}
 		else {
-			_newGame = "src/images/new_game.png";
+			_newGame = "res/new_game.png";
 		}
 		
 		
@@ -48,10 +48,10 @@ public class WelcomeScreen extends Screen {
 		y_top = 500;
 		y_bottom = 600;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_pickLevel = "src/images/pick_level_hover.png";
+			_pickLevel = "res/pick_level_hover.png";
 		}
 		else {
-			_pickLevel = "src/images/pick_level.png";
+			_pickLevel = "res/pick_level.png";
 		}
 		
 		
@@ -60,7 +60,7 @@ public class WelcomeScreen extends Screen {
 		_window.imageMode(_window.CENTER);
 		
 		//title
-		PImage title = _window.loadImage("src/images/ballsy_title.png");
+		PImage title = _window.loadImage("res/ballsy_title.png");
 		_window.image(title,_window.width/2,300);
 		
 		//new game
