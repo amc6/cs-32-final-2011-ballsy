@@ -21,7 +21,7 @@ public class LevelMenu1 extends Screen {
 
 		_window.imageMode(_window.CORNER);
 		//title
-		PImage title = _window.loadImage("src/images/pick_level_title.png");
+		PImage title = _window.loadImage("res/pick_level_title.png");
 		_window.image(title,10,30);
 		
 		_window.strokeWeight(7);

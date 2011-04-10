@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class Main extends PApplet {
 	
 	private Screen _screen;
-	
+
 	public void setup() {
 		_screen = new WelcomeScreen(this);
 		_screen.setup();
