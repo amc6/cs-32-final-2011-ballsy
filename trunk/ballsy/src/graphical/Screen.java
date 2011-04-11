@@ -8,23 +8,10 @@ import processing.core.PConstants;
 
 public abstract class Screen {
 	
-	protected Main _window;
+	protected Window _window;
 	
-	public Screen(Main window) {
-		_window = window;
-		// Get the default toolkit
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-
-		// Get the current screen size
-		Dimension scrnsize = toolkit.getScreenSize();
-		
-		_window.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
-		_window.hint(PConstants.ENABLE_OPENGL_4X_SMOOTH);
-		
-		_window.smooth();
-		
-		_window.frameRate(60);
-		
+	public Screen() {
+		_window = Window.getInstance();
 	}
 	
 	public abstract void setup();
@@ -34,5 +21,7 @@ public abstract class Screen {
 	public abstract void mousePressed();
 	
 	public abstract void mouseReleased();
+	
+	public abstract void keyPressed();
 
 }

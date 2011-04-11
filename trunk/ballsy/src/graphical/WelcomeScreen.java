@@ -12,10 +12,6 @@ public class WelcomeScreen extends Screen {
 	String _newGame;
 	String _pickLevel;
 	
-	public WelcomeScreen(Main window) {
-		super(window);
-	}
-	
 	public void setup() {
 
 		
@@ -25,15 +21,18 @@ public class WelcomeScreen extends Screen {
 	
 	
 	public void draw() {
-		_window.background(255,255,255);
+		
+		Window window = Window.getInstance();
+		
+		window.background(255,255,255);
 		
 		
 		//new game hover detect
-		int x_left = _window.width/2-150;
-		int x_right = _window.width/2+150;
+		int x_left = window.width/2-150;
+		int x_right = window.width/2+150;
 		int y_top = 400;
 		int y_bottom = 500;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
 			_newGame = "res/new_game_hover.png";			
 		}
 		else {
@@ -43,11 +42,11 @@ public class WelcomeScreen extends Screen {
 		
 		
 		//pick level hover detect
-		x_left = _window.width/2-150;
-		x_right = _window.width/2+150;
+		x_left = window.width/2-150;
+		x_right = window.width/2+150;
 		y_top = 500;
 		y_bottom = 600;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
 			_pickLevel = "res/pick_level_hover.png";
 		}
 		else {
@@ -57,40 +56,42 @@ public class WelcomeScreen extends Screen {
 		
 		
 
-		_window.imageMode(_window.CENTER);
+		window.imageMode(window.CENTER);
 		
 		//title
-		PImage title = _window.loadImage("res/ballsy_title.png");
-		_window.image(title,_window.width/2,300);
+		PImage title = window.loadImage("res/ballsy_title.png");
+		window.image(title,window.width/2,300);
 		
 		//new game
-		PImage newGame = _window.loadImage(_newGame);
-		_window.image(newGame,_window.width/2,450);
+		PImage newGame = window.loadImage(_newGame);
+		window.image(newGame,window.width/2,450);
 		
 		//pick level
-		PImage pickLevel = _window.loadImage(_pickLevel);
-		_window.image(pickLevel,_window.width/2,550);
+		PImage pickLevel = window.loadImage(_pickLevel);
+		window.image(pickLevel,window.width/2,550);
 		
 	}
 	
 	public void mousePressed() {
 		
+		Window window = Window.getInstance();
+		
 		//new game click detect
-		int x_left = _window.width/2-150;
-		int x_right = _window.width/2+150;
+		int x_left = window.width/2-150;
+		int x_right = window.width/2+150;
 		int y_top = 400;
 		int y_bottom = 500;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
 					
 		}
 		
 		//pick level click detect
-		x_left = _window.width/2-150;
-		x_right = _window.width/2+150;
+		x_left = window.width/2-150;
+		x_right = window.width/2+150;
 		y_top = 500;
 		y_bottom = 600;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_window.setScreen(new LevelMenu1(_window));
+		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
+			window.setScreen(new LevelMenu1());
 		}
 		
 		
@@ -99,6 +100,12 @@ public class WelcomeScreen extends Screen {
 	
 	public void mouseReleased() {
 
+	}
+
+	@Override
+	public void keyPressed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
