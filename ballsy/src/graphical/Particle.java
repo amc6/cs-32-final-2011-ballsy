@@ -21,9 +21,9 @@ public class Particle {
 	private Body body;
 	private float r;
 	private PhysicsWorld _box2d;
-	private Main _level;
+	private Window _level;
 
-	public Particle(float x, float y, float r_, PhysicsWorld box2d, Main _window) {
+	public Particle(float x, float y, float r_, PhysicsWorld box2d, Window _window) {
 		r = r_;
 		_box2d = box2d;
 		_level = _window;
@@ -35,7 +35,7 @@ public class Particle {
 	
 	//alternate constructor
 	public Particle(int x, int y, float r_, PhysicsWorld box2d,
-			Main _window) {
+			Window _window) {
 		r = r_;
 		_box2d = box2d;
 		_level = _window;

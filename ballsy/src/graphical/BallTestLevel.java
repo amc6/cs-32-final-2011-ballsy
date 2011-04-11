@@ -24,12 +24,6 @@ public class BallTestLevel extends Screen {
 	private PlayerBall _pBall;
 	private Particle _particle;
 	
-		public BallTestLevel(Main window) {
-		super(window);
-		// TODO Auto-generated constructor stub
-	}
-
-
 	public void setup() {
 		
 		
@@ -84,6 +78,13 @@ public class BallTestLevel extends Screen {
 
 	@Override
 	public void mouseReleased() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyPressed() {
 		// TODO Auto-generated method stub
 		
 	}

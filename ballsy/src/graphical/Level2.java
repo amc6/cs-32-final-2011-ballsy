@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 
+import bodies.BallsyObject;
+
 import physics.PhysicsWorld;
 import processing.core.PConstants;
 
@@ -25,10 +27,6 @@ public class Level2 extends AbstractLevel {
 	
 	private Box _mainBox;
 
-	public Level2(Main window) {
-		super(window);
-		// TODO Auto-generated constructor stub
-	}
 	
 	public void setup() {
 		
@@ -103,12 +101,6 @@ public class Level2 extends AbstractLevel {
 	}
 
 	@Override
-	public void destroy(BallsyObject object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void mousePressed() {
 		// TODO Auto-generated method stub
 		
@@ -116,6 +108,12 @@ public class Level2 extends AbstractLevel {
 
 	@Override
 	public void mouseReleased() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void remove(BallsyObject object) {
 		// TODO Auto-generated method stub
 		
 	}

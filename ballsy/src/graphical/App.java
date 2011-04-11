@@ -12,7 +12,7 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PApplet.main(new String[] { "--present", "graphical.Main" });
+		PApplet.main(new String[] { "--present", "graphical.Window" });
 	}
 
 }

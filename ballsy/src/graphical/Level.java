@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import bodies.BallsyObject;
+
 import physics.PhysicsWorld;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -16,12 +18,6 @@ import processing.core.PConstants;
 
 public class Level extends AbstractLevel {
 	
-	public Level(Main window) {
-		super(window);
-		// TODO Auto-generated constructor stub
-	}
-
-
 
 	//A reference to our box2d world
 	private PhysicsWorld _box2d;
@@ -120,9 +116,16 @@ public class Level extends AbstractLevel {
 	}
 
 
+	@Override
+	public void keyPressed() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 	@Override
-	public void destroy(BallsyObject object) {
+	public void remove(BallsyObject object) {
 		// TODO Auto-generated method stub
 		
 	}

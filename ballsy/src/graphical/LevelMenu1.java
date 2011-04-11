@@ -4,19 +4,16 @@ import processing.core.PImage;
 
 public class LevelMenu1 extends Screen {
 
-	public LevelMenu1(Main window) {
-		super(window);
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public void setup() {
-		// TODO Auto-generated method stub
-		_window.smooth();
+
 	}
 
 	@Override
 	public void draw() {
+		
+		Window window = Window.getInstance();
+		
 		_window.background(255,255,255);
 
 		_window.imageMode(_window.CORNER);
@@ -44,7 +41,7 @@ public class LevelMenu1 extends Screen {
 		int y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
-			_window.setScreen(new Level(_window));
+			_window.setScreen(new Level());
 		}
 
 	}
@@ -53,6 +50,12 @@ public class LevelMenu1 extends Screen {
 	public void mouseReleased() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyPressed() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
