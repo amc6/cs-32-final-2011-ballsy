@@ -8,94 +8,73 @@ import processing.core.PConstants;
 import processing.core.PImage;
 
 public class WelcomeScreen extends Screen {
-	
-	String _newGame;
-	String _pickLevel;
+	Window _window;
+	PImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	
 	public void setup() {
-
+		_window = Window.getInstance();
 		
-		_newGame = "res/new_game.png";
-		_pickLevel = "res/pick_level.png";
+		// preload all images, for rollover speed
+		_newGraphic = _window.loadImage("res/new_game.png");
+		_newGraphicHover = _window.loadImage("res/new_game_hover.png");
+		_levelsGraphic = _window.loadImage("res/pick_level.png");
+		_levelsGraphicHover = _window.loadImage("res/pick_level_hover.png");
 	}
 	
-	
 	public void draw() {
+		_window.background(255,255,255);
 		
-		Window window = Window.getInstance();
-		
-		window.background(255,255,255);
-		
+		// draw title
+		PImage title = _window.loadImage("res/ballsy_title.png");
+		_window.image(title,_window.width/2,300);
 		
 		//new game hover detect
-		int x_left = window.width/2-150;
-		int x_right = window.width/2+150;
+		int x_left = _window.width/2-150;
+		int x_right = _window.width/2+150;
 		int y_top = 400;
 		int y_bottom = 500;
-		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
-			_newGame = "res/new_game_hover.png";			
+		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+			_window.image(_newGraphicHover,_window.width/2,450);
 		}
 		else {
-			_newGame = "res/new_game.png";
+			_window.image(_newGraphic,_window.width/2,450);
 		}
-		
-		
 		
 		//pick level hover detect
-		x_left = window.width/2-150;
-		x_right = window.width/2+150;
+		x_left = _window.width/2-150;
+		x_right = _window.width/2+150;
 		y_top = 500;
 		y_bottom = 600;
-		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
-			_pickLevel = "res/pick_level_hover.png";
+		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+			_window.image(_levelsGraphicHover,_window.width/2,550);
 		}
 		else {
-			_pickLevel = "res/pick_level.png";
+			_window.image(_levelsGraphic,_window.width/2,550);
 		}
 		
-		
-		
-
-		window.imageMode(window.CENTER);
-		
-		//title
-		PImage title = window.loadImage("res/ballsy_title.png");
-		window.image(title,window.width/2,300);
-		
-		//new game
-		PImage newGame = window.loadImage(_newGame);
-		window.image(newGame,window.width/2,450);
-		
-		//pick level
-		PImage pickLevel = window.loadImage(_pickLevel);
-		window.image(pickLevel,window.width/2,550);
-		
+		// put stuff in the middle
+		_window.imageMode(_window.CENTER);
 	}
 	
 	public void mousePressed() {
-		
-		Window window = Window.getInstance();
-		
 		//new game click detect
-		int x_left = window.width/2-150;
-		int x_right = window.width/2+150;
+		int x_left = _window.width/2-150;
+		int x_right = _window.width/2+150;
 		int y_top = 400;
 		int y_bottom = 500;
-		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
-					
+		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+			// temporary... Matt's gonna do some shit with TestObjects.
+			_window.setScreen(new TestObjects());
 		}
 		
 		//pick level click detect
-		x_left = window.width/2-150;
-		x_right = window.width/2+150;
+		x_left = _window.width/2-150;
+		x_right = _window.width/2+150;
 		y_top = 500;
 		y_bottom = 600;
-		if (window.mouseX > x_left && window.mouseX < x_right && window.mouseY > y_top && window.mouseY < y_bottom) {
-			window.setScreen(new LevelMenu1());
+		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+			_window.setScreen(new LevelMenu1());
 		}
-		
-		
-		
 	}
 	
 	public void mouseReleased() {
@@ -105,17 +84,5 @@ public class WelcomeScreen extends Screen {
 	@Override
 	public void keyPressed() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }
-
-
-
-
-
-
-
-
-
-

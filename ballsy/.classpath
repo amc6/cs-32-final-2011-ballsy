@@ -7,8 +7,6 @@
 	<classpathentry kind="lib" path="jogl.jar"/>
 	<classpathentry kind="lib" path="opengl.jar"/>
 	<classpathentry kind="lib" path="jogl.dll"/>
-	<classpathentry kind="lib" path="gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="jogl-natives-windows-amd64.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

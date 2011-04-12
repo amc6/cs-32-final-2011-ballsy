@@ -12,6 +12,7 @@ public class Window extends PApplet {
 	private Screen _screen;
 
 	public void setup() {
+		WINDOW = this;
 
 		// Get the current screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -23,7 +24,6 @@ public class Window extends PApplet {
 		
 		_screen = new WelcomeScreen();
 		_screen.setup();
-		WINDOW = this;
 	}
 	
 	public void draw() {
