@@ -1,5 +1,6 @@
-package graphical;
+package ballsy;
 
+import oldshit.Level;
 import processing.core.PImage;
 
 public class LevelMenu1 extends Screen {

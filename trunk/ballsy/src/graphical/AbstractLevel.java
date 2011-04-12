@@ -1,7 +1,7 @@
 package graphical;
 
+import ballsy.Screen;
 import bodies.BallsyObject;
-import processing.core.PApplet;
 
 public abstract class AbstractLevel extends Screen {
 	

@@ -1,10 +1,12 @@
-package graphical;
+package oldshit;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
-import bodies.BallsyObject;
+
+import ballsy.AbstractLevel;
+import bodies.AbstractBody;
 
 import physics.PhysicsWorld;
 import processing.core.PApplet;
@@ -17,7 +19,6 @@ import processing.core.PConstants;
 
 
 public class Level extends AbstractLevel {
-	
 
 	//A reference to our box2d world
 	private PhysicsWorld _box2d;
@@ -30,19 +31,7 @@ public class Level extends AbstractLevel {
 	
 
 	public void setup() {
-		// Get the default toolkit
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-		// Get the current screen size
-		Dimension scrnsize = toolkit.getScreenSize();
-
-		_window.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
-		_window.hint(PConstants.ENABLE_OPENGL_4X_SMOOTH);
-		
-		
-		_window.smooth();
-		
-		_window.frameRate(60);
 		
 		// Initialize box2d physics and create the world
 		_box2d = new PhysicsWorld(_window);
@@ -125,7 +114,7 @@ public class Level extends AbstractLevel {
 
 
 	@Override
-	public void remove(BallsyObject object) {
+	public void remove(AbstractBody object) {
 		// TODO Auto-generated method stub
 		
 	}

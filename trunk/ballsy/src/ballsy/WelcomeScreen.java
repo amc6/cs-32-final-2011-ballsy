@@ -1,10 +1,6 @@
-package graphical;
+package ballsy;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import processing.core.PApplet;
-import processing.core.PConstants;
+import oldshit.Level;
 import processing.core.PImage;
 
 public class WelcomeScreen extends Screen {
@@ -64,7 +60,8 @@ public class WelcomeScreen extends Screen {
 		int y_bottom = 500;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 			// temporary... Matt's gonna do some shit with TestObjects.
-			_window.setScreen(new TestObjects());
+			// set to Level for now
+			_window.setScreen(new Level());
 		}
 		
 		//pick level click detect

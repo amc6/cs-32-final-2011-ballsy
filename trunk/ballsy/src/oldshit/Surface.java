@@ -1,4 +1,4 @@
-package graphical;
+package oldshit;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import org.jbox2d.collision.shapes.EdgeChainDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+
+import ballsy.Window;
 
 import physics.PhysicsWorld;
 import processing.core.PApplet;

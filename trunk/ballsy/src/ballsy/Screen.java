@@ -1,7 +1,8 @@
-package graphical;
+package ballsy;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
 
 import processing.core.PApplet;
 import processing.core.PConstants;

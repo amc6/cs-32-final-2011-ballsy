@@ -1,4 +1,4 @@
-package graphical;
+package oldshit;
 
 import org.jbox2d.collision.shapes.PolygonDef;
 import org.jbox2d.common.Vec2;
@@ -27,7 +27,7 @@ public class Boundary {
 	private PhysicsWorld _box2d;
 	private PApplet _level;
 
-	Boundary(float x_,float y_, float w_, float h_, PhysicsWorld box2d, PApplet level) {
+	public Boundary(float x_,float y_, float w_, float h_, PhysicsWorld box2d, PApplet level) {
 		_box2d = box2d;
 		_level = level;
 		x = x_;
@@ -55,7 +55,7 @@ public class Boundary {
 	}
 
 	// Draw the boundary, if it were at an angle we'd have to do something fancier
-	void display() {
+	public void display() {
 		_level.fill(0);
 		_level.stroke(0);
 		_level.rectMode(_level.CENTER);
