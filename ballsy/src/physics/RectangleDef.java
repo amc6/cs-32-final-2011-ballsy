@@ -28,7 +28,11 @@ public class RectangleDef extends PhysicsDef {
 
 		_body = _world.createBody(bodyDef);
 		_body.createShape(polygonDef);
-		_body.setMassFromShapes();
+		
+		
+		if (!_massless) {
+			_body.setMassFromShapes();
+		}
 		
 
 		// Give it some initial random velocity

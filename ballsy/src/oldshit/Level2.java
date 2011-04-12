@@ -1,10 +1,12 @@
-package graphical;
+package oldshit;
+
 
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 
-import bodies.BallsyObject;
+import ballsy.AbstractLevel;
+import bodies.AbstractBody;
 
 import physics.PhysicsWorld;
 import processing.core.PConstants;
@@ -113,7 +115,7 @@ public class Level2 extends AbstractLevel {
 	}
 
 	@Override
-	public void remove(BallsyObject object) {
+	public void remove(AbstractBody object) {
 		// TODO Auto-generated method stub
 		
 	}

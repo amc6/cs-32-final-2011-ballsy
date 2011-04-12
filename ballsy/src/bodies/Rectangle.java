@@ -1,9 +1,9 @@
 package bodies;
 
-import graphical.AbstractLevel;
+import ballsy.AbstractLevel;
 import physics.PhysicsWorld;
 
-public class Rectangle extends BallsyObject {
+public class Rectangle extends AbstractBody {
 
 	private static final float X_POS = 5;
 	private static final float Y_POS = 5;

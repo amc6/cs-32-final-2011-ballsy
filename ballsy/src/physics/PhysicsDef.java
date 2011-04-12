@@ -2,13 +2,13 @@ package physics;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.World;
 
 public abstract class PhysicsDef {
 	
 	protected PhysicsWorld _world;
 	protected Body _body;
 	protected float _density, _friction, _bounciness, _x, _y, _width, _height;
+	protected boolean _massless = false;
 	
 	public PhysicsDef(float x, float y, float density, float friction, float bounciness){
 		_x = x;
@@ -24,6 +24,10 @@ public abstract class PhysicsDef {
 	
 	public void setWorld(PhysicsWorld world){
 		_world = world;
+	}
+	
+	public void setMassless(boolean massless){
+		_massless = massless;
 	}
 	
 	/**

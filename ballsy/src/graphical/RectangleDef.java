@@ -3,6 +3,8 @@ package graphical;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import ballsy.Window;
+
 import processing.core.PConstants;
 
 public class RectangleDef extends GraphicalDef {

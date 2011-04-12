@@ -1,12 +1,11 @@
-package graphical;
+package oldshit;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.ArrayList;
+
+import ballsy.Screen;
 
 import physics.PhysicsWorld;
 import processing.core.PApplet;
-import processing.core.PConstants;
 
 //The Nature of Code
 //<http://www.shiffman.net/teaching/nature>
