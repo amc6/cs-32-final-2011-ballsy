@@ -13,8 +13,6 @@ public class LevelMenu1 extends Screen {
 	@Override
 	public void draw() {
 		
-		Window window = Window.getInstance();
-		
 		_window.background(255,255,255);
 
 		_window.imageMode(_window.CORNER);
@@ -25,7 +23,7 @@ public class LevelMenu1 extends Screen {
 		_window.strokeWeight(7);
 		_window.line(0, 160, _window.width, 160);
 		
-		
+		_window.strokeWeight(1); // reset
 		
 		//test click
 		_window.rect(100,200,100,100);
