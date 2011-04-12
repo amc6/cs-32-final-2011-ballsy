@@ -1,16 +1,18 @@
 package ballsy;
 
 import oldshit.Level;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 public class WelcomeScreen extends Screen {
 	Window _window;
-	PImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
+	PImage _titleGraphic, _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	
 	public void setup() {
 		_window = Window.getInstance();
 		
 		// preload all images, for rollover speed
+		_titleGraphic = _window.loadImage("res/ballsy_title.png");
 		_newGraphic = _window.loadImage("res/new_game.png");
 		_newGraphicHover = _window.loadImage("res/new_game_hover.png");
 		_levelsGraphic = _window.loadImage("res/pick_level.png");
@@ -20,9 +22,11 @@ public class WelcomeScreen extends Screen {
 	public void draw() {
 		_window.background(255,255,255);
 		
+		// put stuff in the middle
+		_window.imageMode(PConstants.CENTER);
+		
 		// draw title
-		PImage title = _window.loadImage("res/ballsy_title.png");
-		_window.image(title,_window.width/2,300);
+		_window.image(_titleGraphic,_window.width/2,300);
 		
 		//new game hover detect
 		int x_left = _window.width/2-150;
@@ -47,9 +51,6 @@ public class WelcomeScreen extends Screen {
 		else {
 			_window.image(_levelsGraphic,_window.width/2,550);
 		}
-		
-		// put stuff in the middle
-		_window.imageMode(_window.CENTER);
 	}
 	
 	public void mousePressed() {
