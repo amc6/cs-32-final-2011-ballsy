@@ -12,11 +12,16 @@ public class RectangleDef extends PhysicsDef {
 	
 	public RectangleDef(float x, float y, float w, float h, float d, float f, float b) {
 		super(x, y, d, f, b);
-		PolygonDef polygonDef = new PolygonDef();
 		_width = w;
 		_height = h;
-		w = _width/2; // because defined from center
-		h = _height/2; // same
+	}
+	
+	public void createBody(){
+		
+		PolygonDef polygonDef = new PolygonDef();
+		
+		float w = _width/2; // because defined from center
+		float h = _height/2; // same
 		polygonDef.setAsBox(w, h);
 		
 		polygonDef.density = _density;
@@ -24,21 +29,16 @@ public class RectangleDef extends PhysicsDef {
 		polygonDef.restitution = _bounciness;
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vec2(x,y));
+		bodyDef.position.set(new Vec2(_x, _y));
 
 		_body = _world.createBody(bodyDef);
 		_body.createShape(polygonDef);
 		
-		
-		if (!_massless) {
+		// Shape does not move if immobile
+		if (_mobile) {
 			_body.setMassFromShapes();
-		}
+		}		
 		
-
-		// Give it some initial random velocity
-		//_body.setLinearVelocity(new Vec2(_level.random(-5,5),_level.random(2,5)));
-		//_body.setAngularVelocity(_level.random(-5,5));
-	
 	}
 
 	@Override

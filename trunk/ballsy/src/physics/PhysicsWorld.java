@@ -81,8 +81,25 @@ public class PhysicsWorld {
 		world.step(timeStep, iterationCount);
 	}
 
-
-
+	public float getWidth(){
+		AABB worldAABB = world.getWorldAABB();
+		return worldAABB.upperBound.x - worldAABB.lowerBound.x;
+	}
+	
+	public float getHeight(){
+		AABB worldAABB = world.getWorldAABB();
+		return worldAABB.upperBound.y - worldAABB.lowerBound.y;
+	}
+	
+	public float getCenterX(){
+		return world.getWorldAABB().upperBound.x - this.getWidth()/2;
+	}
+	
+	public float getCenterY(){
+		return world.getWorldAABB().upperBound.y - this.getHeight()/2;
+	}
+	
+	
 	// Create a default world
 	public void createWorld() {
 		createWorld(-100,-100,100,100);
@@ -122,6 +139,16 @@ public class PhysicsWorld {
 		if (yFlip == -1.0f) pixelY = PApplet.map(pixelY,0f,parent.height, parent.height,0f);
 		return new Vec2(pixelX, pixelY);
 	}
+	
+	public float worldXtoPixelX(float worldX){
+		return PApplet.map(worldX, 0f, 1f, transX, transX+scaleFactor);
+	}
+	
+	public float worldYtoPixelY(float worldY){
+		float pixelY = PApplet.map(worldY, 0f, 1f, transY, transY+scaleFactor);
+		if (yFlip == -1.0f) pixelY = PApplet.map(pixelY,0f,parent.height, parent.height,0f);
+		return pixelY;
+	}
 
 	// convert Coordinate from pixel space to box2d world
 	public Vec2 coordPixelsToWorld(Vec2 screen) {
@@ -138,6 +165,17 @@ public class PhysicsWorld {
 		if (yFlip == -1.0f) worldY = PApplet.map(pixelY,parent.height,0f,0f,parent.height);
 		worldY = PApplet.map(worldY, transY, transY+scaleFactor, 0f, 1f);
 		return new Vec2(worldX,worldY);
+	}
+	
+	public float pixelXtoWorldX(float pixelX){
+		return PApplet.map(pixelX, transX, transX+scaleFactor, 0f, 1f);
+	}
+	
+	public float pixelYtoWorldY(float pixelY){
+		float worldY = pixelY;
+		if (yFlip == -1.0f) worldY = PApplet.map(pixelY,parent.height,0f,0f,parent.height);
+		worldY = PApplet.map(worldY, transY, transY+scaleFactor, 0f, 1f);
+		return worldY;
 	}
 
 	// Scale scalar quantity between worlds

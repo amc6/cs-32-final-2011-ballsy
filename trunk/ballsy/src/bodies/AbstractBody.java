@@ -18,32 +18,27 @@ public abstract class AbstractBody {
 	private PhysicsDef _physicsDef;
 	private GraphicalDef _graphicalDef;
 	private PathDef _pathDef;
-	private boolean _massless;
 	
-	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean massless){
-		_level = level;
-		_world = world;
-		_physicsDef = physicsDef;
-		_physicsDef.setMassless(massless);
-		_physicsDef.setWorld(_world);
-		_graphicalDef = graphicalDef;
-		_graphicalDef.setWorld(_world);
-		_graphicalDef.setPhysicsDef(_physicsDef);
-		_massless = massless;
-		_pathDef = null; // obviously, not in signature
+	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile){
+		this.constructorHelper(level, world, physicsDef, graphicalDef, mobile);
 	}
 	
-	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean massless, PathDef pathDef){
+	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile, PathDef pathDef){
+		this.constructorHelper(level, world, physicsDef, graphicalDef, mobile);
+		_pathDef = pathDef; 
+	}	
+	
+	private void constructorHelper(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile){
 		_level = level;
 		_world = world;
 		_physicsDef = physicsDef;
+		_physicsDef.setMobile(mobile);
 		_physicsDef.setWorld(_world);
+		_physicsDef.createBody();
 		_graphicalDef = graphicalDef;
 		_graphicalDef.setWorld(_world);
-		_graphicalDef.setPhysicsDef(_physicsDef);
-		_massless = massless;
-		_pathDef = pathDef; 
-	}	
+		_graphicalDef.setPhysicsDef(_physicsDef);	
+	}
 		
 	/**
 	 * Should check to see if the object can be removed from the world.
