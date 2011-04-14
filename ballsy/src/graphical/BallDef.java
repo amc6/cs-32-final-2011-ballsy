@@ -6,6 +6,11 @@ import org.jbox2d.dynamics.Body;
 import ballsy.Window;
 
 public class BallDef extends GraphicalDef {
+	public BallDef(int color) {
+		super(color);
+		// TODO Auto-generated constructor stub
+	}
+
 	private boolean _showLine = false;
 	
 	@Override
@@ -20,7 +25,7 @@ public class BallDef extends GraphicalDef {
 		window.pushMatrix();
 		window.translate(pos.x, pos.y);
 		window.rotate(-a);
-		window.fill(175);
+		window.fill(_color);
 		window.stroke(0);
 		window.ellipse(0,0,_world.scalarWorldToPixels(_physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(_physicsDef.getRadius()) * 2);
 		
