@@ -9,6 +9,11 @@ import processing.core.PConstants;
 
 public class RectangleDef extends GraphicalDef {
 
+	public RectangleDef(int color) {
+		super(color);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void display() {
 		
@@ -23,7 +28,7 @@ public class RectangleDef extends GraphicalDef {
 		window.pushMatrix();
 		window.translate(pos.x,pos.y);
 		window.rotate(-a);
-		window.fill(175);
+		window.fill(_color);
 		window.stroke(0);
 		window.rect(0,0,_world.scalarWorldToPixels(_physicsDef.getWidth()),_world.scalarWorldToPixels(_physicsDef.getHeight()));
 		window.popMatrix();		

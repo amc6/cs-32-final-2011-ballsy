@@ -84,4 +84,14 @@ public abstract class AbstractBody {
 	public PhysicsDef getPhysicsDef() {
 		return _physicsDef;
 	}
+	
+	/**
+	 * Mutator for color of object
+	 * @param r
+	 * @param g
+	 * @param b
+	 */
+	public void setColor(int r, int g, int b) {
+		_graphicalDef.setColor(r, g, b);
+	}
 }
