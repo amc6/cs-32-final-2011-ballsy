@@ -38,7 +38,6 @@ public class LevelOne extends AbstractLevel {
 		
 		Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
 		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
-//		Rectangle left = new Rectangle()
 		_bodies.add(top);
 		_bodies.add(bottom);
 		_bodies.add(_playerBox);
@@ -63,10 +62,8 @@ public class LevelOne extends AbstractLevel {
 		}
 		
 		if (_window.keyPressed){
-			System.out.println("here");
 			switch (_window.keyCode){
 			case PConstants.LEFT:
-				System.out.println("hre");
 				_playerBox.applyForce(new Vec2(-35,0));
 				break;
 			case PConstants.RIGHT:
@@ -108,8 +105,6 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	public void keyPressed() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

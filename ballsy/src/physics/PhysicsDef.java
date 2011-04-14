@@ -37,7 +37,7 @@ public abstract class PhysicsDef {
 	 * @param vector
 	 */
 	public void applyForce(Vec2 vector){
-		_body.applyForce(vector, _body.getWorldCenter());
+		_body.applyImpulse(vector, _body.getWorldCenter());
 	}
 	
 	public void setLinearVelocity(Vec2 vec){
