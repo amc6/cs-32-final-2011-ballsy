@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import physics.PhysicsWorld;
 import processing.core.PConstants;
 import bodies.AbstractBody;
+import bodies.Ball;
 import bodies.Rectangle;
 
 public class LevelOne extends AbstractLevel {
@@ -54,8 +55,11 @@ public class LevelOne extends AbstractLevel {
 		if (_window.mousePressed) {
 			float x = _world.pixelXtoWorldX(_window.mouseX);
 			float y = _world.pixelYtoWorldY(_window.mouseY);
-			Rectangle newRect = new Rectangle(this, _world, x, y);
-			_bodies.add(newRect);
+			//Rectangle newRect = new Rectangle(this, _world, x, y);
+			Ball newBall = new Ball(this, _world, x, y);
+			// display the line on this guy
+			((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
+			_bodies.add(newBall);
 		}
 		
 		if (_window.keyPressed){

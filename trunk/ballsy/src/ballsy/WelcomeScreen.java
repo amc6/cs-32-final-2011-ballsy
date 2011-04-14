@@ -62,7 +62,7 @@ public class WelcomeScreen extends Screen {
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
-			_window.setScreen(new Level());
+			_window.setScreen(new LevelOne());
 		}
 		
 		//pick level click detect

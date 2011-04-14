@@ -69,4 +69,19 @@ public abstract class AbstractBody {
 		_physicsDef.applyForce(vector);
 	}
 	
+	/**
+	 * Accessor for graphical def.
+	 * @return
+	 */
+	public GraphicalDef getGraphicalDef() {
+		return _graphicalDef;
+	}
+	
+	/**
+	 * Accessor for physics def.
+	 * @return
+	 */
+	public PhysicsDef getPhysicsDef() {
+		return _physicsDef;
+	}
 }
