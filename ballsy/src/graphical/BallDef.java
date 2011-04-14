@@ -6,12 +6,13 @@ import org.jbox2d.dynamics.Body;
 import ballsy.Window;
 
 public class BallDef extends GraphicalDef {
+	
+	private boolean _showLine = false;
+	
 	public BallDef(int color) {
 		super(color);
 		// TODO Auto-generated constructor stub
 	}
-
-	private boolean _showLine = false;
 	
 	@Override
 	public void display() {
@@ -42,7 +43,6 @@ public class BallDef extends GraphicalDef {
 	 */
 	public void setLine(boolean s) {
 		_showLine = s;
-		System.out.println("dafdsfasd");
 	}
 
 }
