@@ -94,7 +94,7 @@ public class LevelOne extends AbstractLevel {
 		// Just drawing the framerate to see how many particles it can handle
 		_window.fill(0);
 		_window.textSize(20);
-		_window.text("framerate: " + (int)_window.frameRate,12,46);
+		_window.text((int)_window.frameRate + " FPS",12,46);
 		
 	}
 
