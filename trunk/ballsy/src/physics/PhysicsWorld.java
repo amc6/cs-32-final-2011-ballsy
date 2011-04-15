@@ -102,7 +102,7 @@ public class PhysicsWorld {
 	
 	// Create a default world
 	public void createWorld() {
-		createWorld(-100,-100,100,100);
+		this.createWorld(-100,-100,100,100);
 	}
 
 	// Slightly more custom world
