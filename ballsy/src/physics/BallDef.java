@@ -17,20 +17,22 @@ public class BallDef extends PhysicsDef {
 		CircleDef circDef = new CircleDef();
 		circDef.radius = _radius;
 		
-		circDef.density = d;
-		circDef.friction = f;
-		circDef.restitution = b;
+		this.createBody(circDef, d, f, b, x, y);
 		
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vec2(x, y));
-		
-		_body = _world.createBody(bodyDef);
-		_body.createShape(circDef);
-		
-		// Shape does not move if immobile
-		if (_mobile) {
-			_body.setMassFromShapes();
-		}
+//		circDef.density = d;
+//		circDef.friction = f;
+//		circDef.restitution = b;
+//		
+//		BodyDef bodyDef = new BodyDef();
+//		bodyDef.position.set(new Vec2(x, y));
+//		
+//		_body = _world.createBody(bodyDef);
+//		_body.createShape(circDef);
+//		
+//		// Shape does not move if immobile
+//		if (_mobile) {
+//			_body.setMassFromShapes();
+//		}
 	}
 	
 	@Override

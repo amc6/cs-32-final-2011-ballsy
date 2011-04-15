@@ -1,7 +1,10 @@
 package physics;
 
+import org.jbox2d.collision.MassData;
+import org.jbox2d.collision.shapes.ShapeDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
 
 public abstract class PhysicsDef {
 	
@@ -12,6 +15,32 @@ public abstract class PhysicsDef {
 	public PhysicsDef(PhysicsWorld world, boolean mobile){
 		_world = world;
 		_mobile = mobile;
+	}
+	
+	/**
+	 * Must be called in the subclasses constructor to properly create the body
+	 */
+	public void createBody(ShapeDef shape, float d, float f, float b, float x, float y) {
+		shape.density = d;
+		shape.friction = f;
+		shape.restitution = b;
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(new Vec2(x, y));
+
+		
+		_body = _world.createBody(bodyDef);
+		_body.createShape(shape);
+			
+		// Shape does not move if immobile
+		if (_mobile) {
+			_body.setMassFromShapes();
+		}
+		else {
+			MassData md = new MassData();
+			md.mass = 0f;
+			_body.setMass(md);
+		}
 	}
 	
 	public Body getBody(){
