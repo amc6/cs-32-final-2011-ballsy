@@ -1,13 +1,17 @@
 package ballsy;
 
+import graphical.Image;
 import oldshit.Level;
-import processing.core.PImage;
 
 public class LevelMenu1 extends Screen {
 
+	private Image _title;
+	
 	@Override
 	public void setup() {
-	
+		_title = new Image(_window, "res/pick_level_title.png", 582,125, 10,30);
+		_title.setImageMode(_window.CORNER);
+
 	}
 
 	@Override
@@ -15,11 +19,10 @@ public class LevelMenu1 extends Screen {
 		
 		_window.background(255,255,255);
 
-		_window.imageMode(_window.CORNER);
 		//title
-		PImage title = _window.loadImage("res/pick_level_title.png");
-		_window.image(title,10,30);
+		_title.draw();
 		
+		//line
 		_window.strokeWeight(7);
 		_window.line(0, 160, _window.width, 160);
 		
@@ -40,7 +43,7 @@ public class LevelMenu1 extends Screen {
 		int y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
-			_window.setScreen(new Level());
+			_window.setScreen(new LevelOne());
 		}
 
 	}
