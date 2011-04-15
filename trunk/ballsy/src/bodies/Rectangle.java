@@ -1,8 +1,9 @@
 package bodies;
 
+import physics.PathDef;
+import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
 import ballsy.Window;
-import physics.PhysicsWorld;
 
 public class Rectangle extends AbstractBody {
 
@@ -27,5 +28,5 @@ public class Rectangle extends AbstractBody {
 	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY, float width, float height, boolean mobile){
 		super(level, world, new physics.RectangleDef(world, centerX, centerY, width, height, DENSITY, FRICTION, BOUNCINESS, mobile), new graphical.RectangleDef(COLOR));
 	}
-
+	
 }

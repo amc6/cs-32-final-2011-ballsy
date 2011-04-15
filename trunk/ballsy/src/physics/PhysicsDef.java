@@ -37,6 +37,10 @@ public abstract class PhysicsDef {
 	public void setAngularVelocity(float vel){
 		_body.setAngularVelocity(vel);
 	}
+	
+	public PhysicsWorld getWorld() {
+		return _world;
+	}
 		
 	public abstract float getWidth();
 	public abstract float getHeight();
