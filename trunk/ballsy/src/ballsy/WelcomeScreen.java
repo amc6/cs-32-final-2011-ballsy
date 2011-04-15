@@ -1,22 +1,22 @@
 package ballsy;
 
+import graphical.HoverImage;
+import graphical.Image;
 import oldshit.Level;
 import processing.core.PConstants;
 import processing.core.PImage;
 
 public class WelcomeScreen extends Screen {
 	Window _window;
-	PImage _titleGraphic, _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
+	Image _titleGraphic;
+	HoverImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	
 	public void setup() {
 		_window = Window.getInstance();
 		
-		// preload all images, for rollover speed
-		_titleGraphic = _window.loadImage("res/ballsy_title.png");
-		_newGraphic = _window.loadImage("res/new_game.png");
-		_newGraphicHover = _window.loadImage("res/new_game_hover.png");
-		_levelsGraphic = _window.loadImage("res/pick_level.png");
-		_levelsGraphicHover = _window.loadImage("res/pick_level_hover.png");
+		_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 300, 100, _window.width/2, 450);
+		_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 300, 100, _window.width/2, 550);
+		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
 	}
 	
 	public void draw() {
@@ -25,52 +25,22 @@ public class WelcomeScreen extends Screen {
 		// put stuff in the middle
 		_window.imageMode(PConstants.CENTER);
 		
-		// draw title
-		_window.image(_titleGraphic,_window.width/2,300);
+		// draw graphics
+		_titleGraphic.draw();
+		_levelsGraphic.draw();
+		_newGraphic.draw();
 		
-		//new game hover detect
-		int x_left = _window.width/2-150;
-		int x_right = _window.width/2+150;
-		int y_top = 400;
-		int y_bottom = 500;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_window.image(_newGraphicHover,_window.width/2,450);
-		}
-		else {
-			_window.image(_newGraphic,_window.width/2,450);
-		}
-		
-		//pick level hover detect
-		x_left = _window.width/2-150;
-		x_right = _window.width/2+150;
-		y_top = 500;
-		y_bottom = 600;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_window.image(_levelsGraphicHover,_window.width/2,550);
-		}
-		else {
-			_window.image(_levelsGraphic,_window.width/2,550);
-		}
 	}
 	
 	public void mousePressed() {
-		//new game click detect
-		int x_left = _window.width/2-150;
-		int x_right = _window.width/2+150;
-		int y_top = 400;
-		int y_bottom = 500;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+
+		if (_newGraphic.mouseOver()) {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
 			_window.setScreen(new LevelOne());
 		}
 		
-		//pick level click detect
-		x_left = _window.width/2-150;
-		x_right = _window.width/2+150;
-		y_top = 500;
-		y_bottom = 600;
-		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+		if (_levelsGraphic.mouseOver()) {
 			_window.setScreen(new LevelMenu1());
 		}
 	}
