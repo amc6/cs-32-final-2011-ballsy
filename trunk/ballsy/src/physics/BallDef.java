@@ -7,23 +7,22 @@ import org.jbox2d.dynamics.Body;
 
 public class BallDef extends PhysicsDef {
 
-	public BallDef(float x, float y, float r, float d, float f, float b) {
-		super(x, y, d, f, b);
-		_width = 2 * r;
-		_height = 2 * r;
-	}
+	protected float _radius;
 	
-	@Override
-	public void createBody() {
-		CircleDef circDef = new CircleDef();
-		circDef.radius = _width/2;
+	public BallDef(PhysicsWorld world, float x, float y, float r, float d, float f, float b, boolean mobile) {
+		super(world, mobile);
 		
-		circDef.density = _density;
-		circDef.friction = _friction;
-		circDef.restitution = _bounciness;
+		_radius = r;
+		
+		CircleDef circDef = new CircleDef();
+		circDef.radius = _radius;
+		
+		circDef.density = d;
+		circDef.friction = f;
+		circDef.restitution = b;
 		
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vec2(_x, _y));
+		bodyDef.position.set(new Vec2(x, y));
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(circDef);
@@ -33,27 +32,23 @@ public class BallDef extends PhysicsDef {
 			_body.setMassFromShapes();
 		}
 	}
-
-	public Body getBody() {
-		return _body;
-	}
 	
 	@Override
 	public float getHeight() {
 		// TODO Auto-generated method stub
-		return _height;
+		return _radius * 2;
 	}
 
 	@Override
 	public float getRadius() {
 		// TODO Auto-generated method stub
-		return _width / 2;
+		return _radius;
 	}
 
 	@Override
 	public float getWidth() {
 		// TODO Auto-generated method stub
-		return _width;
+		return _radius * 2;
 	}
 
 }

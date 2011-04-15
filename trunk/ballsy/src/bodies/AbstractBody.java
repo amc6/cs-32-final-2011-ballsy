@@ -19,22 +19,19 @@ public abstract class AbstractBody {
 	private GraphicalDef _graphicalDef;
 	private PathDef _pathDef;
 	
-	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile){
-		this.constructorHelper(level, world, physicsDef, graphicalDef, mobile);
+	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef){
+		this.constructorHelper(level, world, physicsDef, graphicalDef);
 	}
 	
-	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile, PathDef pathDef){
-		this.constructorHelper(level, world, physicsDef, graphicalDef, mobile);
+	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, PathDef pathDef){
+		this.constructorHelper(level, world, physicsDef, graphicalDef);
 		_pathDef = pathDef; 
 	}	
 	
-	private void constructorHelper(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef, boolean mobile){
+	private void constructorHelper(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef){
 		_level = level;
 		_world = world;
 		_physicsDef = physicsDef;
-		_physicsDef.setMobile(mobile);
-		_physicsDef.setWorld(_world);
-		_physicsDef.createBody();
 		_graphicalDef = graphicalDef;
 		_graphicalDef.setWorld(_world);
 		_graphicalDef.setPhysicsDef(_physicsDef);	
