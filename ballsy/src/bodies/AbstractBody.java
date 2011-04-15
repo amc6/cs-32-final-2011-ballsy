@@ -18,7 +18,7 @@ public abstract class AbstractBody {
 
 	private PhysicsWorld _world;
 	private AbstractLevel _level;
-	private PhysicsDef _physicsDef;
+	protected PhysicsDef _physicsDef;
 	private GraphicalDef _graphicalDef;
 	private PathDef _pathDef;
 	
