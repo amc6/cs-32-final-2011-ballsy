@@ -5,6 +5,7 @@ import graphical.GraphicalDef;
 import org.jbox2d.common.Vec2;
 
 import ballsy.AbstractLevel;
+import ballsy.Window;
 
 
 import physics.PathDef;
@@ -40,7 +41,14 @@ public abstract class AbstractBody {
 	/**
 	 * Should check to see if the object can be removed from the world.
 	 */
-	public abstract boolean done();
+	public boolean done() {
+		Vec2 pos = _world.getBodyPixelCoord(_physicsDef.getBody());
+		// Is it off the bottom of the screen?
+		if (pos.y > Window.getInstance().height+this.getPhysicsDef().getHeight()*2) {
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Display the object using processing graphics.
