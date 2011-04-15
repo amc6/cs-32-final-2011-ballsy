@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="jogl.jar"/>
 	<classpathentry kind="lib" path="opengl.jar"/>
 	<classpathentry kind="lib" path="jogl.dll"/>
-	<classpathentry kind="lib" path="processing-core.jar" sourcepath="C:/Users/Isaac Goldberg/Desktop/processing-src/processing"/>
+	<classpathentry kind="lib" path="processing-core.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
