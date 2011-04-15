@@ -2,15 +2,17 @@ package bodies;
 
 import graphical.GraphicalDef;
 
+import java.awt.geom.Point2D;
+import java.util.Vector;
+
 import org.jbox2d.common.Vec2;
 
 import ballsy.AbstractLevel;
 import ballsy.Window;
-
-
 import physics.PathDef;
 import physics.PhysicsDef;
 import physics.PhysicsWorld;
+import ballsy.AbstractLevel;
 
 public abstract class AbstractBody {
 
@@ -54,6 +56,7 @@ public abstract class AbstractBody {
 	 * Display the object using processing graphics.
 	 */
 	public void display(){
+		if (_pathDef != null) _pathDef.step();
 		_graphicalDef.display();
 	}
 	
@@ -99,4 +102,15 @@ public abstract class AbstractBody {
 	public void setColor(int r, int g, int b) {
 		_graphicalDef.setColor(r, g, b);
 	}
+	
+	/**
+	 * Mutator for the path.
+	 * @param p
+	 */
+	public void setPath(Vector<Point2D.Float> p) {
+		_pathDef = new PathDef(this.getPhysicsDef(), p);
+	}
+	
+	
+	
 }

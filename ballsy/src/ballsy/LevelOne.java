@@ -1,6 +1,8 @@
 package ballsy;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
 
@@ -27,6 +29,12 @@ public class LevelOne extends AbstractLevel {
 
 		_bodies = new ArrayList<AbstractBody>();
 		_playerBox = new Rectangle(this, _world, _world.getCenterX(), 0);
+		Rectangle movingBox = new Rectangle(this, _world, _world.getCenterX(),20);
+		Vector<Point2D.Float> path = new Vector<Point2D.Float>();
+		path.add(new Point2D.Float(20, 0));
+		path.add(new Point2D.Float(20, -20));
+		path.add(new Point2D.Float(-20, 0));
+		movingBox.setPath(path);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
@@ -37,6 +45,7 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(top);
 		_bodies.add(bottom);
 		_bodies.add(_playerBox);
+		_bodies.add(movingBox);
 	}
 	
 	@Override
