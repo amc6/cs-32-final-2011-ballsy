@@ -20,27 +20,28 @@ public class RectangleDef extends PhysicsDef {
 		float halfWidth = _width/2; // because defined from center
 		float halfHeight = _height/2; // same
 		polygonDef.setAsBox(halfWidth, halfHeight);
-		
-		polygonDef.density = d;
-		polygonDef.friction = f;
-		polygonDef.restitution = b;
-		
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vec2(x, y));
 
-		
-		_body = _world.createBody(bodyDef);
-		_body.createShape(polygonDef);
-			
-		// Shape does not move if immobile
-		if (_mobile) {
-			_body.setMassFromShapes();
-		}
-		else {
-			MassData md = new MassData();
-			md.mass = 0f;
-			_body.setMass(md);
-		}
+		this.createBody(polygonDef, d, f, b, x, y);
+//		polygonDef.density = d;
+//		polygonDef.friction = f;
+//		polygonDef.restitution = b;
+//		
+//		BodyDef bodyDef = new BodyDef();
+//		bodyDef.position.set(new Vec2(x, y));
+//
+//		
+//		_body = _world.createBody(bodyDef);
+//		_body.createShape(polygonDef);
+//			
+//		// Shape does not move if immobile
+//		if (_mobile) {
+//			_body.setMassFromShapes();
+//		}
+//		else {
+//			MassData md = new MassData();
+//			md.mass = 0f;
+//			_body.setMass(md);
+//		}
 	}
 
 	public float getWidth(){
