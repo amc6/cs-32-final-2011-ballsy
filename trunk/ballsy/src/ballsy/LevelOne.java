@@ -11,12 +11,14 @@ import processing.core.PConstants;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.Rectangle;
+import bodies.UserBall;
 
 public class LevelOne extends AbstractLevel {
 
 	private ArrayList<AbstractBody> _bodies;
 	private PhysicsWorld _world;
-	private Rectangle _playerBox;
+	//private Rectangle _playerBox;
+	private UserBall _player;
 	
 	@Override
 	public void setup() {
@@ -28,13 +30,19 @@ public class LevelOne extends AbstractLevel {
 		_world.setGravity(0, -20); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
-		_playerBox = new Rectangle(this, _world, _world.getCenterX(), 0);
+		//_playerBox = new Rectangle(this, _world, _world.getCenterX(), 0);
+		
+		// make a moving box (demo pathing)
 		Rectangle movingBox = new Rectangle(this, _world, _world.getCenterX(),20);
 		Vector<Point2D.Float> path = new Vector<Point2D.Float>();
 		path.add(new Point2D.Float(20, 0));
 		path.add(new Point2D.Float(20, -20));
 		path.add(new Point2D.Float(-20, 0));
 		movingBox.setPath(path);
+		
+		// make a user ball
+		Point2D.Float startingPoint = new Point2D.Float(0, 0);
+		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
@@ -42,9 +50,13 @@ public class LevelOne extends AbstractLevel {
 		
 		Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
 		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
+		Rectangle left = new Rectangle(this, _world, 50, _world.getCenterY(), 2, worldHeight - 100, false);
+		Rectangle right = new Rectangle(this, _world, -50, _world.getCenterY(), 2, worldHeight - 100, false);
 		_bodies.add(top);
 		_bodies.add(bottom);
-		_bodies.add(_playerBox);
+		_bodies.add(left);
+		_bodies.add(right);
+		_bodies.add(_player);
 		_bodies.add(movingBox);
 	}
 	
@@ -66,23 +78,6 @@ public class LevelOne extends AbstractLevel {
 			_bodies.add(newBall);
 		}
 		
-		if (_window.keyPressed){
-			switch (_window.keyCode){
-			case PConstants.LEFT:
-				_playerBox.applyForce(new Vec2(-35,0));
-				break;
-			case PConstants.RIGHT:
-				_playerBox.applyForce(new Vec2(35,0));
-				break;
-			case PConstants.DOWN:
-				_playerBox.applyForce(new Vec2(0,-35));
-				break;
-			case PConstants.UP:
-				_playerBox.applyForce(new Vec2(0,35));
-				break;				
-			}
-		}
-		
 		// Display all the objects
 		for (AbstractBody body : _bodies) {
 			body.display();
@@ -101,6 +96,24 @@ public class LevelOne extends AbstractLevel {
 		_window.textSize(20);
 		_window.text((int)_window.frameRate + " FPS",12,46);
 		
+		// detect keypresses
+		if (_window.keyPressed) {
+			switch (_window.keyCode){
+			case PConstants.LEFT:
+				_player.moveLeft();
+				break;
+			case PConstants.RIGHT:
+				_player.moveRight();
+				break;
+			case PConstants.DOWN:
+				_player.moveDown();
+				break;
+			case PConstants.UP:
+				_player.moveUp();
+				break;				
+			}
+		}
+		
 	}
 
 	@Override
@@ -110,6 +123,7 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	public void keyPressed() {
+		
 	}
 
 	@Override

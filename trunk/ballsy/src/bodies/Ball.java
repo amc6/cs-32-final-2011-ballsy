@@ -10,9 +10,9 @@ public class Ball extends AbstractBody {
 	private static final float CENTER_X = 5;
 	private static final float CENTER_Y = 5;
 	private static final float RADIUS = 2;
-	private static final float DENSITY = 0.2f;
-	private static final float FRICTION = 0.3f;
-	private static final float BOUNCINESS = 0.5f;
+	protected static final float DENSITY = 0.2f;
+	protected static final float FRICTION = 0.3f;
+	protected static final float BOUNCINESS = 0.5f;
 	private static final int COLOR = Window.getInstance().color(200, 100, 100);
 	
 	public Ball(AbstractLevel level, PhysicsWorld world){

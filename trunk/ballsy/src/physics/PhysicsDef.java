@@ -56,8 +56,17 @@ public abstract class PhysicsDef {
 	 * @param vector
 	 */
 	public void applyForce(Vec2 vector){
+		_body.applyForce(vector, _body.getWorldCenter());
+	}
+	
+	/**
+	 * Applies an impulse given by the parameter to the object's center of mass.
+	 * @param vector
+	 */
+	public void applyImpulse(Vec2 vector){
 		_body.applyImpulse(vector, _body.getWorldCenter());
 	}
+	
 	
 	public void setLinearVelocity(Vec2 vec){
 		_body.setLinearVelocity(vec);
