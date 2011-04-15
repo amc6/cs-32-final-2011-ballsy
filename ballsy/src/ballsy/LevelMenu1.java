@@ -7,7 +7,7 @@ public class LevelMenu1 extends Screen {
 
 	@Override
 	public void setup() {
-
+	
 	}
 
 	@Override

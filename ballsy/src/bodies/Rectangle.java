@@ -17,15 +17,15 @@ public class Rectangle extends AbstractBody {
 	private static final int COLOR = Window.getInstance().color(100, 200, 100);
 	
 	public Rectangle(AbstractLevel level, PhysicsWorld world){
-		super(level, world, new physics.RectangleDef(CENTER_X, CENTER_Y, WIDTH, HEIGHT, DENSITY, FRICTION, BOUNCINESS), new graphical.RectangleDef(COLOR), true);
+		super(level, world, new physics.RectangleDef(world, CENTER_X, CENTER_Y, WIDTH, HEIGHT, DENSITY, FRICTION, BOUNCINESS, true), new graphical.RectangleDef(COLOR));
 	}
 	
 	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY){
-		super(level, world, new physics.RectangleDef(centerX, centerY, WIDTH, HEIGHT, DENSITY, FRICTION, BOUNCINESS), new graphical.RectangleDef(COLOR), true);
+		super(level, world, new physics.RectangleDef(world, centerX, centerY, WIDTH, HEIGHT, DENSITY, FRICTION, BOUNCINESS, true), new graphical.RectangleDef(COLOR));
 	}
 	
 	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY, float width, float height, boolean mobile){
-		super(level, world, new physics.RectangleDef(centerX, centerY, width, height, DENSITY, FRICTION, BOUNCINESS), new graphical.RectangleDef(COLOR), mobile);
+		super(level, world, new physics.RectangleDef(world, centerX, centerY, width, height, DENSITY, FRICTION, BOUNCINESS, mobile), new graphical.RectangleDef(COLOR));
 	}
 
 	@Override

@@ -7,27 +7,17 @@ public abstract class PhysicsDef {
 	
 	protected PhysicsWorld _world;
 	protected Body _body;
-	protected float _density, _friction, _bounciness, _x, _y, _width, _height;
-	protected boolean _mobile = true;
+	protected boolean _mobile;
 	
-	public PhysicsDef(float x, float y, float density, float friction, float bounciness){
-		_x = x;
-		_y = y;
-		_density = density;
-		_friction = friction;
-		_bounciness = bounciness;
+	public PhysicsDef(PhysicsWorld world, boolean mobile){
+		_world = world;
+		_mobile = mobile;
 	}
-	
-	public abstract void createBody();
 	
 	public Body getBody(){
 		return _body;
 	}
-	
-	public void setWorld(PhysicsWorld world){
-		_world = world;
-	}
-	
+		
 	public void setMobile(boolean mobile){
 		_mobile = mobile;
 	}

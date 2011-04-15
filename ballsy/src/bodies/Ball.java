@@ -16,15 +16,15 @@ public class Ball extends AbstractBody {
 	private static final int COLOR = Window.getInstance().color(200, 100, 100);
 	
 	public Ball(AbstractLevel level, PhysicsWorld world){
-		super(level, world, new physics.BallDef(CENTER_X, CENTER_Y, RADIUS, DENSITY, FRICTION, BOUNCINESS), new graphical.BallDef(COLOR), true);
+		super(level, world, new physics.BallDef(world, CENTER_X, CENTER_Y, RADIUS, DENSITY, FRICTION, BOUNCINESS, true), new graphical.BallDef(COLOR));
 	}
 	
 	public Ball(AbstractLevel level, PhysicsWorld world, float centerX, float centerY){
-		super(level, world, new physics.BallDef(centerX, centerY, RADIUS, DENSITY, FRICTION, BOUNCINESS), new graphical.BallDef(COLOR), true);
+		super(level, world, new physics.BallDef(world, centerX, centerY, RADIUS, DENSITY, FRICTION, BOUNCINESS, true), new graphical.BallDef(COLOR));
 	}
 	
 	public Ball(AbstractLevel level, PhysicsWorld world, float centerX, float centerY, float radius, boolean mobile){
-		super(level, world, new physics.BallDef(centerX, centerY, radius, DENSITY, FRICTION, BOUNCINESS), new graphical.BallDef(COLOR), mobile);
+		super(level, world, new physics.BallDef(world, centerX, centerY, radius, DENSITY, FRICTION, BOUNCINESS, mobile), new graphical.BallDef(COLOR));
 	}
 
 	@Override

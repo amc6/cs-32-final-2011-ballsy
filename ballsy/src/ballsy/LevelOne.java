@@ -32,10 +32,6 @@ public class LevelOne extends AbstractLevel {
 		float worldWidth = _world.getWidth();
 		float worldHeight = _world.getHeight();
 		
-		System.out.println(worldHeight);
-		
-		System.out.println(_world.getCenterY());
-		
 		Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
 		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
 		_bodies.add(top);
