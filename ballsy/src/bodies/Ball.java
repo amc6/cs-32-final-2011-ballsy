@@ -27,9 +27,5 @@ public class Ball extends AbstractBody {
 		super(level, world, new physics.BallDef(world, centerX, centerY, radius, DENSITY, FRICTION, BOUNCINESS, mobile), new graphical.BallDef(COLOR));
 	}
 
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 }

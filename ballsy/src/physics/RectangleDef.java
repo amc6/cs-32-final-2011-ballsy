@@ -1,8 +1,8 @@
 package physics;
 
+import org.jbox2d.collision.MassData;
 import org.jbox2d.collision.shapes.PolygonDef;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
 public class RectangleDef extends PhysicsDef {
@@ -28,13 +28,19 @@ public class RectangleDef extends PhysicsDef {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(new Vec2(x, y));
 
+		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(polygonDef);
 			
 		// Shape does not move if immobile
 		if (_mobile) {
 			_body.setMassFromShapes();
-		}	
+		}
+		else {
+			MassData md = new MassData();
+			md.mass = 0f;
+			_body.setMass(md);
+		}
 	}
 
 	public float getWidth(){

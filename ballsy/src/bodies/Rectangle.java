@@ -28,9 +28,4 @@ public class Rectangle extends AbstractBody {
 		super(level, world, new physics.RectangleDef(world, centerX, centerY, width, height, DENSITY, FRICTION, BOUNCINESS, mobile), new graphical.RectangleDef(COLOR));
 	}
 
-	@Override
-	public boolean done() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
