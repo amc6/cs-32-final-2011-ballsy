@@ -3,34 +3,24 @@ package ballsy;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Vector;
-
-import org.jbox2d.common.Vec2;
-
 import physics.PhysicsWorld;
-import processing.core.PConstants;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.Rectangle;
 import bodies.UserBall;
 
 public class LevelOne extends AbstractLevel {
-
-	private ArrayList<AbstractBody> _bodies;
 	private PhysicsWorld _world;
-	//private Rectangle _playerBox;
 	private UserBall _player;
 	
 	@Override
 	public void setup() {
-		
-	
 		// Initialize Box2D physics and set custom gravity
 		_world = new PhysicsWorld(_window);
 		_world.createWorld();
 		_world.setGravity(0, -20); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
-		//_playerBox = new Rectangle(this, _world, _world.getCenterX(), 0);
 		
 		// make a moving box (demo pathing)
 		Rectangle movingBox = new Rectangle(this, _world, _world.getCenterX(),20);
@@ -39,44 +29,40 @@ public class LevelOne extends AbstractLevel {
 		path.add(new Point2D.Float(20, -20));
 		path.add(new Point2D.Float(-20, 0));
 		movingBox.setPath(path);
-		
-		// make a user ball
-		Point2D.Float startingPoint = new Point2D.Float(0, 0);
-		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
 		float worldHeight = _world.getHeight();
 		
-		Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
+		//Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
 		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
+		bottom.setGrappleable(false);
+		Rectangle subBottom = new Rectangle(this, _world, _world.getCenterX(), -35, 4, 3, false); // this is grappleable, but not through the floor!
+		subBottom.setColor(0, 255, 255);
 		Rectangle left = new Rectangle(this, _world, 50, _world.getCenterY(), 2, worldHeight - 100, false);
 		Rectangle right = new Rectangle(this, _world, -50, _world.getCenterY(), 2, worldHeight - 100, false);
-		_bodies.add(top);
+		//_bodies.add(top);
 		_bodies.add(bottom);
+		_bodies.add(subBottom);
 		_bodies.add(left);
 		_bodies.add(right);
-		_bodies.add(_player);
 		_bodies.add(movingBox);
+
+		// make a user ball
+		Point2D.Float startingPoint = new Point2D.Float(0, 0);
+		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
+		_bodies.add(_player);
 	}
 	
 	@Override
 	public void draw() {
 		_window.background(255);
+		_window.stroke(0);
+		_window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+		_window.noCursor();
 		
 		// Step the physics world
 		_world.step();
-
-		// When the mouse is clicked, add a new Box object
-		if (_window.mousePressed) {
-			float x = _world.pixelXtoWorldX(_window.mouseX);
-			float y = _world.pixelYtoWorldY(_window.mouseY);
-			//Rectangle newRect = new Rectangle(this, _world, x, y);
-			Ball newBall = new Ball(this, _world, x, y);
-			// display the line on this guy
-			((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
-			_bodies.add(newBall);
-		}
 		
 		// Display all the objects
 		for (AbstractBody body : _bodies) {
@@ -98,22 +84,30 @@ public class LevelOne extends AbstractLevel {
 		
 		// detect keypresses
 		if (_window.keyPressed) {
-			switch (_window.keyCode){
-			case PConstants.LEFT:
+			// check for WASD, move accordingly
+			switch (_window.key){
+			case 'a':
 				_player.moveLeft();
 				break;
-			case PConstants.RIGHT:
+			case 'd':
 				_player.moveRight();
 				break;
-			case PConstants.DOWN:
+			case 's':
 				_player.moveDown();
 				break;
-			case PConstants.UP:
+			case 'w':
 				_player.moveUp();
-				break;				
+				break;	
+			case ' ': // check for space, make balls if appropriate (balls are ALWAYS appropriate)
+				float x = _world.pixelXtoWorldX(_window.mouseX);
+				float y = _world.pixelYtoWorldY(_window.mouseY);
+				//Rectangle newRect = new Rectangle(this, _world, x, y);
+				Ball newBall = new Ball(this, _world, x, y);
+				// display the line on this guy
+				((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
+				_bodies.add(newBall);
 			}
 		}
-		
 	}
 
 	@Override
@@ -126,10 +120,13 @@ public class LevelOne extends AbstractLevel {
 		
 	}
 
-	@Override
+	/**
+	 * Detects mousepressed (override).
+	 * Fires the grapple if it's unfired, releases it if it's fired.
+	 */
 	public void mousePressed() {
-		// TODO Auto-generated method stub
-		
+		if (!_player.isGrappled()) _player.fireGrapple();
+		else _player.releaseGrapple();
 	}
 
 	@Override

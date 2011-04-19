@@ -12,7 +12,6 @@ import ballsy.Window;
 import physics.PathDef;
 import physics.PhysicsDef;
 import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
 
 public abstract class AbstractBody {
 
@@ -21,6 +20,7 @@ public abstract class AbstractBody {
 	protected PhysicsDef _physicsDef;
 	private GraphicalDef _graphicalDef;
 	private PathDef _pathDef;
+	private boolean _grappleable = true;
 	
 	public AbstractBody(AbstractLevel level, PhysicsWorld world, PhysicsDef physicsDef, GraphicalDef graphicalDef){
 		this.constructorHelper(level, world, physicsDef, graphicalDef);
@@ -111,6 +111,20 @@ public abstract class AbstractBody {
 		_pathDef = new PathDef(this.getPhysicsDef(), p);
 	}
 	
+	/**
+	 * accessor for grappleability of object
+	 * @return
+	 */
+	public boolean isGrappleable() {
+		return _grappleable;
+	}
 	
+	/**
+	 * mutator for grappleability of object
+	 * @param g
+	 */
+	public void setGrappleable(boolean g) {
+		_grappleable = g;
+	}
 	
 }

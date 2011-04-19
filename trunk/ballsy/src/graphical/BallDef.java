@@ -3,6 +3,7 @@ package graphical;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import ballsy.AbstractLevel;
 import ballsy.Window;
 
 public class BallDef extends GraphicalDef {
@@ -31,8 +32,11 @@ public class BallDef extends GraphicalDef {
 		window.ellipse(0,0,_world.scalarWorldToPixels(_physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(_physicsDef.getRadius()) * 2);
 		
 		// if appropriate, draw the line
-		if (_showLine)
+		if (_showLine) {
+			window.strokeWeight(1);
 			window.line(0,0,_world.scalarWorldToPixels(_physicsDef.getRadius()),0);
+			window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+		}
 	
 		window.popMatrix();
 	}
