@@ -22,4 +22,8 @@ public class Polygon extends AbstractBody {
 	public Polygon(AbstractLevel level, PhysicsWorld world){
 		super(level, world, new physics.PhysicsPolygonDef(world, DEFAULT_CENTER_X, DEFAULT_CENTER_Y, DEFAULT_NUM_SIDES, DEFAULT_SIDE_LENGTH, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_BOUNCINESS, true), new graphical.PolygonDef(DEFAULT_COLOR));
 	}
+	
+	public Polygon(AbstractLevel level, PhysicsWorld world, float x, float y, int numSides, float sideLen){
+		super(level, world, new physics.PhysicsPolygonDef(world, x, y, numSides, sideLen, DEFAULT_DENSITY, DEFAULT_FRICTION, DEFAULT_BOUNCINESS, true), new graphical.PolygonDef(DEFAULT_COLOR));
+	}
 }
