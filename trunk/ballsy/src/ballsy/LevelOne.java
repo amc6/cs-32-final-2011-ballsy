@@ -2,6 +2,7 @@ package ballsy;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 import physics.PhysicsWorld;
@@ -54,8 +55,6 @@ public class LevelOne extends AbstractLevel {
 		Point2D.Float startingPoint = new Point2D.Float(0, 0);
 		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
 		_bodies.add(_player);
-		
-		_bodies.add(new Polygon(this, _world));
 	}
 	
 	@Override
@@ -102,14 +101,22 @@ public class LevelOne extends AbstractLevel {
 			case 'w':
 				_player.moveUp();
 				break;	
-			case ' ': // check for space, make balls if appropriate (balls are ALWAYS appropriate)
+			case ' ': // check for space, make stuff if appropriate
 				float x = _world.pixelXtoWorldX(_window.mouseX);
 				float y = _world.pixelYtoWorldY(_window.mouseY);
-				//Rectangle newRect = new Rectangle(this, _world, x, y);
-				Ball newBall = new Ball(this, _world, x, y);
-				// display the line on this guy
-				((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
-				_bodies.add(newBall);
+				Random r = new Random();
+				int numSides = r.nextInt(6);
+				numSides += 2;
+				if (numSides == 2) {
+					Ball newBall = new Ball(this, _world, x, y);
+					((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
+					newBall.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					_bodies.add(newBall);
+				} else if (numSides > 2) {
+					Polygon newPoly = new Polygon(this, _world, x, y, numSides, 2.5f);
+					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					_bodies.add(newPoly);
+				}
 			}
 		}
 	}
