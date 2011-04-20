@@ -35,8 +35,7 @@ public abstract class PhysicsDef {
 		// Shape does not move if immobile
 		if (_mobile) {
 			_body.setMassFromShapes();
-		}
-		else {
+		}else {
 			MassData md = new MassData();
 			md.mass = 0f;
 			_body.setMass(md);
@@ -83,4 +82,8 @@ public abstract class PhysicsDef {
 	public abstract float getWidth();
 	public abstract float getHeight();
 	public abstract float getRadius();
+	
+	public Vec2 getBodyWorldCenter(){
+		 return _body.getWorldCenter();
+	}
 }

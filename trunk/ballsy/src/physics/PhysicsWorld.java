@@ -217,7 +217,6 @@ public class PhysicsWorld {
 		return world.createBody(bd);
 	}
 
-
 	// A common task we have to do a lot
 	public Joint createJoint(JointDef jd) {
 		return world.createJoint(jd);
