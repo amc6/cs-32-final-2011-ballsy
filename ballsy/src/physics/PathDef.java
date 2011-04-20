@@ -33,7 +33,7 @@ public class PathDef {
 	public void step() {
 		if (_pathPoints.size() == 0) return; // don't step if there're no points to step through
 		// set up some variables
-		Point2D.Float position = new Point2D.Float(_physDef.getBody().getWorldCenter().x, _physDef.getBody().getWorldCenter().y);
+		Point2D.Float position = new Point2D.Float(_physDef.getBodyWorldCenter().x, _physDef.getBodyWorldCenter().y);
 		// check if it's near to the target point
 		if (position.distance(getAdjusted(_currTarget)) <= 2) { // distance value arbitrarily chosen...
 			// it is! increment the point value, loop around if necessary

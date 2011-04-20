@@ -3,9 +3,11 @@ package ballsy;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Vector;
+
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.Ball;
+import bodies.Polygon;
 import bodies.Rectangle;
 import bodies.UserBall;
 
@@ -52,6 +54,8 @@ public class LevelOne extends AbstractLevel {
 		Point2D.Float startingPoint = new Point2D.Float(0, 0);
 		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
 		_bodies.add(_player);
+		
+		_bodies.add(new Polygon(this, _world));
 	}
 	
 	@Override
@@ -117,7 +121,7 @@ public class LevelOne extends AbstractLevel {
 
 	@Override
 	public void keyPressed() {
-		
+
 	}
 
 	/**
