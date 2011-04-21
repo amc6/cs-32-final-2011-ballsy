@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 
 import ballsy.AbstractLevel;
 import ballsy.Window;
@@ -125,13 +126,61 @@ public abstract class AbstractBody {
 	}
 	
 	/**
+	 * 
+	 * @return world x of object
+	 */
+	public float getWorldX() {
+		return this.getPhysicsDef().getBody().getPosition().x;
+	}
+	
+	/**
+	 * 
+	 * @return world y of object
+	 */
+	public float getWorldY() {
+		return this.getPhysicsDef().getBody().getPosition().y;
+	}
+	
+	/**
+	 * 
+	 * @return pixel x of object
+	 */
+	public int getPixelX() {
+		return (int) _world.worldXtoPixelX(this.getWorldX());
+	}
+	
+	/**
+	 * 
+	 * @return pixel y of object
+	 */
+	public int getPixelY() {
+		return (int) _world.worldYtoPixelY(this.getWorldY());
+	}
+	
+	/**
+	 * 
+	 * @return world radius of object
+	 */
+	public float getWorldRadius() {
+		return this.getPhysicsDef().getRadius();
+	}
+	
+	/**
+	 * 
+	 * @return pixel radius of object
+	 */
+	public int getPixelRadius() {
+		return (int) _world.scalarWorldToPixels(this.getWorldRadius());
+	}
+	
+	/**
 	 * accessor for grappleability of object
 	 * @return
 	 */
 	public boolean isGrappleable() {
 		return _grappleable;
 	}
-	
+
 	/**
 	 * mutator for grappleability of object
 	 * @param g

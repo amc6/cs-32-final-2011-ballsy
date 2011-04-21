@@ -77,7 +77,13 @@ public abstract class PhysicsDef {
 		return _world;
 	}
 		
-
+	public abstract float getWidth();
+	public abstract float getHeight();
+	public abstract float getRadius();
+	
+	public float getPixelRadius() {
+		return _world.scalarWorldToPixels(this.getRadius());
+	}
 	
 	public Vec2 getBodyWorldCenter(){
 		return _world.getBodyWorldCoord(_body);

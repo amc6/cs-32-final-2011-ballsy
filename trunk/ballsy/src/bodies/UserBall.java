@@ -10,7 +10,7 @@ import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import static bodies.BodyConstants.USER_RADIUS;
 import graphical.Crosshair;
-import graphical.UserBallGraphical;
+//import graphical.UserBallGraphical;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -25,14 +25,17 @@ public class UserBall extends Ball {
 	private Crosshair _crosshair;
 	private AbstractLevel _level;
 	private AbstractBody _grappleObject;
+	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false;
+	private PhysicsWorld _world;
 	
 	public UserBall(AbstractLevel level, PhysicsWorld world, float centerX, float centerY) {
 		super(level, world, centerX, centerY, USER_RADIUS, true);
-		this.setGraphicalDef(new UserBallGraphical());
-		this.setColor(USER_COLOR);
+//		this.setGraphicalDef(new UserBallGraphical());
+//		this.setColor(USER_COLOR);
 		_crosshair = new Crosshair(world, this);
 		_level = level;
+		_world = world;
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
@@ -68,7 +71,10 @@ public class UserBall extends Ball {
 	public void display() {
 		super.display();
 		_crosshair.display();
-		if (!_grappled) _grappleObject = getBody(_crosshair.getGrapplePoint(_level.getBodies()));
+		if (!_grappled) {
+			_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
+			_grappleObject = getBody(_grapplePoint);
+		}
 	}
 	
 	
@@ -87,6 +93,22 @@ public class UserBall extends Ball {
 	
 	public boolean isGrappled() {
 		return _grappled;
+	}
+	
+	/**
+	 * 
+	 * @return current grappling point
+	 */
+	public Point2D.Float getWorldGrapplePoint() {
+		return _grapplePoint;
+	}
+	
+	/**
+	 * 
+	 * @return current grappling point
+	 */
+	public Point2D.Float getPixelGrapplePoint() {
+		return new Point2D.Float(_world.worldXtoPixelX(_grapplePoint.x), _world.worldYtoPixelY(_grapplePoint.y));
 	}
 	
 	/**

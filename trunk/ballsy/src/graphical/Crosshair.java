@@ -51,9 +51,10 @@ public class Crosshair {
 		
 		if (!_hidden) {
 			// display line from ball
-			int ballX = (int) _world.worldXtoPixelX(_player.getPhysicsDef().getBody().getPosition().x);
-			int ballY = (int) _world.worldYtoPixelY(_player.getPhysicsDef().getBody().getPosition().y);
+			int ballX = _player.getPixelX();
+			int ballY = _player.getPixelY();
 			double angle = Math.atan2((y - ballY), (x - ballX)); // angle to cursor
+
 			int startX = (int) (ballX + _world.scalarWorldToPixels(physicsDef.getRadius() * CROSSHAIR_LINE_DIST_COEFF) * Math.cos(angle));
 			int startY = (int) (ballY + _world.scalarWorldToPixels(physicsDef.getRadius() * CROSSHAIR_LINE_DIST_COEFF) * Math.sin(angle));
 			int endX = startX + (int) (CROSSHAIR_LINE_LENGTH * Math.cos(angle));
@@ -76,12 +77,12 @@ public class Crosshair {
 	public Point2D.Float getGrapplePoint(ArrayList<AbstractBody> bodies) {
 		Window window = Window.getInstance();
 		// get graphical XY of ball for proper angle, and get angle
-		int ballGX = (int) _world.worldXtoPixelX(_player.getPhysicsDef().getBody().getPosition().x);
-		int ballGY = (int) _world.worldYtoPixelY(_player.getPhysicsDef().getBody().getPosition().y);
+		int ballGX = _player.getPixelX();
+		int ballGY = _player.getPixelY();
 		double angle = -Math.atan2((window.mouseY - ballGY), (window.mouseX - ballGX)); // angle to cursor
 		// get the coords of the ball in physics world (not graphical position)
-		float ballX = _player.getPhysicsDef().getBody().getPosition().x;
-		float ballY = _player.getPhysicsDef().getBody().getPosition().y;
+		float ballX = _player.getWorldX();
+		float ballY = _player.getWorldY();
 		// get the coords of the maximum point away from the ball
 		float maxX = (float) (ballX + CROSSHAIR_RANGE * Math.cos(angle)); 
 		float maxY = (float) (ballY + CROSSHAIR_RANGE * Math.sin(angle)); 
