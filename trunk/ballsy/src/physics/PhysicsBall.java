@@ -1,5 +1,6 @@
 package physics;
 
+import org.dom4j.Element;
 import org.jbox2d.collision.shapes.CircleDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
@@ -48,6 +49,11 @@ public class PhysicsBall extends PhysicsDef {
 	public float getWidth() {
 		// TODO Auto-generated method stub
 		return _radius * 2;
+	}
+	
+	public Element writeXML() {
+		// return element as defined in super with proper name and width/height
+		return super.writeXML("ball", _radius * 2, _radius * 2);
 	}
 
 }

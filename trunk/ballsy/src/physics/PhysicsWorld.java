@@ -289,5 +289,16 @@ public class PhysicsWorld {
 	public void destroyBody(Body b) {
 		world.destroyBody(b);
 	}
-
+	
+	/**
+	 * removes all bodies from the world.
+	 */
+	public void clear() {
+		Body currBody = world.getBodyList();
+		while (currBody != null) {
+			Body tempBody = currBody.getNext();
+			world.destroyBody(currBody);
+			currBody = tempBody;
+		}
+	}
 }

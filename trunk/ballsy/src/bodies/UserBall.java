@@ -11,10 +11,10 @@ import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import static bodies.BodyConstants.USER_RADIUS;
 import graphical.Crosshair;
 //import graphical.UserBallGraphical;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsWorld;
@@ -126,5 +126,12 @@ public class UserBall extends Ball {
 			}
 		}
 		return null; // it didn't find an object, return null
+	}
+	
+	/**
+	 * partially override the writeXML() method of super to identify this as a USER ball
+	 */
+	public Element writeXML() {
+		return super.writeXML("user_ball");
 	}
 }

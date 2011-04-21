@@ -1,5 +1,7 @@
 package physics;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.jbox2d.collision.MassData;
 import org.jbox2d.collision.shapes.ShapeDef;
 import org.jbox2d.common.Vec2;
@@ -89,6 +91,65 @@ public abstract class PhysicsDef {
 		return _world.getBodyWorldCoord(_body);
 	}
 	
+	/**
+	 * Return the representation of the object as a dom4j element to write into a saved XML file.
+	 * @return
+	 */
+	public abstract Element writeXML();
+	
+	/**
+	 * General function for physics definitions, when passed a type, width, and height.
+	 * Called by subclasses when implementing above method.
+	 * @param type
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public Element writeXML(String type, float width, float height) {
+		// create the element for the XML representation of the physics ball def
+		Element newEl = DocumentHelper.createElement("PHYSICS_DEF");
+		// add appropriate attributes for ball
+		newEl.addAttribute("TYPE", type);
+		newEl.addAttribute("X", Float.toString(_body.getPosition().x));
+		newEl.addAttribute("Y", Float.toString(_body.getPosition().y));
+		newEl.addAttribute("ROTATION", Float.toString(_body.getAngle()));
+		newEl.addAttribute("X_VELOCITY", Float.toString(_body.getLinearVelocity().x));
+		newEl.addAttribute("Y_VELOCITY", Float.toString(_body.getLinearVelocity().y));
+		newEl.addAttribute("ANGULAR_VELOCITY", Float.toString(_body.getAngularVelocity()));
+		newEl.addAttribute("DENSITY", Float.toString(_body.getShapeList().getDensity()));
+		newEl.addAttribute("FRICTION", Float.toString(_body.getShapeList().getFriction()));
+		newEl.addAttribute("RESTITUTION", Float.toString(_body.getShapeList().getRestitution()));
+		newEl.addAttribute("WIDTH", Float.toString(width));
+		newEl.addAttribute("HEIGHT", Float.toString(height));
+		newEl.addAttribute("MOBILE", Boolean.toString(_mobile));
+		// return
+		return newEl;
+	}
+	
+	/**
+	 * No width/height for objects without (see polygon, surface)
+	 * @param type
+	 * @return
+	 */
+	public Element writeXML(String type) {
+		// create the element for the XML representation of the physics ball def
+		Element newEl = DocumentHelper.createElement("PHYSICS_DEF");
+		// add appropriate attributes for ball
+		newEl.addAttribute("TYPE", type);
+		newEl.addAttribute("X", Float.toString(_body.getPosition().x));
+		newEl.addAttribute("Y", Float.toString(_body.getPosition().y));
+		newEl.addAttribute("ROTATION", Float.toString(_body.getAngle()));
+		newEl.addAttribute("X_VELOCITY", Float.toString(_body.getLinearVelocity().x));
+		newEl.addAttribute("Y_VELOCITY", Float.toString(_body.getLinearVelocity().y));
+		newEl.addAttribute("ANGULAR_VELOCITY", Float.toString(_body.getAngularVelocity()));
+		newEl.addAttribute("DENSITY", Float.toString(_body.getShapeList().getDensity()));
+		newEl.addAttribute("FRICTION", Float.toString(_body.getShapeList().getFriction()));
+		newEl.addAttribute("RESTITUTION", Float.toString(_body.getShapeList().getRestitution()));
+		newEl.addAttribute("MOBILE", Boolean.toString(_mobile));
+		// return
+		return newEl;
+	}
+
 	public Vec2 getBodyGravityCenter(){
 		return _body.getWorldCenter();
 	}

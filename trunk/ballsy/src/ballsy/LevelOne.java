@@ -19,14 +19,12 @@ import bodies.UserBall;
 import bodies.VertexSurface;
 
 public class LevelOne extends AbstractLevel {
-	private PhysicsWorld _world;
-	private UserBall _player;
 	
 	@Override
 	public void setup() {
 		// Initialize Box2D physics and set custom gravity
 		_world = new PhysicsWorld(_window);
-		_world.createWorld();
+		_world.createWorld(); // QUESTION: WHY IS THIS DEPRECIATED? <-----------------------!!!!!!!!! ATTENTION !!!!!!!!!
 		_world.setGravity(0, -20); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
@@ -38,6 +36,7 @@ public class LevelOne extends AbstractLevel {
 		path.add(new Point2D.Float(20, -20));
 		path.add(new Point2D.Float(-20, 0));
 		movingBox.setPath(path);
+		movingBox.setColor(200, 100, 200);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
@@ -50,6 +49,10 @@ public class LevelOne extends AbstractLevel {
 		subBottom.setColor(0, 255, 255);
 		Rectangle left = new Rectangle(this, _world, 50, _world.getCenterY(), 2, worldHeight - 100, false);
 		Rectangle right = new Rectangle(this, _world, -50, _world.getCenterY(), 2, worldHeight - 100, false);
+		bottom.setColor(200);
+		subBottom.setColor(200);
+		left.setColor(200);
+		right.setColor(200);
 		//_bodies.add(top);
 		_bodies.add(bottom);
 		_bodies.add(subBottom);
@@ -66,6 +69,7 @@ public class LevelOne extends AbstractLevel {
 		worldPoints.add(new Vec2(5,5));
 		
 		IrregularPolygon polygon = new IrregularPolygon(this, _world, 30, 20, worldPoints);
+		polygon.setColor(200, 200, 100);
 		_bodies.add(polygon);
 		
 		ArrayList<Vec2> surfacePoints = new ArrayList<Vec2>();
@@ -76,12 +80,13 @@ public class LevelOne extends AbstractLevel {
 		surfacePoints.add(new Vec2(-15,-5));
 		surfacePoints.add(new Vec2(-15,5));
 		
-		VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
-		_bodies.add(surface);
+		//VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
+		//_bodies.add(surface);
 		
 		// make a user ball
 		Vec2 startingPoint = new Vec2(0, 0);
 		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
+		_player.setColor(100, 200, 200);
 		_bodies.add(_player);
 	}
 	
@@ -145,13 +150,17 @@ public class LevelOne extends AbstractLevel {
 					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newPoly);
 				}
+				break;
+			case 'o': // save an xml file of the current state
+				XMLUtil.getInstance().writeFile(this, "default.xml");
+				System.out.println("Level state saved to default.xml");
+				break;
+			case 'i': // restore state from xml file
+				XMLUtil.getInstance().readFile(this, "default.xml");
+				System.out.println("Level state restored from default.xml");
+				break;
 			}
 		}
-	}
-
-	@Override
-	public void remove(AbstractBody object) {
-		_bodies.remove(object);		
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package physics;
 
+import org.dom4j.Element;
+
 public class GrappleDef extends PhysicsDef {
 
 	public GrappleDef(PhysicsWorld world, boolean mobile) {
@@ -25,4 +27,7 @@ public class GrappleDef extends PhysicsDef {
 		return 0;
 	}
 
+	public Element writeXML() {
+		return null; // never write XML for a grapple!
+	}
 }

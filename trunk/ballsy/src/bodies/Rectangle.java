@@ -1,5 +1,7 @@
 package bodies;
 
+import org.dom4j.Element;
+
 import physics.PathDef;
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
@@ -14,6 +16,11 @@ public class Rectangle extends AbstractBody {
 	
 	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY, float width, float height, boolean mobile){
 		super(level, world, new physics.PhysicsRectangle(world, centerX, centerY, width, height, DEFAULT_BODY_DENSITY, DEFAULT_BODY_FRICTION, DEFAULT_BODY_BOUNCINESS, mobile), new graphical.RectangleDef(DEFAULT_BODY_COLOR));
+	}
+
+	@Override
+	public Element writeXML() {
+		return super.writeXML("rectangle");
 	}
 	
 }

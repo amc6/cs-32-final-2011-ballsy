@@ -2,6 +2,7 @@ package graphical;
 
 import java.util.List;
 
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsPolygonDef;
@@ -26,7 +27,7 @@ public class PolygonDef extends GraphicalDef {
 		Vec2 pos = _world.getBodyPixelCoord(_physicsDef.getBody());
 
 		float a = _physicsDef.getBody().getAngle();
-			
+
 		window.pushMatrix();
 		window.beginShape();
 		window.translate(pos.x,pos.y);
@@ -40,10 +41,15 @@ public class PolygonDef extends GraphicalDef {
 		window.endShape(PConstants.CLOSE);
 
 		window.popMatrix();
-		
-		//System.out.println("never");
-		
 	}
 
+	/**
+	 * Override of super no-parameter writeXML(), makes a call to super's writeXML(String type) 
+	 * with the proper type of this subclass
+	 */
+	public Element writeXML() {
+		// return the XML element as designated in the super, with the appropriate type.
+		return super.writeXML("polygon");
+	}
 	
 }

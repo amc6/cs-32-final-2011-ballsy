@@ -1,5 +1,7 @@
 package graphical;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import static ballsy.GeneralConstants.*;
@@ -49,6 +51,17 @@ public class BallDef extends GraphicalDef {
 	 */
 	public void setLine(boolean s) {
 		_showLine = s;
+	}
+
+	/**
+	 * Override of super no-parameter writeXML(), makes a call to super's writeXML(String type) 
+	 * with the proper type of this subclass
+	 */
+	public Element writeXML() {
+		// return the XML element as designated in the super, with the appropriate type.
+		Element newEl = super.writeXML("ball");
+		newEl.addAttribute("DISPLAY_LINE", Boolean.toString(_showLine));
+		return newEl;
 	}
 
 }

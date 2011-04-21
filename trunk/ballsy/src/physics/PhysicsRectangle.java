@@ -1,5 +1,6 @@
 package physics;
 
+import org.dom4j.Element;
 import org.jbox2d.collision.MassData;
 import org.jbox2d.collision.shapes.PolygonDef;
 import org.jbox2d.common.Vec2;
@@ -37,6 +38,11 @@ public class PhysicsRectangle extends PhysicsDef {
 	public float getRadius() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public Element writeXML() {
+		// return element as defined in super with proper name and width/height
+		return super.writeXML("rectangle", _width, _height);
 	}
 		
 }

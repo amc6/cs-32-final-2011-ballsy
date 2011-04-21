@@ -2,6 +2,8 @@ package graphical;
 
 import java.awt.geom.Point2D;
 
+import org.dom4j.Element;
+
 import ballsy.AbstractLevel;
 import ballsy.Window;
 import static ballsy.GeneralConstants.*;
@@ -40,5 +42,9 @@ public class GrappleDef extends GraphicalDef{
 //	public Point2D.Float getGrapplePoint() {
 //		return _ball.getGrapplePoint();
 //	}
+	
+	public Element writeXML() {
+		return null; // never write XML for grapple!
+	}
 
 }
