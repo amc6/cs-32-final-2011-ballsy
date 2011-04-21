@@ -28,7 +28,7 @@ public class Window extends PApplet {
 		// default camera settings are as follows. could be used to properly implement map? would need to offset all mouse positions though...
 		//this.camera(width/2.0f, height/2.0f, (height/2.0f) / (float) Math.tan(Math.PI*60.0 / 360.0), width/2.0f, height/2.0f, 0f, 0f, 1f, 0f);
 		
-		this.setScreen(new WelcomeScreen());
+		this.setScreen(new LevelTwo());
 	}
 	
 	public void draw() {

@@ -24,10 +24,8 @@ public abstract class PhysicsDef {
 		shape.density = d;
 		shape.friction = f;
 		shape.restitution = b;
-		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(new Vec2(x, y));
-
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);

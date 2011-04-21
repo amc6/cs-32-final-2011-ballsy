@@ -18,6 +18,8 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.JointDef;
 
+import ballsy.Window;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -47,6 +49,15 @@ public class PhysicsWorld {
 		transY = parent.height/2;
 		scaleFactor = sf;
 		yFlip = -1;
+	}
+	
+	public PhysicsWorld(PApplet p, float sf, float lx, float ly) {
+		parent = p;
+		yFlip = -1;
+		scaleFactor = sf;
+		transX = lx;
+		transY = ly;
+		
 	}
 
 	public void listenForCollisions() {
@@ -101,8 +112,13 @@ public class PhysicsWorld {
 	
 	
 	// Create a default world
+	@Deprecated
 	public void createWorld() {
 		this.createWorld(-100,-100,100,100);
+	}
+	
+	public void createWorld(float xSize, float ySize) {
+		this.createWorld(0, 0, xSize, ySize);
 	}
 
 	// Slightly more custom world
@@ -119,6 +135,33 @@ public class PhysicsWorld {
 	// Set the gravity (this can change in real-time)
 	public void setGravity(float x, float y) {
 		world.setGravity(new Vec2(x,y));
+	}
+	
+	/**
+	 * Moves the camera in the specified direction. Units are pixels.
+	 * @param dx
+	 * @param dy
+	 */
+	public void moveCamera(float dx, float dy) {
+		transX-=dx;
+		transY-=dy;
+	}
+	
+	/**
+	 * Moves the camera to the specified position. Units are
+	 * world coords.
+	 * @param worldX
+	 * @param worldY
+	 */
+	public void centerCameraOn(float worldX, float worldY) {
+		transX = -PApplet.map(worldX, 0f, 1f, 0f, scaleFactor);
+		transY = -PApplet.map(worldY, 0f, 1f, 0f, scaleFactor);
+		transX += Window.getInstance().width/2;
+		transY += Window.getInstance().height/2;
+	}
+	
+	public void scale(float factor) {
+		scaleFactor*=factor;
 	}
 
 	// These functions are very important

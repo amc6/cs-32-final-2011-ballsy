@@ -41,12 +41,13 @@ public abstract class AbstractBody {
 	}
 		
 	/**
-	 * Should check to see if the object can be removed from the world.
+	 * Should check to see if the object can be removed from the world. 
+	 * This implementation causes the object to dissapear if it falls below y = 0
+	 * in world coordinates.
 	 */
 	public boolean done() {
-		Vec2 pos = _world.getBodyPixelCoord(_physicsDef.getBody());
-		// Is it off the bottom of the screen?
-		if (pos.y > Window.getInstance().height+this.getPhysicsDef().getHeight()*2) {
+		Vec2 pos = _physicsDef.getBodyWorldCenter();
+		if (pos.y  < 0) {
 			return true;
 		}
 		return false;
