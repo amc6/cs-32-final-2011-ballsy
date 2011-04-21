@@ -1,6 +1,7 @@
 package physics;
 
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 import org.jbox2d.dynamics.joints.Joint;
 
@@ -14,7 +15,7 @@ public class GrappleDef extends PhysicsDef {
 	
 	private bodies.UserBall _ball;
 	private PhysicsWorld _world;
-	private Joint _joint;
+	private DistanceJoint _joint;
 
 	public GrappleDef(PhysicsWorld world, boolean mobile, bodies.UserBall ball) {
 		super(world, mobile);
@@ -28,7 +29,7 @@ public class GrappleDef extends PhysicsDef {
 			DistanceJointDef jointDef = new DistanceJointDef();
 			jointDef.initialize(_ball.getBody(), grappledBody.getBody(), _ball.getWorldPosition(), _ball.getWorldGrapplePointVec());
 			jointDef.collideConnected = true;
-			_joint = _world.createJoint(jointDef);
+			_joint = (DistanceJoint) _world.createJoint(jointDef);
 		}
 	}
 	
@@ -38,6 +39,14 @@ public class GrappleDef extends PhysicsDef {
 		if (_joint != null) {
 			_world.destroyJoint(_joint);
 		}
+	}
+	
+	public void extendGrapple() {
+		_joint.m_length = _joint.m_length + .5F;
+	}
+	
+	public void retractGrapple() {
+		_joint.m_length = _joint.m_length - .5F;
 	}
 
 	@Override
