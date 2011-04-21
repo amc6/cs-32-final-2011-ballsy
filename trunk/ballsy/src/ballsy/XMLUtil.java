@@ -56,9 +56,19 @@ public class XMLUtil {
 		catch (DocumentException e) { return false; }
     	Element root = doc.getRootElement();
 		// clear current level bodies; needed to copy the current bodies into another vector to avoid concurrent modification
-		Vector<AbstractBody> vec = new Vector<AbstractBody>();
-		for (AbstractBody b : level.getBodies()) { vec.add(b); }
-		for (AbstractBody b : vec) { b.killBody(); }
+		if (level.getBodies() != null) {
+	    	Vector<AbstractBody> vec = new Vector<AbstractBody>();
+			for (AbstractBody b : level.getBodies()) { vec.add(b); }
+			for (AbstractBody b : vec) { b.killBody(); }
+		}
+		// interpret level settings
+		float minX = Float.parseFloat(root.attributeValue("MIN_X"));
+		float minY = Float.parseFloat(root.attributeValue("MIN_Y"));
+		float maxX = Float.parseFloat(root.attributeValue("MAX_X"));
+		float maxY = Float.parseFloat(root.attributeValue("MAX_Y"));
+		level.setupWorld(minX, minY, maxX, maxY);
+		level.setBGColor(Integer.parseInt(root.attributeValue("BG_COLOR")));
+		level.setGravity(new Point2D.Float( Float.parseFloat(root.attributeValue("GRAV_X")), Float.parseFloat(root.attributeValue("GRAV_Y"))));
     	// iterate through elements of XML file
     	for (Iterator i = root.elementIterator("BODY"); i.hasNext();) {
     		// get references to the various elements
@@ -188,8 +198,19 @@ public class XMLUtil {
 		Document doc = DocumentHelper.createDocument();
 		Element root = DocumentHelper.createElement("BALLSY_LEVEL");
     	doc.setRootElement(root);
-		// optionally add attributes pertinent to the level, using root.addAttribute(name, value)
-		// or not
+		// add attributes pertinent to the level
+		// physics world bounds
+    	Vec2 min = level.getWorldBounds()[0];
+		Vec2 max = level.getWorldBounds()[1];
+		root.addAttribute("MIN_X", Float.toString(min.x));
+		root.addAttribute("MIN_Y", Float.toString(min.y));
+		root.addAttribute("MAX_X", Float.toString(max.x));
+		root.addAttribute("MAX_Y", Float.toString(max.y));
+		// bg color
+		root.addAttribute("BG_COLOR", Integer.toString(level.getBGColor()));
+		// gravity
+		root.addAttribute("GRAV_X", Float.toString(level.getGravity().x));
+		root.addAttribute("GRAV_Y", Float.toString(level.getGravity().y));
 		// iterate through bodies, writing each's output xml to the document
 		for (AbstractBody b : bodies) {
 			Element newEl = b.writeXML();
