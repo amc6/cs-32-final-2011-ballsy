@@ -105,7 +105,7 @@ public class LevelTwo extends AbstractLevel {
 				float x = _world.pixelXtoWorldX(_window.mouseX);
 				float y = _world.pixelYtoWorldY(_window.mouseY);
 				Random r = new Random();
-				int numSides = r.nextInt(6);
+				int numSides = r.nextInt(15);
 				numSides += 2;
 				if (numSides == 2) {
 					Ball newBall = new Ball(this, _world, x, y);

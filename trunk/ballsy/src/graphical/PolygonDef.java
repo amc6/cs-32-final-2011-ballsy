@@ -35,7 +35,7 @@ public class PolygonDef extends GraphicalDef {
 		window.fill(_color);
 		for (Vec2 vert : vertices){
 			
-			window.vertex(_world.scalarWorldToPixels(vert.x), -_world.scalarWorldToPixels(vert.y)); // -y for some reason
+			window.vertex(_world.scalarWorldToPixels(vert.x), _world.scalarWorldToPixels(vert.y)); // -y for some reason
 		}
 		
 		window.endShape(PConstants.CLOSE);

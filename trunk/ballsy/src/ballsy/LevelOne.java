@@ -61,27 +61,28 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(movingBox);
 		
 		ArrayList<Vec2> worldPoints = new ArrayList<Vec2>();
-		
+		worldPoints.add(new Vec2(0,-10));
+		worldPoints.add(new Vec2(5,-5));
+		worldPoints.add(new Vec2(7,0));
+		worldPoints.add(new Vec2(5,5));
 		worldPoints.add(new Vec2(0,10));
 		worldPoints.add(new Vec2(-5,5));
-		worldPoints.add(new Vec2(-5,-5));
-		worldPoints.add(new Vec2(5,-5));
-		worldPoints.add(new Vec2(5,5));
-		
+		worldPoints.add(new Vec2(-5,-5));		
 		IrregularPolygon polygon = new IrregularPolygon(this, _world, 30, 20, worldPoints);
 		polygon.setColor(200, 200, 100);
 		_bodies.add(polygon);
 		
-		ArrayList<Vec2> surfacePoints = new ArrayList<Vec2>();
-		
-		surfacePoints.add(new Vec2(-20,10));
-		surfacePoints.add(new Vec2(-25,5));
-		surfacePoints.add(new Vec2(-25,-5));
-		surfacePoints.add(new Vec2(-15,-5));
-		surfacePoints.add(new Vec2(-15,5));
-		
-		//VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
-		//_bodies.add(surface);
+//		pretty ghetto implementation of the surface right now...
+//		ArrayList<Vec2> surfacePoints = new ArrayList<Vec2>();
+//		
+//		surfacePoints.add(new Vec2(-20,10));
+//		surfacePoints.add(new Vec2(-25,5));
+//		surfacePoints.add(new Vec2(-25,-5));
+//		surfacePoints.add(new Vec2(-15,-5));
+//		surfacePoints.add(new Vec2(-15,5));
+//		
+//		//VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
+//		//_bodies.add(surface);
 		
 		// make a user ball
 		Vec2 startingPoint = new Vec2(0, 0);
