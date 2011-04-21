@@ -30,9 +30,9 @@ public class LevelTwo extends AbstractLevel {
 		_bodies = new ArrayList<AbstractBody>();
 
 		// Add a bunch of fixed boundaries
-		Ball center = new Ball(this, _world, _world.getCenterX(), _world.getCenterY(), 10, false);//don't set position like this anymore. centerX and centerY could change
+		//Ball center = new Ball(this, _world, _world.getCenterX(), _world.getCenterY(), 10, false);//don't set position like this anymore. centerX and centerY could change
 																							//if we decided to expand the level. Hardcode values! (I'll explain more in person)
-		center.setColor(255, 0, 0);
+		//center.setColor(255, 0, 0);
 		//Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
 		Rectangle bottom = new Rectangle(this, _world, 50, 0, 100, 2, false);
 		bottom.setGrappleable(false);
@@ -46,7 +46,7 @@ public class LevelTwo extends AbstractLevel {
 		//_bodies.add(subBottom);
 		_bodies.add(left);
 		_bodies.add(right);
-		_bodies.add(center);
+		//_bodies.add(center);
 
 		// make a user ball
 		Point2D.Float startingPoint = new Point2D.Float(50,50);
@@ -100,18 +100,7 @@ public class LevelTwo extends AbstractLevel {
 			case 'w':
 				_player.moveUp();
 				break;
-			case 'j':
-				_world.moveCamera(-1, 0);
-				break;
-			case 'k':
-				_world.moveCamera(0, -1);
-				break;
-			case 'l':
-				_world.moveCamera(1, 0);
-				break;
-			case 'i':
-				_world.moveCamera(0, 1);
-				break;
+			
 			case ' ': // check for space, make stuff if appropriate
 				float x = _world.pixelXtoWorldX(_window.mouseX);
 				float y = _world.pixelYtoWorldY(_window.mouseY);
