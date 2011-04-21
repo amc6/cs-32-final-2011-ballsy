@@ -24,6 +24,7 @@ public class Crosshair {
 	private UserBall _player;
 	private boolean _hidden = false;
 	int _drawColor = CROSSHAIR_INACTIVE_LINE_COLOR;
+	private AbstractBody _grappledBody = null;
 	
 	public Crosshair(PhysicsWorld w, UserBall b) {
 		_world = w;
@@ -102,7 +103,8 @@ public class Crosshair {
 			Segment segment = new Segment();
 			segment.p1.set(new Vec2(ballX, ballY));
 			segment.p2.set(new Vec2(maxX, maxY));
-			SegmentCollide hit = body.getPhysicsDef().getBody().getShapeList().testSegment(body.getPhysicsDef().getBody().getXForm(), out, segment, 1);
+//			System.out.println("body.getBody: " + body.getBody());
+			SegmentCollide hit = body.getBody().getShapeList().testSegment(body.getBody().getXForm(), out, segment, 1);
 			// check if there is an intersection
 			if (hit == SegmentCollide.HIT_COLLIDE) {
 				// there is! calculate the point of intersection: alpha is percentage of segment length (range) at which intersection occurs
@@ -112,8 +114,14 @@ public class Crosshair {
 				// check for distance, to make sure we return the closest intersection
 				if (currDist < minDist) {
 					minDist = currDist;
-					if ( body.isGrappleable()) grapplePoint = currPoint;
-					else grapplePoint = null; // if the body isn't grappleable, and is closer (i.e. in the way), we can't have access to the former body
+					if ( body.isGrappleable()) {
+						grapplePoint = currPoint;
+						_grappledBody = body;
+					}
+					else {
+						grapplePoint = null; // if the body isn't grappleable, and is closer (i.e. in the way), we can't have access to the former body
+						_grappledBody = null;
+					}
 				}
 			}
 		}
@@ -127,6 +135,14 @@ public class Crosshair {
 			}
 		} else { _drawColor = CROSSHAIR_INACTIVE_LINE_COLOR; }
 		return grapplePoint;
+	}
+	
+	/**
+	 * 
+	 * @return grappled body
+	 */
+	public AbstractBody getGrappledBody() {
+		return _grappledBody;
 	}
 	
 	/**

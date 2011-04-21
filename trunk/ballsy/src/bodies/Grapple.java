@@ -13,16 +13,20 @@ public class Grapple extends AbstractBody {
 
 	public Grapple(AbstractLevel level, PhysicsWorld world,
 			UserBall ball) {
-		super(level, world, new physics.GrappleDef(world, true), new graphical.GrappleDef(0, ball));
-		
-		
+		super(level, world, new physics.GrappleDef(world, true, ball), new graphical.GrappleDef(0, ball));
 	}
 
 	@Override
 	public Element writeXML() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
+	public void grapple() {
+		((physics.GrappleDef) _physicsDef).grapple();
+	}
+	
+	public void releaseGrapple() {
+		((physics.GrappleDef) _physicsDef).releaseGrapple();
+	}
 
 }

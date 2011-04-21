@@ -1,12 +1,43 @@
 package physics;
 
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.Joint;
+
+import bodies.Rectangle;
+
+import static bodies.BodyConstants.*;
+
 import org.dom4j.Element;
 
 public class GrappleDef extends PhysicsDef {
+	
+	private bodies.UserBall _ball;
+	private PhysicsWorld _world;
+	private Joint _joint;
 
-	public GrappleDef(PhysicsWorld world, boolean mobile) {
+	public GrappleDef(PhysicsWorld world, boolean mobile, bodies.UserBall ball) {
 		super(world, mobile);
-		// TODO Auto-generated constructor stub
+		_ball = ball;
+		_world = world;
+	}
+	
+	public void grapple() {
+		if (_ball.isGrappled()) {
+			bodies.AbstractBody grappledBody = _ball.getGrappleObject();
+			DistanceJointDef jointDef = new DistanceJointDef();
+			jointDef.initialize(_ball.getBody(), grappledBody.getBody(), _ball.getWorldPosition(), _ball.getWorldGrapplePointVec());
+			jointDef.collideConnected = true;
+			_joint = _world.createJoint(jointDef);
+		}
+	}
+	
+	public void releaseGrapple() {
+		System.out.println("joint: " + _joint);
+
+		if (_joint != null) {
+			_world.destroyJoint(_joint);
+		}
 	}
 
 	@Override

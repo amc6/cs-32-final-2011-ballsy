@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.DebugDraw;
+import org.jbox2d.dynamics.joints.DistanceJointDef;
 
 import physics.PhysicsWorld;
 import processing.core.PConstants;
@@ -45,7 +48,6 @@ public class TestGrappleLevel extends AbstractLevel {
 		// make a user ball
 		Point2D.Float startingPoint = new Point2D.Float(0, 0);
 		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
-		_grapple = new Grapple(this, _world, _player);
 		
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
@@ -58,6 +60,10 @@ public class TestGrappleLevel extends AbstractLevel {
 		top.setGrappleable(true);
 		right.setGrappleable(true);
 		left.setGrappleable(true);
+		
+		
+		_player.setColor(_window.color(100,100,200));
+
 
 		_bodies.add(top);
 		_bodies.add(bottom);
@@ -87,9 +93,6 @@ public class TestGrappleLevel extends AbstractLevel {
 				body.killBody(); // removes from physics and graphical world
 			}
 		}
-		
-		// Display grapple
-		_grapple.display();
 				
 		// Just drawing the framerate to see how many particles it can handle
 		_window.fill(0);

@@ -22,18 +22,15 @@ public class GrappleDef extends GraphicalDef{
 
 	@Override
 	public void display() {
-//		System.out.println("displaying grapple");
 		Window window = Window.getInstance();
 
 		if (_ball.isGrappled()) {
-//			System.out.println("ball is grappled");
 			Point2D.Float grapplePoint = _ball.getPixelGrapplePoint();
 			int ballX = _ball.getPixelX();
 			int ballY = _ball.getPixelY();
 			window.strokeWeight(_weight);
 			window.stroke(window.color(0,0,255));
 			window.fill(window.color(0,0,255));
-			System.out.println("line" + ballX + "," + ballY + "," + grapplePoint.x + "," + grapplePoint.y);
 			window.line(ballX, ballY, grapplePoint.x, grapplePoint.y);
 		}
 		window.strokeWeight(DEFAULT_LINE_WIDTH);
