@@ -21,13 +21,13 @@ public class PathDef {
 	public PathDef(PhysicsDef p) {
 		_physDef = p;
 		_pathPoints = new Vector<Point2D.Float>();
-		_initPos = new Point2D.Float(p.getBody().getWorldCenter().x, p.getBody().getWorldCenter().y);
+		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);
 	}
 	
 	public PathDef(PhysicsDef p, Vector<Point2D.Float> v) {
 		_physDef = p;
 		_pathPoints = v;
-		_initPos = new Point2D.Float(p.getBody().getWorldCenter().x, p.getBody().getWorldCenter().y);
+		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);
 	}
 	
 	public void step() {

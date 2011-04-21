@@ -5,12 +5,12 @@ import org.jbox2d.collision.shapes.PolygonDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 
-public class RectangleDef extends PhysicsDef {
+public class PhysicsRectangle extends PhysicsDef {
 	
 	protected float _width;
 	protected float _height;
 	
-	public RectangleDef(PhysicsWorld world, float x, float y, float w, float h, float d, float f, float b, boolean mobile) {
+	public PhysicsRectangle(PhysicsWorld world, float x, float y, float w, float h, float d, float f, float b, boolean mobile) {
 		super(world, mobile);
 		_width = w;
 		_height = h;
@@ -32,9 +32,5 @@ public class RectangleDef extends PhysicsDef {
 	public float getHeight(){
 		return _height;
 	}
-	
-	public float getRadius() {
-		return 0; // doesn't really have a radius... never used.
-	}
-	
+		
 }

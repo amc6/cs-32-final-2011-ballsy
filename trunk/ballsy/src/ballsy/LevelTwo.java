@@ -1,6 +1,6 @@
 package ballsy;
 
-import grapical.TrackingCamera;
+import graphical.TrackingCamera;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.Random;
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.Ball;
-import bodies.Polygon;
 import bodies.Rectangle;
+import bodies.RegularPolygon;
 import bodies.UserBall;
 
 public class LevelTwo extends AbstractLevel {
@@ -59,7 +59,7 @@ public class LevelTwo extends AbstractLevel {
 	public void draw() {
 		_window.background(255);
 		_window.stroke(0);
-		_window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+		_window.strokeWeight(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		
 		// Step the physics world
@@ -124,7 +124,7 @@ public class LevelTwo extends AbstractLevel {
 					newBall.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newBall);
 				} else if (numSides > 2) {
-					Polygon newPoly = new Polygon(this, _world, x, y, numSides, 2.5f);
+					RegularPolygon newPoly = new RegularPolygon(this, _world, x, y, numSides, 2.5f);
 					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newPoly);
 				}

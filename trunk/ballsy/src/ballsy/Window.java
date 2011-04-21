@@ -20,7 +20,7 @@ public class Window extends PApplet {
 		Dimension scrnsize = toolkit.getScreenSize();
 		this.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
 		
-		//this.size(800,800,PConstants.OPENGL);
+//		this.size(800,800,PConstants.OPENGL);
 		// Set appearance and performance
 		this.hint(PConstants.ENABLE_OPENGL_2X_SMOOTH);	
 		this.frameRate(60);
@@ -28,7 +28,7 @@ public class Window extends PApplet {
 		// default camera settings are as follows. could be used to properly implement map? would need to offset all mouse positions though...
 		//this.camera(width/2.0f, height/2.0f, (height/2.0f) / (float) Math.tan(Math.PI*60.0 / 360.0), width/2.0f, height/2.0f, 0f, 0f, 1f, 0f);
 		
-		this.setScreen(new LevelTwo());
+		this.setScreen(new WelcomeScreen());
 	}
 	
 	public void draw() {

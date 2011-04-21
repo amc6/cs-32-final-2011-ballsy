@@ -271,6 +271,11 @@ public class PhysicsWorld {
 		XForm xf = b.getXForm();
 		return coordWorldToPixels(xf.position); 
 	}
+	
+	public Vec2 getBodyWorldCoord(Body b){
+		XForm xf = b.getXForm();
+		return xf.position;
+	}
 
 	public PVector getBodyPixelCoordPVector(Body b) {
 		XForm xf = b.getXForm();

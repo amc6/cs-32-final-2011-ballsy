@@ -46,10 +46,11 @@ public abstract class AbstractBody {
 	 * in world coordinates.
 	 */
 	public boolean done() {
-		Vec2 pos = _physicsDef.getBodyWorldCenter();
-		if (pos.y  < 0) {
-			return true;
-		}
+		// We'll want to change this once we figure out camera stuff
+//		Vec2 pos = _physicsDef.getBodyWorldCenter();
+//		if (pos.y  > Window.getInstance().height) {
+//			return true;
+//		}
 		return false;
 	}
 	
@@ -103,6 +104,12 @@ public abstract class AbstractBody {
 	public void setColor(int r, int g, int b) {
 		_graphicalDef.setColor(r, g, b);
 	}
+	
+	public void setColor(int val) {
+		_graphicalDef.setColor(val);
+	}
+	
+	
 	
 	/**
 	 * Mutator for the path.
