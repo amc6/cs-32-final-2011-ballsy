@@ -37,8 +37,8 @@ public class WelcomeScreen extends Screen {
 		if (_newGraphic.mouseOver()) {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
-			//_window.setScreen(new LevelOne());
-			_window.loadLevel("default.xml");
+			_window.setScreen(new LevelOne());
+			//_window.loadLevel("default.xml");
 		}
 		
 		if (_levelsGraphic.mouseOver()) {
