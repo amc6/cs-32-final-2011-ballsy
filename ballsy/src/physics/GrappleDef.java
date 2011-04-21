@@ -1,15 +1,9 @@
 package physics;
 
-import org.jbox2d.dynamics.Body;
+import org.dom4j.Element;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
-import org.jbox2d.dynamics.joints.Joint;
-
-import bodies.Rectangle;
-
-import static bodies.BodyConstants.*;
-
-import org.dom4j.Element;
 
 public class GrappleDef extends PhysicsDef {
 	
@@ -65,6 +59,10 @@ public class GrappleDef extends PhysicsDef {
 	public float getRadius() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public Vec2 getGrapplePoint(){
+		return _joint.getAnchor2();
 	}
 
 	public Element writeXML() {

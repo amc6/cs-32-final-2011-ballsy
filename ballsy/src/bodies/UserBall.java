@@ -71,15 +71,16 @@ public class UserBall extends Ball {
 	 * (getGrapplePoint()), and setting that to _grappleObject.
 	 */
 	public void display() {
+		if (_grapple != null) {
+			_grapple.display(); // do this first so it appears behind
+		}
+		
 		super.display();
 		_crosshair.display();
 		if (!_grappled) {
 			_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
 			_grappleObject = getBody(_grapplePoint);
-		}
-		if (_grapple != null) {
-			_grapple.display();
-		}
+		}		
 	}
 	
 	

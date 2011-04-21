@@ -1,12 +1,11 @@
 package graphical;
 
-import java.awt.geom.Point2D;
+import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 
 import org.dom4j.Element;
+import org.jbox2d.common.Vec2;
 
-import ballsy.AbstractLevel;
 import ballsy.Window;
-import static ballsy.GeneralConstants.*;
 
 public class GrappleDef extends GraphicalDef{
 	
@@ -25,7 +24,9 @@ public class GrappleDef extends GraphicalDef{
 		Window window = Window.getInstance();
 
 		if (_ball.isGrappled()) {
-			Point2D.Float grapplePoint = _ball.getPixelGrapplePoint();
+			//Point2D.Float grapplePoint = _ball.getPixelGrapplePoint();
+			physics.GrappleDef physicsDef = (physics.GrappleDef) _physicsDef; 
+			Vec2 grapplePoint = _world.coordWorldToPixels(physicsDef.getGrapplePoint());
 			int ballX = _ball.getPixelX();
 			int ballY = _ball.getPixelY();
 			window.strokeWeight(_weight);

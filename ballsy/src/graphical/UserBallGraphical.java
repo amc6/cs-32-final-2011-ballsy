@@ -12,9 +12,7 @@ public class UserBallGraphical extends BallDef {
 	private Image _image;
 
 	public UserBallGraphical() {
-		super(0);
-
-		physics.PhysicsBall physicsDef = (physics.PhysicsBall) _physicsDef; 
+		super(0); 
 	}
 	
 	@Override
