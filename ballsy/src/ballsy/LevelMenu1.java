@@ -31,6 +31,9 @@ public class LevelMenu1 extends Screen {
 		//test click
 		_window.rect(100,200,100,100);
 		
+		_window.rect(300,200,100,100);
+
+		
 		_window.strokeWeight(1); // reset
 		
 	}
@@ -44,6 +47,16 @@ public class LevelMenu1 extends Screen {
 		int x_right = 200;
 		int y_top = 200;
 		int y_bottom = 300;
+		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
+					
+			_window.setScreen(new TestGrappleLevel());
+		}
+		
+		//new game click detect
+		x_left = 300;
+		x_right = 400;
+		y_top = 200;
+		y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
 			_window.setScreen(new LevelTwo());

@@ -28,6 +28,7 @@ public class UserBall extends Ball {
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false;
 	private PhysicsWorld _world;
+	private Grapple _grapple;
 	
 	public UserBall(AbstractLevel level, PhysicsWorld world, float centerX, float centerY) {
 		super(level, world, centerX, centerY, USER_RADIUS, true);
@@ -36,6 +37,7 @@ public class UserBall extends Ball {
 		_crosshair = new Crosshair(world, this);
 		_level = level;
 		_world = world;
+		_grapple = new Grapple(level, world, this);
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
@@ -75,6 +77,14 @@ public class UserBall extends Ball {
 			_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
 			_grappleObject = getBody(_grapplePoint);
 		}
+		if (_grapple != null) {
+			_grapple.display();
+		}
+	}
+	
+	
+	public void setGrapple(Grapple grapple) {
+		_grapple = grapple;
 	}
 	
 	
@@ -82,6 +92,7 @@ public class UserBall extends Ball {
 		if (_grappleObject != null) {
 			_crosshair.hide();
 			_grappled = true;
+			_grapple.grapple();
 			System.out.println("Grappling hook coming soon!");
 		}
 	}
@@ -89,6 +100,7 @@ public class UserBall extends Ball {
 	public void releaseGrapple() {
 		_crosshair.show();
 		_grappled = false;
+		_grapple.releaseGrapple();
 	}
 	
 	public boolean isGrappled() {
@@ -107,8 +119,24 @@ public class UserBall extends Ball {
 	 * 
 	 * @return current grappling point
 	 */
+	public Vec2 getWorldGrapplePointVec() {
+		return new Vec2(_grapplePoint.x, _grapplePoint.y);
+	}
+	
+	/**
+	 * 
+	 * @return current grappling point
+	 */
 	public Point2D.Float getPixelGrapplePoint() {
 		return new Point2D.Float(_world.worldXtoPixelX(_grapplePoint.x), _world.worldYtoPixelY(_grapplePoint.y));
+	}
+	
+	/**
+	 * 
+	 * @return object we've just grappled
+	 */
+	public AbstractBody getGrappleObject() {
+		return _grappleObject;
 	}
 	
 	/**

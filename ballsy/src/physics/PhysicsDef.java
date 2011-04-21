@@ -31,7 +31,6 @@ public abstract class PhysicsDef {
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);
-		
 		// Shape does not move if immobile
 		if (_mobile) {
 			_body.setMassFromShapes();
@@ -40,6 +39,11 @@ public abstract class PhysicsDef {
 			md.mass = 0f;
 			_body.setMass(md);
 		}
+		
+		//jessica testing
+//		_body.setMassFromShapes();
+
+
 	}
 	
 	public Body getBody(){

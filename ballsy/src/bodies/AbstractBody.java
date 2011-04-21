@@ -104,6 +104,14 @@ public abstract class AbstractBody {
 	}
 	
 	/**
+	 * 
+	 * @return Body
+	 */
+	public Body getBody() {
+		return _physicsDef.getBody();
+	}
+	
+	/**
 	 * Mutator for color of object
 	 * @param r
 	 * @param g
@@ -121,6 +129,7 @@ public abstract class AbstractBody {
 		_graphicalDef.setColor(c);
 	}
 	
+
 	/**
 	 * Mutator for the path.
 	 * @param p
@@ -135,6 +144,14 @@ public abstract class AbstractBody {
 	 */
 	public void setPath(PathDef p) {
 		_pathDef = p;
+	}
+	
+	/**
+	 * 
+	 * @return world position as Vec2
+	 */
+	public Vec2 getWorldPosition() {
+		return new Vec2(this.getWorldX(), this.getWorldY());
 	}
 	
 	/**

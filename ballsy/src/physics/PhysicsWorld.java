@@ -268,6 +268,11 @@ public class PhysicsWorld {
 	public Joint createJoint(JointDef jd) {
 		return world.createJoint(jd);
 	}
+	
+	//destroys joint
+	public void destroyJoint(Joint j) {
+		world.destroyJoint(j);
+	}
 
 	// Another common task, find the position of a body
 	// so that we can draw it
