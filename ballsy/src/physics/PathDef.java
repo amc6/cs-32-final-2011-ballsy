@@ -9,6 +9,9 @@ package physics;
 
 import java.awt.geom.Point2D;
 import java.util.Vector;
+
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
 public class PathDef {
@@ -57,4 +60,31 @@ public class PathDef {
 		return new Point2D.Float(_initPos.x + _pathPoints.get(position).x, 
 				_initPos.y + _pathPoints.get(position).y);
 	}
+	
+	/**
+	 * Return the representation of the object as a dom4j element to write into a saved XML file.
+	 * @return
+	 */
+	public Element writeXML() {
+		// create the new element for the path
+		Element newEl = DocumentHelper.createElement("PATH_DEF");
+		// populate it's attributes accordingly
+		newEl.addAttribute("CURRENT_TARGET", Integer.toString(_currTarget));
+		newEl.addAttribute("VEL_COEFF", Float.toString(_velCoeff));
+		newEl.addAttribute("INITIAL_X", Float.toString(_initPos.x));
+		newEl.addAttribute("INITIAL_Y", Float.toString(_initPos.y));
+		// make the points as sub-elements
+		for (Point2D.Float p : _pathPoints) {
+			Element pointEl = DocumentHelper.createElement("PATH_POINT");
+			pointEl.addAttribute("X", Float.toString(p.x));
+			pointEl.addAttribute("Y", Float.toString(p.y));
+			newEl.add(pointEl);
+		}
+		return newEl;
+	}
+	
+	// mutators for use in restoring a saved path
+	public void setCurrTarget(int t) { _currTarget = t; }
+	public void setInitialPoint(Point2D.Float p) { _initPos = p; }
+	public void setVelCoeff(float v) { _velCoeff = v; }
 }

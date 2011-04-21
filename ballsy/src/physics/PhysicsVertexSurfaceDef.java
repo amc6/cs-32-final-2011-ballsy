@@ -3,6 +3,8 @@ package physics;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.jbox2d.collision.shapes.EdgeChainDef;
 import org.jbox2d.common.Vec2;
 
@@ -60,4 +62,16 @@ public class PhysicsVertexSurfaceDef extends PhysicsDef {
 		return 0;
 	}
 	
+	public Element writeXML() {
+		// get the general element for this guy...
+		Element newEl = super.writeXML("polygon"); // center / offsets are all we need
+		// now iterate through the points, making them sub elements
+		for (Vec2 v : _points) {
+			Element pointEl = DocumentHelper.createElement("SURFACE_POINT");
+			pointEl.addAttribute("X", Float.toString(v.x));
+			pointEl.addAttribute("Y", Float.toString(v.y));
+			newEl.add(pointEl);
+		}
+		return newEl;
+	}
 }

@@ -2,6 +2,7 @@ package graphical;
 
 import java.util.List;
 
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsVertexSurfaceDef;
@@ -46,6 +47,9 @@ public class VertexSurfaceDef extends GraphicalDef {
 		//System.out.println("never");
 		
 	}
-
+	
+	public Element writeXML() {
+		return super.writeXML("vertex_surface");
+	}
 	
 }

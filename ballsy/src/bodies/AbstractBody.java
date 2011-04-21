@@ -5,14 +5,16 @@ import graphical.GraphicalDef;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import ballsy.AbstractLevel;
-import ballsy.Window;
 import physics.PathDef;
 import physics.PhysicsDef;
 import physics.PhysicsWorld;
+import ballsy.AbstractLevel;
+import ballsy.Window;
 
 public abstract class AbstractBody {
 
@@ -111,11 +113,13 @@ public abstract class AbstractBody {
 		_graphicalDef.setColor(r, g, b);
 	}
 	
-	public void setColor(int val) {
-		_graphicalDef.setColor(val);
+	/**
+	 * for a processing-formatted color too...
+	 * @param c
+	 */
+	public void setColor(int c) {
+		_graphicalDef.setColor(c);
 	}
-	
-	
 	
 	/**
 	 * Mutator for the path.
@@ -123,6 +127,14 @@ public abstract class AbstractBody {
 	 */
 	public void setPath(Vector<Point2D.Float> p) {
 		_pathDef = new PathDef(this.getPhysicsDef(), p);
+	}
+	
+	/**
+	 * and another for if you have a path already...
+	 * @param p
+	 */
+	public void setPath(PathDef p) {
+		_pathDef = p;
 	}
 	
 	/**
@@ -189,4 +201,28 @@ public abstract class AbstractBody {
 		_grappleable = g;
 	}
 	
+	/**
+	 * Return the representation of the object as a dom4j element to write into a saved XML file.
+	 * @return
+	 */
+	public abstract Element writeXML();
+	
+	/**
+	 * General method for XML representation of an AbstractBody. When passed a type kind,
+	 * by the subclass, produces proper XML.
+	 * @param type
+	 * @return
+	 */
+	public Element writeXML(String type) {
+		// create a new Body element
+		Element newEl = DocumentHelper.createElement("BODY");
+		newEl.addAttribute("TYPE", type);
+		// add the representations of the physics def, graphical def, and path def (if appropirate)
+		newEl.add(_physicsDef.writeXML());
+		newEl.add(_graphicalDef.writeXML());
+		if (_pathDef != null) {
+			newEl.add(_pathDef.writeXML());
+		}
+		return newEl;
+	}
 }
