@@ -32,5 +32,11 @@ public class PhysicsRectangle extends PhysicsDef {
 	public float getHeight(){
 		return _height;
 	}
+
+	@Override
+	public float getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 		
 }

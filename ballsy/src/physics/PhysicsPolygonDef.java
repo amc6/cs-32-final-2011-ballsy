@@ -32,5 +32,23 @@ public class PhysicsPolygonDef extends PhysicsDef {
 	public List<Vec2> getPointOffsets(){
 		return _pointOffsets;
 	}
+
+	@Override
+	public float getWidth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getHeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getRadius() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

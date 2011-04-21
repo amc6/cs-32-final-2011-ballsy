@@ -30,12 +30,13 @@ public class BallDef extends GraphicalDef {
 		window.rotate(-a);
 		window.fill(_color);
 		window.stroke(0);
-		window.ellipse(0,0,_world.scalarWorldToPixels(physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(physicsDef.getRadius()) * 2);
+		window.ellipse(0,0,_physicsDef.getPixelRadius() * 2 , _physicsDef.getPixelRadius() * 2);
+
 		
 		// if appropriate, draw the line
 		if (_showLine) {
 			window.strokeWeight(1);
-			window.line(0,0,_world.scalarWorldToPixels(physicsDef.getRadius()),0);
+			window.line(0,0,_physicsDef.getPixelRadius(),0);
 			window.strokeWeight(DEFAULT_LINE_WIDTH);
 		}
 	
