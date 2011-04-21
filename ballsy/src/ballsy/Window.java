@@ -3,7 +3,6 @@ package ballsy;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import oldshit.Level;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
@@ -42,6 +41,16 @@ public class Window extends PApplet {
 		this.background(255); // default screen color
 		_screen = screen;
 		_screen.setup();
+	}
+	
+	/**
+	 * Alternative to setScreen(), takes in a string of the path of a saved level,
+	 * and constructs it inside a new instance of XMLLevel.
+	 * @param path
+	 */
+	public void loadLevel(String path) {
+		XMLLevel newLevel = new XMLLevel(path);
+		_screen = newLevel;
 	}
 	
 	public void mousePressed() {

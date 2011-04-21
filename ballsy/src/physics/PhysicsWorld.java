@@ -301,4 +301,15 @@ public class PhysicsWorld {
 			currBody = tempBody;
 		}
 	}
+	
+	/**
+	 * get the minimum and maximum coordinates in the world as a tuple of Vec2s
+	 * @return
+	 */
+	public Vec2[] getBounds() {
+		Vec2 points[] = new Vec2[2];
+		points[0] = world.getWorldAABB().lowerBound;
+		points[1] = world.getWorldAABB().upperBound;
+		return points;
+	}
 }
