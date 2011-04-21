@@ -16,14 +16,14 @@ import ballsy.AbstractLevel;
 import ballsy.Window;
 import bodies.AbstractBody;
 import bodies.UserBall;
+import static ballsy.GeneralConstants.*;
+import static bodies.BodyConstants.*;
 
 public class Crosshair {
 	private PhysicsWorld _world;
 	private UserBall _player;
 	private boolean _hidden = false;
-	float _pointerDistCoeff = 1.2f, _range = 70f;
-	int _weight = 2, _size = 12, _pointerSize = 50, _fillColor = 255, _fillOpacity = 150, 
-		_activeDrawColor = Window.getInstance().color(0, 255, 0), _inactiveDrawColor = 200, _drawColor = _inactiveDrawColor;
+	int _drawColor = CROSSHAIR_INACTIVE_LINE_COLOR;
 	
 	public Crosshair(PhysicsWorld w, UserBall b) {
 		_world = w;
@@ -37,31 +37,32 @@ public class Crosshair {
 	public void display() {
 		Window window = Window.getInstance();
 		
+		physics.PhysicsBall physicsDef = (physics.PhysicsBall) _player.getPhysicsDef();  
 		// display cursor crosshair
 		int x = window.mouseX;
 		int y = window.mouseY;
-		window.strokeWeight(_weight);
-		if (_hidden) window.stroke(_inactiveDrawColor);
+		window.strokeWeight(CROSSHAIR_LINE_WIDTH);
+		if (_hidden) window.stroke(CROSSHAIR_INACTIVE_LINE_COLOR);
 		else window.stroke(_drawColor);
-		window.fill(_fillColor, _fillOpacity);
-		window.ellipse(x, y, _size, _size);
-		window.line(x-_size, y, x+_size, y);
-		window.line(x, y-_size, x, y+_size);
+		window.fill(CROSSHAIR_FILL_COLOR, CROSSHAIR_FILL_OPACITY);
+		window.ellipse(x, y, CROSSHAIR_SIZE, CROSSHAIR_SIZE);
+		window.line(x-CROSSHAIR_SIZE, y, x+CROSSHAIR_SIZE, y);
+		window.line(x, y-CROSSHAIR_SIZE, x, y+CROSSHAIR_SIZE);
 		
 		if (!_hidden) {
 			// display line from ball
 			int ballX = (int) _world.worldXtoPixelX(_player.getPhysicsDef().getBody().getPosition().x);
 			int ballY = (int) _world.worldYtoPixelY(_player.getPhysicsDef().getBody().getPosition().y);
 			double angle = Math.atan2((y - ballY), (x - ballX)); // angle to cursor
-			int startX = (int) (ballX + _world.scalarWorldToPixels(_player.getPhysicsDef().getRadius() * _pointerDistCoeff) * Math.cos(angle));
-			int startY = (int) (ballY + _world.scalarWorldToPixels(_player.getPhysicsDef().getRadius() * _pointerDistCoeff) * Math.sin(angle));
-			int endX = startX + (int) (_pointerSize * Math.cos(angle));
-			int endY = startY + (int) (_pointerSize * Math.sin(angle));
+			int startX = (int) (ballX + _world.scalarWorldToPixels(physicsDef.getRadius() * CROSSHAIR_LINE_DIST_COEFF) * Math.cos(angle));
+			int startY = (int) (ballY + _world.scalarWorldToPixels(physicsDef.getRadius() * CROSSHAIR_LINE_DIST_COEFF) * Math.sin(angle));
+			int endX = startX + (int) (CROSSHAIR_LINE_LENGTH * Math.cos(angle));
+			int endY = startY + (int) (CROSSHAIR_LINE_LENGTH * Math.sin(angle));
 			window.line(startX, startY, endX, endY);
 		}
 		
 		// reset window stroke weight
-		window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+		window.strokeWeight(DEFAULT_LINE_WIDTH);
 	}
 	
 	/**
@@ -82,8 +83,8 @@ public class Crosshair {
 		float ballX = _player.getPhysicsDef().getBody().getPosition().x;
 		float ballY = _player.getPhysicsDef().getBody().getPosition().y;
 		// get the coords of the maximum point away from the ball
-		float maxX = (float) (ballX + _range * Math.cos(angle)); 
-		float maxY = (float) (ballY + _range * Math.sin(angle)); 
+		float maxX = (float) (ballX + CROSSHAIR_RANGE * Math.cos(angle)); 
+		float maxY = (float) (ballY + CROSSHAIR_RANGE * Math.sin(angle)); 
 		
 		/////// UNCOMMENT this to see a graphical representation of the range of the grapple
 		//// window.stroke(200);
@@ -93,7 +94,7 @@ public class Crosshair {
 		
 		// iterate through bodies
 		Point2D.Float grapplePoint = null;
-		float minDist = _range + 1; // set minDist beyond the range
+		float minDist = CROSSHAIR_RANGE + 1; // set minDist beyond the range
 		for (AbstractBody body : bodies) {
 			// get the intersection of the ray between the ball and the end of the range in the direction of the cursor
 			RaycastResult out = new RaycastResult();
@@ -104,8 +105,8 @@ public class Crosshair {
 			// check if there is an intersection
 			if (hit == SegmentCollide.HIT_COLLIDE) {
 				// there is! calculate the point of intersection: alpha is percentage of segment length (range) at which intersection occurs
-				Point2D.Float currPoint = new Point2D.Float((float) (ballX + _range * out.lambda * Math.cos(angle)),
-						(float) (ballY + _range * out.lambda * Math.sin(angle)));
+				Point2D.Float currPoint = new Point2D.Float((float) (ballX + CROSSHAIR_RANGE * out.lambda * Math.cos(angle)),
+						(float) (ballY + CROSSHAIR_RANGE * out.lambda * Math.sin(angle)));
 				float currDist = (float) currPoint.distance(new Point2D.Float(ballX, ballY));
 				// check for distance, to make sure we return the closest intersection
 				if (currDist < minDist) {
@@ -118,12 +119,12 @@ public class Crosshair {
 		// draw the results: a small circle at the point of intersection, for now
 		if (grapplePoint != null) {
 			if (!_hidden) {
-				_drawColor = _activeDrawColor;
-				window.strokeWeight(_weight);
-				window.ellipse(_world.worldXtoPixelX(grapplePoint.x), _world.worldYtoPixelY(grapplePoint.y), 10, 10);
-				window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+				_drawColor = CROSSHAIR_ACTIVE_LINE_COLOR;
+				window.strokeWeight(CROSSHAIR_LINE_WIDTH);
+				window.ellipse(_world.worldXtoPixelX(grapplePoint.x), _world.worldYtoPixelY(grapplePoint.y), CROSSHAIR_HELPER_DIAMETER, CROSSHAIR_HELPER_DIAMETER);
+				window.strokeWeight(DEFAULT_LINE_WIDTH);
 			}
-		} else { _drawColor = _inactiveDrawColor; }
+		} else { _drawColor = CROSSHAIR_INACTIVE_LINE_COLOR; }
 		return grapplePoint;
 	}
 	

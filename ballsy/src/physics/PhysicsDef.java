@@ -29,7 +29,7 @@ public abstract class PhysicsDef {
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);
-			
+		
 		// Shape does not move if immobile
 		if (_mobile) {
 			_body.setMassFromShapes();
@@ -77,11 +77,13 @@ public abstract class PhysicsDef {
 		return _world;
 	}
 		
-	public abstract float getWidth();
-	public abstract float getHeight();
-	public abstract float getRadius();
+
 	
 	public Vec2 getBodyWorldCenter(){
-		 return _body.getWorldCenter();
+		return _world.getBodyWorldCoord(_body);
+	}
+	
+	public Vec2 getBodyGravityCenter(){
+		return _body.getWorldCenter();
 	}
 }

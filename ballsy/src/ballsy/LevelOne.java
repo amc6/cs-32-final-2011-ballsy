@@ -1,16 +1,22 @@
 package ballsy;
 
+import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
+import org.jbox2d.common.Vec2;
+
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.Ball;
-import bodies.Polygon;
+import bodies.IrregularPolygon;
 import bodies.Rectangle;
+import bodies.RegularPolygon;
 import bodies.UserBall;
+import bodies.VertexSurface;
 
 public class LevelOne extends AbstractLevel {
 	private PhysicsWorld _world;
@@ -50,9 +56,31 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(left);
 		_bodies.add(right);
 		_bodies.add(movingBox);
-
+		
+		ArrayList<Vec2> worldPoints = new ArrayList<Vec2>();
+		
+		worldPoints.add(new Vec2(0,10));
+		worldPoints.add(new Vec2(-5,5));
+		worldPoints.add(new Vec2(-5,-5));
+		worldPoints.add(new Vec2(5,-5));
+		worldPoints.add(new Vec2(5,5));
+		
+		IrregularPolygon polygon = new IrregularPolygon(this, _world, 30, 20, worldPoints);
+		_bodies.add(polygon);
+		
+		ArrayList<Vec2> surfacePoints = new ArrayList<Vec2>();
+		
+		surfacePoints.add(new Vec2(-20,10));
+		surfacePoints.add(new Vec2(-25,5));
+		surfacePoints.add(new Vec2(-25,-5));
+		surfacePoints.add(new Vec2(-15,-5));
+		surfacePoints.add(new Vec2(-15,5));
+		
+		VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
+		_bodies.add(surface);
+		
 		// make a user ball
-		Point2D.Float startingPoint = new Point2D.Float(0, 0);
+		Vec2 startingPoint = new Vec2(0, 0);
 		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
 		_bodies.add(_player);
 	}
@@ -61,7 +89,7 @@ public class LevelOne extends AbstractLevel {
 	public void draw() {
 		_window.background(255);
 		_window.stroke(0);
-		_window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+		_window.strokeWeight(DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		
 		// Step the physics world
@@ -105,7 +133,7 @@ public class LevelOne extends AbstractLevel {
 				float x = _world.pixelXtoWorldX(_window.mouseX);
 				float y = _world.pixelYtoWorldY(_window.mouseY);
 				Random r = new Random();
-				int numSides = r.nextInt(6);
+				int numSides = r.nextInt(15);
 				numSides += 2;
 				if (numSides == 2) {
 					Ball newBall = new Ball(this, _world, x, y);
@@ -113,7 +141,7 @@ public class LevelOne extends AbstractLevel {
 					newBall.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newBall);
 				} else if (numSides > 2) {
-					Polygon newPoly = new Polygon(this, _world, x, y, numSides, 2.5f);
+					RegularPolygon newPoly = new RegularPolygon(this, _world, x, y, numSides, 2.5f);
 					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newPoly);
 				}

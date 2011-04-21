@@ -3,7 +3,6 @@ package graphical;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 
 import physics.PhysicsPolygonDef;
 import processing.core.PConstants;
@@ -24,11 +23,10 @@ public class PolygonDef extends GraphicalDef {
 		PhysicsPolygonDef polygonDef = (PhysicsPolygonDef) _physicsDef;
 		List<Vec2> vertices = polygonDef.getPointOffsets();
 		
-		Vec2 pos = _world.coordWorldToPixels(_physicsDef.getBodyWorldCenter());
+		Vec2 pos = _world.getBodyPixelCoord(_physicsDef.getBody());
+
 		float a = _physicsDef.getBody().getAngle();
-		
-		System.out.println("center: " + pos);
-		
+			
 		window.pushMatrix();
 		window.beginShape();
 		window.translate(pos.x,pos.y);
@@ -36,7 +34,7 @@ public class PolygonDef extends GraphicalDef {
 		window.fill(_color);
 		for (Vec2 vert : vertices){
 			
-			window.vertex(_world.scalarWorldToPixels(vert.x), _world.scalarWorldToPixels(vert.y));
+			window.vertex(_world.scalarWorldToPixels(vert.x), -_world.scalarWorldToPixels(vert.y)); // -y for some reason
 		}
 		
 		window.endShape(PConstants.CLOSE);

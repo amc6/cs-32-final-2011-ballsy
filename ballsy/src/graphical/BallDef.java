@@ -2,8 +2,8 @@ package graphical;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import static ballsy.GeneralConstants.*;
 
-import ballsy.AbstractLevel;
 import ballsy.Window;
 
 public class BallDef extends GraphicalDef {
@@ -18,6 +18,7 @@ public class BallDef extends GraphicalDef {
 	@Override
 	public void display() {
 		Window window = Window.getInstance();
+		physics.PhysicsBall physicsDef = (physics.PhysicsBall) _physicsDef; 
 		
 		Body body = _physicsDef.getBody();
 		Vec2 pos = _world.getBodyPixelCoord(body);
@@ -29,13 +30,13 @@ public class BallDef extends GraphicalDef {
 		window.rotate(-a);
 		window.fill(_color);
 		window.stroke(0);
-		window.ellipse(0,0,_world.scalarWorldToPixels(_physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(_physicsDef.getRadius()) * 2);
+		window.ellipse(0,0,_world.scalarWorldToPixels(physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(physicsDef.getRadius()) * 2);
 		
 		// if appropriate, draw the line
 		if (_showLine) {
 			window.strokeWeight(1);
-			window.line(0,0,_world.scalarWorldToPixels(_physicsDef.getRadius()),0);
-			window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
+			window.line(0,0,_world.scalarWorldToPixels(physicsDef.getRadius()),0);
+			window.strokeWeight(DEFAULT_LINE_WIDTH);
 		}
 	
 		window.popMatrix();

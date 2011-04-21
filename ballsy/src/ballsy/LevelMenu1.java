@@ -23,13 +23,16 @@ public class LevelMenu1 extends Screen {
 		_title.draw();
 		
 		//line
-		_window.strokeWeight(7);
+		_window.strokeWeight(2);
 		_window.line(0, 160, _window.width, 160);
 		
-		_window.strokeWeight(1); // reset
+		
 		
 		//test click
 		_window.rect(100,200,100,100);
+		
+		_window.strokeWeight(1); // reset
+		
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class LevelMenu1 extends Screen {
 		int y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
-			_window.setScreen(new LevelOne());
+			_window.setScreen(new LevelTwo());
 		}
 
 	}

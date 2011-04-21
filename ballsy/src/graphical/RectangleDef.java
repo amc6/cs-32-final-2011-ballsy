@@ -19,6 +19,7 @@ public class RectangleDef extends GraphicalDef {
 		
 		Window window = Window.getInstance();
 		
+		physics.PhysicsRectangle physicsDef = (physics.PhysicsRectangle) _physicsDef;
 		Body body = _physicsDef.getBody();
 		Vec2 pos = _world.getBodyPixelCoord(body);
 		// Get its angle of rotation
@@ -30,7 +31,7 @@ public class RectangleDef extends GraphicalDef {
 		window.rotate(-a);
 		window.fill(_color);
 		window.stroke(0);
-		window.rect(0,0,_world.scalarWorldToPixels(_physicsDef.getWidth()),_world.scalarWorldToPixels(_physicsDef.getHeight()));
+		window.rect(0,0,_world.scalarWorldToPixels(physicsDef.getWidth()),_world.scalarWorldToPixels(physicsDef.getHeight()));
 		window.popMatrix();		
 	}
 

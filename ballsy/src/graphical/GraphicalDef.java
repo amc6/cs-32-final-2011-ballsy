@@ -28,4 +28,9 @@ public abstract class GraphicalDef {
 		Window w = Window.getInstance();
 		_color = w.color(r, g, b);
 	}
+	
+	public void setColor(int val){
+		Window w = Window.getInstance();
+		_color = w.color(val);
+	}
 }
