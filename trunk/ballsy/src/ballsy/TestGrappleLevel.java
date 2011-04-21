@@ -109,9 +109,15 @@ public class TestGrappleLevel extends AbstractLevel {
 				_player.moveRight();
 				break;
 			case PConstants.DOWN:
+				if (_player.isGrappled()) {
+					_player.extendGrapple();
+				}
 				_player.moveDown();
 				break;
 			case PConstants.UP:
+				if (_player.isGrappled()) {
+					_player.retractGrapple();
+				}
 				_player.moveUp();
 				break;				
 			}

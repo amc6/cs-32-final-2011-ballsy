@@ -103,6 +103,14 @@ public class UserBall extends Ball {
 		_grapple.releaseGrapple();
 	}
 	
+	public void extendGrapple() {
+		_grapple.extendGrapple();
+	}
+	
+	public void retractGrapple() {
+		_grapple.retractGrapple();
+	}
+	
 	public boolean isGrappled() {
 		return _grappled;
 	}

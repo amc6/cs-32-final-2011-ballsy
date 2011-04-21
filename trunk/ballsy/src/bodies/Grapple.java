@@ -29,4 +29,12 @@ public class Grapple extends AbstractBody {
 		((physics.GrappleDef) _physicsDef).releaseGrapple();
 	}
 
+	
+	public void extendGrapple() {
+		((physics.GrappleDef) _physicsDef).extendGrapple();
+	}
+	
+	public void retractGrapple() {
+		((physics.GrappleDef) _physicsDef).retractGrapple();
+	}
 }
