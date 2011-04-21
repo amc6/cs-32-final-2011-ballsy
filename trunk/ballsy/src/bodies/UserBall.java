@@ -5,15 +5,20 @@ package bodies;
  * and all other things specific to the user's ball.
  */
 
+import static bodies.BodyConstants.USER_COLOR;
+import static bodies.BodyConstants.USER_MAX_VELOCITY;
+import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
+import static bodies.BodyConstants.USER_RADIUS;
 import graphical.Crosshair;
+import graphical.UserBallGraphical;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
+
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
-import static bodies.BodyConstants.*;
 
 public class UserBall extends Ball {
 
@@ -24,6 +29,7 @@ public class UserBall extends Ball {
 	
 	public UserBall(AbstractLevel level, PhysicsWorld world, float centerX, float centerY) {
 		super(level, world, centerX, centerY, USER_RADIUS, true);
+		this.setGraphicalDef(new UserBallGraphical());
 		this.setColor(USER_COLOR);
 		_crosshair = new Crosshair(world, this);
 		_level = level;

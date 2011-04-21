@@ -46,9 +46,8 @@ public abstract class AbstractBody {
 	 * in world coordinates.
 	 */
 	public boolean done() {
-		// We'll want to change this once we figure out camera stuff
 //		Vec2 pos = _physicsDef.getBodyWorldCenter();
-//		if (pos.y  > Window.getInstance().height) {
+//		if (pos.y  < 0) {
 //			return true;
 //		}
 		return false;
@@ -60,6 +59,12 @@ public abstract class AbstractBody {
 	public void display(){
 		if (_pathDef != null) _pathDef.step();
 		_graphicalDef.display();
+	}
+	
+	public void setGraphicalDef(GraphicalDef gd) {
+		_graphicalDef = gd;
+		_graphicalDef.setWorld(_world);
+		_graphicalDef.setPhysicsDef(_physicsDef);
 	}
 	
 	/**

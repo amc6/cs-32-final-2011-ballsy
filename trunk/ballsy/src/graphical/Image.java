@@ -13,10 +13,7 @@ public class Image {
 	
 	
 	public Image(Window window, String image, int width, int height) {
-		_window = window;
-		_image = _window.loadImage(image);
-		_width = width;
-		_height = height;
+		this(window,image,width,height,0,0);
 	}
 	
 	
@@ -38,7 +35,7 @@ public class Image {
 	 */
 	public void draw() {
 		_window.imageMode(_imageMode);
-		_window.image(_image, _x, _y);
+		_window.image(_image, _x, _y, _width, _height);
 	}
 	
 	

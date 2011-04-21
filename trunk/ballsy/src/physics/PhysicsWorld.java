@@ -142,7 +142,7 @@ public class PhysicsWorld {
 	 * @param dx
 	 * @param dy
 	 */
-	public void moveCamera(float dx, float dy) {
+	public void moveCamera(float dx, float dy, boolean allowOutOfBounds) {
 		transX-=dx;
 		transY-=dy;
 	}
@@ -177,9 +177,11 @@ public class PhysicsWorld {
 	}
 
 	public Vec2 coordWorldToPixels(float worldX, float worldY) {
-		float pixelX = PApplet.map(worldX, 0f, 1f, transX, transX+scaleFactor);
-		float pixelY = PApplet.map(worldY, 0f, 1f, transY, transY+scaleFactor);
-		if (yFlip == -1.0f) pixelY = PApplet.map(pixelY,0f,parent.height, parent.height,0f);
+		//float pixelX = PApplet.map(worldX, 0f, 1f, transX, transX+scaleFactor);
+		float pixelX = worldXtoPixelX(worldX);
+		//float pixelY = PApplet.map(worldY, 0f, 1f, transY, transY+scaleFactor);
+		//if (yFlip == -1.0f) pixelY = PApplet.map(pixelY,0f,parent.height, parent.height,0f);
+		float pixelY = worldYtoPixelY(worldY);
 		return new Vec2(pixelX, pixelY);
 	}
 	
@@ -203,10 +205,12 @@ public class PhysicsWorld {
 	}
 
 	public Vec2 coordPixelsToWorld(float pixelX, float pixelY) {
-		float worldX = PApplet.map(pixelX, transX, transX+scaleFactor, 0f, 1f);
-		float worldY = pixelY;
-		if (yFlip == -1.0f) worldY = PApplet.map(pixelY,parent.height,0f,0f,parent.height);
-		worldY = PApplet.map(worldY, transY, transY+scaleFactor, 0f, 1f);
+//		float worldX = PApplet.map(pixelX, transX, transX+scaleFactor, 0f, 1f);
+//		float worldY = pixelY;
+//		if (yFlip == -1.0f) worldY = PApplet.map(pixelY,parent.height,0f,0f,parent.height);
+//		worldY = PApplet.map(worldY, transY, transY+scaleFactor, 0f, 1f);
+		float worldX = pixelXtoWorldX(pixelX);
+		float worldY = pixelYtoWorldY(pixelY);
 		return new Vec2(worldX,worldY);
 	}
 	
