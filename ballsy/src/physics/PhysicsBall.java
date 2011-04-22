@@ -8,49 +8,41 @@ import org.jbox2d.dynamics.Body;
 
 public class PhysicsBall extends PhysicsDef {
 
-	protected float _radius;
+	private float _radius;
 	
-	public PhysicsBall(PhysicsWorld world, float x, float y, float r, float d, float f, float b, boolean mobile) {
-		super(world, mobile);
-		
+	public PhysicsBall(float x, float y, float r){
+		super(x,y);
 		_radius = r;
-		
+		this.createBody();
+	}
+	
+	/**
+	 * Creates the ShapeDef and passes it up to the superclass.
+	 */
+	protected void createBody(){
 		CircleDef circDef = new CircleDef();
 		circDef.radius = _radius;
-		
-		this.createBody(circDef, d, f, b, x, y);
-		
-//		circDef.density = d;
-//		circDef.friction = f;
-//		circDef.restitution = b;
-//		
-//		BodyDef bodyDef = new BodyDef();
-//		bodyDef.position.set(new Vec2(x, y));
-//		
-//		_body = _world.createBody(bodyDef);
-//		_body.createShape(circDef);
-//		
-//		// Shape does not move if immobile
-//		if (_mobile) {
-//			_body.setMassFromShapes();
-//		}
+		this.createBody(circDef);	 // super class implementation	
 	}
 	
-	public float getHeight() {
-		// TODO Auto-generated method stub
-		return _radius * 2;
+	/**
+	 * Sets the radius and recreates the object in the world.
+	 */
+	public void setRadius(float radius){
+		_radius = radius;
+		if (_created) this.createBody(); // takes care of removing old body and creates a new one
 	}
-
-	public float getRadius() {
-		// TODO Auto-generated method stub
+	
+	/**
+	 * @return property as stored in this instance
+	 */
+	public float getRadius(){
 		return _radius;
 	}
-
-	public float getWidth() {
-		// TODO Auto-generated method stub
-		return _radius * 2;
-	}
 	
+	/**
+	 * XML functionality.
+	 */
 	public Element writeXML() {
 		// return element as defined in super with proper name and width/height
 		return super.writeXML("ball", _radius * 2, _radius * 2);

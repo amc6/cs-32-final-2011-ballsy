@@ -1,19 +1,19 @@
 package bodies;
 
-import graphical.GraphicalDef;
-import physics.PhysicsDef;
-import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
+import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
+import graphics.GraphicsGrapple;
 
 import org.dom4j.Element;
-import org.jbox2d.p5.*;
+
+import physics.PhysicsGrapple;
 
 
 public class Grapple extends AbstractBody {
 
-	public Grapple(AbstractLevel level, PhysicsWorld world,
-			UserBall ball) {
-		super(level, world, new physics.GrappleDef(world, true, ball), new graphical.GrappleDef(0, ball));
+	public Grapple(UserBall ball) {
+		PhysicsGrapple physics = new PhysicsGrapple(ball);
+		GraphicsGrapple graphics = new GraphicsGrapple(DEFAULT_BODY_COLOR, ball);
+		this.setPhysicsAndGraphics(physics, graphics);
 	}
 
 	@Override
@@ -22,19 +22,19 @@ public class Grapple extends AbstractBody {
 	}
 	
 	public void grapple() {
-		((physics.GrappleDef) _physicsDef).grapple();
+		((physics.PhysicsGrapple) this.getPhysicsDef()).grapple();
 	}
 	
 	public void releaseGrapple() {
-		((physics.GrappleDef) _physicsDef).releaseGrapple();
+		((physics.PhysicsGrapple) this.getPhysicsDef()).releaseGrapple();
 	}
 
 	
 	public void extendGrapple() {
-		((physics.GrappleDef) _physicsDef).extendGrapple();
+		((physics.PhysicsGrapple) this.getPhysicsDef()).extendGrapple();
 	}
 	
 	public void retractGrapple() {
-		((physics.GrappleDef) _physicsDef).retractGrapple();
+		((physics.PhysicsGrapple) this.getPhysicsDef()).retractGrapple();
 	}
 }

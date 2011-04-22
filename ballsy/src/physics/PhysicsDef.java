@@ -7,31 +7,117 @@ import org.jbox2d.collision.shapes.ShapeDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import static bodies.BodyConstants.*;
 
 public abstract class PhysicsDef {
 	
-	protected PhysicsWorld _world;
+	protected PhysicsWorld _world = PhysicsWorld.getInstance();
+	protected Vec2 _initialPos;
+	private float _density = DEFAULT_BODY_DENSITY,
+				  _friction = DEFAULT_BODY_FRICTION,
+				  _bounciness = DEFAULT_BODY_BOUNCINESS;
 	protected Body _body;
-	protected boolean _mobile;
-	
-	public PhysicsDef(PhysicsWorld world, boolean mobile){
-		_world = world;
-		_mobile = mobile;
+	protected boolean _created = false; // Once createBody(...) is called, this will be true for the lifetime of the PhysicsDef
+	protected boolean _mobile = true;
+		
+	public PhysicsDef(float x, float y){
+		_initialPos = new Vec2(x, y);
 	}
+	
+	/**
+	 * Require subclasses to implement.
+	 * Should call PhysicsDef.createBody(...) with the specific ShapeDef
+	 * of the subclass.
+	 */
+	protected abstract void createBody();
 	
 	/**
 	 * Must be called in the subclasses constructor to properly create the body
 	 */
-	public void createBody(ShapeDef shape, float d, float f, float b, float x, float y) {
-		shape.density = d;
-		shape.friction = f;
-		shape.restitution = b;
+	protected void createBody(ShapeDef shape) {
+		
+		// If we're re-creating a body, we need to remove the old one
+		if (_created){
+			_world.destroyBody(_body); 
+		}
+		
+		shape.density = _density;
+		shape.friction = _friction;
+		shape.restitution = _bounciness;
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vec2(x, y));
+		bodyDef.position.set(_initialPos);
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);
+		
 		// Shape does not move if immobile
+		this.setMobile(_mobile);
+	}
+	
+	/**
+	 * If the object exists in the PhysicsWorld, we edit the property
+	 * directly and change the corresponding instance variable. Otherwise
+	 * we just change the instance variable in preparation of createObject(...)
+	 * @param density
+	 */
+	public void setDensity(float density){
+		_density = density;
+		if (_created) _body.getShapeList().m_density = density;
+	}
+	
+	/**
+	 * @return property as stored in this instance
+	 */
+	public float getDensity(){
+		return _density;
+	}
+	
+	/**
+	 * If the object exists in the PhysicsWorld, we edit the property
+	 * directly and change the corresponding instance variable. Otherwise
+	 * we just change the instance variable in preparation of createObject(...)
+	 * @param density
+	 */
+	public void setFriction(float friction){
+		_friction = friction;
+		if (_created) _body.getShapeList().m_friction = friction;
+	}
+	
+	/**
+	 * @return property as stored in this instance
+	 */
+	public float getFriction(){
+		return _friction;
+	}
+	
+	/**
+	 * If the object exists in the PhysicsWorld, we edit the property
+	 * directly and change the corresponding instance variable. Otherwise
+	 * we just change the instance variable in preparation of createObject(...)
+	 * @param density
+	 */
+	public void setBounciness(float bounciness){
+		_bounciness = bounciness;
+		if (_created) _body.getShapeList().m_restitution = bounciness;
+	}
+	
+	/**
+	 * @return property as stored in this instance
+	 */
+	public float getBounciness(){
+		return _bounciness;
+	}
+	
+	public Body getBody(){
+		return _body;
+	}
+	
+	public boolean getMobile(){
+		return _mobile;
+	}
+		
+	public void setMobile(boolean mobile){
+		_mobile = mobile;
 		if (_mobile) {
 			_body.setMassFromShapes();
 		}else {
@@ -39,19 +125,6 @@ public abstract class PhysicsDef {
 			md.mass = 0f;
 			_body.setMass(md);
 		}
-		
-		//jessica testing
-//		_body.setMassFromShapes();
-
-
-	}
-	
-	public Body getBody(){
-		return _body;
-	}
-		
-	public void setMobile(boolean mobile){
-		_mobile = mobile;
 	}
 	
 	/**
@@ -77,22 +150,14 @@ public abstract class PhysicsDef {
 	
 	public void setAngularVelocity(float vel){
 		_body.setAngularVelocity(vel);
-	}
-	
-	public PhysicsWorld getWorld() {
-		return _world;
-	}
-		
-	public abstract float getWidth();
-	public abstract float getHeight();
-	public abstract float getRadius();
-	
-	public float getPixelRadius() {
-		return _world.scalarWorldToPixels(this.getRadius());
-	}
+	}		
 	
 	public Vec2 getBodyWorldCenter(){
 		return _world.getBodyWorldCoord(_body);
+	}
+	
+	public Vec2 getBodyGravityCenter(){
+		return _body.getWorldCenter();
 	}
 	
 	/**
@@ -152,9 +217,5 @@ public abstract class PhysicsDef {
 		newEl.addAttribute("MOBILE", Boolean.toString(_mobile));
 		// return
 		return newEl;
-	}
-
-	public Vec2 getBodyGravityCenter(){
-		return _body.getWorldCenter();
 	}
 }

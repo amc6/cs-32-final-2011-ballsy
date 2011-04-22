@@ -1,7 +1,7 @@
 package ballsy;
 
-import graphical.HoverImage;
-import graphical.Image;
+import graphics.HoverImage;
+import graphics.Image;
 import processing.core.PConstants;
 
 public class WelcomeScreen extends Screen {
@@ -37,8 +37,8 @@ public class WelcomeScreen extends Screen {
 		if (_newGraphic.mouseOver()) {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
-			_window.setScreen(new LevelOne());
-			//_window.loadLevel("default.xml");
+//			_window.setScreen(new LevelOne());
+			_window.loadLevel("default.xml");
 		}
 		
 		if (_levelsGraphic.mouseOver()) {

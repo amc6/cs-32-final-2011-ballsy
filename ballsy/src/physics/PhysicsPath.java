@@ -14,20 +14,20 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
-public class PathDef {
+public class PhysicsPath {
 	private Vector<Point2D.Float> _pathPoints;
 	private PhysicsDef _physDef;
 	private int _currTarget = 0;
 	private Point2D.Float _initPos;
 	private float _velCoeff = 10; // equivalent to the speed of the object
 	
-	public PathDef(PhysicsDef p) {
+	public PhysicsPath(PhysicsDef p) {
 		_physDef = p;
 		_pathPoints = new Vector<Point2D.Float>();
 		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);
 	}
 	
-	public PathDef(PhysicsDef p, Vector<Point2D.Float> v) {
+	public PhysicsPath(PhysicsDef p, Vector<Point2D.Float> v) {
 		_physDef = p;
 		_pathPoints = v;
 		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);

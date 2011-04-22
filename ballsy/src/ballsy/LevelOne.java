@@ -18,41 +18,49 @@ import bodies.RegularPolygon;
 import bodies.UserBall;
 import bodies.VertexSurface;
 
+import static bodies.BodyConstants.*;
+
 public class LevelOne extends AbstractLevel {
 	
 	@Override
 	public void setup() {
+		this.setInstance(); // set this level as the singleton
+		
 		// Initialize Box2D physics and set custom gravity
-		_world = new PhysicsWorld(_window);
+
 		_world.createWorld();
 		_world.setGravity(0, -20); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
 		
 		// make a moving box (demo pathing)
-		Rectangle movingBox = new Rectangle(this, _world, _world.getCenterX(),20);
+		Rectangle movingBox = new Rectangle(_world.getCenterX(),20,DEFAULT_RECTANGLE_WIDTH,DEFAULT_RECTANGLE_HEIGHT);
 		Vector<Point2D.Float> path = new Vector<Point2D.Float>();
 		path.add(new Point2D.Float(20, 0));
 		path.add(new Point2D.Float(20, -20));
 		path.add(new Point2D.Float(-20, 0));
 		movingBox.setPath(path);
-		movingBox.setColor(200, 100, 200);
+		movingBox.getGraphicsDef().setColor(200, 100, 200);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
 		float worldHeight = _world.getHeight();
 		
 		//Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
-		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
+		Rectangle bottom = new Rectangle( _world.getCenterX(), - 30, worldWidth - 100, 2);
+		bottom.getPhysicsDef().setMobile(false);
 		bottom.setGrappleable(false);
-		Rectangle subBottom = new Rectangle(this, _world, _world.getCenterX(), -35, 4, 3, false); // this is grappleable, but not through the floor!
-		subBottom.setColor(0, 255, 255);
-		Rectangle left = new Rectangle(this, _world, 50, _world.getCenterY(), 2, worldHeight - 100, false);
-		Rectangle right = new Rectangle(this, _world, -50, _world.getCenterY(), 2, worldHeight - 100, false);
-		bottom.setColor(200);
-		subBottom.setColor(200);
-		left.setColor(200);
-		right.setColor(200);
+		Rectangle subBottom = new Rectangle(_world.getCenterX(), -35, 4, 3); // this is grappleable, but not through the floor!
+		subBottom.getPhysicsDef().setMobile(false);
+		subBottom.getGraphicsDef().setColor(0, 255, 255);
+		Rectangle left = new Rectangle(50, _world.getCenterY(), 2, worldHeight - 100);
+		left.getPhysicsDef().setMobile(false);
+		Rectangle right = new Rectangle(-50, _world.getCenterY(), 2, worldHeight - 100);
+		right.getPhysicsDef().setMobile(false);
+		bottom.getGraphicsDef().setColor(200);
+		subBottom.getGraphicsDef().setColor(200);
+		left.getGraphicsDef().setColor(200);
+		right.getGraphicsDef().setColor(200);
 		//_bodies.add(top);
 		_bodies.add(bottom);
 		_bodies.add(subBottom);
@@ -68,8 +76,8 @@ public class LevelOne extends AbstractLevel {
 		worldPoints.add(new Vec2(0,10));
 		worldPoints.add(new Vec2(-5,5));
 		worldPoints.add(new Vec2(-5,-5));		
-		IrregularPolygon polygon = new IrregularPolygon(this, _world, 30, 20, worldPoints);
-		polygon.setColor(200, 200, 100);
+		IrregularPolygon polygon = new IrregularPolygon(30, 20, worldPoints);
+		polygon.getGraphicsDef().setColor(200, 200, 100);
 		_bodies.add(polygon);
 		
 //		pretty ghetto implementation of the surface right now...
@@ -86,8 +94,8 @@ public class LevelOne extends AbstractLevel {
 		
 		// make a user ball
 		Vec2 startingPoint = new Vec2(0, 0);
-		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
-		_player.setColor(100, 200, 200);
+		_player = new UserBall(startingPoint.x, startingPoint.y, USER_RADIUS);
+		_player.getGraphicsDef().setColor(100, 200, 200);
 		_bodies.add(_player);
 	}
 	
@@ -147,14 +155,15 @@ public class LevelOne extends AbstractLevel {
 				Random r = new Random();
 				int numSides = r.nextInt(15);
 				numSides += 2;
+				numSides = 2;
 				if (numSides == 2) {
-					Ball newBall = new Ball(this, _world, x, y);
-					((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
-					newBall.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					Ball newBall = new Ball(x, y, DEFAULT_BALL_RADIUS);
+					((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(true);
+					newBall.getGraphicsDef().setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newBall);
 				} else if (numSides > 2) {
-					RegularPolygon newPoly = new RegularPolygon(this, _world, x, y, numSides, 2.5f);
-					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					RegularPolygon newPoly = new RegularPolygon(x, y, numSides, 2.5f);
+					newPoly.getGraphicsDef().setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newPoly);
 				}
 				break;

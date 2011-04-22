@@ -1,22 +1,26 @@
 package bodies;
 
+import static bodies.BodyConstants.DEFAULT_BODY_BOUNCINESS;
+import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
+import static bodies.BodyConstants.DEFAULT_BODY_DENSITY;
+import static bodies.BodyConstants.DEFAULT_BODY_FRICTION;
+import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
+import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
+import graphics.GraphicsRectangle;
+
 import org.dom4j.Element;
 
-import physics.PathDef;
+import physics.PhysicsRectangle;
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
-import ballsy.Window;
-import static bodies.BodyConstants.*;
 
 public class Rectangle extends AbstractBody {
 
-	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY){
-		super(level, world, new physics.PhysicsRectangle(world, centerX, centerY, DEFAULT_RECTANGLE_WIDTH, DEFAULT_RECTANGLE_HEIGHT, DEFAULT_BODY_DENSITY, DEFAULT_BODY_FRICTION, DEFAULT_BODY_BOUNCINESS, true), new graphical.RectangleDef(DEFAULT_BODY_COLOR));
+	public Rectangle(float centerX, float centerY, float width, float height){
+		PhysicsRectangle physics = new PhysicsRectangle(centerX, centerY, width, height);
+		GraphicsRectangle graphics = new GraphicsRectangle(DEFAULT_BODY_COLOR);
+		this.setPhysicsAndGraphics(physics, graphics);
 	}	
-	
-	public Rectangle(AbstractLevel level, PhysicsWorld world, float centerX, float centerY, float width, float height, boolean mobile){
-		super(level, world, new physics.PhysicsRectangle(world, centerX, centerY, width, height, DEFAULT_BODY_DENSITY, DEFAULT_BODY_FRICTION, DEFAULT_BODY_BOUNCINESS, mobile), new graphical.RectangleDef(DEFAULT_BODY_COLOR));
-	}
 
 	@Override
 	public Element writeXML() {

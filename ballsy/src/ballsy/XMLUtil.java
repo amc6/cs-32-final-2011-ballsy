@@ -24,7 +24,8 @@ import org.dom4j.io.XMLWriter;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import physics.PathDef;
+import physics.PhysicsPath;
+import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.IrregularPolygon;
@@ -101,23 +102,25 @@ public class XMLUtil {
     		Body body = null;
     		if (bodyType.compareTo("user_ball") == 0) {
     			// o hai userball, let's make you
-    			newPlayer = new UserBall(level, level.getWorld(), xPos, yPos);
-    			newPlayer.setColor(color);
+    			newPlayer = new UserBall(xPos, yPos, width/2);
+    			newPlayer.getGraphicsDef().setColor(color);
     			body = newPlayer.getPhysicsDef().getBody();
     			newBodies.add(newPlayer); // add it to the bodies too!
     		} else if (bodyType.compareTo("ball") == 0) {
     			// it's a ball
-    			Ball newBall = new Ball(level, level.getWorld(), xPos, yPos, width/2, mobile);
-    			newBall.setColor(color);
+    			Ball newBall = new Ball(xPos, yPos, width/2);
+    			newBall.getPhysicsDef().setMobile(mobile);
+    			newBall.getGraphicsDef().setColor(color);
     			// display the line if necessary
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
-    			((graphical.BallDef) newBall.getGraphicalDef()).setLine(showLine);
+    			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
     			body = newBall.getPhysicsDef().getBody();
     			newBodies.add(newBall);
     		} else if (bodyType.compareTo("rectangle") == 0) {
     			// it's a rectangle
-    			Rectangle newRect = new Rectangle(level, level.getWorld(), xPos, yPos, width, height, mobile);
-    			newRect.setColor(color);
+    			Rectangle newRect = new Rectangle(xPos, yPos, width, height);
+    			newRect.getPhysicsDef().setMobile(mobile);
+    			newRect.getGraphicsDef().setColor(color);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
     		} else if (bodyType.compareTo("regular_polygon") == 0 || bodyType.compareTo("irregular_polygon") == 0) {
@@ -132,8 +135,8 @@ public class XMLUtil {
     				pointList.add(new Vec2(x, y));
     			}
     			// now make the polygon
-    			IrregularPolygon newPoly = new IrregularPolygon(level, level.getWorld(), xPos, yPos, pointList);
-    			newPoly.setColor(color);
+    			IrregularPolygon newPoly = new IrregularPolygon(xPos, yPos, pointList);
+    			newPoly.getGraphicsDef().setColor(color);
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
@@ -171,7 +174,7 @@ public class XMLUtil {
     			}
     			AbstractBody lastBody = newBodies.get(newBodies.size()-1); // get the last body added to the list
     			// create a "new" path (new in form, not in feature) and set it's variables properly
-    			PathDef newPath = new PathDef(lastBody.getPhysicsDef(), pathPoints);
+    			PhysicsPath newPath = new PhysicsPath(lastBody.getPhysicsDef(), pathPoints);
     			newPath.setCurrTarget(currTarget);
     			newPath.setInitialPoint(new Point2D.Float(initX, initY));
     			newPath.setVelCoeff(velCoeff);
