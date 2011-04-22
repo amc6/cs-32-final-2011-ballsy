@@ -95,11 +95,17 @@ public class LevelTwo extends AbstractLevel {
 				_player.moveRight();
 				break;
 			case 's':
-				_player.moveDown();
+				if (_player.isGrappled()) {
+					_player.extendGrapple();
+				}
+				//_player.moveDown();
 				break;
 			case 'w':
-				_player.moveUp();
-				break;
+				if (_player.isGrappled()) {
+					_player.retractGrapple();
+				}
+				//_player.moveUp();
+				break;	
 			
 			case ' ': // check for space, make stuff if appropriate
 				float x = _world.pixelXtoWorldX(_window.mouseX);
