@@ -26,6 +26,7 @@ public class TestGrappleLevel extends AbstractLevel {
 	
 	@Override
 	public void setup() {
+		this.setInstance(); // set this level as the singleton
 		
 	
 		// Initialize Box2D physics and set custom gravity
@@ -34,10 +35,10 @@ public class TestGrappleLevel extends AbstractLevel {
 		_world.setGravity(0, -20); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
-		//_playerBox = new Rectangle(this, _world, _world.getCenterX(), 0);
+		//_playerBox = new Rectangle(_world.getCenterX(), 0);
 		
 		// make a moving box (demo pathing)
-		Rectangle movingBox = new Rectangle(this, _world, _world.getCenterX(),20);
+		Rectangle movingBox = new Rectangle(_world.getCenterX(),20, 4, 4);
 		Vector<Point2D.Float> path = new Vector<Point2D.Float>();
 		path.add(new Point2D.Float(20, 0));
 		path.add(new Point2D.Float(20, -20));
@@ -47,22 +48,26 @@ public class TestGrappleLevel extends AbstractLevel {
 		
 		// make a user ball
 		Point2D.Float startingPoint = new Point2D.Float(0, 0);
-		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
+		_player = new UserBall(startingPoint.x, startingPoint.y, bodies.BodyConstants.USER_RADIUS);
 		
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
 		float worldHeight = _world.getHeight();
 		
-		Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
-		Rectangle bottom = new Rectangle(this, _world, _world.getCenterX(), - 30, worldWidth - 100, 2, false);
-		Rectangle left = new Rectangle(this, _world, 50, _world.getCenterY(), 2, worldHeight - 100, false);
-		Rectangle right = new Rectangle(this, _world, -50, _world.getCenterY(), 2, worldHeight - 100, false);
+		Rectangle top = new Rectangle(_world.getCenterX(), 30, worldWidth - 100, 2);
+		top.getPhysicsDef().setMobile(false);
+		Rectangle bottom = new Rectangle(_world.getCenterX(), - 30, worldWidth - 100, 2);
+		bottom.getPhysicsDef().setMobile(false);
+		Rectangle left = new Rectangle(50, _world.getCenterY(), 2, worldHeight - 100);
+		left.getPhysicsDef().setMobile(false);
+		Rectangle right = new Rectangle(-50, _world.getCenterY(), 2, worldHeight - 100);
+		right.getPhysicsDef().setMobile(false);
 		top.setGrappleable(true);
 		right.setGrappleable(true);
 		left.setGrappleable(true);
 		
 		
-		_player.setColor(_window.color(100,100,200));
+		_player.getGraphicsDef().setColor(_window.color(100,100,200));
 
 
 		_bodies.add(top);

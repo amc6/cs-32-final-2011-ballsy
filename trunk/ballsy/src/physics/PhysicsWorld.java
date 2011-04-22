@@ -25,6 +25,7 @@ import processing.core.PVector;
 
 public class PhysicsWorld {
 
+	private static PhysicsWorld PHYSICS_WORLD;
 	PApplet parent;
 
 	// The Box2D world
@@ -49,6 +50,7 @@ public class PhysicsWorld {
 		transY = parent.height/2;
 		scaleFactor = sf;
 		yFlip = -1;
+		PHYSICS_WORLD = this;
 	}
 	
 	public PhysicsWorld(PApplet p, float sf, float lx, float ly) {
@@ -57,7 +59,7 @@ public class PhysicsWorld {
 		scaleFactor = sf;
 		transX = lx;
 		transY = ly;
-		
+		PHYSICS_WORLD = this;		
 	}
 
 	public void listenForCollisions() {
@@ -316,5 +318,9 @@ public class PhysicsWorld {
 		points[0] = world.getWorldAABB().lowerBound;
 		points[1] = world.getWorldAABB().upperBound;
 		return points;
+	}
+	
+	public static PhysicsWorld getInstance() {
+		return PHYSICS_WORLD;
 	}
 }

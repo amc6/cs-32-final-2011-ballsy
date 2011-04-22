@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 
-public class PhysicsRegularPolygon extends PhysicsPolygonDef {
+public class PhysicsRegularPolygon extends PhysicsPolygon {
 
-	public PhysicsRegularPolygon(PhysicsWorld world, float x, float y, int numSides, float r, float d, float f, float b, boolean mobile) {
-		super(world, x, y, PhysicsRegularPolygon.calculateOffsets(numSides, r), d, f, b, mobile);
+	public PhysicsRegularPolygon(float x, float y, int numSides, float r) {
+		super(x, y, PhysicsRegularPolygon.calculateOffsets(numSides, r));
 	}
 	
 	public static ArrayList<Vec2> calculateOffsets(int numSides, float radius){

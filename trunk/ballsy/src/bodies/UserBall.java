@@ -5,11 +5,12 @@ package bodies;
  * and all other things specific to the user's ball.
  */
 
+import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
 import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import static bodies.BodyConstants.USER_RADIUS;
-import graphical.Crosshair;
-import graphical.UserBallGraphical;
+import graphics.Crosshair;
+import graphics.GraphicsUserBall;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -20,46 +21,40 @@ import org.jbox2d.common.Vec2;
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
 
-public class UserBall extends Ball {
+public class UserBall extends AbstractBody {
 
 	private Crosshair _crosshair;
-	private AbstractLevel _level;
 	private AbstractBody _grappleObject;
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false;
-	private PhysicsWorld _world;
 	private Grapple _grapple;
 	
-	public UserBall(AbstractLevel level, PhysicsWorld world, float centerX, float centerY) {
-		super(level, world, centerX, centerY, USER_RADIUS, true);
-		this.setGraphicalDef(new UserBallGraphical());
-//		this.setColor(USER_COLOR);
-		_crosshair = new Crosshair(world, this);
-		_level = level;
-		_world = world;
-		_grapple = new Grapple(level, world, this);
+	public UserBall(float centerX, float centerY, float radius) {
+		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
+		_crosshair = new Crosshair(this);
+		_grapple = new Grapple(this);
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
 	
 	public void moveLeft() {
-		if (_physicsDef.getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
-			_physicsDef.applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));
+		if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
+			this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));
 	}
 	
 	public void moveRight() {
-		if (_physicsDef.getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
-			_physicsDef.applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
+		if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
+			this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
 	}
 	
 	public void moveDown() {
-		if (_physicsDef.getBody().getLinearVelocity().y > -USER_MAX_VELOCITY)
-			_physicsDef.applyImpulse(new Vec2(0, -USER_MOVE_COEFFICIENT));
+		if (this.getPhysicsDef().getBody().getLinearVelocity().y > -USER_MAX_VELOCITY)
+			this.getPhysicsDef().applyImpulse(new Vec2(0, -USER_MOVE_COEFFICIENT));
 	}
 	
 	public void moveUp() {
-		if (_physicsDef.getBody().getLinearVelocity().y < USER_MAX_VELOCITY)
-			_physicsDef.applyImpulse(new Vec2(0, USER_MOVE_COEFFICIENT));
+		if (this.getPhysicsDef().getBody().getLinearVelocity().y < USER_MAX_VELOCITY)
+			this.getPhysicsDef().applyImpulse(new Vec2(0, USER_MOVE_COEFFICIENT));
 	}
 	
 	// end move control methods

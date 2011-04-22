@@ -10,12 +10,21 @@ import bodies.AbstractBody;
 import bodies.UserBall;
 
 public abstract class AbstractLevel extends Screen {
+	protected PhysicsWorld _world = new PhysicsWorld(Window.getInstance()); // reference to the world of the level
+	private static AbstractLevel LEVEL;
 	protected ArrayList<AbstractBody> _bodies; // an array of the bodies in a given level
 	protected UserBall _player; // the player instance, also contained in bodies
-	protected PhysicsWorld _world; // reference to the world of the level
-	public static int DEFAULT_WEIGHT = 0; // the default drawing weight (zero means no edges)
+
 	protected int _backgroundColor = 255; // color of the background, defaults to white
 	public Point2D.Float _gravity = new Point2D.Float(0, -20);
+	
+	public void setInstance(){
+		LEVEL = this;
+	}
+	
+	public static AbstractLevel getInstance(){
+		return LEVEL;
+	}
 	
 	public abstract void setup();
 	public abstract void draw();
@@ -26,7 +35,6 @@ public abstract class AbstractLevel extends Screen {
 	public void setBodies(ArrayList<AbstractBody> bodies) { _bodies = bodies; }
 	public UserBall getPlayer() { return _player; }
 	public void setPlayer(UserBall b) { _player = b; }
-	public PhysicsWorld getWorld() { return _world; }
 	public void setBGColor(int c) { _backgroundColor = c; }
 	public int getBGColor() { return _backgroundColor; }
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {}; // to be overridden in XMLLevel

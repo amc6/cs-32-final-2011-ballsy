@@ -8,36 +8,46 @@ import org.jbox2d.dynamics.BodyDef;
 
 public class PhysicsRectangle extends PhysicsDef {
 	
-	protected float _width;
-	protected float _height;
+	private float _width;
+	private float _height;
 	
-	public PhysicsRectangle(PhysicsWorld world, float x, float y, float w, float h, float d, float f, float b, boolean mobile) {
-		super(world, mobile);
+	public PhysicsRectangle(float x, float y, float w, float h) {
+		super(x,y);
 		_width = w;
 		_height = h;
-		
+		this.createBody();
+	}
+	
+	protected void createBody(){
 		PolygonDef polygonDef = new PolygonDef();
-		
 		float halfWidth = _width/2; // because defined from center
 		float halfHeight = _height/2; // same
 		polygonDef.setAsBox(halfWidth, halfHeight);
-
-		this.createBody(polygonDef, d, f, b, x, y);
-
+		this.createBody(polygonDef);		
 	}
 
+	/**
+	 * Sets the width and recreates the object in the world.
+	 */
+	public void setWidth(float width){
+		_width = width;
+		if (_created) this.createBody(); // takes care of removing old body and creates a new one
+	}
+	
 	public float getWidth(){
 		return _width;
 	}
 	
+	/**
+	 * Sets the width and recreates the object in the world.
+	 */
+	public void setHeight(float height){
+		_height = height;
+		if (_created) this.createBody(); // takes care of removing old body and creates a new one
+	}
+	
 	public float getHeight(){
 		return _height;
-	}
-
-	@Override
-	public float getRadius() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 	public Element writeXML() {

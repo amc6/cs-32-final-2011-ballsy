@@ -1,6 +1,6 @@
 package ballsy;
 
-import graphical.TrackingCamera;
+import graphics.TrackingCamera;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -20,6 +20,9 @@ public class LevelTwo extends AbstractLevel {
 	
 	@Override
 	public void setup() {
+		this.setInstance(); // set this level as the singleton
+		
+		
 		// Initialize Box2D physics and set custom gravity
 		_world = new PhysicsWorld(_window, 10, 0,0);//last two coords specify what world coordinates
 													//you would like to initially appear at the bottem left
@@ -30,17 +33,21 @@ public class LevelTwo extends AbstractLevel {
 		_bodies = new ArrayList<AbstractBody>();
 
 		// Add a bunch of fixed boundaries
-		//Ball center = new Ball(this, _world, _world.getCenterX(), _world.getCenterY(), 10, false);//don't set position like this anymore. centerX and centerY could change
+		//Ball center = new Ball(_world.getCenterX(), _world.getCenterY(), 10, false);//don't set position like this anymore. centerX and centerY could change
 																							//if we decided to expand the level. Hardcode values! (I'll explain more in person)
 		//center.setColor(255, 0, 0);
-		//Rectangle top = new Rectangle(this, _world, _world.getCenterX(), 30, worldWidth - 100, 2, false);
-		Rectangle bottom = new Rectangle(this, _world, 50, 0, 100, 2, false);
+		//Rectangle top = new Rectangle(_world.getCenterX(), 30, worldWidth - 100, 2, false);
+		Rectangle bottom = new Rectangle(50, 0, 100, 2);
+		bottom.getPhysicsDef().setMobile(false);
 		bottom.setGrappleable(false);
-		Rectangle top = new Rectangle(this, _world, 50, 100, 100, 2, false);
-		//Rectangle subBottom = new Rectangle(this, _world, _world.getCenterX(), -35, 4, 3, false); // this is grappleable, but not through the floor!
+		Rectangle top = new Rectangle(50, 100, 100, 2);
+		top.getPhysicsDef().setMobile(false);
+		//Rectangle subBottom = new Rectangle(_world.getCenterX(), -35, 4, 3, false); // this is grappleable, but not through the floor!
 		//subBottom.setColor(0, 255, 255);
-		Rectangle left = new Rectangle(this, _world, 0, 50, 2, 100, false);
-		Rectangle right = new Rectangle(this, _world, 100, 50, 2, 100, false);
+		Rectangle left = new Rectangle(0, 50, 2, 100);
+		left.getPhysicsDef().setMobile(false);
+		Rectangle right = new Rectangle(100, 50, 2, 100);
+		right.getPhysicsDef().setMobile(false);
 		_bodies.add(bottom);
 		_bodies.add(top);
 		//_bodies.add(subBottom);
@@ -50,9 +57,9 @@ public class LevelTwo extends AbstractLevel {
 
 		// make a user ball
 		Point2D.Float startingPoint = new Point2D.Float(50,50);
-		_player = new UserBall(this, _world, startingPoint.x, startingPoint.y);
+		_player = new UserBall(startingPoint.x, startingPoint.y, bodies.BodyConstants.USER_RADIUS);
 		_bodies.add(_player);
-		_camera = new TrackingCamera(_world,_player);
+		_camera = new TrackingCamera(_player);
 	}
 	
 	@Override
@@ -114,13 +121,13 @@ public class LevelTwo extends AbstractLevel {
 				int numSides = r.nextInt(15);
 				numSides += 2;
 				if (numSides == 2) {
-					Ball newBall = new Ball(this, _world, x, y);
-					((graphical.BallDef) newBall.getGraphicalDef()).setLine(true);
-					newBall.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					Ball newBall = new Ball(x, y, bodies.BodyConstants.DEFAULT_BALL_RADIUS);
+					((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(true);
+					newBall.getGraphicsDef().setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newBall);
 				} else if (numSides > 2) {
-					RegularPolygon newPoly = new RegularPolygon(this, _world, x, y, numSides, 2.5f);
-					newPoly.setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+					RegularPolygon newPoly = new RegularPolygon(x, y, numSides, 2.5f);
+					newPoly.getGraphicsDef().setColor(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 					_bodies.add(newPoly);
 				}
 			}

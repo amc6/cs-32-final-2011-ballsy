@@ -10,7 +10,9 @@ public class XMLLevel extends AbstractLevel {
 	public XMLLevel(String path) {
 		_path = path;
 		// load in the level
+		this.setInstance(); // set this level as the singleton
 		XMLUtil.getInstance().readFile(this, path);
+		
 	}
 	
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
@@ -24,7 +26,7 @@ public class XMLLevel extends AbstractLevel {
 	public void draw() {
 		// draw window stuffs
 		_window.background(_backgroundColor);
-		_window.stroke(DEFAULT_WEIGHT);
+		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		// step physics world
 		_world.step();
