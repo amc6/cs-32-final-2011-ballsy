@@ -101,25 +101,25 @@ public class TestGrappleLevel extends AbstractLevel {
 		
 		// detect keypresses
 		if (_window.keyPressed) {
-			switch (_window.keyCode){
-			case PConstants.LEFT:
+			switch (_window.key){
+			case 'a':
 				_player.moveLeft();
 				break;
-			case PConstants.RIGHT:
+			case 'd':
 				_player.moveRight();
 				break;
-			case PConstants.DOWN:
+			case 's':
 				if (_player.isGrappled()) {
 					_player.extendGrapple();
 				}
 				//_player.moveDown();
 				break;
-			case PConstants.UP:
+			case 'w':
 				if (_player.isGrappled()) {
 					_player.retractGrapple();
 				}
 				//_player.moveUp();
-				break;				
+				break;		
 			}
 		}
 		
