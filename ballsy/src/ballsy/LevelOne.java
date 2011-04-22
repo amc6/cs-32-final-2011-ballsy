@@ -155,7 +155,6 @@ public class LevelOne extends AbstractLevel {
 				Random r = new Random();
 				int numSides = r.nextInt(15);
 				numSides += 2;
-				numSides = 2;
 				if (numSides == 2) {
 					Ball newBall = new Ball(x, y, DEFAULT_BALL_RADIUS);
 					((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(true);
