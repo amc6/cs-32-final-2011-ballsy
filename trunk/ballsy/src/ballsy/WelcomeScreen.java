@@ -2,9 +2,7 @@ package ballsy;
 
 import graphical.HoverImage;
 import graphical.Image;
-import oldshit.Level;
 import processing.core.PConstants;
-import processing.core.PImage;
 
 public class WelcomeScreen extends Screen {
 	Window _window;
@@ -17,6 +15,8 @@ public class WelcomeScreen extends Screen {
 		_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 300, 100, _window.width/2, 450);
 		_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 300, 100, _window.width/2, 550);
 		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
+		AudioClip clip = new AudioClip("res/titlebg.wav");
+		clip.start();
 	}
 	
 	public void draw() {
