@@ -14,6 +14,7 @@ import processing.core.PConstants;
 import bodies.AbstractBody;
 import bodies.Grapple;
 import bodies.Rectangle;
+import bodies.Rope;
 import bodies.UserBall;
 
 public class TestGrappleLevel extends AbstractLevel {
@@ -22,6 +23,7 @@ public class TestGrappleLevel extends AbstractLevel {
 	//private Rectangle _playerBox;
 	private UserBall _player;
 	private Grapple _grapple;
+	private Rope _rope;
 	
 	
 	@Override
@@ -69,6 +71,9 @@ public class TestGrappleLevel extends AbstractLevel {
 		
 		_player.getGraphicsDef().setColor(_window.color(100,100,200));
 
+		
+		//test rope
+		_rope = new Rope(_player, movingBox, _player.getWorldPosition(), movingBox.getWorldPosition());
 
 		_bodies.add(top);
 		_bodies.add(bottom);
@@ -98,6 +103,8 @@ public class TestGrappleLevel extends AbstractLevel {
 				body.killBody(); // removes from physics and graphical world
 			}
 		}
+		
+		_rope.display();
 				
 		// Just drawing the framerate to see how many particles it can handle
 		_window.fill(0);
