@@ -27,12 +27,14 @@ public class UserBall extends AbstractBody {
 	private AbstractBody _grappleObject;
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false;
-	private Grapple _grapple;
+//	private GrappleLine _grapple;
+	private GrappleRope _grapple;
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
 		_crosshair = new Crosshair(this);
-		_grapple = new Grapple(this);
+//		_grapple = new GrappleLine(this);
+		_grapple = new GrappleRope(this);
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
@@ -78,10 +80,17 @@ public class UserBall extends AbstractBody {
 		}		
 	}
 	
+//	
+//	public void setGrapple(GrappleLine grapple) {
+//		_grapple = grapple;
+//	}
 	
-	public void setGrapple(Grapple grapple) {
+
+	
+	public void setGrapple(GrappleRope grapple) {
 		_grapple = grapple;
 	}
+
 	
 	
 	public void fireGrapple() {

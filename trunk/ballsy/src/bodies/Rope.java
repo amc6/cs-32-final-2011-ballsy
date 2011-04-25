@@ -105,6 +105,7 @@ public class Rope {
 		_window.strokeWeight(DEFAULT_LINE_WIDTH);
 
 	}
+	
 
 
 }
