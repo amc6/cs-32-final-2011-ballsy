@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.joints.DistanceJointDef;
 import physics.PhysicsWorld;
 import processing.core.PConstants;
 import bodies.AbstractBody;
-import bodies.Grapple;
+import bodies.GrappleLine;
 import bodies.Rectangle;
 import bodies.Rope;
 import bodies.UserBall;
@@ -22,7 +22,7 @@ public class TestGrappleLevel extends AbstractLevel {
 	private PhysicsWorld _world;
 	//private Rectangle _playerBox;
 	private UserBall _player;
-	private Grapple _grapple;
+	private GrappleLine _grapple;
 	private Rope _rope;
 	
 	
@@ -73,7 +73,7 @@ public class TestGrappleLevel extends AbstractLevel {
 
 		
 		//test rope
-		_rope = new Rope(_player, movingBox, _player.getWorldPosition(), movingBox.getWorldPosition());
+//		_rope = new Rope(_player, movingBox, _player.getWorldPosition(), movingBox.getWorldPosition());
 
 		_bodies.add(top);
 		_bodies.add(bottom);
@@ -104,7 +104,7 @@ public class TestGrappleLevel extends AbstractLevel {
 			}
 		}
 		
-		_rope.display();
+//		_rope.display();
 				
 		// Just drawing the framerate to see how many particles it can handle
 		_window.fill(0);

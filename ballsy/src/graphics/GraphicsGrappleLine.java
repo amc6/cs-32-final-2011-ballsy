@@ -7,14 +7,14 @@ import org.jbox2d.common.Vec2;
 
 import ballsy.Window;
 
-public class GraphicsGrapple extends GraphicsDef{
+public class GraphicsGrappleLine extends GraphicsDef{
 	
 	private bodies.UserBall _ball;
 	int _weight = 2, _size = 12, _pointerSize = 50, _fillColor = 255, _fillOpacity = 150, 
 	_activeDrawColor = Window.getInstance().color(0, 255, 0), _inactiveDrawColor = 200, _drawColor = _inactiveDrawColor;
 
 
-	public GraphicsGrapple(int color, bodies.UserBall ball) {
+	public GraphicsGrappleLine(int color, bodies.UserBall ball) {
 		this.setColor(color);
 		_ball = ball;
 	}
@@ -25,7 +25,7 @@ public class GraphicsGrapple extends GraphicsDef{
 
 		if (_ball.isGrappled()) {
 			//Point2D.Float grapplePoint = _ball.getPixelGrapplePoint();
-			physics.PhysicsGrapple physicsDef = (physics.PhysicsGrapple) _physicsDef; 
+			physics.PhysicsGrappleLine physicsDef = (physics.PhysicsGrappleLine) _physicsDef; 
 			Vec2 grapplePoint = _world.coordWorldToPixels(physicsDef.getGrapplePoint());
 			int ballX = (int) _ball.getPixelPosition().x;
 			int ballY = (int) _ball.getPixelPosition().y;
