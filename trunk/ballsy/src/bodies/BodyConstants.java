@@ -23,6 +23,11 @@ public final class BodyConstants {
 	public static final float USER_RADIUS = 3;
 	public static final int USER_COLOR = Window.getInstance().color(0, 0, 255);
 	
+	/*Grapple constants*/
+	public static final float LINK_RADIUS = .5f;
+	public static final float LINK_DIST = .1f;
+
+	
 	/* Crosshair constants. */
 	public static final int CROSSHAIR_SIZE = 10;
 	public static final float CROSSHAIR_LINE_DIST_COEFF = 1.2f; // How far the line starts from shape. 1f starts at edge of shape
