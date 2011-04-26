@@ -11,6 +11,7 @@ import physics.PhysicsGrappleRope;
 
 import ballsy.Window;
 import bodies.AbstractBody;
+import bodies.Link;
 
 public class GraphicsGrappleRope extends GraphicsDef{
 	
@@ -36,7 +37,7 @@ public class GraphicsGrappleRope extends GraphicsDef{
 			
 			PhysicsGrappleRope physicsDef = (PhysicsGrappleRope) _physicsDef;
 			
-			Vector<AbstractBody> links = physicsDef.getLinks();
+			Vector<Link> links = physicsDef.getLinks();
 			
 			AbstractBody lastLink = links.get(0);
 			
@@ -50,7 +51,12 @@ public class GraphicsGrappleRope extends GraphicsDef{
 			//chain
 			for (int i = 1; i<links.size(); i++) {
 				AbstractBody link = links.get(i);
-//				link.display();
+				
+				//////***UNCOMMENT TO SEE LINKS***///////
+				// link.display();
+				////////////////////////////////////////
+
+				
 				_window.line(lastLink.getPixelPosition().x, lastLink.getPixelPosition().y,
 						link.getPixelPosition().x, link.getPixelPosition().y);
 				lastLink = link;
