@@ -165,6 +165,8 @@ public class XMLUtil {
     			float velCoeff = Float.parseFloat(currPathDef.attributeValue("VEL_COEFF"));
     			float initX = Float.parseFloat(currPathDef.attributeValue("INITIAL_X")); 
     			float initY = Float.parseFloat(currPathDef.attributeValue("INITIAL_Y")); 
+    			boolean isStatic = Boolean.parseBoolean(currPathDef.attributeValue("STATIC"));
+    			float pathRotation = Float.parseFloat(currPathDef.attributeValue("ROTATION"));
     			for (Iterator path_i = currPathDef.elementIterator("PATH_POINT"); path_i.hasNext();) {
     				// iterate through path points, adding them to the vector
     				Element currPathPoint = (Element) path_i.next();
@@ -178,6 +180,8 @@ public class XMLUtil {
     			newPath.setCurrTarget(currTarget);
     			newPath.setInitialPoint(new Point2D.Float(initX, initY));
     			newPath.setVelCoeff(velCoeff);
+    			newPath.setRotation(pathRotation);
+    			newPath.setStatic(isStatic);
     			lastBody.setPath(newPath); // apply the new path to this body
     		}
     	}
