@@ -2,6 +2,11 @@ package ballsy;
 
 //import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 
+import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
+import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
+import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
+import static bodies.BodyConstants.USER_RADIUS;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,16 +14,13 @@ import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
 
-import physics.PhysicsWorld;
+import physics.PhysicsPath;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.RegularPolygon;
 import bodies.UserBall;
-import bodies.VertexSurface;
-
-import static bodies.BodyConstants.*;
 
 public class LevelOne extends AbstractLevel {
 	
@@ -39,8 +41,21 @@ public class LevelOne extends AbstractLevel {
 		path.add(new Point2D.Float(20, 0));
 		path.add(new Point2D.Float(20, -20));
 		path.add(new Point2D.Float(-20, 0));
-		movingBox.setPath(path);
+		PhysicsPath pathObject = new PhysicsPath(movingBox.getPhysicsDef(), path);
+		movingBox.setPath(pathObject);
 		movingBox.getGraphicsDef().setColor(200, 100, 200);
+		
+		// make a moving box on a static path (more pathing demo)
+		Rectangle movingBoxAGAIN = new Rectangle(_world.getCenterX() - 20,20,DEFAULT_RECTANGLE_WIDTH * 3,DEFAULT_RECTANGLE_HEIGHT);
+		Vector<Point2D.Float> path2 = new Vector<Point2D.Float>();
+		path2.add(new Point2D.Float(0, -30));
+		path2.add(new Point2D.Float(0, 0));
+		PhysicsPath pathObject2 = new PhysicsPath(movingBoxAGAIN.getPhysicsDef(), path2);
+		// this shit is new: setStatic makes it non-interactwithable, setRotation gives it a constant rotation at every step
+		pathObject2.setStatic(true);
+		pathObject2.setRotation(0.05f);
+		movingBoxAGAIN.setPath(pathObject2);
+		movingBoxAGAIN.getGraphicsDef().setColor(100, 200, 50);
 
 		// Add a bunch of fixed boundaries
 		float worldWidth = _world.getWidth();
@@ -67,6 +82,7 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(left);
 		_bodies.add(right);
 		_bodies.add(movingBox);
+		_bodies.add(movingBoxAGAIN);
 		
 		ArrayList<Vec2> worldPoints = new ArrayList<Vec2>();
 		worldPoints.add(new Vec2(0,-10));
