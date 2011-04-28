@@ -29,7 +29,7 @@ public class PhysicsWorld {
 	PApplet parent;
 
 	// The Box2D world
-	public World world;
+	private World world;
 
 	// Variables to keep track of translating between world and screen coordinates
 	public float transX;// = 320.0f;
@@ -37,7 +37,7 @@ public class PhysicsWorld {
 	public float scaleFactor;// = 10.0f;
 	public float yFlip;// = -1.0f; //flip y coordinate
 
-	PContactListener contactlistener;
+	private PContactListener contactlistener;
 
 	// Construct with a default scaleFactor of 10
 	public PhysicsWorld(PApplet p) {
@@ -322,5 +322,9 @@ public class PhysicsWorld {
 	
 	public static PhysicsWorld getInstance() {
 		return PHYSICS_WORLD;
+	}
+	
+	public void refilter(PhysicsDef physicsDef){
+		world.refilter(physicsDef.getBody().m_shapeList);
 	}
 }

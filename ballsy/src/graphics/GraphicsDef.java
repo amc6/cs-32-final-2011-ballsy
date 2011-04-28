@@ -1,24 +1,40 @@
 package graphics;
 
+import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
+
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 import physics.PhysicsDef;
 import physics.PhysicsWorld;
 import ballsy.Window;
-import static bodies.BodyConstants.*;
 
 public abstract class GraphicsDef {
 
 	protected PhysicsDef _physicsDef;
 	protected PhysicsWorld _world = PhysicsWorld.getInstance();
 	private int _color = DEFAULT_BODY_COLOR;
+	protected Smoke _smoke;
 			
 	public void setPhysicsDef(PhysicsDef physicsDef){
 		_physicsDef = physicsDef;
 	}
 	
 	public abstract void display();
+	
+	public void displayEffects(){
+		if (_smoke != null){
+			_smoke.display();
+		}
+	}
+	
+	public void setSmoke(Smoke smoke){
+		_smoke = smoke;
+	}
+	
+	public Smoke getSmoke(){
+		return _smoke;
+	}
 	
 	public int getColor(){
 		return _color;
