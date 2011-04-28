@@ -53,6 +53,7 @@ public class Smoke {
 		
 		// Add a particle
 		Vec2 vec = _body.getPixelPosition();
+		vec.addLocal((float) _generator.nextDouble()*20f, (float) _generator.nextDouble()*20f);
 		_particles.add(new SmokeParticle(vec, _image));
 		
 	}
