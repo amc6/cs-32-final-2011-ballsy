@@ -31,7 +31,7 @@ public class PhysicsRectangle extends PhysicsDef {
 	 */
 	public void setWidth(float width){
 		_width = width;
-		if (_created) this.createBody(); // takes care of removing old body and creates a new one
+		if (_body != null) this.createBody(); // takes care of removing old body and creates a new one
 	}
 	
 	public float getWidth(){
@@ -43,7 +43,7 @@ public class PhysicsRectangle extends PhysicsDef {
 	 */
 	public void setHeight(float height){
 		_height = height;
-		if (_created) this.createBody(); // takes care of removing old body and creates a new one
+		if (_body != null) this.createBody(); // takes care of removing old body and creates a new one
 	}
 	
 	public float getHeight(){

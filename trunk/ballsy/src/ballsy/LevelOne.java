@@ -67,6 +67,7 @@ public class LevelOne extends AbstractLevel {
 		Rectangle bottom = new Rectangle( _world.getCenterX(), - 30, worldWidth - 100, 2);
 		bottom.getPhysicsDef().setMobile(false);
 		bottom.setGrappleable(false);
+//		bottom.getPhysicsDef().setFriction(100f);
 		Rectangle subBottom = new Rectangle(_world.getCenterX(), -35, 4, 3); // this is grappleable, but not through the floor!
 		subBottom.getPhysicsDef().setMobile(false);
 		subBottom.getGraphicsDef().setColor(0, 255, 255);

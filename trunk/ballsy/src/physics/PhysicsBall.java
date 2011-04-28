@@ -30,7 +30,7 @@ public class PhysicsBall extends PhysicsDef {
 	 */
 	public void setRadius(float radius){
 		_radius = radius;
-		if (_created) this.createBody(); // takes care of removing old body and creates a new one
+		if (_body != null) this.createBody(); // takes care of removing old body and creates a new one
 	}
 	
 	/**

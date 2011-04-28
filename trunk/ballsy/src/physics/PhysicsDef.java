@@ -17,7 +17,6 @@ public abstract class PhysicsDef {
 				  _friction = DEFAULT_BODY_FRICTION,
 				  _bounciness = DEFAULT_BODY_BOUNCINESS;
 	protected Body _body;
-	protected boolean _created = false; // Once createBody(...) is called, this will be true for the lifetime of the PhysicsDef
 	protected boolean _mobile = true;
 		
 	public PhysicsDef(float x, float y){
@@ -37,7 +36,7 @@ public abstract class PhysicsDef {
 	protected void createBody(ShapeDef shape) {
 		
 		// If we're re-creating a body, we need to remove the old one
-		if (_created){
+		if (_body != null){
 			_world.destroyBody(_body); 
 		}
 		
@@ -62,7 +61,7 @@ public abstract class PhysicsDef {
 	 */
 	public void setDensity(float density){
 		_density = density;
-		if (_created) _body.getShapeList().m_density = density;
+		if (_body != null) _body.getShapeList().m_density = density;
 	}
 	
 	/**
@@ -80,7 +79,7 @@ public abstract class PhysicsDef {
 	 */
 	public void setFriction(float friction){
 		_friction = friction;
-		if (_created) _body.getShapeList().m_friction = friction;
+		if (_body != null) _body.getShapeList().m_friction = friction;
 	}
 	
 	/**
@@ -98,7 +97,7 @@ public abstract class PhysicsDef {
 	 */
 	public void setBounciness(float bounciness){
 		_bounciness = bounciness;
-		if (_created) _body.getShapeList().m_restitution = bounciness;
+		if (_body != null) _body.getShapeList().m_restitution = bounciness;
 	}
 	
 	/**
