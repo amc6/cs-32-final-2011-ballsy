@@ -2,6 +2,8 @@ package ballsy;
 
 import java.util.ArrayList;
 
+import org.jbox2d.dynamics.Body;
+
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 

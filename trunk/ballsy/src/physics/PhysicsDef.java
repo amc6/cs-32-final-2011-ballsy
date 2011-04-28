@@ -1,5 +1,9 @@
 package physics;
 
+import static bodies.BodyConstants.DEFAULT_BODY_BOUNCINESS;
+import static bodies.BodyConstants.DEFAULT_BODY_DENSITY;
+import static bodies.BodyConstants.DEFAULT_BODY_FRICTION;
+
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbox2d.collision.MassData;
@@ -7,7 +11,11 @@ import org.jbox2d.collision.shapes.ShapeDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
-import static bodies.BodyConstants.*;
+import org.jbox2d.dynamics.ContactListener;
+import org.jbox2d.dynamics.contacts.ContactPoint;
+import org.jbox2d.dynamics.contacts.ContactResult;
+
+
 
 public abstract class PhysicsDef {
 	

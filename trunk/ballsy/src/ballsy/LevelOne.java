@@ -7,18 +7,19 @@ import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import static bodies.BodyConstants.USER_RADIUS;
 
-import graphics.Smoke;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
+
+import javax.xml.ws.Endpoint;
 
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsPath;
 import bodies.AbstractBody;
 import bodies.Ball;
+import bodies.EndPoint;
 import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.RegularPolygon;
@@ -86,6 +87,10 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(right);
 		_bodies.add(movingBox);
 		_bodies.add(movingBoxAGAIN);
+		
+		// add an endpoint
+		EndPoint ep = new EndPoint(40, 0);
+		_bodies.add(ep);
 		
 		ArrayList<Vec2> worldPoints = new ArrayList<Vec2>();
 		worldPoints.add(new Vec2(0,-10));

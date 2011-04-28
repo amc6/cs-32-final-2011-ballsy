@@ -79,6 +79,8 @@ public class XMLUtil {
     		Element currPathDef = currBody.element("PATH_DEF");
     		// get the values stored in these elements
     		String bodyType = currBody.attributeValue("TYPE");
+    		boolean grappleable = Boolean.parseBoolean(currBody.attributeValue("GRAPPLEABLE"));
+    		boolean endpoint = Boolean.parseBoolean(currBody.attributeValue("ENDPOINT"));
     		String graphicalType = currGraphDef.attributeValue("TYPE"); // graphical and physics type may not ever be needed
     		int color = Integer.parseInt(currGraphDef.attributeValue("COLOR"));
     		String physicsType = currPhysDef.attributeValue("TYPE");
@@ -111,6 +113,8 @@ public class XMLUtil {
     			Ball newBall = new Ball(xPos, yPos, width/2);
     			newBall.getPhysicsDef().setMobile(mobile);
     			newBall.getGraphicsDef().setColor(color);
+    			newBall.setGrappleable(grappleable);
+    			newBall.setEndpoint(endpoint);
     			// display the line if necessary
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
     			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
@@ -121,6 +125,8 @@ public class XMLUtil {
     			Rectangle newRect = new Rectangle(xPos, yPos, width, height);
     			newRect.getPhysicsDef().setMobile(mobile);
     			newRect.getGraphicsDef().setColor(color);
+    			newRect.setGrappleable(grappleable);
+    			newRect.setEndpoint(endpoint);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
     		} else if (bodyType.compareTo("regular_polygon") == 0 || bodyType.compareTo("irregular_polygon") == 0) {
@@ -137,6 +143,9 @@ public class XMLUtil {
     			// now make the polygon
     			IrregularPolygon newPoly = new IrregularPolygon(xPos, yPos, pointList);
     			newPoly.getGraphicsDef().setColor(color);
+    			newPoly.setGrappleable(grappleable);
+    			newPoly.setEndpoint(endpoint);
+    			// MOBILITY <<< ________________________________________ S???? ??? ? 
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
