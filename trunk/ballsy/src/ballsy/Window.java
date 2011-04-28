@@ -31,10 +31,13 @@ public class Window extends PApplet {
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
+		
+		this.smooth();
 	}
 	
 	public void draw() {
 		_screen.draw();
+		
 	}
 	
 	public void setScreen(Screen screen) {

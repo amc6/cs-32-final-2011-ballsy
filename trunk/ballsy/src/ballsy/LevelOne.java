@@ -7,6 +7,8 @@ import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import static bodies.BodyConstants.USER_RADIUS;
 
+import graphics.Smoke;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -111,6 +113,7 @@ public class LevelOne extends AbstractLevel {
 		// make a user ball
 		Vec2 startingPoint = new Vec2(0, 0);
 		_player = new UserBall(startingPoint.x, startingPoint.y, USER_RADIUS);
+		_player.getGraphicsDef().setSmoke(new Smoke(_player));
 		_player.getGraphicsDef().setColor(100, 200, 200);
 		_bodies.add(_player);
 	}

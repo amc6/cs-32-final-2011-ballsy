@@ -23,7 +23,7 @@ public abstract class AbstractBody {
 	private PhysicsDef _physicsDef;
 	private GraphicsDef _graphicsDef;
 	private PhysicsPath _pathDef;
-	protected boolean _grappleable = true;
+	private boolean _grappleable = true;
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 
@@ -43,6 +43,7 @@ public abstract class AbstractBody {
 	 */
 	public void display(){
 		if (_pathDef != null) _pathDef.step();
+		_graphicsDef.displayEffects(); // effects should be behind the object itself
 		_graphicsDef.display();
 	}
 	

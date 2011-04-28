@@ -53,7 +53,7 @@ public class GraphicsGrappleRope extends GraphicsDef{
 				AbstractBody link = links.get(i);
 				
 				//////***UNCOMMENT TO SEE LINKS***///////
-				// link.display();
+//				link.display();
 				////////////////////////////////////////
 
 				
