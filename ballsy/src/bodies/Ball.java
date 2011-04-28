@@ -8,9 +8,7 @@ public class Ball extends AbstractBody {
 		
 	public Ball(float centerX, float centerY, float radius){
 		
-		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsBall());
-		this.getPhysicsDef().setFriction(10.0f);
-		
+		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsBall());		
 		
 	}
 
