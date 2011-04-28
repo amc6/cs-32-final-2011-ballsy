@@ -43,6 +43,7 @@ public class SmokeParticle {
 	// Method to update location
 	private void update() {
 		_vel.add(_acc);
+		_vel.addLocal((float) _generator.nextDouble()*50f, (float) _generator.nextDouble()*50f);
 		_loc.add(_vel);
 		_timer -= 2.5;
 		_acc = new Vec2(0,0);
