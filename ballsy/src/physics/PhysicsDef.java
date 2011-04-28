@@ -24,8 +24,8 @@ public abstract class PhysicsDef {
 	private float _density = DEFAULT_BODY_DENSITY,
 				  _friction = DEFAULT_BODY_FRICTION,
 				  _bounciness = DEFAULT_BODY_BOUNCINESS;
+	private boolean _mobile = true;
 	protected Body _body;
-	protected boolean _mobile = true;
 		
 	public PhysicsDef(float x, float y){
 		_initialPos = new Vec2(x, y);
@@ -125,12 +125,14 @@ public abstract class PhysicsDef {
 		
 	public void setMobile(boolean mobile){
 		_mobile = mobile;
-		if (_mobile) {
-			_body.setMassFromShapes();
-		}else {
-			MassData md = new MassData();
-			md.mass = 0f;
-			_body.setMass(md);
+		if (_body != null){
+			if (_mobile) {
+				_body.setMassFromShapes();
+			}else {
+				MassData md = new MassData();
+				md.mass = 0f;
+				_body.setMass(md);
+			}
 		}
 	}
 	

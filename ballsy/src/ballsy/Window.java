@@ -87,6 +87,6 @@ public class Window extends PApplet {
 	
 	public void persistContact(ContactPoint cp) { }
 	public void removeContact(ContactPoint cp) { }
-	public void addContact(ContactResult cr) { }
+	public void resultContact(ContactResult cr) { }
 	
 }

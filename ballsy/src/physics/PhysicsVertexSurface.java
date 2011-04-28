@@ -12,18 +12,23 @@ public class PhysicsVertexSurface extends PhysicsDef {
 	
 	protected ArrayList<Vec2> _points;
 	
-	public PhysicsVertexSurface(float x, float y, ArrayList<Vec2> worldPoints) {
+	// Offsets are defined from a starting point of the bottom left corner
+	public PhysicsVertexSurface(float x, float y, ArrayList<Vec2> offsets) {
 		super(x,y);
-		_mobile = false;
-		_points = worldPoints;	
+		this.setMobile(false);
+		
+		for (Vec2 vec : offsets){
+			vec.addLocal(_initialPos);
+		}
+		_points = offsets;	
+		
 		this.createBody();
 	}
 	
 	protected void createBody(){
 		EdgeChainDef edgeChain = new EdgeChainDef();
 		
-		for (int i = 0; i < _points.size(); i++){
-			Vec2 vec = _points.get(i);
+		for (Vec2 vec : _points){
 			edgeChain.addVertex(vec);
 		}
 		
@@ -46,5 +51,14 @@ public class PhysicsVertexSurface extends PhysicsDef {
 			newEl.add(pointEl);
 		}
 		return newEl;
+	}
+	
+	public static ArrayList<Vec2> generateHalfCup(float height, float width, float stepsize){
+		ArrayList<Vec2> vecList = new ArrayList<Vec2>();
+		for (int x = 0; x <= width; x++){
+			Vec2 vec = new Vec2((float) x, (float) Math.pow((x-Math.sqrt(40)),2));
+			vecList.add(vec);
+		}
+		return vecList;
 	}
 }
