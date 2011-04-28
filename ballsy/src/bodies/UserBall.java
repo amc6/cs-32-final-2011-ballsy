@@ -11,6 +11,7 @@ import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import static bodies.BodyConstants.USER_RADIUS;
 import graphics.Crosshair;
 import graphics.GraphicsUserBall;
+import graphics.Smoke;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class UserBall extends AbstractBody {
 		_crosshair = new Crosshair(this);
 //		_grapple = new GrappleLine(this);
 		_grapple = new GrappleRope(this);
+		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
