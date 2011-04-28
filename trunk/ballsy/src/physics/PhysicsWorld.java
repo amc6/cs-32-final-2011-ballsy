@@ -66,7 +66,6 @@ public class PhysicsWorld {
 	public void listenForCollisions() {
 		contactlistener = new PContactListener(parent);
 		world.setContactListener(contactlistener);
-		System.out.println("asdfasdf");
 	}
 
 	// Change the scaleFactor

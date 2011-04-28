@@ -17,6 +17,7 @@ import javax.xml.ws.Endpoint;
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsPath;
+import physics.PhysicsVertexSurface;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.EndPoint;
@@ -24,6 +25,7 @@ import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.RegularPolygon;
 import bodies.UserBall;
+import bodies.VertexSurface;
 
 public class LevelOne extends AbstractLevel {
 	
@@ -104,17 +106,9 @@ public class LevelOne extends AbstractLevel {
 		polygon.getGraphicsDef().setColor(200, 200, 100);
 		_bodies.add(polygon);
 		
-//		pretty ghetto implementation of the surface right now...
-//		ArrayList<Vec2> surfacePoints = new ArrayList<Vec2>();
-//		
-//		surfacePoints.add(new Vec2(-20,10));
-//		surfacePoints.add(new Vec2(-25,5));
-//		surfacePoints.add(new Vec2(-25,-5));
-//		surfacePoints.add(new Vec2(-15,-5));
-//		surfacePoints.add(new Vec2(-15,5));
-//		
-//		//VertexSurface surface = new VertexSurface(this, _world, surfacePoints);
-//		//_bodies.add(surface);
+//		Working on this stuff with the vertex surface...
+//		VertexSurface surface = new VertexSurface(-30,-20,PhysicsVertexSurface.generateHalfCup(15, 20, 1));
+//		_bodies.add(surface);
 		
 		// make a user ball
 		Vec2 startingPoint = new Vec2(0, 0);
@@ -127,7 +121,6 @@ public class LevelOne extends AbstractLevel {
 	public void draw() {
 		_window.background(255);
 		_window.stroke(0);
-//		_window.strokeWeight(DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		
 		// Step the physics world
