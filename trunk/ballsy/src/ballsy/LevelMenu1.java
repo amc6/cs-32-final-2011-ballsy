@@ -1,7 +1,6 @@
 package ballsy;
 
 import graphics.Image;
-import zoldshit.Level;
 
 public class LevelMenu1 extends Screen {
 
