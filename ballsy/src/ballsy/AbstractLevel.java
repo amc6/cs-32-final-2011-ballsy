@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
@@ -44,4 +45,25 @@ public abstract class AbstractLevel extends Screen {
 		_world.setGravity(g.x, g.y);
 	}
 	public Point2D.Float getGravity() { return _gravity; }
+	
+	/**
+	 * Override: handle the collision of body 1 and body 2
+	 * velocity provided for use with magnitude of... sound or some shit
+	 */
+	public void handleCollision(Body b1, Body b2, float velocity) { 
+		AbstractBody body1 = getAbstractBody(b1);
+		AbstractBody body2 = getAbstractBody(b2);
+		// delegate collision handling to bodies
+		body1.handleCollision(body2);
+		body2.handleCollision(body1);
+		// make a fun sound!
+		//AudioClip clip = new AudioClip("res/thump.wav");
+		//clip.start(1);
+	}
+	
+	private AbstractBody getAbstractBody(Body b) {
+		AbstractBody returnBody = null;
+		for (AbstractBody bod : _bodies) { if (bod.getPhysicsDef().getBody() == b) returnBody = bod; }
+		return returnBody;
+	}
 }

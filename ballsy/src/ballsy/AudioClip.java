@@ -21,9 +21,13 @@ public class AudioClip {
 	}
 	
 	public void start() {
+		this.start(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void start(int numLoops) {
 		_clip.setFramePosition(0);
 		_clip.start();
-		_clip.loop(Clip.LOOP_CONTINUOUSLY);
+		_clip.loop(numLoops);
 	}
 	
 	public void stop() {

@@ -24,6 +24,7 @@ public abstract class AbstractBody {
 	private GraphicsDef _graphicsDef;
 	private PhysicsPath _pathDef;
 	private boolean _grappleable = true;
+	private boolean _isEndpoint = false;
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 
@@ -126,6 +127,26 @@ public abstract class AbstractBody {
 	}
 	
 	/**
+	 * mutator for endpointness
+	 * @param b
+	 */
+	public void setEndpoint(boolean b) {
+		_isEndpoint = b;
+	}
+	
+	/**
+	 * Handle collision of this body with "other" (outside of physics)
+	 * @param other
+	 */
+	public void handleCollision(AbstractBody other) {
+		if (other instanceof UserBall && _isEndpoint) {
+			// hah! user has reached endpoint.
+			System.exit(0);
+		}
+		
+	}
+	
+	/**
 	 * Return the representation of the object as a dom4j element to write into a saved XML file.
 	 * @return
 	 */
@@ -141,6 +162,8 @@ public abstract class AbstractBody {
 		// create a new Body element
 		Element newEl = DocumentHelper.createElement("BODY");
 		newEl.addAttribute("TYPE", type);
+		newEl.addAttribute("ENDPOINT", Boolean.toString(_isEndpoint));
+		newEl.addAttribute("GRAPPLEABLE", Boolean.toString(_grappleable));
 		// add the representations of the physics def, graphical def, and path def (if appropirate)
 		newEl.add(_physicsDef.writeXML());
 		newEl.add(_graphicsDef.writeXML());

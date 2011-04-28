@@ -3,6 +3,9 @@ package ballsy;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import org.jbox2d.dynamics.contacts.ContactPoint;
+import org.jbox2d.dynamics.contacts.ContactResult;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 
@@ -71,5 +74,19 @@ public class Window extends PApplet {
 	public static Window getInstance(){
 		return WINDOW;
 	}
-
+	
+	/**
+	 *  callback methods for handling contact (for some reason this is delegated to the
+	 *  PApplet, which is Window, from the PhysicsWorld. Works for me.
+	 */
+	public void addContact(ContactPoint cp) {
+		// a contact has happened!
+		System.out.println("Contact happened!");
+		_screen.handleCollision(cp.shape1.getBody(), cp.shape2.getBody(), cp.velocity.length());
+	}
+	
+	public void persistContact(ContactPoint cp) { }
+	public void removeContact(ContactPoint cp) { }
+	public void addContact(ContactResult cr) { }
+	
 }

@@ -15,13 +15,14 @@ import org.jbox2d.common.XForm;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.ContactPoint;
+import org.jbox2d.dynamics.contacts.ContactResult;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.JointDef;
 
-import ballsy.Window;
-
 import processing.core.PApplet;
 import processing.core.PVector;
+import ballsy.Window;
 
 public class PhysicsWorld {
 
@@ -65,6 +66,7 @@ public class PhysicsWorld {
 	public void listenForCollisions() {
 		contactlistener = new PContactListener(parent);
 		world.setContactListener(contactlistener);
+		System.out.println("asdfasdf");
 	}
 
 	// Change the scaleFactor
@@ -132,6 +134,7 @@ public class PhysicsWorld {
 		Vec2 gravity = new Vec2(0.0f, -10.0f);
 		boolean doSleep = true;
 		world = new World(worldAABB, gravity, doSleep);
+		listenForCollisions();
 	}
 
 	// Set the gravity (this can change in real-time)

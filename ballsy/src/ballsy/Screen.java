@@ -1,11 +1,6 @@
 package ballsy;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-
-import processing.core.PApplet;
-import processing.core.PConstants;
+import org.jbox2d.dynamics.Body;
 
 public abstract class Screen {
 	
@@ -24,5 +19,14 @@ public abstract class Screen {
 	public abstract void mouseReleased();
 	
 	public abstract void keyPressed();
-
+	
+	/**
+	 * handle collisions, strictly for overriding in AbstractLevel (don't need it in all screens,
+	 * so not abstract)
+	 * @param b1
+	 * @param b2
+	 */
+	public void handleCollision(Body b1, Body b2, float velocity) { 
+		// abstract level will take it from here...
+	}
 }

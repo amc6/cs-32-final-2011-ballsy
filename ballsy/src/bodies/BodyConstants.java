@@ -42,5 +42,7 @@ public final class BodyConstants {
 	
 	public static final int DEFAULT_SURFACE_STROKE = 2;
 	
-	
+	/* endpoint constant(s) */
+	public static final int ENDPOINT_SIZE = 4;
+	public static final int ENDPOINT_COLOR = Window.getInstance().color(255, 0, 0);
 }
