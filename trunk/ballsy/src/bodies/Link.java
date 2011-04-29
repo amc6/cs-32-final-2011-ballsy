@@ -11,6 +11,7 @@ public class Link extends Ball {
 
 	public Link(float centerX, float centerY) {
 		super(centerX, centerY, LINK_RADIUS);
+		this.getPhysicsDef().setDensity(DEFAULT_BODY_DENSITY*2);
 	}
 
 	public void setPrev(AbstractBody prev, DistanceJoint prevJoint) {
