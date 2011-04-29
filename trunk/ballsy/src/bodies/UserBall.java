@@ -28,14 +28,14 @@ public class UserBall extends AbstractBody {
 	private AbstractBody _grappleObject;
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false;
-//	private GrappleLine _grapple;
-	private GrappleRope _grapple;
+	private GrappleLine _grapple;
+//	private GrappleRope _grapple;
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
 		_crosshair = new Crosshair(this);
-//		_grapple = new GrappleLine(this);
-		_grapple = new GrappleRope(this);
+		_grapple = new GrappleLine(this);
+//		_grapple = new GrappleRope(this);
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
 
@@ -89,7 +89,7 @@ public class UserBall extends AbstractBody {
 	
 
 	
-	public void setGrapple(GrappleRope grapple) {
+	public void setGrapple(GrappleLine grapple) {
 		_grapple = grapple;
 	}
 

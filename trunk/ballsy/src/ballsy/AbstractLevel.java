@@ -20,6 +20,7 @@ public abstract class AbstractLevel extends Screen {
 	protected boolean _paused = false;
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
+	private boolean _pressRegistered = false;
 	
 	public void setInstance(){
 		LEVEL = this;
@@ -77,7 +78,8 @@ public abstract class AbstractLevel extends Screen {
 	
 	/**
 	 * Handle keypresses (through Processing).
-	 * Most importantly to catch escape keypress.
+	 * Overrides escape keypress, and handles sets the boolean array when control keys are pressed
+	 * 
 	 */
 	public void keyPressed(){
 		// handle esc keypress
@@ -107,6 +109,9 @@ public abstract class AbstractLevel extends Screen {
 		}
 	}
 	
+	/**
+	 * Handle keyreleases, and set boolean array
+	 */
 	public void keyReleased() {
 		// handle control keyreleases
 		switch (_window.key) {
@@ -129,11 +134,38 @@ public abstract class AbstractLevel extends Screen {
 		}
 	}
 	
+	/**
+	 * apply values stored in boolean array
+	 * so, if two keys are pressed at the time, act according to the press of each
+	 */
 	protected void applyInput() {
+		// deal with keys
 		if (_keys[UP] && _player.isGrappled()) _player.retractGrapple();
 		if (_keys[DOWN] && _player.isGrappled()) _player.extendGrapple();
 		if (_keys[LEFT]) _player.moveLeft();
 		if (_keys[RIGHT]) _player.moveRight();
+	}
+	
+	/**
+	 * Fire the grapple if the mouse is dragged. For some reason, a drag isn't a press,
+	 * so we need to do this for both.
+	 */
+	public void mouseDragged() {
+		if (!_player.isGrappled()) _player.fireGrapple();
+	}
+	
+	/**
+	 * Fire the grapple upon a mouse press.
+	 */
+	public void mousePressed() {
+		if (!_player.isGrappled()) _player.fireGrapple();
+	}
+	
+	/**
+	 * release the grapple upon a mouse release
+	 */
+	public void mouseReleased() {
+		if (_player.isGrappled()) _player.releaseGrapple();
 	}
 	
 	/**

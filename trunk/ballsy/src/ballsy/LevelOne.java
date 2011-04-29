@@ -187,19 +187,4 @@ public class LevelOne extends AbstractLevel {
 		}
 	}
 
-	/**
-	 * Detects mousepressed (override).
-	 * Fires the grapple if it's unfired, releases it if it's fired.
-	 */
-	public void mousePressed() {
-		if (!_player.isGrappled()) _player.fireGrapple();
-		else _player.releaseGrapple();
-	}
-
-	@Override
-	public void mouseReleased() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

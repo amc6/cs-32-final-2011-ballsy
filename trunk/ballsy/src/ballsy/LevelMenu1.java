@@ -81,4 +81,10 @@ public class LevelMenu1 extends Screen {
 		
 	}
 
+	@Override
+	public void mouseDragged() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
