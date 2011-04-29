@@ -7,6 +7,9 @@ import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import static bodies.BodyConstants.USER_RADIUS;
 
+import graphics.Background;
+import graphics.Image;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,9 +32,17 @@ import bodies.VertexSurface;
 
 public class LevelOne extends AbstractLevel {
 	
+	private Image _background;
+	private Background _bg;
+	
 	@Override
 	public void setup() {
 		this.setInstance(); // set this level as the singleton
+		
+		_background = new Image(_window, "res/background1.jpg", _window.width, _window.height);
+		_background.setImageMode(_window.CORNER);
+		
+		_bg = new Background();
 		
 		// Initialize Box2D physics and set custom gravity
 
@@ -122,6 +133,11 @@ public class LevelOne extends AbstractLevel {
 		_window.background(255);
 		_window.stroke(0);
 		_window.noCursor();
+		
+		//background image
+		_background.draw();
+		
+		_bg.draw();
 		
 		if (!_paused) {
 			// Step the physics world
