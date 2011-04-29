@@ -56,4 +56,10 @@ public class WelcomeScreen extends Screen {
 	public void keyPressed() {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void keyReleased() {
+		// TODO Auto-generated method stub
+		
+	}
 }

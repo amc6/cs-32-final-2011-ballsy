@@ -15,11 +15,11 @@ public abstract class AbstractLevel extends Screen {
 	private static AbstractLevel LEVEL;
 	protected ArrayList<AbstractBody> _bodies; // an array of the bodies in a given level
 	protected UserBall _player; // the player instance, also contained in bodies
-
 	protected int _backgroundColor = 255; // color of the background, defaults to white
 	public Point2D.Float _gravity = new Point2D.Float(0, -20);
-	
 	protected boolean _paused = false;
+	private boolean[] _keys = {false, false, false, false};
+	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	
 	public void setInstance(){
 		LEVEL = this;
@@ -83,10 +83,57 @@ public abstract class AbstractLevel extends Screen {
 		// handle esc keypress
 		if(_window.key==27) {
 			_window.key=0;
-//			Window.getInstance().setScreen(new WelcomeScreen());
 			_paused = !_paused;
 			_window.cursor();
 		}
+		// handle control keypresses
+		switch (_window.key) {
+		case 'a':
+			// left
+			_keys[LEFT] = true;
+			break;
+		case 'd':
+			// right
+			_keys[RIGHT] = true;
+			break;
+		case 'w':
+			// up
+			_keys[UP] = true;
+			break;
+		case 's':
+			// down
+			_keys[DOWN] = true;
+			break;
+		}
+	}
+	
+	public void keyReleased() {
+		// handle control keyreleases
+		switch (_window.key) {
+		case 'a':
+			// left
+			_keys[LEFT] = false;
+			break;
+		case 'd':
+			// right
+			_keys[RIGHT] = false;
+			break;
+		case 'w':
+			// up
+			_keys[UP] = false;
+			break;
+		case 's':
+			// down
+			_keys[DOWN] = false;
+			break;
+		}
+	}
+	
+	protected void applyInput() {
+		if (_keys[UP] && _player.isGrappled()) _player.retractGrapple();
+		if (_keys[DOWN] && _player.isGrappled()) _player.extendGrapple();
+		if (_keys[LEFT]) _player.moveLeft();
+		if (_keys[RIGHT]) _player.moveRight();
 	}
 	
 	/**
@@ -96,4 +143,6 @@ public abstract class AbstractLevel extends Screen {
 	public boolean isPaused() {
 		return _paused;
 	}
+	
+	
 }

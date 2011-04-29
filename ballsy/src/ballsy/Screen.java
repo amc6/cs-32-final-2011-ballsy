@@ -20,6 +20,8 @@ public abstract class Screen {
 	
 	public abstract void keyPressed();
 	
+	public abstract void keyReleased();
+	
 	/**
 	 * handle collisions, strictly for overriding in AbstractLevel (don't need it in all screens,
 	 * so not abstract)

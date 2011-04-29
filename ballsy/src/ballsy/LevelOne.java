@@ -146,28 +146,12 @@ public class LevelOne extends AbstractLevel {
 		_window.textSize(20);
 		_window.text((int)_window.frameRate + " FPS",12,46);
 		
+		this.applyInput();
+		
 		// detect keypresses
 		if (_window.keyPressed) {
-			// check for WASD, move accordingly
+			// check for shits
 			switch (_window.key){
-			case 'a':
-				_player.moveLeft();
-				break;
-			case 'd':
-				_player.moveRight();
-				break;
-			case 's':
-				if (_player.isGrappled()) {
-					_player.extendGrapple();
-				}
-				//_player.moveDown();
-				break;
-			case 'w':
-				if (_player.isGrappled()) {
-					_player.retractGrapple();
-				}
-				//_player.moveUp();
-				break;	
 			case ' ': // check for space, make stuff if appropriate
 				float x = _world.pixelXtoWorldX(_window.mouseX);
 				float y = _world.pixelYtoWorldY(_window.mouseY);

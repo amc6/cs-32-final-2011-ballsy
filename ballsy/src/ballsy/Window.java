@@ -79,6 +79,10 @@ public class Window extends PApplet {
 		_screen.keyPressed();
 	}
 	
+	public void keyReleased() {
+		_screen.keyReleased();
+	}
+	
 	public static Window getInstance(){
 		return WINDOW;
 	}
