@@ -88,4 +88,12 @@ public abstract class AbstractLevel extends Screen {
 			_window.cursor();
 		}
 	}
+	
+	/**
+	 * Accessor for pausedness.
+	 * @return
+	 */
+	public boolean isPaused() {
+		return _paused;
+	}
 }

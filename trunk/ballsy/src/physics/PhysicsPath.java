@@ -13,7 +13,9 @@ import java.util.Vector;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.common.XForm;
+
+import ballsy.AbstractLevel;
+import ballsy.Window;
 
 public class PhysicsPath {
 	private Vector<Point2D.Float> _pathPoints;
@@ -63,8 +65,10 @@ public class PhysicsPath {
 	 * of applying a velocity. Rotation is always applied.
 	 */
 	public void step() {
-		// rotate by _stepRotation
-		_physDef.getBody().setXForm(_physDef.getBody().getXForm().position, _physDef.getBody().getAngle() + _stepRotation);
+		boolean paused = ((AbstractLevel) (Window.getInstance().getScreen())).isPaused();
+		// rotate by _stepRotation, if not paused
+		if (!paused)
+			_physDef.getBody().setXForm(_physDef.getBody().getXForm().position, _physDef.getBody().getAngle() + _stepRotation);
 		// don't step further if there're no points to step through
 		if (_pathPoints.size() == 0) return;
 		// set up some variables
@@ -83,7 +87,7 @@ public class PhysicsPath {
 			Vec2 vel = new Vec2((float)(_velCoeff * Math.cos(angle)), (float)(_velCoeff * Math.sin(angle)));
 			// set velocity towards target point
 			_physDef.setLinearVelocity(vel);
-		} else {
+		} else if (!paused) {
 			// if it is, simply change the position...
 			float unitsToMove = PhysicsWorld.getInstance().scalarPixelsToWorld(_velCoeff)/4; // figure out how many units to move it, off of the position
 			float xNew = _physDef.getBody().getXForm().position.x + (float) (unitsToMove * Math.cos(angle));
