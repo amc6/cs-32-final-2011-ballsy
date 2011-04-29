@@ -62,4 +62,10 @@ public class WelcomeScreen extends Screen {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void mouseDragged() {
+		// TODO Auto-generated method stub
+		
+	}
 }

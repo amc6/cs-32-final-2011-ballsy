@@ -83,6 +83,10 @@ public class Window extends PApplet {
 		_screen.keyReleased();
 	}
 	
+	public void mouseDragged() {
+		_screen.mouseDragged();
+	}
+	
 	public static Window getInstance(){
 		return WINDOW;
 	}
