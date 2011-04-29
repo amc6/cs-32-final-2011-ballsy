@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import ddf.minim.AudioPlayer;
+import ddf.minim.AudioSample;
+import ddf.minim.Minim;
+
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.UserBall;
@@ -21,6 +25,10 @@ public abstract class AbstractLevel extends Screen {
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	private boolean _pressRegistered = false;
+	
+	private Minim _minim = new Minim(_window);
+	private AudioSample _sound = _minim.loadSample("res/thump.wav", 2048);
+
 	
 	public void setInstance(){
 		LEVEL = this;
@@ -60,8 +68,12 @@ public abstract class AbstractLevel extends Screen {
 		body1.handleCollision(body2);
 		body2.handleCollision(body1);
 		// make a fun sound!
-		//AudioClip clip = new AudioClip("res/thump.wav");
-		//clip.start(1);
+//		AudioClip clip = new AudioClip("res/thump.wav");
+//		clip.start(1);
+		_sound.setGain(-10);
+		_sound.trigger();
+//		sound.close();
+//		minim.stop();
 	}
 	
 	/**
