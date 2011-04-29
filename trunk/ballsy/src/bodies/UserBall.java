@@ -5,12 +5,9 @@ package bodies;
  * and all other things specific to the user's ball.
  */
 
-import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
 import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
-import static bodies.BodyConstants.USER_RADIUS;
 import graphics.Crosshair;
-import graphics.GraphicsUserBall;
 import graphics.Smoke;
 
 import java.awt.geom.Point2D;
@@ -19,23 +16,23 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
-import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
+import ballsy.WelcomeScreen;
+import ballsy.Window;
 
 public class UserBall extends AbstractBody {
 
 	private Crosshair _crosshair;
 	private AbstractBody _grappleObject;
 	private Point2D.Float _grapplePoint;
-	private boolean _grappled = false;
-	private GrappleLine _grapple;
-//	private GrappleRope _grapple;
+	private boolean _grappled = false, _inPlay = true;
+//	private GrappleLine _grapple;
+	private GrappleRope _grapple;
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
 		_crosshair = new Crosshair(this);
-		_grapple = new GrappleLine(this);
-//		_grapple = new GrappleRope(this);
+//		_grapple = new GrappleLine(this);
+		_grapple = new GrappleRope(this);
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
 
@@ -73,8 +70,8 @@ public class UserBall extends AbstractBody {
 		if (_grapple != null) {
 			_grapple.display(); // do this first so it appears behind
 		}
-		
 		super.display();
+//		if ()
 		_crosshair.display();
 		if (!_grappled) {
 			_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
@@ -89,7 +86,7 @@ public class UserBall extends AbstractBody {
 	
 
 	
-	public void setGrapple(GrappleLine grapple) {
+	public void setGrapple(GrappleRope grapple) {
 		_grapple = grapple;
 	}
 
@@ -100,7 +97,6 @@ public class UserBall extends AbstractBody {
 			_crosshair.hide();
 			_grappled = true;
 			_grapple.grapple();
-			System.out.println("Grappling hook coming soon!");
 		}
 	}
 	
@@ -170,6 +166,21 @@ public class UserBall extends AbstractBody {
 		}
 		return null; // it didn't find an object, return null
 	}
+	
+	/**
+	 * handle UserBall collisions specially!
+	 */
+	public void handleCollision(AbstractBody other) {
+		if (other.isEndpoint()) {
+			// ahoy! We've reached an endpoint.
+			Window.getInstance().setScreen(new WelcomeScreen());
+		}
+		if (other.isDeadly()) {
+			// UserBall fucked up. DEATH ENSUES
+			System.exit(0);
+		}
+	}
+	
 	
 	/**
 	 * partially override the writeXML() method of super to identify this as a USER ball

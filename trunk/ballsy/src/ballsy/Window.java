@@ -97,7 +97,6 @@ public class Window extends PApplet {
 	 */
 	public void addContact(ContactPoint cp) {
 		// a contact has happened!
-		System.out.println("Contact happened!");
 		_screen.handleCollision(cp.shape1.getBody(), cp.shape2.getBody(), cp.velocity.length());
 	}
 	

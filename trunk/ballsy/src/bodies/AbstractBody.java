@@ -25,6 +25,7 @@ public abstract class AbstractBody {
 	private PhysicsPath _pathDef;
 	private boolean _grappleable = true;
 	private boolean _isEndpoint = false;
+	private boolean _deadly = false;
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 
@@ -134,16 +135,22 @@ public abstract class AbstractBody {
 		_isEndpoint = b;
 	}
 	
+	public boolean isEndpoint() {
+		return _isEndpoint;
+	}
+	
+	/**
+	 * Accessor/mutator for deadliness..
+	 */
+	public void setDeadly(boolean b) { _deadly = b;	}
+	public boolean isDeadly() { return _deadly;	}
+	
 	/**
 	 * Handle collision of this body with "other" (outside of physics)
 	 * @param other
 	 */
 	public void handleCollision(AbstractBody other) {
-		if (other instanceof UserBall && _isEndpoint) {
-			// hah! user has reached endpoint.
-			System.exit(0);
-		}
-		
+		// by default, do nothing. Intended to be overridden for special stuff (mostly by UserBall)
 	}
 	
 	/**
@@ -164,6 +171,7 @@ public abstract class AbstractBody {
 		newEl.addAttribute("TYPE", type);
 		newEl.addAttribute("ENDPOINT", Boolean.toString(_isEndpoint));
 		newEl.addAttribute("GRAPPLEABLE", Boolean.toString(_grappleable));
+		newEl.addAttribute("DEADLY", Boolean.toString(_deadly));
 		// add the representations of the physics def, graphical def, and path def (if appropirate)
 		newEl.add(_physicsDef.writeXML());
 		newEl.add(_graphicsDef.writeXML());

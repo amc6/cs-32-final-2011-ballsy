@@ -11,7 +11,7 @@ public class WelcomeScreen extends Screen {
 	
 	public void setup() {
 		_window = Window.getInstance();
-		
+		_window.cursor(); // make the cursor visible
 		_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 289, 56, _window.width/2, 450);
 		_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 289, 53, _window.width/2, 520);
 		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
