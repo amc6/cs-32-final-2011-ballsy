@@ -118,6 +118,7 @@ public class LevelOne extends AbstractLevel {
 		worldPoints.add(new Vec2(-5,-5));		
 		IrregularPolygon polygon = new IrregularPolygon(30, 20, worldPoints);
 		polygon.getGraphicsDef().setColor(200, 200, 100);
+//		polygon.setDeadly(true);
 		_bodies.add(polygon);
 		
 //		Working on this stuff with the vertex surface...

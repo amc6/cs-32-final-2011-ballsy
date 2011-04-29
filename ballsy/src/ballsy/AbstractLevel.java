@@ -65,8 +65,10 @@ public abstract class AbstractLevel extends Screen {
 		AbstractBody body1 = getAbstractBody(b1);
 		AbstractBody body2 = getAbstractBody(b2);
 		// delegate collision handling to bodies
-		body1.handleCollision(body2);
-		body2.handleCollision(body1);
+		if (body1 != null && body2 != null) {
+			body1.handleCollision(body2);
+			body2.handleCollision(body1);
+		}
 		// make a fun sound!
 //		AudioClip clip = new AudioClip("res/thump.wav");
 //		clip.start(1);
@@ -151,11 +153,20 @@ public abstract class AbstractLevel extends Screen {
 	 * so, if two keys are pressed at the time, act according to the press of each
 	 */
 	protected void applyInput() {
-		// deal with keys
-		if (_keys[UP] && _player.isGrappled()) _player.retractGrapple();
-		if (_keys[DOWN] && _player.isGrappled()) _player.extendGrapple();
-		if (_keys[LEFT]) _player.moveLeft();
-		if (_keys[RIGHT]) _player.moveRight();
+		if (!_paused) {
+			// deal with keys
+			if (_keys[UP] && _player.isGrappled()) _player.retractGrapple();
+			if (_keys[DOWN] && _player.isGrappled()) _player.extendGrapple();
+			if (_keys[LEFT]) _player.moveLeft();
+			if (_keys[RIGHT]) _player.moveRight();
+			// mouse stuff?
+			if (_window.mousePressed) {
+				if (!_player.isGrappled() && !_pressRegistered) {
+					_player.fireGrapple();
+					_pressRegistered = true;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -164,6 +175,7 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void mouseDragged() {
 		if (!_player.isGrappled()) _player.fireGrapple();
+		_pressRegistered = true;
 	}
 	
 	/**
@@ -171,6 +183,7 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void mousePressed() {
 		if (!_player.isGrappled()) _player.fireGrapple();
+		_pressRegistered = true;
 	}
 	
 	/**
@@ -178,6 +191,7 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void mouseReleased() {
 		if (_player.isGrappled()) _player.releaseGrapple();
+		_pressRegistered = false;
 	}
 	
 	/**

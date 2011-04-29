@@ -65,5 +65,4 @@ public class XMLLevel extends AbstractLevel {
 
 	// necessary empty overrides
 	public void setup() { }
-	public void mouseReleased() { }
 }

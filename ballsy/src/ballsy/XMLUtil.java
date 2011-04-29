@@ -81,6 +81,7 @@ public class XMLUtil {
     		String bodyType = currBody.attributeValue("TYPE");
     		boolean grappleable = Boolean.parseBoolean(currBody.attributeValue("GRAPPLEABLE"));
     		boolean endpoint = Boolean.parseBoolean(currBody.attributeValue("ENDPOINT"));
+    		boolean deadly = Boolean.parseBoolean(currBody.attributeValue("DEADLY"));
     		String graphicalType = currGraphDef.attributeValue("TYPE"); // graphical and physics type may not ever be needed
     		int color = Integer.parseInt(currGraphDef.attributeValue("COLOR"));
     		String physicsType = currPhysDef.attributeValue("TYPE");
@@ -115,6 +116,7 @@ public class XMLUtil {
     			newBall.getGraphicsDef().setColor(color);
     			newBall.setGrappleable(grappleable);
     			newBall.setEndpoint(endpoint);
+    			newBall.setDeadly(deadly);
     			// display the line if necessary
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
     			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
@@ -127,6 +129,7 @@ public class XMLUtil {
     			newRect.getGraphicsDef().setColor(color);
     			newRect.setGrappleable(grappleable);
     			newRect.setEndpoint(endpoint);
+    			newRect.setDeadly(deadly);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
     		} else if (bodyType.compareTo("regular_polygon") == 0 || bodyType.compareTo("irregular_polygon") == 0) {
@@ -145,6 +148,7 @@ public class XMLUtil {
     			newPoly.getGraphicsDef().setColor(color);
     			newPoly.setGrappleable(grappleable);
     			newPoly.setEndpoint(endpoint);
+    			newPoly.setDeadly(deadly);
     			newPoly.getPhysicsDef().setMobile(mobile);
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
