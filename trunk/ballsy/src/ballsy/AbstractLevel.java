@@ -72,8 +72,8 @@ public abstract class AbstractLevel extends Screen {
 		// make a fun sound!
 //		AudioClip clip = new AudioClip("res/thump.wav");
 //		clip.start(1);
-		_sound.setGain(-10);
-		_sound.trigger();
+//		_sound.setGain(-10);
+//		_sound.trigger();
 //		sound.close();
 //		minim.stop();
 	}
