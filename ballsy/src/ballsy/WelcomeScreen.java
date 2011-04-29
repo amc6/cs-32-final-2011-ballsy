@@ -12,8 +12,8 @@ public class WelcomeScreen extends Screen {
 	public void setup() {
 		_window = Window.getInstance();
 		
-		_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 300, 100, _window.width/2, 450);
-		_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 300, 100, _window.width/2, 550);
+		_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 289, 56, _window.width/2, 450);
+		_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 289, 53, _window.width/2, 520);
 		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
 
 		//so jessica can listen to her own music... we need a mute feature
@@ -22,7 +22,7 @@ public class WelcomeScreen extends Screen {
 	}
 	
 	public void draw() {
-		_window.background(255,255,255);
+		_window.background(50,200,200);
 		
 		// put stuff in the middle
 		_window.imageMode(PConstants.CENTER);
