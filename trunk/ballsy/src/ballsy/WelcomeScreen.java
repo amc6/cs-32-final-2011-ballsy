@@ -1,5 +1,6 @@
 package ballsy;
 
+import editor.LevelEditor;
 import graphics.HoverImage;
 import graphics.Image;
 import processing.core.PConstants;

@@ -122,7 +122,7 @@ public class LevelOne extends AbstractLevel {
 		_bodies.add(polygon);
 		
 //		Working on this stuff with the vertex surface...
-//		VertexSurface surface = new VertexSurface(-30,-20,PhysicsVertexSurface.generateHalfCup(15, 20, 1));
+//		VertexSurface surface = new VertexSurface(-30,-20,PhysicsVertexSurface.generateLine(20, 1));
 //		_bodies.add(surface);
 		
 		// make a user ball
@@ -136,7 +136,7 @@ public class LevelOne extends AbstractLevel {
 	public void draw() {
 		_window.background(255);
 		_window.stroke(0);
-		_window.noCursor();
+	//	_window.noCursor();
 		
 		//background image
 		_background.draw();
@@ -198,6 +198,9 @@ public class LevelOne extends AbstractLevel {
 			case 'i': // restore state from xml file
 				XMLUtil.getInstance().readFile(this, "default.xml");
 				System.out.println("Level state restored from default.xml");
+				break;
+			case 'q':
+				System.exit(0);
 				break;
 			}
 		}

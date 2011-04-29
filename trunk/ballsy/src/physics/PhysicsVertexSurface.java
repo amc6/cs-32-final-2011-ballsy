@@ -10,7 +10,7 @@ import org.jbox2d.common.Vec2;
 
 public class PhysicsVertexSurface extends PhysicsDef {
 	
-	protected ArrayList<Vec2> _points;
+	private ArrayList<Vec2> _points;
 	
 	// Offsets are defined from a starting point of the bottom left corner
 	public PhysicsVertexSurface(float x, float y, ArrayList<Vec2> offsets) {
@@ -55,8 +55,17 @@ public class PhysicsVertexSurface extends PhysicsDef {
 	
 	public static ArrayList<Vec2> generateHalfCup(float height, float width, float stepsize){
 		ArrayList<Vec2> vecList = new ArrayList<Vec2>();
-		for (int x = 0; x <= width; x++){
+		for (float x = width; x >= 0; x--){
 			Vec2 vec = new Vec2((float) x, (float) Math.pow((x-Math.sqrt(40)),2));
+			vecList.add(vec);
+		}
+		return vecList;
+	}
+	
+	public static ArrayList<Vec2> generateLine(float width, float stepsize){
+		ArrayList<Vec2> vecList = new ArrayList<Vec2>();
+		for (float x = width; x >= 0; x--){
+			Vec2 vec = new Vec2(x, 0);
 			vecList.add(vec);
 		}
 		return vecList;

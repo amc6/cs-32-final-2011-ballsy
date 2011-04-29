@@ -15,7 +15,7 @@ import bodies.UserBall;
 
 public class LevelTwo extends AbstractLevel {
 	private PhysicsWorld _world;
-	private UserBall _player;
+	//private UserBall _player;
 	private TrackingCamera _camera;
 	
 	@Override

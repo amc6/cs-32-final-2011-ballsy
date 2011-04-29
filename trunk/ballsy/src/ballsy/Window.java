@@ -49,14 +49,6 @@ public class Window extends PApplet {
 		_screen.setup();
 	}
 	
-	/** 
-	 * Accessor for Screen.
-	 * @return
-	 */
-	public Screen getScreen() {
-		return _screen;
-	}
-	
 	/**
 	 * Alternative to setScreen(), takes in a string of the path of a saved level,
 	 * and constructs it inside a new instance of XMLLevel.
@@ -81,10 +73,6 @@ public class Window extends PApplet {
 	
 	public void keyReleased() {
 		_screen.keyReleased();
-	}
-	
-	public void mouseDragged() {
-		_screen.mouseDragged();
 	}
 	
 	public static Window getInstance(){
