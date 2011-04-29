@@ -195,11 +195,6 @@ public class LevelOne extends AbstractLevel {
 		}
 	}
 
-	@Override
-	public void keyPressed() {
-
-	}
-
 	/**
 	 * Detects mousepressed (override).
 	 * Fires the grapple if it's unfired, releases it if it's fired.
