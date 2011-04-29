@@ -9,6 +9,7 @@ import static bodies.BodyConstants.USER_RADIUS;
 
 import graphics.Background;
 import graphics.Image;
+import graphics.Text;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class LevelOne extends AbstractLevel {
 	
 	private Image _background;
 	private Background _bg;
+	private Text _text;
 	
 	@Override
 	public void setup() {
@@ -43,6 +45,7 @@ public class LevelOne extends AbstractLevel {
 		_background.setImageMode(_window.CORNER);
 		
 		_bg = new Background();
+		_text = new Text("THIS IS SOME TEXT DUDEEEEE", 150, 100);
 		
 		// Initialize Box2D physics and set custom gravity
 
@@ -137,7 +140,9 @@ public class LevelOne extends AbstractLevel {
 		//background image
 		_background.draw();
 		
-		_bg.draw();
+//		_bg.draw();
+		_text.draw();
+		
 		
 		if (!_paused) {
 			// Step the physics world
