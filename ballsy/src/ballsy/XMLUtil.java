@@ -145,7 +145,7 @@ public class XMLUtil {
     			newPoly.getGraphicsDef().setColor(color);
     			newPoly.setGrappleable(grappleable);
     			newPoly.setEndpoint(endpoint);
-    			// MOBILITY <<< ________________________________________ S???? ??? ? 
+    			newPoly.getPhysicsDef().setMobile(mobile);
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
