@@ -65,7 +65,7 @@ public class PhysicsPath {
 	 * of applying a velocity. Rotation is always applied.
 	 */
 	public void step() {
-		boolean paused = ((AbstractLevel) (Window.getInstance().getScreen())).isPaused();
+		boolean paused = AbstractLevel.getInstance().isPaused();
 		// rotate by _stepRotation, if not paused
 		if (!paused)
 			_physDef.getBody().setXForm(_physDef.getBody().getXForm().position, _physDef.getBody().getAngle() + _stepRotation);
