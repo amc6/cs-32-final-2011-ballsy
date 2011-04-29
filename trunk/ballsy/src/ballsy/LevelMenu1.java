@@ -75,4 +75,10 @@ public class LevelMenu1 extends Screen {
 		
 	}
 
+	@Override
+	public void keyReleased() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
