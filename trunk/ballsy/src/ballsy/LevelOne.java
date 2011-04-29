@@ -130,13 +130,14 @@ public class LevelOne extends AbstractLevel {
 		_player = new UserBall(startingPoint.x, startingPoint.y, USER_RADIUS);
 		_player.getGraphicsDef().setColor(100, 200, 200);
 		_bodies.add(_player);
+		_window.noCursor();
 	}
 	
 	@Override
 	public void draw() {
 		_window.background(255);
 		_window.stroke(0);
-	//	_window.noCursor();
+		//_window.noCursor();
 		
 		//background image
 		_background.draw();
@@ -209,6 +210,7 @@ public class LevelOne extends AbstractLevel {
 			_window.fill(100, 100);
 			_window.rectMode(_window.CORNER);
 			_window.rect(0, 0, _window.width, _window.height);
+			_pauseScreen.draw();
 		}
 	}
 

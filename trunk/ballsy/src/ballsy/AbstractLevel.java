@@ -24,6 +24,7 @@ public abstract class AbstractLevel extends Screen {
 	protected boolean _paused = false;
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
+	protected PauseScreen _pauseScreen = new PauseScreen(this);
 	private boolean _pressRegistered = false;
 	
 	private Minim _minim = new Minim(_window);
@@ -90,6 +91,16 @@ public abstract class AbstractLevel extends Screen {
 		return returnBody;
 	}
 	
+	public void togglePaused() {
+		_paused = !_paused;
+		if (_paused) {
+			_window.cursor();
+		}
+		else {
+			_window.noCursor();
+		}
+	}
+	
 	/**
 	 * Handle keypresses (through Processing).
 	 * Overrides escape keypress, and handles sets the boolean array when control keys are pressed
@@ -100,8 +111,8 @@ public abstract class AbstractLevel extends Screen {
 		// handle esc keypress
 		if(_window.key==27) {
 			_window.key=0;
-			_paused = !_paused;
-			_window.cursor();
+			//_paused = !_paused;
+			this.togglePaused();
 		}
 		// handle control keypresses
 		switch (_window.key) {
@@ -176,7 +187,7 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void mouseDragged() {
 		if (_player == null) System.out.println("player null");
-		if (!_player.isGrappled()) _player.fireGrapple();
+		if (!_paused && !_player.isGrappled()) _player.fireGrapple();
 		_pressRegistered = true;
 	}
 	
@@ -184,7 +195,10 @@ public abstract class AbstractLevel extends Screen {
 	 * Fire the grapple upon a mouse press.
 	 */
 	public void mousePressed() {
-		if (!_player.isGrappled()) _player.fireGrapple();
+		if (_paused) {
+			_pauseScreen.mousePressed();
+		}
+		else if (!_player.isGrappled()) _player.fireGrapple();
 		_pressRegistered = true;
 	}
 	
@@ -192,7 +206,7 @@ public abstract class AbstractLevel extends Screen {
 	 * release the grapple upon a mouse release
 	 */
 	public void mouseReleased() {
-		if (_player.isGrappled()) _player.releaseGrapple();
+		if (!_paused && _player.isGrappled()) _player.releaseGrapple();
 		_pressRegistered = false;
 	}
 	

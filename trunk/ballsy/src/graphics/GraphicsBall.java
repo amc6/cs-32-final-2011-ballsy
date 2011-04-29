@@ -34,6 +34,7 @@ public class GraphicsBall extends GraphicsDef {
 		window.rotate(-a);
 		window.fill(this.getColor());
 		window.stroke(0);
+		window.strokeWeight(DEFAULT_LINE_WIDTH);
 		window.ellipse(0,0,this.getPixelRadius() * 2 , this.getPixelRadius() * 2);
 
 		// if appropriate, draw the line representing rotation of the ball
