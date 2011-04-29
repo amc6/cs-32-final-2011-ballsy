@@ -123,8 +123,10 @@ public class LevelOne extends AbstractLevel {
 		_window.stroke(0);
 		_window.noCursor();
 		
-		// Step the physics world
-		_world.step();
+		if (!_paused) {
+			// Step the physics world
+			_world.step();
+		}
 		
 		// Display all the objects
 		for (AbstractBody body : _bodies) {
@@ -192,6 +194,12 @@ public class LevelOne extends AbstractLevel {
 				System.out.println("Level state restored from default.xml");
 				break;
 			}
+		}
+		
+		if (_paused) {
+			_window.fill(100, 100);
+			_window.rectMode(_window.CORNER);
+			_window.rect(0, 0, _window.width, _window.height);
 		}
 	}
 

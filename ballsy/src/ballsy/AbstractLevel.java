@@ -19,6 +19,8 @@ public abstract class AbstractLevel extends Screen {
 	protected int _backgroundColor = 255; // color of the background, defaults to white
 	public Point2D.Float _gravity = new Point2D.Float(0, -20);
 	
+	protected boolean _paused = false;
+	
 	public void setInstance(){
 		LEVEL = this;
 	}
@@ -81,7 +83,8 @@ public abstract class AbstractLevel extends Screen {
 		// handle esc keypress
 		if(_window.key==27) {
 			_window.key=0;
-			Window.getInstance().setScreen(new WelcomeScreen());
+//			Window.getInstance().setScreen(new WelcomeScreen());
+			_paused = !_paused;
 			_window.cursor();
 		}
 	}

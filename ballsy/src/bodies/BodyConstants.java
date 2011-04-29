@@ -11,7 +11,7 @@ public final class BodyConstants {
 	public static final int DEFAULT_BODY_COLOR = Window.getInstance().color(0, 0, 0);
 	
 	/* Ball constants. */
-	public static final float DEFAULT_BALL_RADIUS = 2;
+	public static final float DEFAULT_BALL_RADIUS = .2f;
 	
 	/* Rectangle constants. */
 	public static final float DEFAULT_RECTANGLE_WIDTH = 4;
