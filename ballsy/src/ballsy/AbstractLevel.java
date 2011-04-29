@@ -96,6 +96,7 @@ public abstract class AbstractLevel extends Screen {
 	 * 
 	 */
 	public void keyPressed(){
+		
 		// handle esc keypress
 		if(_window.key==27) {
 			_window.key=0;
@@ -174,6 +175,7 @@ public abstract class AbstractLevel extends Screen {
 	 * so we need to do this for both.
 	 */
 	public void mouseDragged() {
+		if (_player == null) System.out.println("player null");
 		if (!_player.isGrappled()) _player.fireGrapple();
 		_pressRegistered = true;
 	}
