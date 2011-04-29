@@ -9,5 +9,12 @@
 	<classpathentry kind="lib" path="processing-core.jar"/>
 	<classpathentry kind="lib" path="dom4j-1.6.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="minim/library/minim-spi.jar"/>
+	<classpathentry kind="lib" path="minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="minim/library/tritonus_share.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
