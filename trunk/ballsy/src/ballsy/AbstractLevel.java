@@ -61,9 +61,28 @@ public abstract class AbstractLevel extends Screen {
 		//clip.start(1);
 	}
 	
+	/**
+	 * Method to get the AbstractBody for which Body b is representative of
+	 * in the physics world.
+	 * @param b
+	 * @return
+	 */
 	private AbstractBody getAbstractBody(Body b) {
 		AbstractBody returnBody = null;
 		for (AbstractBody bod : _bodies) { if (bod.getPhysicsDef().getBody() == b) returnBody = bod; }
 		return returnBody;
+	}
+	
+	/**
+	 * Handle keypresses (through Processing).
+	 * Most importantly to catch escape keypress.
+	 */
+	public void keyPressed(){
+		// handle esc keypress
+		if(_window.key==27) {
+			_window.key=0;
+			Window.getInstance().setScreen(new WelcomeScreen());
+			_window.cursor();
+		}
 	}
 }

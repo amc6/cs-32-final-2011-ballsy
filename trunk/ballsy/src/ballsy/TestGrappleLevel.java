@@ -143,11 +143,6 @@ public class TestGrappleLevel extends AbstractLevel {
 	}
 
 	@Override
-	public void keyPressed() {
-		
-	}
-
-	@Override
 	public void mousePressed() {
 		// TODO Auto-generated method stub
 		if (!_player.isGrappled()) _player.fireGrapple();

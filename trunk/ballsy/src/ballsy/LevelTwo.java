@@ -140,11 +140,6 @@ public class LevelTwo extends AbstractLevel {
 		_bodies.remove(object);		
 	}
 
-	@Override
-	public void keyPressed() {
-
-	}
-
 	/**
 	 * Detects mousepressed (override).
 	 * Fires the grapple if it's unfired, releases it if it's fired.
