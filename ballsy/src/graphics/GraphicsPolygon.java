@@ -1,5 +1,7 @@
 package graphics;
 
+import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
+
 import java.util.List;
 
 import org.dom4j.Element;
@@ -31,6 +33,7 @@ public class GraphicsPolygon extends GraphicsDef {
 		window.beginShape();
 		window.translate(pos.x,pos.y);
 		window.rotate(-a);
+		window.strokeWeight(DEFAULT_LINE_WIDTH);
 		window.fill(this.getColor());
 		for (Vec2 vert : vertices){
 			

@@ -20,8 +20,8 @@ public class Background {
 	}
 	
 	public void draw() {
-		_window.fill(0);
-		_window.stroke(0);
+		_window.fill(50,200,200);
+		_window.stroke(50,200,200);
 		_window.strokeWeight(3);
 		
 		//float a = 0.0f;
