@@ -25,14 +25,14 @@ public class UserBall extends AbstractBody {
 	private AbstractBody _grappleObject;
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false, _inPlay = true;
-//	private GrappleLine _grapple;
-	private GrappleRope _grapple;
+	private GrappleLine _grapple;
+//	private GrappleRope _grapple;
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
 		_crosshair = new Crosshair(this);
-//		_grapple = new GrappleLine(this);
-		_grapple = new GrappleRope(this);
+		_grapple = new GrappleLine(this);
+//		_grapple = new GrappleRope(this);
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
 
@@ -71,12 +71,13 @@ public class UserBall extends AbstractBody {
 			_grapple.display(); // do this first so it appears behind
 		}
 		super.display();
-//		if ()
-		_crosshair.display();
-		if (!_grappled) {
-			_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
-			_grappleObject = getBody(_grapplePoint);
-		}		
+		if (_inPlay) {
+			_crosshair.display();
+			if (!_grappled) {
+				_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
+				_grappleObject = getBody(_grapplePoint);
+			}	
+		}
 	}
 	
 //	
@@ -86,11 +87,13 @@ public class UserBall extends AbstractBody {
 	
 
 	
-	public void setGrapple(GrappleRope grapple) {
+	public void setGrapple(GrappleLine grapple) {
 		_grapple = grapple;
 	}
 
-	
+	public void setInPlay(boolean b) {
+		_inPlay = b;
+	}
 	
 	public void fireGrapple() {
 		if (_grappleObject != null) {
