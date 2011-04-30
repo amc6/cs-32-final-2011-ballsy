@@ -67,6 +67,10 @@ public class Window extends PApplet {
 		_screen.mouseReleased();
 	}
 	
+	public void mouseDragged() {
+		_screen.mouseDragged();
+	}
+	
 	public void keyPressed() {
 		_screen.keyPressed();
 	}
