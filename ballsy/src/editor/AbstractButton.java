@@ -1,6 +1,6 @@
 package editor;
 
-import processing.core.PConstants;
+import processing.core.PFont;
 import ballsy.Window;
 
 public abstract class AbstractButton {
@@ -45,11 +45,11 @@ public abstract class AbstractButton {
 		if (this.mouseInBounds(_window.mouseX, _window.mouseY)){
 			float length = _window.textWidth(this.tooltip());
 			
-			_window.fill(_window.color(100,50));
-			_window.rect(_window.mouseX+10, _window.mouseY, length/3 + 20f, 20);
-			_window.fill(0);
-			_window.textSize(10);
-			_window.text(this.tooltip(),_window.mouseX+20,_window.mouseY+15);
+			_window.fill(EditorConstants.TOOLTIP_BG);
+			_window.rect(_window.mouseX+10, _window.mouseY+10, length/3 + 16f, 22);
+			_window.fill(255); // white
+			_window.textFont(EditorConstants.TOOLTIP_FONT);
+			_window.text(this.tooltip(),_window.mouseX+16,_window.mouseY+25);
 		}
 	}
 		
