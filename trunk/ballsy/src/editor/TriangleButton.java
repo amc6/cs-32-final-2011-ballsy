@@ -21,7 +21,6 @@ public class TriangleButton extends AbstractButton {
 		_window.vertex((_maxX+_minX)/2, _minY+12);
 		_window.vertex(_maxX-12, _maxY - 12);		
 		_window.endShape(PConstants.CLOSE);
-		this.displayTooltip();
 		
 	}
 

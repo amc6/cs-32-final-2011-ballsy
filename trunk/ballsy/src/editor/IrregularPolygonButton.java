@@ -23,7 +23,7 @@ public class IrregularPolygonButton extends AbstractButton {
 		_window.vertex(_maxX-12, (_maxY+_minY)/2);
 		_window.vertex(_maxX-12, _maxY - 12);		
 		_window.endShape(PConstants.CLOSE);
-		this.displayTooltip();
+
 	}
 
 

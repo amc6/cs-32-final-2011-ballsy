@@ -12,7 +12,6 @@ public class RectangleButton extends AbstractButton {
 		super.display();
 		_window.fill(EditorConstants.RECTANGLE_COLOR);
 		_window.rect(_minX+12, _minY+12, (_maxX-_minX)-24, (_maxY-_minY)-24);
-		this.displayTooltip();
 	}
 
 

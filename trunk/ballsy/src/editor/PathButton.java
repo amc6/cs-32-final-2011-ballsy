@@ -3,14 +3,14 @@ package editor;
 import processing.core.PConstants;
 import processing.core.PImage;
 
-public class CursorButton extends AbstractButton {
+public class PathButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public CursorButton(int minX, int minY, int maxX, int maxY) {
+	public PathButton(int minX, int minY, int maxX, int maxY) {
 
 		super(minX, minY, maxX, maxY);
-		_image = _window.loadImage("res/cursor.png");
+		_image = _window.loadImage("res/pathicon.png");
 
 	}
 
@@ -26,11 +26,11 @@ public class CursorButton extends AbstractButton {
 
 
 	public void onClick() {
-		System.out.println("CURSOR!");
+		System.out.println("PATH!");
 	}
 	
 	public String tooltip(){
-		return "Click to select objects in the level.";
+		return "Click to create paths for objects to follow.";
 	}
 	
 }

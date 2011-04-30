@@ -41,5 +41,11 @@ public class ButtonGroup {
 			button.display();
 		}
 	}
+	
+	public void displayTooltips(){
+		for (AbstractButton button : _buttons){
+			button.displayTooltip();
+		}
+	}
 
 }

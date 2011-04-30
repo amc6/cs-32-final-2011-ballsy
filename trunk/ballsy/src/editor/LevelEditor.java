@@ -45,9 +45,11 @@ public class LevelEditor extends Screen {
 		IrregularPolygonButton irregPolyButton = new IrregularPolygonButton(90,topPart+75,150,topPart+135);
 		shapeGroup.add(irregPolyButton);
 		
-
 		BallButton ballButton = new BallButton(15,topPart+150,75,topPart+210);
 		shapeGroup.add(ballButton);
+		
+		PathButton pathButton = new PathButton(90,topPart+150,150,topPart+210);
+		shapeGroup.add(pathButton);
 	}
 
 	@Override
@@ -89,6 +91,10 @@ public class LevelEditor extends Screen {
 		
 		for (ButtonGroup group : _buttonGroups){
 			group.display();
+		}
+		
+		for (ButtonGroup group : _buttonGroups){
+			group.displayTooltips();
 		}
 
 	}

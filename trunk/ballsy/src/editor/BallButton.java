@@ -15,7 +15,6 @@ public class BallButton extends AbstractButton {
 		_window.translate((_maxX+_minX)/2, (_maxY+_minY)/2);
 		_window.ellipse(0, 0, (float) ((_maxX-_minX)*0.65), (float) ((_maxY-_minY)*0.65));
 		_window.popMatrix();
-		this.displayTooltip();
 	}
 
 
