@@ -13,7 +13,7 @@ import ballsy.Screen;
 public class LevelEditor extends Screen {
 
 	private AbstractLevel _level;
-	private ArrayList<AbstractButton> _buttons;
+	private ArrayList<ButtonGroup> _buttonGroups;
 
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
 	
@@ -28,12 +28,26 @@ public class LevelEditor extends Screen {
 		
 		int topPart = (int) (_window.height - _newLevelHeight);
 		
-		_buttons = new ArrayList<AbstractButton>();
-		RectangleButton rectButton = new RectangleButton(20,topPart,80,topPart+60);
-		_buttons.add(rectButton);
+		_buttonGroups = new ArrayList<ButtonGroup>();
 		
-		TriangleButton triangleButton = new TriangleButton(120,topPart,180,topPart+60);
-		_buttons.add(triangleButton);
+		ButtonGroup shapeGroup = new ButtonGroup();
+		_buttonGroups.add(shapeGroup);	
+		
+		CursorButton cursorButton = new CursorButton(15,topPart,75,topPart+60);
+		shapeGroup.add(cursorButton);
+		
+		RectangleButton rectButton = new RectangleButton(90,topPart,150,topPart+60);
+		shapeGroup.add(rectButton);
+		
+		TriangleButton triangleButton = new TriangleButton(15,topPart+75,75,topPart+135);
+		shapeGroup.add(triangleButton);
+		
+		IrregularPolygonButton irregPolyButton = new IrregularPolygonButton(90,topPart+75,150,topPart+135);
+		shapeGroup.add(irregPolyButton);
+		
+
+		BallButton ballButton = new BallButton(15,topPart+150,75,topPart+210);
+		shapeGroup.add(ballButton);
 	}
 
 	@Override
@@ -73,8 +87,8 @@ public class LevelEditor extends Screen {
 		_window.textSize(30);
 		_window.text("Level Editor",35,50);
 		
-		for (AbstractButton button : _buttons){
-			button.display();
+		for (ButtonGroup group : _buttonGroups){
+			group.display();
 		}
 
 	}
@@ -82,14 +96,13 @@ public class LevelEditor extends Screen {
 	@Override
 	public void keyPressed() {
 		_level.keyPressed();
-
 	}
 
 	@Override
 	public void mousePressed() {
 		_level.mousePressed();
-		for (AbstractButton button : _buttons){
-			button.click();
+		for (ButtonGroup group : _buttonGroups){
+			group.click(_window.mouseX, _window.mouseY);
 		}
 	}
 

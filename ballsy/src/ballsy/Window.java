@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import editor.LevelEditor;
 
 public class Window extends PApplet {
 	
