@@ -1,5 +1,6 @@
 package ballsy;
 
+import editor.LevelEditor;
 import graphics.Image;
 
 public class LevelMenu1 extends Screen {
@@ -48,7 +49,7 @@ public class LevelMenu1 extends Screen {
 		int y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
-			_window.setScreen(new TestGrappleLevel());
+			_window.setScreen(new LevelEditor());
 		}
 		
 		//new game click detect

@@ -8,7 +8,6 @@ public abstract class AbstractButton {
 	protected int _minX, _minY, _maxX, _maxY;
 	protected Window _window;
 	protected boolean _clicked;
-	private int _color, _borderColor, _inactiveColor, _activeColor, _inactiveBorderColor, _activeBorderColor;
 	
 	public AbstractButton(int minX, int minY, int maxX, int maxY) {
 		_window = Window.getInstance();
@@ -17,25 +16,7 @@ public abstract class AbstractButton {
 		_maxX = maxX;
 		_maxY = maxY;
 		_clicked = false;
-		_inactiveColor = 150;
-		_inactiveBorderColor = 100;
-		_activeColor = 200;
-		_activeBorderColor = 150;
-		
-		_color = _inactiveColor;
-		_borderColor = _inactiveBorderColor;
 	}
-	
-	public void setActiveColors(int color, int borderColor) {
-		_activeColor = color;
-		_activeBorderColor = borderColor;
-	}
-	
-	public void setInactiveColors(int color, int borderColor) {
-		_inactiveColor = color;
-		_inactiveBorderColor = borderColor;
-	}
-	
 
 	public void display() {
 		_window.stroke(EditorConstants.BUTTON_BORDER_COLOR);
@@ -44,38 +25,45 @@ public abstract class AbstractButton {
 		if (_clicked){
 			_window.fill(EditorConstants.BUTTON_ACTIVE_COLOR);
 		}else{
-			if (this.mouseInBounds()){
+			if (this.mouseInBounds(_window.mouseX, _window.mouseY)){
 				_window.fill(EditorConstants.BUTTON_HOVER_COLOR);
 			}else{
 				_window.fill(EditorConstants.BUTTON_INACTIVE_COLOR);
 			}
 		}
 		
+	
+		
 		_window.rect(_minX, _minY, _maxX - _minX, _maxY - _minY);
 		_window.strokeWeight(1);
 			
+		
 
+	}
+	
+	public void displayTooltip(){
+		if (this.mouseInBounds(_window.mouseX, _window.mouseY)){
+			float length = _window.textWidth(this.tooltip());
+			
+			_window.fill(_window.color(100,50));
+			_window.rect(_window.mouseX+10, _window.mouseY, length/3 + 20f, 20);
+			_window.fill(0);
+			_window.textSize(10);
+			_window.text(this.tooltip(),_window.mouseX+20,_window.mouseY+15);
+		}
 	}
 		
-	public void click() {
-		if (mouseInBounds()) {
+	public void setActive(boolean active) {
+		if (active){
 			_clicked = true;
-		}
-		this.onClick();
-	}
-	
-	public boolean mouseInBounds() {
-		return _window.mouseX > _minX && _window.mouseX < _maxX && _window.mouseY > _minY && _window.mouseY < _maxY;
-
-	}
-	
-	public void release(int mouseX, int mouseY) {
-		if (_clicked) {
-			if (mouseX > _minX && mouseX < _maxX && mouseY > _minY && mouseY < _maxY) {
-				onClick();
-			}
+			this.onClick();
+		}else{
 			_clicked = false;
 		}
+	}
+	
+	public boolean mouseInBounds(int mouseX, int mouseY) {
+		return mouseX > _minX && mouseX < _maxX && mouseY > _minY && mouseY < _maxY;
 	}
 	
 	/**
@@ -83,4 +71,5 @@ public abstract class AbstractButton {
 	 */
 	public abstract void onClick();
 	
+	public abstract String tooltip();
 }
