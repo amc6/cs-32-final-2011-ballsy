@@ -144,8 +144,8 @@ public class LevelOne extends AbstractLevel {
 		//background image
 		_background.draw();
 		
-//		_bg.draw();
-		_text.draw();
+		_bg.draw();
+//		_text.draw();
 		
 		
 		if (!_paused) {
