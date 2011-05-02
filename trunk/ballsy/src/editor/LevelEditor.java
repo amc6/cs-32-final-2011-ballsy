@@ -1,5 +1,7 @@
 package editor;
 
+import graphics.Text;
+
 import java.util.ArrayList;
 
 import org.jbox2d.dynamics.Body;
@@ -16,11 +18,17 @@ public class LevelEditor extends Screen {
 	private ArrayList<ButtonGroup> _buttonGroups;
 
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
+	private Text _levelEditorTitle;
 	
 	@Override
 	public void setup() {
 		_level = new LevelOne();
 		_level.setup();
+		
+		_levelEditorTitle = new Text("Level Editor", 20, 90);
+		_levelEditorTitle.setAlign(_window.CORNER);
+		_levelEditorTitle.setSize(40);
+		_levelEditorTitle.setColor(0);
 
 		_newLevelWidth = _window.width - EditorConstants.LEFT_PANEL_WIDTH;
 		_scaleFactor = _newLevelWidth/_window.width;
@@ -85,9 +93,7 @@ public class LevelEditor extends Screen {
 		_window.strokeWeight(GeneralConstants.DEFAULT_LINE_WIDTH);
 		_window.popMatrix();
 
-		_window.fill(0);
-		_window.textSize(30);
-		_window.text("Level Editor",35,50);
+		_levelEditorTitle.draw();
 		
 		for (ButtonGroup group : _buttonGroups){
 			group.display();

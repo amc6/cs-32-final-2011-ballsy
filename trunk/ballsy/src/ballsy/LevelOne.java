@@ -6,6 +6,8 @@ import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import static bodies.BodyConstants.USER_RADIUS;
+import static ballsy.GeneralConstants.*;
+import static editor.EditorConstants.*;
 
 import graphics.Background;
 import graphics.Image;
@@ -170,6 +172,7 @@ public class LevelOne extends AbstractLevel {
 		_window.fill(0);
 		_window.textSize(20);
 		_window.textAlign(_window.CORNER);
+		_window.textFont(STUPID_FONT);
 		_window.text((int)_window.frameRate + " FPS",12,46);
 		
 		this.applyInput();
