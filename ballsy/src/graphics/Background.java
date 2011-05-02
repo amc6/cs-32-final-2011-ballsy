@@ -10,12 +10,16 @@ public class Background {
 	
 	public Background() {
 		_y = new float[_window.width];
-		float ylast = 550;
+		float ylast = 500;
 		float a = 0.0f;
 		float inc = 1;
 		
+		int m1 = (int) (Math.random() * 200) + 100;
+		int m2 = (int) (Math.random() * 200) + 100;
+		int m3 = (int) (Math.random() * 200) + 100;
+
 		for (int x = 0; x<_window.width; x++) {
-			_y[x] = (ylast + _window.sin(a/105)*.1f + _window.cos(a/205)*.2f);
+			_y[x] = (ylast + _window.sin(a/m1)*.1f + _window.cos(a/m2)*.2f + _window.sin(a/m3)*.15f);
 			a+=inc;
 			ylast=_y[x];
 		}
