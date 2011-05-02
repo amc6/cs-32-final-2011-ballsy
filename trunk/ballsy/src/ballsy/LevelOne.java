@@ -46,6 +46,8 @@ public class LevelOne extends AbstractLevel {
 		
 		_bg = new Background();
 		_text = new Text("THIS IS SOME TEXT DUDEEEEE", 150, 100);
+		_text.setAlign(_window.CORNER);
+		_text.setColor(100);
 		
 		// Initialize Box2D physics and set custom gravity
 
@@ -167,6 +169,7 @@ public class LevelOne extends AbstractLevel {
 		// Just drawing the framerate to see how many particles it can handle
 		_window.fill(0);
 		_window.textSize(20);
+		_window.textAlign(_window.CORNER);
 		_window.text((int)_window.frameRate + " FPS",12,46);
 		
 		this.applyInput();
@@ -207,9 +210,6 @@ public class LevelOne extends AbstractLevel {
 		}
 		
 		if (_paused) {
-			_window.fill(100, 100);
-			_window.rectMode(_window.CORNER);
-			_window.rect(0, 0, _window.width, _window.height);
 			_pauseScreen.draw();
 		}
 	}
