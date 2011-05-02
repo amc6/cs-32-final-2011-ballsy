@@ -1,5 +1,11 @@
 package editor;
 
+import interfascia.GUIController;
+import interfascia.GUIEvent;
+import interfascia.IFLabel;
+import interfascia.IFRadioButton;
+import interfascia.IFRadioController;
+import interfascia.IFTextField;
 import graphics.Text;
 
 import java.util.ArrayList;
@@ -58,6 +64,52 @@ public class LevelEditor extends Screen {
 		
 		PathButton pathButton = new PathButton(90,topPart+150,150,topPart+210);
 		shapeGroup.add(pathButton);
+		
+
+		GUIController c = new GUIController(_window);
+		IFRadioController rc = new IFRadioController("Mode Selector");
+		rc.addActionListener(this);
+
+		IFRadioButton b1 = new IFRadioButton("Dynamic Object", 15, topPart+285, rc);
+
+		IFRadioButton b2 = new IFRadioButton("Static Object", 15, topPart+315, rc);
+
+		IFRadioButton b3 = new IFRadioButton("Graphical Only", 15, topPart+345, rc);
+
+
+
+		c.add(b1);
+		c.add(b2);
+		c.add(b3);
+
+		float propertiesStart = _window.height - 200;
+		
+		IFLabel frictionLabel = new IFLabel("Friction", 15, (int) propertiesStart);
+		IFTextField friction = new IFTextField("Friction", 90, (int) propertiesStart - 4, 60);
+		friction.setValue("1.3");
+		friction.addActionListener(this);
+		c.add(frictionLabel);
+		c.add(friction);
+		
+		IFLabel bouncinessLabel = new IFLabel("Bounciness", 15, (int) propertiesStart + 30);
+		IFTextField bounciness = new IFTextField("Bounciness", 90, (int) propertiesStart - 4 + 30, 60);
+		bounciness.setValue("0.3");
+		bounciness.addActionListener(this);
+		c.add(bouncinessLabel);
+		c.add(bounciness);
+		
+		IFLabel densityLabel = new IFLabel("Density", 15, (int) propertiesStart + 60);
+		IFTextField density = new IFTextField("Density", 90, (int) propertiesStart - 4 + 60, 60);
+		density.setValue("4.3");
+		density.addActionListener(this);
+		c.add(densityLabel);
+		c.add(density);
+	
+
+	}
+	
+	public void actionPerformed(GUIEvent e){
+		System.out.println("action performed in GUI");
 	}
 
 	@Override
@@ -68,9 +120,9 @@ public class LevelEditor extends Screen {
 
 		_window.pushMatrix();
 
-		_window.translate(_window.width - _newLevelWidth, _window.height - _newLevelHeight);
-
-		_window.scale(_scaleFactor, _scaleFactor);
+//		_window.translate((_window.width - _newLevelWidth)/2, _window.height - _newLevelHeight);
+//
+//		_window.scale(_scaleFactor, _scaleFactor);
 
 		_level.draw();		
 		_window.cursor();
@@ -79,7 +131,7 @@ public class LevelEditor extends Screen {
 
 		_window.pushMatrix();
 
-		_window.fill(255); // white
+		_window.fill(255, 150); // white
 		_window.rectMode(PConstants.CORNER);
 		_window.rect(0,0,EditorConstants.LEFT_PANEL_WIDTH,_window.height);
 		_window.rect(EditorConstants.LEFT_PANEL_WIDTH, 0, _newLevelWidth, _window.height - _newLevelHeight);

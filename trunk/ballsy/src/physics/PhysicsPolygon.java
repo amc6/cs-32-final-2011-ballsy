@@ -25,6 +25,7 @@ public class PhysicsPolygon extends PhysicsDef {
 			polygonDef.addVertex(vec);
 		}						
 		this.createBody(polygonDef);
+		
 	}
 		
 	public ArrayList<Vec2> getPointOffsets(){

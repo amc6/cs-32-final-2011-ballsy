@@ -8,6 +8,7 @@
 	<classpathentry kind="lib" path="jogl.dll"/>
 	<classpathentry kind="lib" path="processing-core.jar"/>
 	<classpathentry kind="lib" path="dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/interfascia003/interfascia/library/interfascia.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="minim_library/jl1.0.jar"/>
 	<classpathentry kind="lib" path="minim_library/jsminim.jar"/>
