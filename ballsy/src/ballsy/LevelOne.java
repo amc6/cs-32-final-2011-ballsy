@@ -37,7 +37,7 @@ public class LevelOne extends AbstractLevel {
 	
 	private Image _background;
 	private Background _bg;
-	private Text _text;
+	//private Text _text;
 	
 	@Override
 	public void setup() {
@@ -47,9 +47,9 @@ public class LevelOne extends AbstractLevel {
 		_background.setImageMode(_window.CORNER);
 		
 		_bg = new Background();
-		_text = new Text("THIS IS SOME TEXT DUDEEEEE", 150, 100);
-		_text.setAlign(_window.CORNER);
-		_text.setColor(100);
+		//_text = new Text("THIS IS SOME TEXT DUDEEEEE", 150, 100);
+		//_text.setAlign(_window.CORNER);
+		//_text.setColor(100);
 		
 		// Initialize Box2D physics and set custom gravity
 
@@ -212,9 +212,13 @@ public class LevelOne extends AbstractLevel {
 			}
 		}
 		
+		
 		if (_paused) {
 			_pauseScreen.draw();
 		}
+		
+		_debug.draw();
 	}
-
+	
+	
 }

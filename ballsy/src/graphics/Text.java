@@ -24,6 +24,8 @@ public class Text {
 	
 	public void setSize(int size) {
 		switch (size) {
+		case 30:
+			_font = DEFAULT_FONT_SMALLER;
 		case 38:
 			_font = DEFAULT_FONT;
 			break;
@@ -69,5 +71,9 @@ public class Text {
 		_window.textAlign(_textAlign);
 		_window.textFont(_font); 
 		_window.text(_text, _x, _y);
+	}
+	
+	public String getText() {
+		return _text;
 	}
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
+import ballsy.AbstractLevel;
 import ballsy.WelcomeScreen;
 import ballsy.Window;
 
@@ -75,7 +76,7 @@ public class UserBall extends AbstractBody {
 			_crosshair.display();
 			if (!_grappled) {
 				_grapplePoint = _crosshair.getGrapplePoint(_level.getBodies());
-				_grappleObject = getBody(_grapplePoint);
+				_grappleObject = this.getBody(_grapplePoint);
 			}	
 		}
 	}

@@ -5,19 +5,31 @@ package graphics;
  * and also to identify where it will impact what object.
  */
 
+import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
+import static bodies.BodyConstants.CROSSHAIR_ACTIVE_LINE_COLOR;
+import static bodies.BodyConstants.CROSSHAIR_FILL_COLOR;
+import static bodies.BodyConstants.CROSSHAIR_FILL_OPACITY;
+import static bodies.BodyConstants.CROSSHAIR_HELPER_DIAMETER;
+import static bodies.BodyConstants.CROSSHAIR_INACTIVE_LINE_COLOR;
+import static bodies.BodyConstants.CROSSHAIR_LINE_DIST_COEFF;
+import static bodies.BodyConstants.CROSSHAIR_LINE_LENGTH;
+import static bodies.BodyConstants.CROSSHAIR_LINE_WIDTH;
+import static bodies.BodyConstants.CROSSHAIR_RANGE;
+import static bodies.BodyConstants.CROSSHAIR_SIZE;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
 import org.jbox2d.collision.Segment;
 import org.jbox2d.collision.SegmentCollide;
 import org.jbox2d.common.RaycastResult;
 import org.jbox2d.common.Vec2;
+
 import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
+import ballsy.GeneralConstants;
 import ballsy.Window;
 import bodies.AbstractBody;
 import bodies.UserBall;
-import static ballsy.GeneralConstants.*;
-import static bodies.BodyConstants.*;
 
 public class Crosshair {
 	private PhysicsWorld _world;
@@ -88,11 +100,11 @@ public class Crosshair {
 		float maxX = (float) (ballX + CROSSHAIR_RANGE * Math.cos(angle)); 
 		float maxY = (float) (ballY + CROSSHAIR_RANGE * Math.sin(angle)); 
 		
-		/////// UNCOMMENT this to see a graphical representation of the range of the grapple
-		//// window.stroke(200);
-		//// window.line(_world.worldXtoPixelX(ballX), _world.worldYtoPixelY(ballY), _world.worldXtoPixelX(maxX), _world.worldYtoPixelY(maxY));
-		//// window.strokeWeight(AbstractLevel.DEFAULT_WEIGHT);
-		////////
+		/// UNCOMMENT this to see a graphical representation of the range of the grapple
+		// window.stroke(255);
+		// window.line(_world.worldXtoPixelX(ballX), _world.worldYtoPixelY(ballY), _world.worldXtoPixelX(maxX), _world.worldYtoPixelY(maxY));
+		// window.strokeWeight(5);
+		////
 		
 		// iterate through bodies
 		Point2D.Float grapplePoint = null;
@@ -103,10 +115,10 @@ public class Crosshair {
 			Segment segment = new Segment();
 			segment.p1.set(new Vec2(ballX, ballY));
 			segment.p2.set(new Vec2(maxX, maxY));
-//			System.out.println("body.getBody: " + body.getBody());
 			SegmentCollide hit = body.getPhysicsDef().getBody().getShapeList().testSegment(body.getPhysicsDef().getBody().getXForm(), out, segment, 1);
 			// check if there is an intersection
 			if (hit == SegmentCollide.HIT_COLLIDE) {
+				out.lambda*=1.01;
 				// there is! calculate the point of intersection: alpha is percentage of segment length (range) at which intersection occurs
 				Point2D.Float currPoint = new Point2D.Float((float) (ballX + CROSSHAIR_RANGE * out.lambda * Math.cos(angle)),
 						(float) (ballY + CROSSHAIR_RANGE * out.lambda * Math.sin(angle)));
