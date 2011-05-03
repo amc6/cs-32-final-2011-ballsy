@@ -1,5 +1,7 @@
 package ballsy;
 
+import graphics.Text;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public abstract class AbstractLevel extends Screen {
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
 	private boolean _pressRegistered = false;
+	protected static Text _debug = new Text("",100,100);
 	
 	private Minim _minim = new Minim(_window);
 	private AudioSample _sound = _minim.loadSample("res/thump.wav", 2048);
@@ -172,12 +175,12 @@ public abstract class AbstractLevel extends Screen {
 			if (_keys[LEFT]) _player.moveLeft();
 			if (_keys[RIGHT]) _player.moveRight();
 			// mouse stuff?
-			if (_window.mousePressed) {
-				if (!_player.isGrappled() && !_pressRegistered) {
-					_player.fireGrapple();
-					_pressRegistered = true;
-				}
-			}
+//			if (_window.mousePressed) {
+//				if (!_player.isGrappled() && !_pressRegistered) {
+//					_player.fireGrapple();
+//					_pressRegistered = true;
+//				}
+//			}
 		}
 	}
 	
@@ -218,5 +221,18 @@ public abstract class AbstractLevel extends Screen {
 		return _paused;
 	}
 	
-	
+	public static void println(String m) {
+		System.out.println("FROM SCREEN: " + m);
+		String s = _debug.getText() + m;
+		int newlines = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '\n') newlines++;
+		}
+		if (newlines > 8) {
+			s = s.substring(s.indexOf('\n')+1);
+		}
+		s+='\n';
+		_debug = new Text(s,100,100,100,Window.CORNER);
+		_debug.setSize(30);
+	}
 }
