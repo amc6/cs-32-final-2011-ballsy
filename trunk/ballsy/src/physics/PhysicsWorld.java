@@ -329,4 +329,19 @@ public class PhysicsWorld {
 	public void refilter(PhysicsDef physicsDef){
 		world.refilter(physicsDef.getBody().m_shapeList);
 	}
+	
+	/**
+	 * Returns whether the world contains a given point
+	 * @param point
+	 * @return
+	 */
+	public boolean contains(Vec2 point) {
+		System.out.println(point.x + " " + point.y);
+		Vec2 minBounds = this.getBounds()[0];
+		Vec2 maxBounds = this.getBounds()[1];
+		if (minBounds.x <= point.x && maxBounds.x >= point.x &&
+				minBounds.y <= point.y && maxBounds.y >= point.y)
+			return true;
+		else return false;
+	}
 }

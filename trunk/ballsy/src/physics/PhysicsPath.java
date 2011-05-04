@@ -8,6 +8,7 @@ package physics;
  */
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.dom4j.DocumentHelper;
@@ -15,7 +16,6 @@ import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
 import ballsy.AbstractLevel;
-import ballsy.Window;
 
 public class PhysicsPath {
 	private Vector<Point2D.Float> _pathPoints;
@@ -68,7 +68,7 @@ public class PhysicsPath {
 		boolean paused = AbstractLevel.getInstance().isPaused();
 		// rotate by _stepRotation, if not paused
 		if (!paused)
-			_physDef.getBody().setXForm(_physDef.getBody().getXForm().position, _physDef.getBody().getAngle() + _stepRotation);
+			_physDef.setRotation(_physDef.getBody().getAngle() + _stepRotation);
 		// don't step further if there're no points to step through
 		if (_pathPoints.size() == 0) return;
 		// set up some variables
@@ -82,7 +82,7 @@ public class PhysicsPath {
 		Point2D.Float destination = getAdjusted(_currTarget);
 		// find the angle towards the next point
 		double angle = Math.atan2((destination.getY() - position.getY()), (destination.getX() - position.getX()));
-		if (!_static) {
+		if (!_static && !paused) {
 			// if it's not static, create velocity in that direction
 			Vec2 vel = new Vec2((float)(_velCoeff * Math.cos(angle)), (float)(_velCoeff * Math.sin(angle)));
 			// set velocity towards target point
@@ -128,6 +128,18 @@ public class PhysicsPath {
 			newEl.add(pointEl);
 		}
 		return newEl;
+	}
+	
+	/**
+	 * get the world points of the path
+	 * @return
+	 */
+	public ArrayList<Vec2> getWorldPoints() {
+		ArrayList<Vec2> points = new ArrayList<Vec2>();
+		for (Point2D.Float p : _pathPoints) {
+			points.add(new Vec2(_initPos.x + p.x, _initPos.y + p.y));
+		}
+		return points;
 	}
 	
 	// mutators for use in restoring a saved path

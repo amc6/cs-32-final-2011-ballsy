@@ -37,7 +37,7 @@ public class GraphicsPolygon extends GraphicsDef {
 		window.fill(this.getColor());
 		for (Vec2 vert : vertices){
 			
-			window.vertex(_world.scalarWorldToPixels(vert.x), _world.scalarWorldToPixels(vert.y)); // -y for some reason
+			window.vertex(_world.scalarWorldToPixels(vert.x), -_world.scalarWorldToPixels(vert.y)); // -y for some reason
 		}
 		
 		window.endShape(PConstants.CLOSE);

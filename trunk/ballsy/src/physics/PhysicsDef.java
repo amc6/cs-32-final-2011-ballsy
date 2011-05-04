@@ -42,6 +42,10 @@ public abstract class PhysicsDef {
 	 * Must be called in the subclasses constructor to properly create the body
 	 */
 	protected void createBody(ShapeDef shape) {
+		this.createBody(shape, _initialPos, 0);
+	}
+	
+	protected void createBody(ShapeDef shape, Vec2 pos, float angle) {
 		
 		// If we're re-creating a body, we need to remove the old one
 		if (_body != null){
@@ -52,13 +56,20 @@ public abstract class PhysicsDef {
 		shape.friction = _friction;
 		shape.restitution = _bounciness;
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(_initialPos);
+		bodyDef.position.set(pos);
+		bodyDef.angle = angle;
 		
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);
+		_body.m_sweep.a = angle;
 		
 		// Shape does not move if immobile
 		this.setMobile(_mobile);
+	}
+	
+	public void setRotation(float r) {
+		_body.m_sweep.a = r;
+		this.createBody();
 	}
 	
 	/**

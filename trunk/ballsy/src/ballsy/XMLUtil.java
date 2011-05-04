@@ -46,9 +46,6 @@ public class XMLUtil {
 	 * @param path
 	 */
 	public boolean readFile(AbstractLevel level, String path) {
-		// set up the eventual new stuff to be written into the level (after populated by XML parsing)
-		ArrayList<AbstractBody> newBodies = new ArrayList<AbstractBody>();
-		UserBall newPlayer = null;
 		// set up XML reader stuffs
     	SAXReader reader = new SAXReader();
     	Document doc;
@@ -56,6 +53,68 @@ public class XMLUtil {
 		catch (FileNotFoundException e) { return false; } 
 		catch (DocumentException e) { return false; }
     	Element root = doc.getRootElement();
+    	this.restoreXML(level, root);
+    	return true;
+	}
+	
+	/**
+	 * Write out the provided level into an XML file at the provided path.
+	 * Returns success of method.
+	 * @param level
+	 * @param path
+	 * @return
+	 */
+	public boolean writeFile(AbstractLevel level, String path) {
+		// set up the XML document, using dom4j
+		Document doc = DocumentHelper.createDocument();
+    	doc.setRootElement(genXML(level));
+		// actually save the file, return false if IO failure
+		OutputFormat pretty = OutputFormat.createPrettyPrint();
+		try {
+			// write that shit out, pretty style
+			XMLWriter fileWriter = new XMLWriter(new FileWriter(path), pretty);
+			fileWriter.write(doc);
+			fileWriter.flush();
+			fileWriter.close();
+			return true;
+		} catch (IOException e) {
+			// something went horribly wrong
+			return false;
+		}
+	}
+	
+	public Element genXML(AbstractLevel level) {
+		// get the bodies, to iterate through
+		ArrayList<AbstractBody> bodies = level.getBodies();
+		// make the element
+		Element root = DocumentHelper.createElement("BALLSY_LEVEL");
+		// add attributes pertinent to the level
+		// physics world bounds
+    	Vec2 min = level.getWorldBounds()[0];
+		Vec2 max = level.getWorldBounds()[1];
+		root.addAttribute("MIN_X", Float.toString(min.x));
+		root.addAttribute("MIN_Y", Float.toString(min.y));
+		root.addAttribute("MAX_X", Float.toString(max.x));
+		root.addAttribute("MAX_Y", Float.toString(max.y));
+		// bg color
+		root.addAttribute("BG_COLOR", Integer.toString(level.getBGColor()));
+		// gravity
+		root.addAttribute("GRAV_X", Float.toString(level.getGravity().x));
+		root.addAttribute("GRAV_Y", Float.toString(level.getGravity().y));
+		// iterate through bodies, writing each's output xml to the document
+		for (AbstractBody b : bodies) {
+			Element newEl = b.writeXML();
+			root.add(newEl);
+		}
+		
+		return root;
+	}
+	
+	public void restoreXML(AbstractLevel level, Element root) {
+		// set up the eventual new stuff to be written into the level (after populated by XML parsing)
+		ArrayList<AbstractBody> newBodies = new ArrayList<AbstractBody>();
+		UserBall newPlayer = null;
+		
 		// clear current level bodies; needed to copy the current bodies into another vector to avoid concurrent modification
 		if (level.getBodies() != null) {
 	    	Vector<AbstractBody> vec = new Vector<AbstractBody>();
@@ -107,6 +166,7 @@ public class XMLUtil {
     			// o hai userball, let's make you
     			newPlayer = new UserBall(xPos, yPos, width/2);
     			newPlayer.getGraphicsDef().setColor(color);
+    			newPlayer.getPhysicsDef().setRotation(rotation);
     			body = newPlayer.getPhysicsDef().getBody();
     			newBodies.add(newPlayer); // add it to the bodies too!
     		} else if (bodyType.compareTo("ball") == 0) {
@@ -120,6 +180,7 @@ public class XMLUtil {
     			// display the line if necessary
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
     			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
+    			newBall.getPhysicsDef().setRotation(rotation);
     			body = newBall.getPhysicsDef().getBody();
     			newBodies.add(newBall);
     		} else if (bodyType.compareTo("rectangle") == 0) {
@@ -130,6 +191,7 @@ public class XMLUtil {
     			newRect.setGrappleable(grappleable);
     			newRect.setEndpoint(endpoint);
     			newRect.setDeadly(deadly);
+    			newRect.getPhysicsDef().setRotation(rotation);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
     		} else if (bodyType.compareTo("regular_polygon") == 0 || bodyType.compareTo("irregular_polygon") == 0) {
@@ -150,21 +212,21 @@ public class XMLUtil {
     			newPoly.setEndpoint(endpoint);
     			newPoly.setDeadly(deadly);
     			newPoly.getPhysicsDef().setMobile(mobile);
+    			newPoly.getPhysicsDef().setRotation(rotation);
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
     			// it's a surface
     			
-    			/////////////////////////////////////////////////
-    			// to be filled out when surfaces are complete //
-    			/////////////////////////////////////////////////
+    			////////////////////////////////////////////////////
+    			// to be filled out if/when surfaces are complete //
+    			////////////////////////////////////////////////////r
     			
     		}
     		if (body != null) {
         		// set the body properties
 				body.setLinearVelocity(new Vec2(xVel, yVel));
 				body.setAngularVelocity(aVel);
-				body.m_sweep.a = rotation; // no setter?
 				body.getShapeList().setFriction(friction);
 				body.getShapeList().setRestitution(restitution);
 				body.getShapeList().m_density = density; // idk why there's not a setter for this...
@@ -201,53 +263,6 @@ public class XMLUtil {
     	// set the bodies and player to be the new objects as determined above.
     	level.setBodies(newBodies);
     	level.setPlayer(newPlayer);
-    	return true;
 	}
 	
-	/**
-	 * Write out the provided level into an XML file at the provided path.
-	 * Returns success of method.
-	 * @param level
-	 * @param path
-	 * @return
-	 */
-	public boolean writeFile(AbstractLevel level, String path) {
-		// get the bodies, to iterate through
-		ArrayList<AbstractBody> bodies = level.getBodies();
-		// set up the XML document, using dom4j
-		Document doc = DocumentHelper.createDocument();
-		Element root = DocumentHelper.createElement("BALLSY_LEVEL");
-    	doc.setRootElement(root);
-		// add attributes pertinent to the level
-		// physics world bounds
-    	Vec2 min = level.getWorldBounds()[0];
-		Vec2 max = level.getWorldBounds()[1];
-		root.addAttribute("MIN_X", Float.toString(min.x));
-		root.addAttribute("MIN_Y", Float.toString(min.y));
-		root.addAttribute("MAX_X", Float.toString(max.x));
-		root.addAttribute("MAX_Y", Float.toString(max.y));
-		// bg color
-		root.addAttribute("BG_COLOR", Integer.toString(level.getBGColor()));
-		// gravity
-		root.addAttribute("GRAV_X", Float.toString(level.getGravity().x));
-		root.addAttribute("GRAV_Y", Float.toString(level.getGravity().y));
-		// iterate through bodies, writing each's output xml to the document
-		for (AbstractBody b : bodies) {
-			Element newEl = b.writeXML();
-			root.add(newEl);
-		}
-		// actually save the file, return false if IO failure
-		OutputFormat pretty = OutputFormat.createPrettyPrint();
-		try {
-			// write that shit out, pretty style
-			XMLWriter fileWriter = new XMLWriter(new FileWriter(path), pretty);
-			fileWriter.write(doc);
-			fileWriter.flush();
-			fileWriter.close();
-			return true;
-		} catch (IOException e) {
-			// something went horribly wrong
-			return false;
-		}
-	}
 }

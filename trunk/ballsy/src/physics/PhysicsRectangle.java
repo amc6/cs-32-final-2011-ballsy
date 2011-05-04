@@ -23,7 +23,10 @@ public class PhysicsRectangle extends PhysicsDef {
 		float halfWidth = _width/2; // because defined from center
 		float halfHeight = _height/2; // same
 		polygonDef.setAsBox(halfWidth, halfHeight);
-		this.createBody(polygonDef);		
+		if (this.getBody() == null)
+			this.createBody(polygonDef);
+		else
+			this.createBody(polygonDef, this.getBodyGravityCenter(), this.getBody().getAngle());
 	}
 
 	/**

@@ -13,6 +13,7 @@ public class App {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PApplet.main(new String[] { "--present", "ballsy.Window" });
+		System.out.println("Welcome to Ballsy!");
 	}
 
 }

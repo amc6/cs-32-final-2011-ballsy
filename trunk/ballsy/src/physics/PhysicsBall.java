@@ -22,7 +22,9 @@ public class PhysicsBall extends PhysicsDef {
 	protected void createBody(){
 		CircleDef circDef = new CircleDef();
 		circDef.radius = _radius;
-		this.createBody(circDef);	 // super class implementation	
+		// if it already exists, maintain position & rotation.
+		if (_body != null) this.createBody(circDef, this.getBodyGravityCenter(), _body.getAngle());
+		else this.createBody(circDef);
 	}
 	
 	/**
