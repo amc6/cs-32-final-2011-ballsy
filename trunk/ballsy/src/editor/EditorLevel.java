@@ -151,7 +151,7 @@ public class EditorLevel extends AbstractLevel {
 		_window.stroke(50);
 		_window.strokeWeight(2);
 		if (_selectedPoints != null && _selectedPoints.size() > 0) {
-			Vec2 lastPoint = null; 
+			Vec2 lastPoint = _selectedPoints.get(_selectedPoints.size() - 1); 
 			for (Vec2 v : _selectedPoints) {
 				_window.ellipse(_world.worldXtoPixelX(v.x), _world.worldYtoPixelY(v.y), 10, 10);
 				if (lastPoint != null)
@@ -171,10 +171,24 @@ public class EditorLevel extends AbstractLevel {
 			_lastMouseX = _window.mouseX;
 			_lastMouseY = _window.mouseY;
 			if (_selectingPoints) {
-				// put a new point at the location clicked
 				Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
-				if (_world.contains(newPoint))
-					_selectedPoints.add(newPoint);
+				if (_placeMode && _selectedPoints.size() > 1) {
+					// we're placing a polygon, so points need to be counterclockwise and convex
+					ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
+					newPoints.add(newPoint);
+					newPoints = PointMath.sortCCW(newPoints, PointMath.getCenter(newPoints));
+					if (PointMath.isConvex(newPoints) && _world.contains(newPoint)) {
+						// we're good to go
+						_selectedPoints = newPoints;
+					} else {
+						// notify...
+						return;
+					}
+				} else {
+					// we're drawing a path, just place dat shit
+					if (_world.contains(newPoint))
+						_selectedPoints.add(newPoint);
+				}
 			} else if (_placeMode) {
 				// we're placing something, make call to placeObject
 				Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
