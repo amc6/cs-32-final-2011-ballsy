@@ -50,15 +50,7 @@ public class PhysicsPolygon extends PhysicsDef {
 		this.createBody();
 	}
 	
-	public static Vec2 getCenter(ArrayList<Vec2> points) {
-		float xSum = 0;
-		float ySum = 0;
-		for (Vec2 point : points) {
-			xSum += point.x;
-			ySum += point.y;
-		}
-		return new Vec2(xSum/points.size(), ySum/points.size());
-	}
+
 	
 	public static ArrayList<Vec2> getOffsets(ArrayList<Vec2> points, Vec2 center) {
 		ArrayList<Vec2> newList = new ArrayList<Vec2>();

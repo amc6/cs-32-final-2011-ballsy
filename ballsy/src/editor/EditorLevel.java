@@ -380,7 +380,7 @@ public class EditorLevel extends AbstractLevel {
 					} else {
 						// finish/create the polygon
 						_selectingPoints = false;
-						Vec2 center = PhysicsPolygon.getCenter(_selectedPoints);
+						Vec2 center = PointMath.getCenter(_selectedPoints);
 						if (_world.contains(center) && _selectedPoints.size() > 2) {
 							_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
 							_factory.setBody(BodyFactory.IPOLY);
