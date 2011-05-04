@@ -172,11 +172,16 @@ public class EditorLevel extends AbstractLevel {
 			_lastMouseY = _window.mouseY;
 			if (_selectingPoints) {
 				Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
+				System.out.println("clicked point: " + newPoint);
 				if (_placeMode && _selectedPoints.size() > 1) {
 					// we're placing a polygon, so points need to be counterclockwise and convex
 					ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
 					newPoints.add(newPoint);
 					newPoints = PointMath.sortCCW(newPoints, PointMath.getCenter(newPoints));
+					
+					for (Vec2 point : newPoints)
+						System.out.println(point);
+					
 					if (PointMath.isConvex(newPoints) && _world.contains(newPoint)) {
 						// we're good to go
 						_selectedPoints = newPoints;
