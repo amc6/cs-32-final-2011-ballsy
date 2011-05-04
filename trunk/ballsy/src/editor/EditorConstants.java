@@ -17,5 +17,6 @@ public class EditorConstants {
 	public static final PFont TOOLTIP_FONT = Window.getInstance().createFont("Verdana", 12, true);
 	public static final int TOOLTIP_BG = Window.getInstance().color(20,200);
 	public static final float LEFT_PANEL_WIDTH = 165;
+	public static final float TOP_BUTTONS_SIZE = 60;
 	
 }

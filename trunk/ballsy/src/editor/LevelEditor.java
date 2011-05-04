@@ -31,8 +31,8 @@ public class LevelEditor extends Screen {
 		_level = new LevelOne();
 		_level.setup();
 		
-		_levelEditorTitle = new Text("Level Editor", 20, 90);
-		_levelEditorTitle.setAlign(_window.CORNER);
+		_levelEditorTitle = new Text("Ballsy Level Editor", 20, 60);
+		_levelEditorTitle.setAlign(PConstants.LEFT);
 		_levelEditorTitle.setSize(40);
 		_levelEditorTitle.setColor(0);
 
@@ -43,6 +43,7 @@ public class LevelEditor extends Screen {
 		int topPart = (int) (_window.height - _newLevelHeight);
 		
 		_buttonGroups = new ArrayList<ButtonGroup>();
+		
 		
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
@@ -105,7 +106,31 @@ public class LevelEditor extends Screen {
 		c.add(densityLabel);
 		c.add(density);
 	
+		this.addTopControls();
 
+	}
+	
+	private void addTopControls(){
+		ButtonGroup topControls = new ButtonGroup();
+		_buttonGroups.add(topControls);
+		
+		float topPart = (_window.height - _newLevelHeight);
+		
+		float padding = (topPart - EditorConstants.TOP_BUTTONS_SIZE)/2;
+		
+		PlayButton playButton = new PlayButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding), (int) padding, (int) (_window.width - padding), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		topControls.add(playButton);
+		
+		SaveButton saveButton = new SaveButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		topControls.add(saveButton);
+		
+		LoadButton loadButton = new LoadButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		topControls.add(loadButton);
+		
+		NewButton newButton = new NewButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		topControls.add(newButton);
+		
+		
 	}
 	
 	public void actionPerformed(GUIEvent e){
