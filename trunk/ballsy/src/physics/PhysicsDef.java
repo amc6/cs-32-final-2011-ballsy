@@ -68,8 +68,9 @@ public abstract class PhysicsDef {
 	}
 	
 	public void setRotation(float r) {
-		_body.m_sweep.a = r;
-		this.createBody();
+		//_body.m_sweep.a = r;
+		//this.createBody();
+		this.getBody().setXForm(this.getBody().getXForm().position, r);
 	}
 	
 	/**
