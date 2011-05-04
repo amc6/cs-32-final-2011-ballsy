@@ -14,9 +14,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.common.XForm;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.Steppable;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.contacts.ContactPoint;
-import org.jbox2d.dynamics.contacts.ContactResult;
 import org.jbox2d.dynamics.joints.Joint;
 import org.jbox2d.dynamics.joints.JointDef;
 
@@ -93,6 +92,14 @@ public class PhysicsWorld {
 		world.setPositionCorrection(correction);
 		world.setContinuousPhysics(continuous);
 		world.step(timeStep, iterationCount);
+	}
+	
+	public void registerPostStep(Steppable s) {
+		world.registerPostStep(s);
+	}
+	
+	public void unregisterPostStep(Steppable s) {
+		world.unregisterPostStep(s);
 	}
 
 	public float getWidth(){

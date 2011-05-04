@@ -54,7 +54,7 @@ public class LevelOne extends AbstractLevel {
 		// Initialize Box2D physics and set custom gravity
 
 		_world.createWorld();
-		_world.setGravity(0, -20); // otherwise defaults to -10f
+		_world.setGravity(0, -30); // otherwise defaults to -10f
 
 		_bodies = new ArrayList<AbstractBody>();
 		

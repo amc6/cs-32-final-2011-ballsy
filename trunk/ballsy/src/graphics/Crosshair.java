@@ -118,7 +118,7 @@ public class Crosshair {
 			SegmentCollide hit = body.getPhysicsDef().getBody().getShapeList().testSegment(body.getPhysicsDef().getBody().getXForm(), out, segment, 1);
 			// check if there is an intersection
 			if (hit == SegmentCollide.HIT_COLLIDE) {
-				out.lambda*=1.01;
+				out.lambda*=1.0001;
 				// there is! calculate the point of intersection: alpha is percentage of segment length (range) at which intersection occurs
 				Point2D.Float currPoint = new Point2D.Float((float) (ballX + CROSSHAIR_RANGE * out.lambda * Math.cos(angle)),
 						(float) (ballY + CROSSHAIR_RANGE * out.lambda * Math.sin(angle)));
