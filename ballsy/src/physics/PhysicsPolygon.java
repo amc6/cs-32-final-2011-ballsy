@@ -14,8 +14,7 @@ public class PhysicsPolygon extends PhysicsDef {
 	
 	public PhysicsPolygon(float x, float y, ArrayList<Vec2> offsets) {
 		super(x,y);
-		_pointOffsets = offsets;		
-		this.createBody();
+		this.setPoints(offsets);
 	}
 	
 	protected void createBody(){
@@ -23,13 +22,50 @@ public class PhysicsPolygon extends PhysicsDef {
 		polygonDef.clearVertices();
 		for (Vec2 vec : _pointOffsets){;
 			polygonDef.addVertex(vec);
-		}						
-		this.createBody(polygonDef);
-		
+		}
+		// if it already exists, maintain position & rotation.
+		if (_body != null) this.createBody(polygonDef, this.getBody().getXForm().position, _body.getAngle());
+		else this.createBody(polygonDef);
+	}
+	
+	protected void setPoints(ArrayList<Vec2> offsets) {
+		_pointOffsets = offsets;		
+		this.createBody();
 	}
 		
 	public ArrayList<Vec2> getPointOffsets(){
 		return _pointOffsets;
+	}
+	
+	public void scalePoints(float r, float minSize) {
+		ArrayList<Vec2> newOffsets = new ArrayList<Vec2>();
+		int countTooSmall = 0; // we'll count the number of points < minSize. if == # of points, return
+		for (Vec2 v : _pointOffsets) {
+			System.out.println(Math.abs(v.x*r) + " " + Math.abs(v.y*r));
+			if (Math.sqrt(v.x*v.x*r*r + v.y*v.y*r*r) < minSize) countTooSmall++; 
+			if (countTooSmall == _pointOffsets.size()) return; // bail if it's getting too small
+			newOffsets.add(new Vec2(v.x*r, v.y*r));
+		}
+		_pointOffsets = newOffsets;
+		this.createBody();
+	}
+	
+	public static Vec2 getCenter(ArrayList<Vec2> points) {
+		float xSum = 0;
+		float ySum = 0;
+		for (Vec2 point : points) {
+			xSum += point.x;
+			ySum += point.y;
+		}
+		return new Vec2(xSum/points.size(), ySum/points.size());
+	}
+	
+	public static ArrayList<Vec2> getOffsets(ArrayList<Vec2> points, Vec2 center) {
+		ArrayList<Vec2> newList = new ArrayList<Vec2>();
+		for (Vec2 v : points) {
+			newList.add(new Vec2(v.x - center.x, v.y - center.y));
+		}
+		return newList;
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package ballsy;
 
+import graphics.Smoke;
 import graphics.Text;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -98,9 +98,13 @@ public abstract class AbstractLevel extends Screen {
 		_paused = !_paused;
 		if (_paused) {
 			_window.cursor();
+			_player.setInPlay(false);
+			_player.getGraphicsDef().setSmoke(null);
 		}
 		else {
 			_window.noCursor();
+			_player.setInPlay(true);
+			_player.getGraphicsDef().setSmoke(new Smoke(_player));
 		}
 	}
 	
@@ -112,8 +116,8 @@ public abstract class AbstractLevel extends Screen {
 	public void keyPressed(){
 		
 		// handle esc keypress
-		if(_window.key==27) {
-			_window.key=0;
+		if(_window.key == 27) {
+			_window.key = 0;
 			//_paused = !_paused;
 			this.togglePaused();
 		}

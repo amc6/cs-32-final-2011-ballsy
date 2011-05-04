@@ -3,18 +3,17 @@ package bodies;
 import graphics.GraphicsDef;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 
-import physics.PhysicsPath;
 import physics.PhysicsDef;
+import physics.PhysicsPath;
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
-import ballsy.Window;
 
 public abstract class AbstractBody {
 
@@ -44,7 +43,7 @@ public abstract class AbstractBody {
 	 * Display the object using processing graphics.
 	 */
 	public void display(){
-		if (_pathDef != null) _pathDef.step();
+		if (_pathDef != null && !_level.isPaused()) _pathDef.step();
 		_graphicsDef.displayEffects(); // effects should be behind the object itself
 		_graphicsDef.display();
 	}
@@ -88,11 +87,40 @@ public abstract class AbstractBody {
 	}
 	
 	/**
+	 * Another mutator, because Matt was dumb earlier and used Point2Ds for the
+	 * paths... and is currently too lazy to change it.
+	 * @param p
+	 */
+	public void setPath(ArrayList<Vec2> p) {
+		Vector<Point2D.Float> vec = new Vector <Point2D.Float>();
+		for (Vec2 v : p) {
+			System.out.println(v.x + " " + v.y);
+			vec.add(new Point2D.Float(v.x, v.y));
+		}
+		this.setPath(vec);
+	}
+	
+	/**
 	 * and another for if you have a path already...
 	 * @param p
 	 */
 	public void setPath(PhysicsPath p) {
 		_pathDef = p;
+	}
+	
+	/**
+	 * path accessor
+	 */
+	public PhysicsPath getPath() {
+		return _pathDef;
+	}
+	
+	/**
+	 * Clears teh path of the current object and set its velocity to nothing.
+	 */
+	public void clearPath() {
+		_pathDef = null;
+		_physicsDef.setLinearVelocity(new Vec2(0, 0));
 	}
 	
 	/**
