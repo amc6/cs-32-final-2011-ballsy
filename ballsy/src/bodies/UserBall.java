@@ -7,6 +7,7 @@ package bodies;
 
 import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
+import static bodies.BodyConstants.USER_ANGULAR_VELOCITY;
 import graphics.Crosshair;
 import graphics.Smoke;
 
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
-import ballsy.AbstractLevel;
 import ballsy.WelcomeScreen;
 import ballsy.Window;
 
@@ -40,13 +40,15 @@ public class UserBall extends AbstractBody {
 	// begin move control helper methods (just make things simpler, you know?)
 	
 	public void moveLeft() {
-		if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
-			this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));
+		//if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
+		//	this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));
+		this.getPhysicsDef().setAngularVelocity(USER_ANGULAR_VELOCITY);
 	}
 	
 	public void moveRight() {
-		if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
-			this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
+		//if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
+		//	this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
+		this.getPhysicsDef().setAngularVelocity(-USER_ANGULAR_VELOCITY);		
 	}
 	
 	public void moveDown() {

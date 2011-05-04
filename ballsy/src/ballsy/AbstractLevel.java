@@ -178,13 +178,6 @@ public abstract class AbstractLevel extends Screen {
 			if (_keys[DOWN] && _player.isGrappled()) _player.extendGrapple();
 			if (_keys[LEFT]) _player.moveLeft();
 			if (_keys[RIGHT]) _player.moveRight();
-			// mouse stuff?
-//			if (_window.mousePressed) {
-//				if (!_player.isGrappled() && !_pressRegistered) {
-//					_player.fireGrapple();
-//					_pressRegistered = true;
-//				}
-//			}
 		}
 	}
 	

@@ -43,7 +43,6 @@ public abstract class AbstractBody {
 	 * Display the object using processing graphics.
 	 */
 	public void display(){
-		if (_pathDef != null && !_level.isPaused()) _pathDef.step();
 		_graphicsDef.displayEffects(); // effects should be behind the object itself
 		_graphicsDef.display();
 	}
@@ -74,6 +73,7 @@ public abstract class AbstractBody {
 	 * Should remove the BallsyObject entirely.
 	 */
 	public void killBody(){
+		_world.unregisterPostStep(_pathDef);
 		_world.destroyBody(_physicsDef.getBody()); // remove physics object from physics world
 		_level.remove(this); // remove so as to not be called in draw method
 	}
@@ -83,7 +83,7 @@ public abstract class AbstractBody {
 	 * @param p
 	 */
 	public void setPath(Vector<Point2D.Float> p) {
-		_pathDef = new PhysicsPath(this.getPhysicsDef(), p);
+		this.setPath(new PhysicsPath(this.getPhysicsDef(), p));
 	}
 	
 	/**
@@ -106,6 +106,7 @@ public abstract class AbstractBody {
 	 */
 	public void setPath(PhysicsPath p) {
 		_pathDef = p;
+		_world.registerPostStep(_pathDef);
 	}
 	
 	/**
@@ -119,6 +120,7 @@ public abstract class AbstractBody {
 	 * Clears teh path of the current object and set its velocity to nothing.
 	 */
 	public void clearPath() {
+		_world.unregisterPostStep(_pathDef);
 		_pathDef = null;
 		_physicsDef.setLinearVelocity(new Vec2(0, 0));
 	}

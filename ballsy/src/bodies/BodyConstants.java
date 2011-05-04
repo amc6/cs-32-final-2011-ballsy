@@ -22,6 +22,7 @@ public final class BodyConstants {
 	public static final float USER_MAX_VELOCITY = 100;
 	public static final float USER_RADIUS = 3;
 	public static final int USER_COLOR = Window.getInstance().color(0, 0, 255);
+	public static final float USER_ANGULAR_VELOCITY = 15f;
 	
 	/*Grapple constants*/
 	public static final float LINK_RADIUS = .5f;

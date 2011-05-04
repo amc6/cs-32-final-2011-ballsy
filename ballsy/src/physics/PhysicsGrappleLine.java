@@ -1,15 +1,20 @@
 package physics;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Steppable;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
+import ballsy.AbstractLevel;
 import bodies.UserBall;
 
 public class PhysicsGrappleLine extends PhysicsGrapple {
 	
 	private DistanceJoint _joint;
 	private UserBall _ball;
+	
+	private static final float FREQ = 1f;
+	private static final float DAMPING = .9f;
 
 	public PhysicsGrappleLine(bodies.UserBall ball) {
 		super(ball);
@@ -22,12 +27,15 @@ public class PhysicsGrappleLine extends PhysicsGrapple {
 			DistanceJointDef jointDef = new DistanceJointDef();
 			jointDef.initialize(_ball.getPhysicsDef().getBody(), grappledBody.getPhysicsDef().getBody(), _ball.getWorldPosition(), _ball.getWorldGrapplePointVec());
 			jointDef.collideConnected = true;
+			jointDef.frequencyHz = FREQ;
+			jointDef.dampingRatio = DAMPING;
 			_joint = (DistanceJoint) _world.createJoint(jointDef);
+
 		}
 	}
 	
 	public void releaseGrapple() {
-		System.out.println("joint: " + _joint);
+		//System.out.println("joint: " + _joint);
 		if (_joint != null) {
 			_world.destroyJoint(_joint);
 		}

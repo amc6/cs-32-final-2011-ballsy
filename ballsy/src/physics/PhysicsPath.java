@@ -14,10 +14,11 @@ import java.util.Vector;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Steppable;
 
 import ballsy.AbstractLevel;
 
-public class PhysicsPath {
+public class PhysicsPath implements Steppable{
 	private Vector<Point2D.Float> _pathPoints;
 	private PhysicsDef _physDef;
 	private int _currTarget = 0;
@@ -30,6 +31,7 @@ public class PhysicsPath {
 		_physDef = p;
 		_pathPoints = new Vector<Point2D.Float>();
 		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);
+		
 	}
 	
 	public PhysicsPath(PhysicsDef p, Vector<Point2D.Float> v) {
@@ -69,6 +71,7 @@ public class PhysicsPath {
 		// rotate by _stepRotation, if not paused
 		if (!paused)
 			_physDef.setRotation(_physDef.getBody().getAngle() + _stepRotation);
+			//_physDef.getBody().setXForm(_physDef.getBody().getXForm().position, _physDef.getBody().getAngle() + _stepRotation);
 		// don't step further if there're no points to step through
 		if (_pathPoints.size() == 0) return;
 		// set up some variables
@@ -146,4 +149,9 @@ public class PhysicsPath {
 	public void setCurrTarget(int t) { _currTarget = t; }
 	public void setInitialPoint(Point2D.Float p) { _initPos = p; }
 	public void setVelCoeff(float v) { _velCoeff = v; }
+
+	@Override
+	public void step(float dt, int iterations) {
+		this.step();		
+	}
 }

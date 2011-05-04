@@ -15,6 +15,7 @@ public abstract class PhysicsGrapple extends PhysicsDef {
 		_ball = ball;
 	}
 	
+	
 	public abstract void grapple();
 	
 	public abstract void releaseGrapple();
