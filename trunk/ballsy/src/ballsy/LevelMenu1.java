@@ -1,8 +1,8 @@
 package ballsy;
 
 import editor.EditorLevel;
-import editor.LevelEditor;
 import graphics.Image;
+import ballsy.ScreenLoader.Screens;
 
 public class LevelMenu1 extends Screen {
 
@@ -19,6 +19,7 @@ public class LevelMenu1 extends Screen {
 	public void draw() {
 		
 		_window.background(255,255,255);
+		_window.stroke(0);
 
 		//title
 		_title.draw();
@@ -50,7 +51,8 @@ public class LevelMenu1 extends Screen {
 		int y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
-			_window.setScreen(new LevelEditor());
+			//_window.setScreenAndSetup(new LevelEditor());
+			_window.loadScreen(Screens.LEVEL_EDITOR);
 		}
 		
 		//new game click detect
@@ -59,7 +61,8 @@ public class LevelMenu1 extends Screen {
 		y_top = 200;
 		y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-			_window.setScreen(new EditorLevel());
+			//_window.setScreenAndSetup(new EditorLevel());
+			_window.loadScreen(Screens.EDITOR_LEVEL);
 		}
 
 	}

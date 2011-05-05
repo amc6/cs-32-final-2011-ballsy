@@ -5,9 +5,9 @@ package bodies;
  * and all other things specific to the user's ball.
  */
 
+import static bodies.BodyConstants.USER_ANGULAR_VELOCITY;
 import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
-import static bodies.BodyConstants.USER_ANGULAR_VELOCITY;
 import graphics.Crosshair;
 import graphics.Smoke;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
-import ballsy.WelcomeScreen;
+import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
 
 public class UserBall extends AbstractBody {
@@ -179,7 +179,8 @@ public class UserBall extends AbstractBody {
 	public void handleCollision(AbstractBody other) {
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
-			Window.getInstance().setScreen(new WelcomeScreen());
+			//Window.getInstance().setScreenAndSetup(new WelcomeScreen());
+			Window.getInstance().loadScreen(Screens.WELCOME_SCREEN);
 		}
 		if (other.isDeadly()) {
 			// UserBall fucked up. DEATH ENSUES
