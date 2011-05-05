@@ -14,11 +14,13 @@ import physics.PhysicsDef;
 import physics.PhysicsPath;
 import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
+import ballsy.Window;
 
 public abstract class AbstractBody {
 
 	protected PhysicsWorld _world = PhysicsWorld.getInstance();
 	protected AbstractLevel _level = AbstractLevel.getInstance();
+	protected Window _window = Window.getInstance();
 	private PhysicsDef _physicsDef;
 	private GraphicsDef _graphicsDef;
 	private PhysicsPath _pathDef;

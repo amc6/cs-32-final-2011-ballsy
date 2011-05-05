@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
+import ballsy.AbstractLevel;
 import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
 
@@ -187,7 +188,8 @@ public class UserBall extends AbstractBody {
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
 			//Window.getInstance().setScreenAndSetup(new WelcomeScreen());
-			Window.getInstance().loadScreen(Screens.WELCOME_SCREEN);
+			_window.loadScreen(Screens.WELCOME_SCREEN);
+			
 		}
 		if (other.isDeadly()) {
 			// UserBall fucked up. DEATH ENSUES
