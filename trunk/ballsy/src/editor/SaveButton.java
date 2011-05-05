@@ -1,8 +1,9 @@
 package editor;
 
-import javax.swing.JFileChooser;
+import java.io.File;
 
-import ballsy.Window;
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -10,14 +11,11 @@ import processing.core.PImage;
 public class SaveButton extends AbstractButton {
 
 	private PImage _image;
-	private JFileChooser _fileChooser;
-
 	
 	public SaveButton(int minX, int minY, int maxX, int maxY) {
 
 		super(minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/saveicon.png");
-		_fileChooser = new JFileChooser(); 
 
 	}
 
@@ -34,7 +32,29 @@ public class SaveButton extends AbstractButton {
 
 	public void onClick() {
 		System.out.println("SAVE!");
-		_fileChooser.showSaveDialog(Window.getInstance());
+		
+//		_fileChooser.showSaveDialog(null);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFileChooser fc = new JFileChooser();
+					int returnVal = fc.showSaveDialog(null);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+//						File file = fc.getSelectedFile();
+//						boolean executeOperation = false;
+//						if(file.getName().endsWith("jpg") || file.getName().endsWith("gif")){
+//							//temp = loadImage(file.getPath());
+//
+//						}
+					}
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
 		_clicked = false; // make button inactive
 	}
 	

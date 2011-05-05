@@ -54,7 +54,7 @@ public abstract class AbstractButton {
 			float length = _window.textWidth(this.tooltip());
 			
 			_window.fill(EditorConstants.TOOLTIP_BG);
-			_window.rect(_window.mouseX+10, _window.mouseY+10, length/2.5f + 16f, 22);
+			_window.rect(_window.mouseX+10, _window.mouseY+10, length/4 + 15f, 22); // weird length relation
 			_window.fill(255); // white
 			_window.textFont(EditorConstants.TOOLTIP_FONT);
 			_window.text(this.tooltip(),_window.mouseX+16,_window.mouseY+25);
