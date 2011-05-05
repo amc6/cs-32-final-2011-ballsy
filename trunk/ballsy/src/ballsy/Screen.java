@@ -24,6 +24,8 @@ public abstract class Screen {
 	
 	public abstract void mouseDragged();
 	
+	public void onClose() {};
+	
 	/**
 	 * handle collisions, strictly for overriding in AbstractLevel (don't need it in all screens,
 	 * so not abstract)

@@ -17,9 +17,16 @@ public class Background {
 		int m1 = (int) (Math.random() * 200) + 100;
 		int m2 = (int) (Math.random() * 200) + 100;
 		int m3 = (int) (Math.random() * 200) + 100;
+		
+		int rand = (int) Math.floor(Math.random()*2);
 
 		for (int x = 0; x<_window.width; x++) {
-			_y[x] = (ylast + _window.sin(a/m1)*.1f + _window.cos(a/m2)*.2f + _window.sin(a/m3)*.15f);
+			if (rand == 0) {
+				_y[x] = (ylast + _window.sin(a/m1)*.1f + _window.cos(a/m2)*.2f + _window.sin(a/m3)*.15f);
+			}
+			else {
+				_y[x] = (ylast + _window.cos(a/m1)*.1f + _window.sin(a/m2)*.2f + _window.cos(a/m3)*.15f);
+			}
 			a+=inc;
 			ylast=_y[x];
 		}
@@ -37,16 +44,25 @@ public class Background {
 		for (int i = 0; i < _img.pixels.length; i++) {
 		  int x = i % _img.width;
 		  int y = i/_img.width;
-		  if (y < _y[x]) {
+		  if (y > 500) {
 			  float yFloat = (float) y;
-			  float ratio = yFloat/_img.height;
+			  float ratio = (yFloat-500)/100;
+			  int r = (int) (ratio*250);
+			  int g = (int) (ratio*(241-200) + 200);
+			  int b = (int) (ratio*(218-200) + 200);
+			  _img.pixels[i] = _window.color(r,g,b);
+		  }
+		  else {
+			  float yFloat = (float) y;
+			  float ratio = yFloat/500;
 			  int r = (int) (ratio*(79-9) + 9);
 			  int g = (int) (ratio*(228-96) + 96);
 			  _img.pixels[i] = _window.color(r,g,255);
 		  }
-		  else {
+		  if (y > _y[x]) {
 			  _img.pixels[i] = _window.color(250,241,218);
 		  }
+
 //		  _img.pixels[i] = _window.color(y,0,0);
 //		  ylast = yCurr;
 		}

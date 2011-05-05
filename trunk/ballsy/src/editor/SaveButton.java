@@ -1,16 +1,23 @@
 package editor;
 
+import javax.swing.JFileChooser;
+
+import ballsy.Window;
+
 import processing.core.PConstants;
 import processing.core.PImage;
 
 public class SaveButton extends AbstractButton {
 
 	private PImage _image;
+	private JFileChooser _fileChooser;
+
 	
 	public SaveButton(int minX, int minY, int maxX, int maxY) {
 
 		super(minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/saveicon.png");
+		_fileChooser = new JFileChooser(); 
 
 	}
 
@@ -27,6 +34,8 @@ public class SaveButton extends AbstractButton {
 
 	public void onClick() {
 		System.out.println("SAVE!");
+		_fileChooser.showSaveDialog(Window.getInstance());
+		_clicked = false; // make button inactive
 	}
 	
 	public String tooltip(){

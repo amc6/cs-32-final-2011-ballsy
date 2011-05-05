@@ -48,6 +48,9 @@ public class Window extends PApplet {
 	
 	public void setScreen(Screen screen) {
 		this.background(255); // default screen color
+		if (_screen != null) {
+			_screen.onClose();
+		}
 		_screen = screen;
 		_screen.setup();
 	}
