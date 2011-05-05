@@ -1,5 +1,6 @@
 package editor;
 
+import interfascia.GUIController;
 import processing.core.PFont;
 import ballsy.Window;
 
@@ -8,6 +9,7 @@ public abstract class AbstractButton {
 	protected int _minX, _minY, _maxX, _maxY;
 	protected Window _window;
 	protected boolean _clicked;
+	protected GUIController _customController;
 	
 	public AbstractButton(int minX, int minY, int maxX, int maxY) {
 		_window = Window.getInstance();
@@ -16,11 +18,13 @@ public abstract class AbstractButton {
 		_maxX = maxX;
 		_maxY = maxY;
 		_clicked = false;
+		_customController = new GUIController(_window);
 	}
 
 	public void display() {
 		_window.stroke(EditorConstants.BUTTON_BORDER_COLOR);
-		_window.strokeWeight(2);
+		_window.strokeWeight(EditorConstants.BUTTON_BORDER_WIDTH);
+		_window.strokeJoin(_window.MITER);
 		
 		if (_clicked){
 			_window.fill(EditorConstants.BUTTON_ACTIVE_COLOR);
@@ -35,10 +39,14 @@ public abstract class AbstractButton {
 	
 		
 		_window.rect(_minX, _minY, _maxX - _minX, _maxY - _minY);
-		_window.strokeWeight(1);
+//		_window.strokeWeight(1);
 			
 		
 
+	}
+	
+	public boolean isClicked() {
+		return _clicked;
 	}
 	
 	public void displayTooltip(){
@@ -72,4 +80,5 @@ public abstract class AbstractButton {
 	public abstract void onClick();
 	
 	public abstract String tooltip();
+	
 }
