@@ -35,6 +35,7 @@ public class Window extends PApplet {
 //		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
+		this.loadScreen(Screens.WELCOME_SCREEN);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -55,7 +56,6 @@ public class Window extends PApplet {
 	}
 	
 	public void setScreen(Screen screen) {
-		this.background(255);
 		if (_screen != null) {
 			_screen.onClose();
 		}
