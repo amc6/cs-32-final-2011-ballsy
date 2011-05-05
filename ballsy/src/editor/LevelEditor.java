@@ -229,20 +229,20 @@ public class LevelEditor extends Screen {
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
-		_cursorButton = new CursorButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*9), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*9), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_cursorButton = new CursorButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*11), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*11), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		_cursorButton.setActive(true);
 		shapeGroup.add(_cursorButton);
 		
-		_rectButton = new RectangleButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*8), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*8), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_rectButton = new RectangleButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*10), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*10), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_rectButton);
 		
-		_triangleButton = new TriangleButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*7), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*7), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_triangleButton = new TriangleButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*9), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*9), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_triangleButton);
 		
-		_irregPolyButton = new IrregularPolygonButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*6), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*5 - padding*6), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_irregPolyButton = new IrregularPolygonButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*8), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*8), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_irregPolyButton);
 		
-		_ballButton = new BallButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*5 - padding*5), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*5), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_ballButton = new BallButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*7), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*7), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_ballButton);
 
 	}
