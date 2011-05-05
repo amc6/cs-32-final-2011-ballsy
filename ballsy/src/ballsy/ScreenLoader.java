@@ -8,9 +8,9 @@ public class ScreenLoader implements Runnable {
 	public enum Screens {
 		WELCOME_SCREEN,
 		LEVEL_EDITOR,
-		EDITOR_LEVEL,
 		LEVEL_MENU,
-		LEVEL_ONE
+		LEVEL_ONE,
+		LEVEL_TWO
 	}
 	
 	private Screens _screenType;
@@ -32,11 +32,11 @@ public class ScreenLoader implements Runnable {
 		case LEVEL_ONE:
 			screen = new LevelOne();
 			break;
+		case LEVEL_TWO:
+			screen = new LevelTwo();
+			break;	
 		case LEVEL_EDITOR:
 			screen = new LevelEditor();
-			break;
-		case EDITOR_LEVEL:
-			screen = new EditorLevel();
 			break;
 		}
 		

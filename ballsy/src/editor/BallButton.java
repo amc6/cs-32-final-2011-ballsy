@@ -4,9 +4,9 @@ import ballsy.Window;
 
 public class BallButton extends AbstractButton {
 
-	public BallButton(int minX, int minY, int maxX, int maxY) {
+	public BallButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 	}
 
 
@@ -21,12 +21,18 @@ public class BallButton extends AbstractButton {
 	}
 
 
-
-	public void onClick() {
-		System.out.println("BALL!");
+	public void select() {
+		_level.setPlacemode(true);
+		_factory.setBody(BodyFactory.BALL);
 	}
 	
 	public String tooltip(){
 		return "Click to create balls in the level.";
+	}
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 }

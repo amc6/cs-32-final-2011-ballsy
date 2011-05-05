@@ -12,9 +12,9 @@ public class SaveButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public SaveButton(int minX, int minY, int maxX, int maxY) {
+	public SaveButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/saveicon.png");
 
 	}
@@ -30,7 +30,7 @@ public class SaveButton extends AbstractButton {
 
 
 
-	public void onClick() {
+	public void select() {
 		System.out.println("SAVE!");
 		
 //		_fileChooser.showSaveDialog(null);
@@ -56,6 +56,13 @@ public class SaveButton extends AbstractButton {
 		});
 
 		_clicked = false; // make button inactive
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){

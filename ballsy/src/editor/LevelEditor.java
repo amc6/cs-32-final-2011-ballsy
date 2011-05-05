@@ -22,7 +22,7 @@ import ballsy.Screen;
 
 public class LevelEditor extends Screen {
 
-	private AbstractLevel _level;
+	private EditorLevel _level;
 	private ArrayList<ButtonGroup> _buttonGroups;
 	private AbstractButton _cursorButton, _rectButton, _triangleButton, 
 			_irregPolyButton, _ballButton, _pathButton;
@@ -38,10 +38,12 @@ public class LevelEditor extends Screen {
 				_widthLabel, _heightLabel, _sizeLabel, _radiusLabel;
 	private IFTextField _gravity, _friction, _bounciness, _density,
 				_centerX, _centerY, _rotation, _width, _height, _size, _radius;
+	private BodyFactory _factory;
 	
 	@Override
 	public void setup() {
-		_level = new LevelOne();
+		_factory = new BodyFactory();
+		_level = new EditorLevel(_factory);
 		_level.setup();
 		
 		_levelEditorTitle = new Text("Level Editor", 20, 60);
@@ -62,22 +64,23 @@ public class LevelEditor extends Screen {
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
-		_cursorButton = new CursorButton(15,topPart,75,topPart+60);
+		_cursorButton = new CursorButton(_factory, 15,topPart,75,topPart+60);
+		_cursorButton.setActive(true);
 		shapeGroup.add(_cursorButton);
 		
-		_rectButton = new RectangleButton(90,topPart,150,topPart+60);
+		_rectButton = new RectangleButton(_factory, 90,topPart,150,topPart+60);
 		shapeGroup.add(_rectButton);
 		
-		_triangleButton = new TriangleButton(15,topPart+75,75,topPart+135);
+		_triangleButton = new TriangleButton(_factory, 15,topPart+75,75,topPart+135);
 		shapeGroup.add(_triangleButton);
 		
-		_irregPolyButton = new IrregularPolygonButton(90,topPart+75,150,topPart+135);
+		_irregPolyButton = new IrregularPolygonButton(_factory, 90,topPart+75,150,topPart+135);
 		shapeGroup.add(_irregPolyButton);
 		
-		_ballButton = new BallButton(15,topPart+150,75,topPart+210);
+		_ballButton = new BallButton(_factory, 15,topPart+150,75,topPart+210);
 		shapeGroup.add(_ballButton);
 		
-		_pathButton = new PathButton(90,topPart+150,150,topPart+210);
+		_pathButton = new PathButton(_factory, 90,topPart+150,150,topPart+210);
 		shapeGroup.add(_pathButton);
 		
 		///////// GUI STUFF: ////////////
@@ -231,16 +234,16 @@ public class LevelEditor extends Screen {
 		
 		float padding = (topPart - EditorConstants.TOP_BUTTONS_SIZE)/2;
 		
-		PlayButton playButton = new PlayButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding), (int) padding, (int) (_window.width - padding), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		PlayButton playButton = new PlayButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding), (int) padding, (int) (_window.width - padding), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(playButton);
 		
-		SaveButton saveButton = new SaveButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		SaveButton saveButton = new SaveButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(saveButton);
 		
-		LoadButton loadButton = new LoadButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		LoadButton loadButton = new LoadButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(loadButton);
 		
-		NewButton newButton = new NewButton((int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		NewButton newButton = new NewButton(_factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(newButton);
 
 	}
@@ -279,72 +282,67 @@ public class LevelEditor extends Screen {
 	public void draw() {
 		// TODO Auto-generated method stub
 
-
-
-		_window.pushMatrix();
-
-//		_window.translate((_window.width - _newLevelWidth)/2, _window.height - _newLevelHeight);
-//
-//		_window.scale(_scaleFactor, _scaleFactor);
-
-		_level.draw();		
-		_window.cursor();
-
-		_window.popMatrix();
-
-		_window.pushMatrix();
-
-		_window.fill(255, 100); // white
-		_window.rectMode(PConstants.CORNER);
-		_window.rect(0,0,EditorConstants.LEFT_PANEL_WIDTH,_window.height);
-		_window.rect(EditorConstants.LEFT_PANEL_WIDTH, 0, _newLevelWidth, _window.height - _newLevelHeight);
-
-		_window.translate(_window.width - _newLevelWidth, _window.height - _newLevelHeight);
-		_window.rectMode(PConstants.CORNER);
-		_window.strokeWeight(2);
-		_window.stroke(255);
-		_window.noFill();
-		_window.rect(0,0,_newLevelWidth,_newLevelHeight);
-		_window.strokeWeight(GeneralConstants.DEFAULT_LINE_WIDTH);
-		_window.popMatrix();
-
-		_levelEditorTitle.draw();
+		_level.draw();	
+		this.onClose();
 		
-		for (ButtonGroup group : _buttonGroups){
-			group.display();
-		}
-		
-		for (ButtonGroup group : _buttonGroups){
-			group.displayTooltips();
-		}
-		
-		
-		//DISPLAY CUSTOM CONTROLS
-		_objectC.setVisible(false);
-		_rectC.setVisible(false);
-		_polyC.setVisible(false);
-		_ballC.setVisible(false);
-		
-		_mainC.setVisible(true);
+		if (!_level.isRunning()){
 
-		if (_rectButton.isClicked() || _triangleButton.isClicked() || _irregPolyButton.isClicked() || _ballButton.isClicked()) {
-			_objectC.setVisible(true);
-		}
-		if (_rectButton.isClicked()) {
-			_rectC.setVisible(true);
-		}
-		if (_triangleButton.isClicked() || _irregPolyButton.isClicked()) {
-			_polyC.setVisible(true);
-		}
-		if (_ballButton.isClicked()) {
-			_ballC.setVisible(true);
-		}
+				
+			_window.cursor();
+	
+			_window.pushMatrix();
+	
+			_window.fill(255, 100); // white
+			_window.rectMode(PConstants.CORNER);
+			_window.rect(0,0,EditorConstants.LEFT_PANEL_WIDTH,_window.height);
+			_window.rect(EditorConstants.LEFT_PANEL_WIDTH, 0, _newLevelWidth, _window.height - _newLevelHeight);
+	
+			_window.translate(_window.width - _newLevelWidth, _window.height - _newLevelHeight);
+			_window.rectMode(PConstants.CORNER);
+			_window.strokeWeight(2);
+			_window.stroke(255);
+			_window.noFill();
+			_window.rect(0,0,_newLevelWidth,_newLevelHeight);
+			_window.strokeWeight(GeneralConstants.DEFAULT_LINE_WIDTH);
+			_window.popMatrix();
+	
+			_levelEditorTitle.draw();
+			
+			for (ButtonGroup group : _buttonGroups){
+				group.display();
+			}
+			
+			for (ButtonGroup group : _buttonGroups){
+				group.displayTooltips();
+			}
+			
+			
+			//DISPLAY CUSTOM CONTROLS
+			_objectC.setVisible(false);
+			_rectC.setVisible(false);
+			_polyC.setVisible(false);
+			_ballC.setVisible(false);
+			
+			_mainC.setVisible(true);
+	
+			if (_rectButton.isClicked() || _triangleButton.isClicked() || _irregPolyButton.isClicked() || _ballButton.isClicked()) {
+				_objectC.setVisible(true);
+			}
+			if (_rectButton.isClicked()) {
+				_rectC.setVisible(true);
+			}
+			if (_triangleButton.isClicked() || _irregPolyButton.isClicked()) {
+				_polyC.setVisible(true);
+			}
+			if (_ballButton.isClicked()) {
+				_ballC.setVisible(true);
+			}
 		
-
+		}
 	}
 
 	public void onClose() {
-		System.out.println("hiding shit");
+//		System.out.println("hiding shit");
 		_mainC.setVisible(false);
 		_objectC.setVisible(false);
 		_rectC.setVisible(false);
@@ -354,12 +352,30 @@ public class LevelEditor extends Screen {
 	
 	@Override
 	public void keyPressed() {
+		
+		if (_level.isRunning()) {
+			// act as normal, unless they press r or escape
+			if (_window.key == 27) { 
+				_window.key = 0;
+				_level.stop();
+			} else _level.keyPressed();
+		} 
+		
 		_level.keyPressed();
+	}
+	
+	@Override
+	public void keyReleased() {
+		_level.keyReleased();
+		
 	}
 
 	@Override
 	public void mousePressed() {
-		_level.mousePressed();
+		// Checks to ensure that a mouse click is not within the control area before passing down unless running
+		if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
+			_level.mousePressed();
+		
 		for (ButtonGroup group : _buttonGroups){
 			group.click(_window.mouseX, _window.mouseY);
 		}
@@ -367,7 +383,9 @@ public class LevelEditor extends Screen {
 
 	@Override
 	public void mouseReleased() {
-		_level.mouseReleased();
+		// Checks to ensure that a mouse click is not within the control area before passing down unless running
+		if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
+			_level.mouseReleased();
 	}
 
 	/**
@@ -378,14 +396,10 @@ public class LevelEditor extends Screen {
 	}
 
 	@Override
-	public void keyReleased() {
-		_level.keyReleased();
-		
-	}
-
-	@Override
 	public void mouseDragged() {
-		_level.mouseDragged();
+		// Checks to ensure that a mouse click is not within the control area before passing down unless running
+		if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
+			_level.mouseDragged();
 	}
 
 

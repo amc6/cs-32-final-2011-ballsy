@@ -7,9 +7,10 @@ public class NewButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public NewButton(int minX, int minY, int maxX, int maxY) {
+	public NewButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
+	
 		_image = _window.loadImage("res/newicon.png");
 
 	}
@@ -25,8 +26,15 @@ public class NewButton extends AbstractButton {
 
 
 
-	public void onClick() {
+	public void select() {
 		System.out.println("NEW!");
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){

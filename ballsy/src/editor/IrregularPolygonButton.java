@@ -6,10 +6,9 @@ import processing.core.PConstants;
 
 public class IrregularPolygonButton extends AbstractButton {
 
-	public IrregularPolygonButton(int minX, int minY, int maxX, int maxY) {
+	public IrregularPolygonButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
-
+		super(factory, minX, minY, maxX, maxY);
 	}
 
 
@@ -28,8 +27,16 @@ public class IrregularPolygonButton extends AbstractButton {
 
 
 
-	public void onClick() {
-		System.out.println("IRREGULAR POLYGON!");
+	public void select() {
+		_level.setPlacemode(true);
+		_level.startPoints();
+		
+	}
+	
+
+	@Override
+	public void unselect() {
+		_level.clearPoints();
 	}
 	
 	public String tooltip(){

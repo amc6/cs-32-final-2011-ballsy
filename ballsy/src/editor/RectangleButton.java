@@ -2,9 +2,9 @@ package editor;
 
 public class RectangleButton extends AbstractButton {
 
-	public RectangleButton(int minX, int minY, int maxX, int maxY) {
+	public RectangleButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 	}
 
 
@@ -16,8 +16,16 @@ public class RectangleButton extends AbstractButton {
 
 
 
-	public void onClick() {
-		System.out.println("RECTANGLE!");
+	public void select() {
+		_level.setPlacemode(true);
+		_factory.setBody(BodyFactory.RECT);
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){
