@@ -5,7 +5,7 @@ import ballsy.Window;
 
 public class EditorConstants {
 
-	public static final int BUTTON_BORDER_WIDTH = 1;
+	public static final int BUTTON_BORDER_WIDTH = 0;
 	public static final int BUTTON_BORDER_COLOR = Window.getInstance().color(0);
 	public static final int BUTTON_INACTIVE_COLOR = Window.getInstance().color(200,150);
 	public static final int BUTTON_ACTIVE_COLOR = Window.getInstance().color(100,150);

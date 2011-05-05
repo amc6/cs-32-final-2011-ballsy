@@ -25,11 +25,13 @@ import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.RegularPolygon;
 import bodies.UserBall;
+import graphics.Background;
 import graphics.TrackingCamera;
 
 public class EditorLevel extends AbstractLevel {
 	private final int SELECTED_COLOR = _window.color(100, 100, 100);
 	private final float MINIMUM_SIZE = 1; // radius or width-or-height/2
+	private Background _background;
 	private boolean _running = false;
 	private float _minX, _minY, _maxX, _maxY;
 	private float _lastMouseX, _lastMouseY;
@@ -54,6 +56,7 @@ public class EditorLevel extends AbstractLevel {
 	
 	public void setup() {
 		setupWorld(-100, -100, 100, 100);
+		_background = new Background();
 		// make a player
 		_player = new UserBall(0, 0, USER_RADIUS);
 		_bodies.add(_player);
@@ -109,7 +112,8 @@ public class EditorLevel extends AbstractLevel {
 	
 	public void draw() {
 		// draw window stuffs
-		_window.background(_backgroundColor);
+//		_window.background(_backgroundColor);
+		_background.draw();
 		// draw a line around the world
 		_window.stroke(0);
 		_window.strokeWeight(1);
