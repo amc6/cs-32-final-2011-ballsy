@@ -344,6 +344,7 @@ public class LevelEditor extends Screen {
 	}
 
 	public void onClose() {
+		System.out.println("hiding shit");
 		_mainC.setVisible(false);
 		_objectC.setVisible(false);
 		_rectC.setVisible(false);
