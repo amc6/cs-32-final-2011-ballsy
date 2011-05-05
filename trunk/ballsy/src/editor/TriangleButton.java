@@ -6,9 +6,9 @@ import processing.core.PConstants;
 
 public class TriangleButton extends AbstractButton {
 
-	public TriangleButton(int minX, int minY, int maxX, int maxY) {
+	public TriangleButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 
 	}
 
@@ -24,8 +24,16 @@ public class TriangleButton extends AbstractButton {
 		
 	}
 
-	public void onClick() {
-		System.out.println("REGULAR POLYGON!");
+	public void select() {
+		_level.setPlacemode(true);
+		_factory.setBody(BodyFactory.RPOLY);
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){

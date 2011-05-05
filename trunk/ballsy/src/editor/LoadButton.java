@@ -12,9 +12,10 @@ public class LoadButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public LoadButton(int minX, int minY, int maxX, int maxY) {
+	public LoadButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
+	
 		_image = _window.loadImage("res/loadicon.png");
 		
 		try { 
@@ -37,7 +38,7 @@ public class LoadButton extends AbstractButton {
 
 
 
-	public void onClick() {
+	public void select() {
 		System.out.println("LOAD!");
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -61,6 +62,13 @@ public class LoadButton extends AbstractButton {
 		});
 		
 		_clicked = false; // make button inactive
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){

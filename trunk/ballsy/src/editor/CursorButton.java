@@ -7,9 +7,9 @@ public class CursorButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public CursorButton(int minX, int minY, int maxX, int maxY) {
+	public CursorButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/cursor.png");
 
 	}
@@ -23,14 +23,18 @@ public class CursorButton extends AbstractButton {
 		_window.popMatrix();
 	}
 
-
-
-	public void onClick() {
-		System.out.println("CURSOR!");
+	public void select() {
+		_level.setPlacemode(false);
 	}
 	
 	public String tooltip(){
 		return "Click to select objects in the level.";
+	}
+
+
+	@Override
+	public void unselect() {
+		_level.setPlacemode(true);
 	}
 	
 }

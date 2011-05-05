@@ -2,6 +2,7 @@ package editor;
 
 import interfascia.GUIController;
 import processing.core.PFont;
+import ballsy.AbstractLevel;
 import ballsy.Window;
 
 public abstract class AbstractButton {
@@ -10,8 +11,11 @@ public abstract class AbstractButton {
 	protected Window _window;
 	protected boolean _clicked;
 	protected GUIController _customController;
+	protected EditorLevel _level = (EditorLevel) AbstractLevel.getInstance();
+	protected BodyFactory _factory;
 	
-	public AbstractButton(int minX, int minY, int maxX, int maxY) {
+	public AbstractButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+		_factory = factory;
 		_window = Window.getInstance();
 		_minX = minX;
 		_minY = minY;
@@ -64,9 +68,10 @@ public abstract class AbstractButton {
 	public void setActive(boolean active) {
 		if (active){
 			_clicked = true;
-			this.onClick();
+			this.select();
 		}else{
 			_clicked = false;
+			this.unselect();
 		}
 	}
 	
@@ -77,7 +82,9 @@ public abstract class AbstractButton {
 	/**
 	 * To be filled by subclass.
 	 */
-	public abstract void onClick();
+	public abstract void select();
+	
+	public abstract void unselect();
 	
 	public abstract String tooltip();
 	

@@ -7,9 +7,9 @@ public class PathButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public PathButton(int minX, int minY, int maxX, int maxY) {
+	public PathButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(minX, minY, maxX, maxY);
+		super(factory, minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/pathicon.png");
 
 	}
@@ -25,8 +25,15 @@ public class PathButton extends AbstractButton {
 
 
 
-	public void onClick() {
+	public void select() {
 		System.out.println("PATH!");
+	}
+	
+
+	@Override
+	public void unselect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public String tooltip(){

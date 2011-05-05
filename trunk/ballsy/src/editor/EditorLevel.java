@@ -45,9 +45,9 @@ public class EditorLevel extends AbstractLevel {
 	private Vec2 _rotationCenter;
 	private boolean _resizing = false;
 	
-	public EditorLevel() {
+	public EditorLevel(BodyFactory factory) {
 		// load in the level
-		_factory = new BodyFactory();
+		_factory = factory;
 		this.setInstance(); // set this level as the singleton
 		this.setup(); //run setup
 	}
@@ -168,42 +168,49 @@ public class EditorLevel extends AbstractLevel {
 	public void mousePressed() {
 		if (_running) super.mousePressed();
 		else {
-			_lastMouseX = _window.mouseX;
-			_lastMouseY = _window.mouseY;
-			if (_selectingPoints) {
-				Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
-				System.out.println("clicked point: " + newPoint);
-				if (_placeMode && _selectedPoints.size() > 1) {
-					// we're placing a polygon, so points need to be counterclockwise and convex
-					ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
-					newPoints.add(newPoint);
-					newPoints = PointMath.sortCCW(newPoints, PointMath.getCenter(newPoints));
-					
-					for (Vec2 point : newPoints)
-						System.out.println(point);
-					
-					if (PointMath.isConvex(newPoints) && _world.contains(newPoint)) {
-						// we're good to go
-						_selectedPoints = newPoints;
+			
+			if (_window.mouseButton == PConstants.RIGHT && _selectingPoints){
+				this.handleRightClick();
+			}else if (_window.mouseButton == PConstants.LEFT){
+	
+				
+				_lastMouseX = _window.mouseX;
+				_lastMouseY = _window.mouseY;
+				if (_selectingPoints) {
+					Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
+					System.out.println("clicked point: " + newPoint);
+					if (_placeMode && _selectedPoints.size() > 1) {
+						// we're placing a polygon, so points need to be counterclockwise and convex
+						ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
+						newPoints.add(newPoint);
+						newPoints = PointMath.sortCCW(newPoints, PointMath.getCenter(newPoints));
+						
+						for (Vec2 point : newPoints)
+							System.out.println(point);
+						
+						if (PointMath.isConvex(newPoints) && _world.contains(newPoint)) {
+							// we're good to go
+							_selectedPoints = newPoints;
+						} else {
+							// notify...
+							return;
+						}
 					} else {
-						// notify...
-						return;
+						// we're drawing a path, just place dat shit
+						if (_world.contains(newPoint))
+							_selectedPoints.add(newPoint);
 					}
+				} else if (_placeMode) {
+					// we're placing something, make call to placeObject
+					Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
+					if (_world.contains(newPos)) _selectedBody = this.placeBody(newPos);
 				} else {
-					// we're drawing a path, just place dat shit
-					if (_world.contains(newPoint))
-						_selectedPoints.add(newPoint);
-				}
-			} else if (_placeMode) {
-				// we're placing something, make call to placeObject
-				Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
-				if (_world.contains(newPos)) _selectedBody = this.placeBody(newPos);
-			} else {
-				// we're selecting stuff or moving
-				// set selected object to object under mousepress, or null if none
-				this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
-				if (_rotating && _selectedBody != null) {
-					_rotationCenter = _selectedBody.getWorldPosition();
+					// we're selecting stuff or moving
+					// set selected object to object under mousepress, or null if none
+					this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
+					if (_rotating && _selectedBody != null) {
+						_rotationCenter = _selectedBody.getWorldPosition();
+					}
 				}
 			}
 		}
@@ -351,23 +358,9 @@ public class EditorLevel extends AbstractLevel {
 	
 	public void keyPressed() {
 		if (_running) {
-			// act as normal, unless they press r or escape
-			if (_window.key == 'r' || _window.key == 27) { 
-				_window.key = 0;
-				this.stop();
-			} else super.keyPressed();
+			super.keyPressed();
 		} else {
 			switch (_window.key) {
-			case 'r': 
-				// run it if not running
-				this.resetSelected(null);
-				this.play();
-				break;
-			case 't':
-				// toggle placing
-				this.resetSelected(null);
-				_placeMode = !_placeMode;
-				break;
 			case 'y':
 				// toggle static (for body and path)
 				if (!_placeMode && _selectedBody != null && !(_selectedBody instanceof UserBall)) {
@@ -376,53 +369,41 @@ public class EditorLevel extends AbstractLevel {
 				} else if (_placeMode) {
 					_factory.fixed = !_factory.fixed;
 				}
-			case 'b':
-				// set rectangle
-				_factory.setBody(BodyFactory.RECT);
-				break;
-			case 'n':
-				// set ball
-				_factory.setBody(BodyFactory.BALL);
-				break;
-			case 'm':
-				// set reg poly
-				_factory.setBody(BodyFactory.RPOLY);
-				break;
-			case ',':
-				// start or finish a chain of points
-				if (_placeMode) {
-					// start or complete an irregular polygon
-					if (!_selectingPoints) {
-						// start a polygon
-						_selectedPoints = new ArrayList<Vec2>();
-						_selectingPoints = true;
-					} else {
-						// finish/create the polygon
-						_selectingPoints = false;
-						Vec2 center = PointMath.getCenter(_selectedPoints);
-						if (_world.contains(center) && _selectedPoints.size() > 2) {
-							_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
-							_factory.setBody(BodyFactory.IPOLY);
-							_selectedBody = this.placeBody(center);
-						}
-						_selectedPoints = null;
-					}
-				} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
-					// make a path if an object is selected
-					if (!_selectingPoints) {
-						// start selecting poitns
-						_selectingPoints = true;
-						_selectedPoints = new ArrayList<Vec2>();
-						_selectedPoints.add(_selectedBody.getWorldPosition()); // add the center of the body to start
-					} else {
-						// stop selecting points, apply selected
-						_selectingPoints = false;
-						_selectedBody.setPath(PhysicsPolygon.getOffsets(_selectedPoints, _selectedBody.getWorldPosition()));
-						_selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
-						_selectedPoints = null;
-					}
-				}
-				break;
+//			case ',':
+//				// start or finish a chain of points
+//				if (_placeMode) {
+//					// start or complete an irregular polygon
+//					if (!_selectingPoints) {
+//						// start a polygon
+//						_selectedPoints = new ArrayList<Vec2>();
+//						_selectingPoints = true;
+//					} else {
+//						// finish/create the polygon
+//						_selectingPoints = false;
+//						Vec2 center = PointMath.getCenter(_selectedPoints);
+//						if (_world.contains(center) && _selectedPoints.size() > 2) {
+//							_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
+//							_factory.setBody(BodyFactory.IPOLY);
+//							_selectedBody = this.placeBody(center);
+//						}
+//						_selectedPoints = null;
+//					}
+//				} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
+//					// make a path if an object is selected
+//					if (!_selectingPoints) {
+//						// start selecting poitns
+//						_selectingPoints = true;
+//						_selectedPoints = new ArrayList<Vec2>();
+//						_selectedPoints.add(_selectedBody.getWorldPosition()); // add the center of the body to start
+//					} else {
+//						// stop selecting points, apply selected
+//						_selectingPoints = false;
+//						_selectedBody.setPath(PhysicsPolygon.getOffsets(_selectedPoints, _selectedBody.getWorldPosition()));
+//						_selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
+//						_selectedPoints = null;
+//					}
+//				}
+//				break;
 			case '.':
 				// remove path if selected, not place mode, and path exists
 				if (!_placeMode && _selectedBody != null && _selectedBody.getPath() != null) {
@@ -439,10 +420,9 @@ public class EditorLevel extends AbstractLevel {
 						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) 
 					_selectedBody.killBody();
 			} else if (_window.key == 27) {
-				_window.key = 0;
 				// clear points if we're setting if they press esc
-				_selectedPoints = null;
-				_selectingPoints = false;
+				_window.key = 0;
+				this.clearPoints(); // abandonded click creation prematurely!
 			} else if (_window.keyCode == PConstants.SHIFT) {
 				// user has pressed shift
 				_rotating = true;
@@ -462,5 +442,62 @@ public class EditorLevel extends AbstractLevel {
 			// user released z
 			_resizing = false;
 		}
+	}
+	
+	public boolean isRunning(){
+		return _running;
+	}
+	
+	public void setPlacemode(boolean placemode){
+		this.resetSelected(null);
+		_placeMode = placemode;
+	}
+
+	public void handleRightClick(){
+		
+		if (_placeMode) {
+			// finish/create the polygon
+			_selectingPoints = false;
+			Vec2 center = PointMath.getCenter(_selectedPoints);
+			if (_world.contains(center) && _selectedPoints.size() > 2) {
+				_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
+				_factory.setBody(BodyFactory.IPOLY);
+				_selectedBody = this.placeBody(center);
+			}
+			
+			this.startPoints(); // allow the user to start a new polygon
+		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
+			// stop selecting points, apply selected for pathing
+			_selectingPoints = false;
+			_selectedBody.setPath(PhysicsPolygon.getOffsets(_selectedPoints, _selectedBody.getWorldPosition()));
+			_selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
+			_selectedPoints = null;
+		}
+
+	}
+	
+	public void startPoints(){
+		// start or finish a chain of points
+		if (_placeMode) {
+			// start or complete an irregular polygon
+
+			// start a polygon
+			_selectedPoints = new ArrayList<Vec2>();
+			_selectingPoints = true;
+
+		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
+			// make a path if an object is selected
+
+			// start selecting poitns
+			_selectingPoints = true;
+			_selectedPoints = new ArrayList<Vec2>();
+			_selectedPoints.add(_selectedBody.getWorldPosition()); // add the center of the body to start
+
+		}
+	}
+	
+	public void clearPoints(){
+		_selectedPoints = null;
+		_selectingPoints = false;
 	}
 }

@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
+import editor.LevelEditor;
 
 public class Window extends PApplet {
 	
@@ -46,6 +47,7 @@ public class Window extends PApplet {
 	public void draw() {
 		if (_screen == null){
 			this.loadScreen(Screens.WELCOME_SCREEN);
+//			this.setScreenAndSetup(new LevelEditor());
 		}
 		_screen.draw();	
 	}
