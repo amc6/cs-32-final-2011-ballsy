@@ -43,10 +43,8 @@ public class LevelOne extends AbstractLevel {
 	public void setup() {
 		this.setInstance(); // set this level as the singleton
 		
-		_background = new Image(_window, "res/background1.jpg", _window.width, _window.height);
-		_background.setImageMode(_window.CORNER);
+
 		
-		_bg = new Background();
 		//_text = new Text("THIS IS SOME TEXT DUDEEEEE", 150, 100);
 		//_text.setAlign(_window.CORNER);
 		//_text.setColor(100);
@@ -56,6 +54,12 @@ public class LevelOne extends AbstractLevel {
 		_world.createWorld();
 		_world.setGravity(0, -30); // otherwise defaults to -10f
 
+		
+		_background = new Image(_window, "res/background1.jpg", _window.width, _window.height);
+		_background.setImageMode(_window.CORNER);
+		_bg = new Background();
+
+		
 		_bodies = new ArrayList<AbstractBody>();
 		
 		// make a moving box (demo pathing)
