@@ -71,6 +71,8 @@ public class Text {
 		_window.textAlign(_textAlign);
 		_window.textFont(_font); 
 		_window.text(_text, _x, _y);
+		
+		_window.textFont(STUPID_FONT);
 	}
 	
 	public String getText() {
