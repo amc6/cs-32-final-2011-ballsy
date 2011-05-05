@@ -52,7 +52,7 @@ public class LevelEditor extends Screen {
 		_newLevelWidth = _window.width - EditorConstants.LEFT_PANEL_WIDTH;
 		_scaleFactor = _newLevelWidth/_window.width;
 		_newLevelHeight = _window.height*_scaleFactor;
-		_window.strokeJoin(_window.MITER);
+		_window.strokeJoin(PConstants.MITER); // according to docs this doesn't do anything in OpenGL mode
 		
 		int topPart = (int) (_window.height - _newLevelHeight);
 		
@@ -87,7 +87,7 @@ public class LevelEditor extends Screen {
 		//look and feel
 		IFLookAndFeel ballsyLook = new IFLookAndFeel(_window, IFLookAndFeel.DEFAULT);
 		ballsyLook.baseColor = _window.color(255, 0);
-		ballsyLook.highlightColor = _window.color(255, 100);	  
+		ballsyLook.highlightColor = _window.color(55, 100);	  
 		ballsyLook.borderColor = _window.color(255);
 		_mainC.setLookAndFeel(ballsyLook);
 		_mainC.setVisible(false);

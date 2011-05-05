@@ -20,9 +20,7 @@ public class LoadingScreen extends Screen {
 	@Override
 	public void draw() {
 		_window.noCursor();
-		_window.rectMode(Window.CORNER);
-		_window.fill(50,200,200);
-		_window.rect(0,0,_window.width, _window.width);
+		_window.background(50,200,200);
 		_message.draw();
 	}
 
@@ -36,7 +34,7 @@ public class LoadingScreen extends Screen {
 
 	@Override
 	public void keyPressed() {
-		//_message.setText("Pressing Keys Won't Make This Go Any Quicker");
+		_message.setText("Pressing Keys Won't Make This Go Any Quicker");
 	}
 
 	@Override

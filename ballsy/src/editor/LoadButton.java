@@ -1,5 +1,7 @@
 package editor;
 
+import java.io.File;
+
 import processing.core.PConstants;
 import processing.core.PImage;
 import javax.swing.*;
@@ -9,7 +11,6 @@ import ballsy.Window;
 public class LoadButton extends AbstractButton {
 
 	private PImage _image;
-	private JFileChooser _fileChooser;
 	
 	public LoadButton(int minX, int minY, int maxX, int maxY) {
 
@@ -22,7 +23,6 @@ public class LoadButton extends AbstractButton {
 			  e.printStackTrace();  
 		} 
 
-		_fileChooser = new JFileChooser(); 
 		
 	}
 
@@ -39,20 +39,26 @@ public class LoadButton extends AbstractButton {
 
 	public void onClick() {
 		System.out.println("LOAD!");
-		int result = _fileChooser.showOpenDialog(Window.getInstance());
 
-		// Determine which button was clicked to close the dialog
-		switch (result) {
-		  case JFileChooser.APPROVE_OPTION:
-		    // Approve (Open or Save) was clicked
-		    break;
-		  case JFileChooser.CANCEL_OPTION:
-		    // Cancel or the close-dialog icon was clicked
-		    break;
-		  case JFileChooser.ERROR_OPTION:
-		    // The selection process did not complete successfully
-		    break;
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JFileChooser fc = new JFileChooser();
+					int returnVal = fc.showOpenDialog(null);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+//						File file = fc.getSelectedFile();
+//						boolean executeOperation = false;
+//						if(file.getName().endsWith("jpg") || file.getName().endsWith("gif")){
+//							//temp = loadImage(file.getPath());
+//
+//						}
+					}
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		_clicked = false; // make button inactive
 	}

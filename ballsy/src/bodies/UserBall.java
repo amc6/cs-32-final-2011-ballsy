@@ -34,21 +34,28 @@ public class UserBall extends AbstractBody {
 		_crosshair = new Crosshair(this);
 		_grapple = new GrappleLine(this);
 //		_grapple = new GrappleRope(this);
+		this.getPhysicsDef().setFriction(200f); // to make rolling work well
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)
 	
 	public void moveLeft() {
-		//if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
-		//	this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));
-		this.getPhysicsDef().setAngularVelocity(USER_ANGULAR_VELOCITY);
+		if (_grappled){
+			if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
+				this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));			
+		}else{
+			this.getPhysicsDef().setAngularVelocity(USER_ANGULAR_VELOCITY);
+		}
 	}
 	
 	public void moveRight() {
-		//if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
-		//	this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
-		this.getPhysicsDef().setAngularVelocity(-USER_ANGULAR_VELOCITY);		
+		if (_grappled){
+			if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
+				this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
+		}else{
+			this.getPhysicsDef().setAngularVelocity(-USER_ANGULAR_VELOCITY);	
+		}
 	}
 	
 	public void moveDown() {
