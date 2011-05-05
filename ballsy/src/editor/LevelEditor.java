@@ -80,6 +80,7 @@ public class LevelEditor extends Screen {
 		_pathButton = new PathButton(90,topPart+150,150,topPart+210);
 		shapeGroup.add(_pathButton);
 		
+		///////// GUI STUFF: ////////////
 
 		_mainC = new GUIController(_window);
 		
@@ -214,6 +215,13 @@ public class LevelEditor extends Screen {
 		_ballC.setVisible(false);
 		
 		this.addTopControls();
+		
+		
+		_mainC.setVisible(false);
+		_objectC.setVisible(false);
+		_rectC.setVisible(false);
+		_polyC.setVisible(false);
+		_ballC.setVisible(false);
 
 	}
 	
@@ -318,6 +326,8 @@ public class LevelEditor extends Screen {
 		_rectC.setVisible(false);
 		_polyC.setVisible(false);
 		_ballC.setVisible(false);
+		
+		_mainC.setVisible(true);
 
 		if (_rectButton.isClicked() || _triangleButton.isClicked() || _irregPolyButton.isClicked() || _ballButton.isClicked()) {
 			_objectC.setVisible(true);
