@@ -18,7 +18,7 @@ public abstract class AbstractButton {
 		_maxX = maxX;
 		_maxY = maxY;
 		_clicked = false;
-		_customController = new GUIController(_window);
+		_customController = new GUIController(_window,false);
 	}
 
 	public void display() {

@@ -82,7 +82,7 @@ public class LevelEditor extends Screen {
 		
 		///////// GUI STUFF: ////////////
 
-		_mainC = new GUIController(_window);
+		_mainC = new GUIController(_window,false);
 		
 		//look and feel
 		IFLookAndFeel ballsyLook = new IFLookAndFeel(_window, IFLookAndFeel.DEFAULT);
