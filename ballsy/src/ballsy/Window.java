@@ -8,7 +8,7 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import editor.LevelEditor;
+import ballsy.ScreenLoader.Screens;
 
 public class Window extends PApplet {
 	
@@ -32,8 +32,9 @@ public class Window extends PApplet {
 		//this.camera(width/2.0f, height/2.0f, (height/2.0f) / (float) Math.tan(Math.PI*60.0 / 360.0), width/2.0f, height/2.0f, 0f, 0f, 1f, 0f);
 		
 //		this.setScreen(new LevelEditor());
-		this.setScreen(new WelcomeScreen());
+		this.setScreenAndSetup(new WelcomeScreen());
 //		this.setScreen(new LevelOne());
+//		this.setScreen(new LoadingScreen());
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -46,15 +47,24 @@ public class Window extends PApplet {
 		
 	}
 	
+	public void setScreenAndSetup(Screen screen) {
+		this.setScreen(screen);
+		_screen.setup();
+	}
+	
 	public void setScreen(Screen screen) {
-		this.background(255); // default screen color
+		this.background(255);
 		if (_screen != null) {
 			_screen.onClose();
 		}
 		_screen = screen;
-		_screen.setup();
 	}
 	
+	public void loadScreen(Screens s) {
+		this.setScreenAndSetup(new LoadingScreen());
+		new Thread(new ScreenLoader(s)).start();
+	}
+		
 	/**
 	 * Alternative to setScreen(), takes in a string of the path of a saved level,
 	 * and constructs it inside a new instance of XMLLevel.

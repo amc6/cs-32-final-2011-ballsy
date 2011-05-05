@@ -1,12 +1,8 @@
 package ballsy;
 
-import graphics.HoverImage;
-import graphics.Image;
 import graphics.Text;
 import graphics.TextButton;
-
-import java.util.Vector;
-import static ballsy.GeneralConstants.*;
+import ballsy.ScreenLoader.Screens;
 
 public class PauseScreen {
 	
@@ -53,7 +49,7 @@ public class PauseScreen {
 			System.exit(0);
 		}
 		else if (_menu.mouseOver()) {
-			_window.setScreen(new WelcomeScreen());
+			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
 	}
 

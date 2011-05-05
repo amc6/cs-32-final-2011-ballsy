@@ -90,6 +90,8 @@ public class LevelEditor extends Screen {
 		ballsyLook.highlightColor = _window.color(255, 100);	  
 		ballsyLook.borderColor = _window.color(255);
 		_mainC.setLookAndFeel(ballsyLook);
+		_mainC.setVisible(false);
+
 		
 		//check boxes
 		_grappleableCheckBox = new IFCheckBox("Grappleable", 15, topPart+240);
@@ -217,11 +219,7 @@ public class LevelEditor extends Screen {
 		this.addTopControls();
 		
 		
-		_mainC.setVisible(false);
-		_objectC.setVisible(false);
-		_rectC.setVisible(false);
-		_polyC.setVisible(false);
-		_ballC.setVisible(false);
+
 
 	}
 	

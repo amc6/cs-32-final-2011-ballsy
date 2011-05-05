@@ -4,6 +4,7 @@ import graphics.HoverImage;
 import graphics.Image;
 import graphics.TextButton;
 import processing.core.PConstants;
+import ballsy.ScreenLoader.Screens;
 
 public class WelcomeScreen extends Screen {
 	Window _window;
@@ -29,6 +30,7 @@ public class WelcomeScreen extends Screen {
 	}
 	
 	public void draw() {
+		_window.cursor();
 		_window.background(50,200,200);
 		
 		// put stuff in the middle
@@ -50,13 +52,14 @@ public class WelcomeScreen extends Screen {
 		if (_newGame.mouseOver()) {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
-			_window.setScreen(new LevelOne());
+			//_window.setScreen(new LevelOne());
+			_window.loadScreen(Screens.LEVEL_ONE);
 //			_window.loadLevel("default.xml");
 		}
 		
 		//if (_levelsGraphic.mouseOver()) {
 		if (_level.mouseOver()) {
-			_window.setScreen(new LevelMenu1());
+			_window.setScreenAndSetup(new LevelMenu1());
 		}
 		if (_exit.mouseOver()) {
 			System.exit(0);
