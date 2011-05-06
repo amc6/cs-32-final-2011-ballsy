@@ -20,7 +20,7 @@ public final class BodyConstants {
 	/* UserBall constants. */
 	public static final float USER_MOVE_COEFFICIENT = 20;
 	public static final float USER_MAX_VELOCITY = 100;
-	public static final float USER_RADIUS = 3;
+	public static final float USER_RADIUS = 2;
 	public static final int USER_COLOR = Window.getInstance().color(0, 0, 255);
 	public static final float USER_ANGULAR_VELOCITY = 15f;
 	
