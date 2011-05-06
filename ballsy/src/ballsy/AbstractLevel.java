@@ -22,7 +22,7 @@ public abstract class AbstractLevel extends Screen {
 	protected ArrayList<AbstractBody> _bodies; // an array of the bodies in a given level
 	protected UserBall _player; // the player instance, also contained in bodies
 	protected int _backgroundColor = 255; // color of the background, defaults to white
-	public Point2D.Float _gravity = new Point2D.Float(0, -20);
+	protected Vec2 _gravity = new Vec2(0, -20);
 	protected boolean _paused = false;
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
@@ -55,11 +55,11 @@ public abstract class AbstractLevel extends Screen {
 	public int getBGColor() { return _backgroundColor; }
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {}; // to be overridden in XMLLevel
 	public Vec2[] getWorldBounds() { return _world.getBounds(); }
-	public void setGravity(Point2D.Float g) {
+	public void setGravity(Vec2 g) {
 		_gravity = g;
 		_world.setGravity(g.x, g.y);
 	}
-	public Point2D.Float getGravity() { return _gravity; }
+	public Vec2 getGravity() { return _gravity; }
 	
 	/**
 	 * Override: handle the collision of body 1 and body 2

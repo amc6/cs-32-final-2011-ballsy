@@ -78,7 +78,10 @@ public class EditorLevel extends AbstractLevel {
 		_savedTransY = (int) _world.transY;
 		// clear points if we're setting
 		_selectedPoints = null;
-		_selectingPoints = false;
+		if (_selectingPoints){ // so that when we return from playing we create a new polygon
+			this.startPoints();
+		}
+		
 		// reset selected object
 		this.resetSelected(null);
 		// save the state of the level (temporarily)
@@ -424,14 +427,15 @@ public class EditorLevel extends AbstractLevel {
 				break;
 			case 'q':
 				System.exit(0);
-			}
-			// other shit (backspace, and other non character keys)
-			if (_window.keyCode == PConstants.BACKSPACE || _window.keyCode == PConstants.DELETE) {
-				// handle deletion of object (as long as it's not player or endpoint or null)
+				break;
+			case 'd':
 				if (_selectedBody != null && !_placeMode && 
 						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) 
 					_selectedBody.killBody();
-			} else if (_window.key == 27) {
+				break;
+			}
+			// other shit (backspace, and other non character keys)
+			if (_window.key == 27) {
 				// clear points if we're setting if they press esc
 				_window.key = 0;
 				this.clearPoints(); // abandonded click creation prematurely!
@@ -476,7 +480,7 @@ public class EditorLevel extends AbstractLevel {
 				_factory.setBody(BodyFactory.IPOLY);
 				_selectedBody = this.placeBody(center);
 			}
-			
+			this.resetSelected(null);			
 			this.startPoints(); // allow the user to start a new polygon
 		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
 			// stop selecting points, apply selected for pathing
@@ -511,5 +515,9 @@ public class EditorLevel extends AbstractLevel {
 	public void clearPoints(){
 		_selectedPoints = null;
 		_selectingPoints = false;
+	}
+
+	public AbstractBody getSelected(){
+		return _selectedBody;
 	}
 }
