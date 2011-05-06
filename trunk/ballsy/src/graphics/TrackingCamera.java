@@ -8,7 +8,7 @@ import bodies.AbstractBody;
 
 public class TrackingCamera {
 	
-	public final float SCREEN_PERCENT = .2f;
+	public final float SCREEN_PERCENT = .3f;
 	
 	private PhysicsWorld _world;
 	private Window _window;
