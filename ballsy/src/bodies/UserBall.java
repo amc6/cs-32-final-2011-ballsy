@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
+import ddf.minim.AudioSample;
+import ddf.minim.Minim;
+
 import ballsy.AbstractLevel;
 import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
@@ -28,7 +31,11 @@ public class UserBall extends AbstractBody {
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false, _inPlay = true;
 	private GrappleLine _grapple;
-//	private GrappleRope _grapple;
+	
+	// sound shits.
+	private Minim _minim = new Minim(_window);
+	private AudioSample _sound = _minim.loadSample("res/boop.wav", 2048);
+	private float _maxVelocity = 50; // potential max velocity!?
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
@@ -184,7 +191,19 @@ public class UserBall extends AbstractBody {
 	/**
 	 * handle UserBall collisions specially!
 	 */
-	public void handleCollision(AbstractBody other) {
+	public void handleCollision(AbstractBody other, float velocity) {
+		// make a fun sound!
+		_sound.stop();
+		// scale the volume
+		float min = -40;
+		float max = 12f;
+		if (velocity > _maxVelocity) velocity = _maxVelocity;
+		float percent = velocity / _maxVelocity;
+		float gain = min + (max - min)*percent;
+		System.out.println(gain);
+		_sound.setGain(gain);
+		_sound.trigger();
+		
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
 			//Window.getInstance().setScreenAndSetup(new WelcomeScreen());

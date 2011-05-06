@@ -29,9 +29,6 @@ public abstract class AbstractLevel extends Screen {
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
 	private boolean _pressRegistered = false;
 	protected static Text _debug = new Text("",100,100);
-	
-	private Minim _minim = new Minim(_window);
-	private AudioSample _sound = _minim.loadSample("res/thump.wav", 2048);
 
 	
 	public void setInstance(){
@@ -70,16 +67,9 @@ public abstract class AbstractLevel extends Screen {
 		AbstractBody body2 = getAbstractBody(b2);
 		// delegate collision handling to bodies
 		if (body1 != null && body2 != null) {
-			body1.handleCollision(body2);
-			body2.handleCollision(body1);
+			body1.handleCollision(body2, velocity);
+			body2.handleCollision(body1, velocity);
 		}
-		// make a fun sound!
-//		AudioClip clip = new AudioClip("res/thump.wav");
-//		clip.start(1);
-//		_sound.setGain(-10);
-//		_sound.trigger();
-//		sound.close();
-//		minim.stop();
 	}
 	
 	/**

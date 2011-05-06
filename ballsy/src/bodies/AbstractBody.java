@@ -181,7 +181,7 @@ public abstract class AbstractBody {
 	 * Handle collision of this body with "other" (outside of physics)
 	 * @param other
 	 */
-	public void handleCollision(AbstractBody other) {
+	public void handleCollision(AbstractBody other, float velocity) {
 		// by default, do nothing. Intended to be overridden for special stuff (mostly by UserBall)
 	}
 	
