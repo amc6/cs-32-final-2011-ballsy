@@ -2,28 +2,23 @@ package ballsy;
 
 //import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 
+import static ballsy.GeneralConstants.STUPID_FONT;
 import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import static bodies.BodyConstants.USER_RADIUS;
-import static ballsy.GeneralConstants.*;
-import static editor.EditorConstants.*;
-
 import graphics.Background;
 import graphics.Image;
-import graphics.Text;
+import graphics.TrackingCamera;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
-import javax.xml.ws.Endpoint;
-
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsPath;
-import physics.PhysicsVertexSurface;
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.EndPoint;
@@ -31,12 +26,12 @@ import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.RegularPolygon;
 import bodies.UserBall;
-import bodies.VertexSurface;
 
 public class LevelOne extends AbstractLevel {
 	
 	private Image _background;
 	private Background _bg;
+	private TrackingCamera _camera;
 	//private Text _text;
 	
 	@Override
@@ -138,6 +133,7 @@ public class LevelOne extends AbstractLevel {
 		_player = new UserBall(startingPoint.x, startingPoint.y, USER_RADIUS);
 		_player.getGraphicsDef().setColor(100, 200, 200);
 		_bodies.add(_player);
+		_camera = new TrackingCamera(_player);
 		_window.noCursor();
 	}
 	
@@ -178,6 +174,8 @@ public class LevelOne extends AbstractLevel {
 		_window.textAlign(_window.CORNER);
 		_window.textFont(STUPID_FONT);
 		_window.text((int)_window.frameRate + " FPS",12,46);
+		
+		_camera.update();
 		
 		this.applyInput();
 		
