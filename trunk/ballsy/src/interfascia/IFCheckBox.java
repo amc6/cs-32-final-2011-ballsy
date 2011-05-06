@@ -118,5 +118,9 @@ public class IFCheckBox extends GUIComponent {
 	public boolean isSelected() {
 		return selected;
 	}
+	
+	public void setSelected(boolean bool){
+		selected = bool;
+	}
 
 }

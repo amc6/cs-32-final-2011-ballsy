@@ -36,7 +36,7 @@ public class Window extends PApplet {
 //		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
-		this.loadScreen(Screens.WELCOME_SCREEN);
+		this.loadScreen(Screens.LEVEL_EDITOR);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -45,10 +45,10 @@ public class Window extends PApplet {
 	}
 	
 	public void draw() {
-		if (_screen == null){
-			this.loadScreen(Screens.WELCOME_SCREEN);
-//			this.setScreenAndSetup(new LevelEditor());
-		}
+//		if (_screen == null){
+//			this.loadScreen(Screens.LEVEL_EDITOR);
+////			this.setScreenAndSetup(new LevelEditor());
+//		}
 		_screen.draw();	
 	}
 	

@@ -194,4 +194,9 @@ abstract class GUIComponent {
 		return ((mouseX >= x) && (mouseY >= y) && (mouseX <= (x + wid)) && (mouseY <= (y + hgt)));
 	}
 	
+	public boolean hasFocus(){
+		return controller.getFocusStatusForComponent(this);
+	}
+	
+	public void loseFocus() {}
 }

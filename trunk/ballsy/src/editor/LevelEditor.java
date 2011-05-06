@@ -8,17 +8,17 @@ import interfascia.IFLookAndFeel;
 import interfascia.IFRadioButton;
 import interfascia.IFRadioController;
 import interfascia.IFTextField;
-import graphics.Text;
 
 import java.util.ArrayList;
 
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import processing.core.PConstants;
 import ballsy.AbstractLevel;
 import ballsy.GeneralConstants;
-import ballsy.LevelOne;
 import ballsy.Screen;
+import graphics.Text;
 
 public class LevelEditor extends Screen {
 
@@ -54,7 +54,7 @@ public class LevelEditor extends Screen {
 		_newLevelWidth = _window.width - EditorConstants.LEFT_PANEL_WIDTH;
 		_scaleFactor = _newLevelWidth/_window.width;
 		_newLevelHeight = _window.height*_scaleFactor;
-		_window.strokeJoin(PConstants.MITER); // according to docs this doesn't do anything in OpenGL mode
+//		_window.strokeJoin(PConstants.MITER); // according to docs this doesn't do anything in OpenGL mode
 		
 		int topPart = (int) (_window.height - _newLevelHeight);
 		
@@ -77,6 +77,7 @@ public class LevelEditor extends Screen {
 		//check boxes
 		_grappleableCheckBox = new IFCheckBox("Grappleable", 15, topPart+240);
 		_grappleableCheckBox.addActionListener(this);
+		_grappleableCheckBox.setSelected(true);
 		_deadlyCheckBox = new IFCheckBox("Deadly", 15, topPart+260);
 		_deadlyCheckBox.addActionListener(this);	
 		_mainC.add(_grappleableCheckBox);
@@ -99,7 +100,7 @@ public class LevelEditor extends Screen {
 		
 		_gravityLabel = new IFLabel("Level Gravity", 15, (int) propertiesStart);
 		_gravity = new IFTextField("Gravity", 90, (int) propertiesStart - 4, 60);
-		_gravity.setValue("-20");
+		_gravity.setValue("" + _level.getGravity().y);
 		_gravity.addActionListener(this);
 		_mainC.add(_gravityLabel);
 		_mainC.add(_gravity);
@@ -248,37 +249,103 @@ public class LevelEditor extends Screen {
 	}
 	
 	public void actionPerformed(GUIEvent e){
+
 		if (e.getSource() == _grappleableCheckBox) {
 			//grappleable
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.grappleable = _grappleableCheckBox.isSelected();
+			} else {
+				_level.getSelected().setGrappleable(_grappleableCheckBox.isSelected());
+			}
+			
 		}
 		else if (e.getSource() == _deadlyCheckBox) {
-			  //deadly
+			//deadly
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.deadly = _deadlyCheckBox.isSelected();
+			} else {
+				_level.getSelected().setDeadly(_deadlyCheckBox.isSelected());
+			}
 		} 
 		else if (e.getSource() == _dynamicRadio) {
 			  //dynamic object
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.fixed = !_dynamicRadio.isSelected();
+			} else {
+				_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
+			}
 		} 
 		else if (e.getSource() == _staticRadio) {
 			//static object
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.fixed = _staticRadio.isSelected();
+			} else {
+				_level.getSelected().getPhysicsDef().setMobile(!_staticRadio.isSelected());
+			}
 		}
 		else if (e.getSource() == _graphicalRadio) {
 			//graphical object
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.graphicalOnly = _graphicalRadio.isSelected();
+			} else {
+				// fix this up on selected body
+			}
 		}
 		else if (e.getSource() == _gravity) {
 			//set gravity
+			_level.setGravity(new Vec2(0,Float.parseFloat(_gravity.getValue())));
 		}
 		else if (e.getSource() == _friction) {
 			//set friction
+			if (_level.getSelected() == null) {
+				//nothing is selected
+				_factory.friction = Float.parseFloat(_friction.getValue());
+			} else {
+				_level.getSelected().getPhysicsDef().setFriction(Float.parseFloat(_friction.getValue()));
+			}
 		} 
 		else if (e.getSource() == _bounciness) {
 			//set bounciness
+			float value = Float.parseFloat(_bounciness.getValue());
+			System.out.println(value);
+			if (!Float.isNaN(value) && value > 0){
+				if (_level.getSelected() == null) {
+					//nothing is selected
+					_factory.bounciness = Float.parseFloat(_bounciness.getValue());
+				} else {
+					_level.getSelected().getPhysicsDef().setBounciness(Float.parseFloat(_bounciness.getValue()));
+				}
+			}else {
+				if (_level.getSelected() == null) {
+					//nothing is selected
+					_bounciness.setValue("" + _factory.bounciness);
+				} else {
+					_bounciness.setValue("" + _level.getSelected().getPhysicsDef().getBounciness());
+				}				
+			}
 		} 
 		else if (e.getSource() == _density) {
 			//set density
+			if (Float.parseFloat(_density.getValue()) != 0){
+				if (_level.getSelected() == null) {
+					//nothing is selected
+					_factory.density = Float.parseFloat(_density.getValue());
+				} else {
+					_level.getSelected().getPhysicsDef().setDensity(Float.parseFloat(_density.getValue()));
+				}
+			}
 		} 
 	}
 
 	@Override
 	public void draw() {
+		
+		
 		// TODO Auto-generated method stub
 
 		_level.draw();	
@@ -338,6 +405,7 @@ public class LevelEditor extends Screen {
 			}
 		
 		}
+		
 	}
 
 	public void onClose() {

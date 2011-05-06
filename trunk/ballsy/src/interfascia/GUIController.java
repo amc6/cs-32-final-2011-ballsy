@@ -22,11 +22,16 @@
 
 
 package interfascia;
-import processing.core.*;
-
-import java.awt.event.*;
-import java.awt.datatransfer.*;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyEvent;
+
+import processing.core.PApplet;
+import ballsy.AbstractLevel;
 
 public class GUIController extends GUIComponent implements ClipboardOwner {
 	private GUIComponent[] contents;
@@ -147,6 +152,7 @@ public class GUIController extends GUIComponent implements ClipboardOwner {
 		if (focusIndex > -1 && focusIndex < numItems && contents[focusIndex] == c) {
 			focusIndex = -1;
 		}
+		c.loseFocus();
 	}
 	
 	public GUIComponent getComponentWithFocus() {

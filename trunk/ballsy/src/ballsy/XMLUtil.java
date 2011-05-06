@@ -128,7 +128,7 @@ public class XMLUtil {
 		float maxY = Float.parseFloat(root.attributeValue("MAX_Y"));
 		level.setupWorld(minX, minY, maxX, maxY);
 		level.setBGColor(Integer.parseInt(root.attributeValue("BG_COLOR")));
-		level.setGravity(new Point2D.Float( Float.parseFloat(root.attributeValue("GRAV_X")), Float.parseFloat(root.attributeValue("GRAV_Y"))));
+		level.setGravity(new Vec2( Float.parseFloat(root.attributeValue("GRAV_X")), Float.parseFloat(root.attributeValue("GRAV_Y"))));
     	// iterate through elements of XML file
     	for (Iterator i = root.elementIterator("BODY"); i.hasNext();) {
     		// get references to the various elements
