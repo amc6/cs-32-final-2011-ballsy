@@ -36,6 +36,7 @@ public class EditorLevel extends AbstractLevel {
 	private float _minX, _minY, _maxX, _maxY;
 	private float _lastMouseX, _lastMouseY;
 	private Element _savedState;
+	private int _savedTransX, _savedTransY;
 	private AbstractBody _selectedBody;
 	private boolean _placeMode = false; // either placing or modifying (or running, I guess)
 	private BodyFactory _factory;
@@ -72,6 +73,9 @@ public class EditorLevel extends AbstractLevel {
 	 * Play the current level from the beginning (saved state).
 	 */
 	public void play() {
+		//save trans for bg restoration
+		_savedTransX = (int) _world.transX;
+		_savedTransY = (int) _world.transY;
 		// clear points if we're setting
 		_selectedPoints = null;
 		_selectingPoints = false;
@@ -90,6 +94,8 @@ public class EditorLevel extends AbstractLevel {
 	 * Stop the level and restore the saved beginning state.
 	 */
 	public void stop() {
+		//restore bg
+		_background.restoreTrans(_savedTransX, _savedTransY);
 		// load in saved state
 		XMLUtil.getInstance().restoreXML(this, _savedState);
 		// stop the running
@@ -104,7 +110,7 @@ public class EditorLevel extends AbstractLevel {
 		_maxX = maxX;
 		_maxY = maxY;
 		// set up the physics world && bodies
-		_world = new PhysicsWorld(_window);
+//		_world = new PhysicsWorld(_window); //DON'T CALL THIS!!!!
 		_world.createWorld(minX, minY, maxX, maxY);
 		_world.setGravity(_gravity.x, _gravity.y);
 		_bodies = new ArrayList<AbstractBody>();
@@ -264,6 +270,8 @@ public class EditorLevel extends AbstractLevel {
 				// else notify?
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
+//				System.out.println("moving camera");
+//				System.out.println("trans world" + _world.transX + ", " + _world.transY);
 				_world.moveCamera(distX, distY, true);
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null) {
 				// we're rotating the object. Calculate the angle...
