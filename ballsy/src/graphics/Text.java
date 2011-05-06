@@ -7,7 +7,7 @@ import static ballsy.GeneralConstants.*;
 public class Text {
 
 	private Window _window;
-	private PFont _font = DEFAULT_FONT;
+	protected PFont _font = DEFAULT_FONT;
 	protected int _textAlign = _window.CENTER;
 	private int _x, _y;
 	private int _color = DEFAULT_FONT_INACTIVE;

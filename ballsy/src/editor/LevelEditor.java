@@ -19,6 +19,7 @@ import processing.core.PConstants;
 import ballsy.AbstractLevel;
 import ballsy.GeneralConstants;
 import ballsy.Screen;
+import ballsy.ScreenLoader.Screens;
 import graphics.Text;
 
 public class LevelEditor extends Screen {
@@ -506,6 +507,10 @@ public class LevelEditor extends Screen {
 				_level.stop();
 			} else _level.keyPressed();
 		} 
+		else if (_window.key == 27) { //esc takes us back to welcome screen
+			_window.key = 0;
+			_window.loadScreen(Screens.WELCOME_SCREEN);
+		}
 		
 		_level.keyPressed();
 	}

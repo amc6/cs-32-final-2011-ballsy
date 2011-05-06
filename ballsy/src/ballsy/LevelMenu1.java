@@ -2,23 +2,28 @@ package ballsy;
 
 import editor.LevelEditor;
 import graphics.Image;
+import graphics.Text;
 import ballsy.ScreenLoader.Screens;
 
 public class LevelMenu1 extends Screen {
 
 	private Image _title;
+//	private Text _title, _titleBack;
 	
 	@Override
 	public void setup() {
 		_title = new Image(_window, "res/pick_level_title.png", 582,125, 10,30);
 		_title.setImageMode(_window.CORNER);
-
+//		_title = new Text("Pick Level", 10, 100);
+//		_title.setAlign(_window.LEFT);
+//		_title.setSize(72);
+//		_title.setColor(_window.color(246,183,0));
 	}
 
 	@Override
 	public void draw() {
 		
-		_window.background(255,255,255);
+		_window.background(50,200,200);
 		_window.stroke(0);
 
 		//title
@@ -26,11 +31,13 @@ public class LevelMenu1 extends Screen {
 		
 		//line
 		_window.strokeWeight(2);
-		_window.line(0, 160, _window.width, 160);
+//		_window.line(0, 160, _window.width, 160);
 		
 		
 		
 		//test click
+		_window.fill(150, 255, 255, 255);
+		_window.stroke(0, 0);
 		_window.rect(100,200,100,100);
 		
 		_window.rect(300,200,100,100);
@@ -76,6 +83,11 @@ public class LevelMenu1 extends Screen {
 	@Override
 	public void keyPressed() {
 		// TODO Auto-generated method stub
+		
+		if (_window.key == 27 ) { //ESC
+			_window.key = 0;
+			_window.loadScreen(Screens.WELCOME_SCREEN);
+		}
 		
 	}
 

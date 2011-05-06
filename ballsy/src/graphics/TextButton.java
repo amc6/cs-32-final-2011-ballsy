@@ -37,6 +37,10 @@ public class TextButton extends Text {
 		_y = y;
 	}
 	
+	public void setSize(int size) {
+		super.setSize(size);
+		_height = _font.getFont().getSize();
+	}
 	
 	public boolean mouseOver() {
 		int x = _window.mouseX;
