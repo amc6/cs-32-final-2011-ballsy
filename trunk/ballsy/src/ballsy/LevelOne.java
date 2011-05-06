@@ -18,6 +18,9 @@ import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
 
+import ddf.minim.AudioSample;
+import ddf.minim.Minim;
+
 import physics.PhysicsPath;
 import bodies.AbstractBody;
 import bodies.Ball;
@@ -32,6 +35,9 @@ public class LevelOne extends AbstractLevel {
 	private Image _background;
 	private Background _bg;
 	private TrackingCamera _camera;
+	private Minim _minim = new Minim(_window);
+	private AudioSample _sound = _minim.loadSample("res/boop.wav", 2048);
+
 	//private Text _text;
 	
 	@Override
@@ -211,6 +217,9 @@ public class LevelOne extends AbstractLevel {
 			case 'q':
 				System.exit(0);
 				break;
+			case 'b':
+//				_sound.setGain(-10);
+				_sound.trigger();
 			}
 		}
 		

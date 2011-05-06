@@ -222,4 +222,5 @@ public abstract class AbstractLevel extends Screen {
 		_debug = new Text(s,100,100,100,Window.CORNER);
 		_debug.setSize(30);
 	}
+
 }
