@@ -2,6 +2,7 @@ package editor;
 
 import interfascia.GUIController;
 import interfascia.GUIEvent;
+import interfascia.IFButton;
 import interfascia.IFCheckBox;
 import interfascia.IFLabel;
 import interfascia.IFLookAndFeel;
@@ -25,19 +26,22 @@ public class LevelEditor extends Screen {
 	private EditorLevel _level;
 	private ArrayList<ButtonGroup> _buttonGroups;
 	private AbstractButton _cursorButton, _rectButton, _triangleButton, 
-			_irregPolyButton, _ballButton, _pathButton;
+			_irregPolyButton, _ballButton;
 
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
 	private Text _levelEditorTitle;
-	
-	private GUIController _mainC, _objectC, _rectC, _polyC, _ballC;
+	private boolean _displayPathProperties = false;
+	private GUIController _mainC, _objectC, _rectC, _polyC, _ballC, _pathC;
+	private IFButton _pathButton;
 	private IFCheckBox _grappleableCheckBox, _deadlyCheckBox;
 	private IFRadioButton _dynamicRadio, _staticRadio, _graphicalRadio;
-	private IFLabel _gravityLabel, _frictionLabel, _bouncinessLabel, _densityLabel, 
+	private IFLabel _gravityXLabel, _gravityYLabel, _frictionLabel, _bouncinessLabel, _densityLabel, 
 				_centerXLabel, _centerYLabel, _rotationLabel,
-				_widthLabel, _heightLabel, _sizeLabel, _radiusLabel;
-	private IFTextField _gravity, _friction, _bounciness, _density,
-				_centerX, _centerY, _rotation, _width, _height, _size, _radius;
+				_widthLabel, _heightLabel, _sizeLabel, _radiusLabel,
+				_pathSpeedLabel, _pathRotationLabel, _worldWidthLabel, _worldHeightLabel;
+	private IFTextField _gravityX, _gravityY, _friction, _bounciness, _density,
+				_centerX, _centerY, _rotation, _width, _height, _size, _radius,
+				_pathSpeed, _pathRotation, _worldWidth, _worldHeight;
 	private BodyFactory _factory;
 	
 	@Override
@@ -73,12 +77,16 @@ public class LevelEditor extends Screen {
 		_mainC.setLookAndFeel(ballsyLook);
 		_mainC.setVisible(false);
 
+		//title: Shape Properties
+		IFLabel shapeLabel = new IFLabel("Shape Properties:", 15, (int) topPart+30);
+		_mainC.add(shapeLabel);
 		
 		//check boxes
-		_grappleableCheckBox = new IFCheckBox("Grappleable", 15, topPart+240);
+		int checkBoxStart = topPart + 60;
+		_grappleableCheckBox = new IFCheckBox("Grappleable", 15, checkBoxStart);
 		_grappleableCheckBox.addActionListener(this);
 		_grappleableCheckBox.setSelected(true);
-		_deadlyCheckBox = new IFCheckBox("Deadly", 15, topPart+260);
+		_deadlyCheckBox = new IFCheckBox("Deadly", 15, checkBoxStart+20);
 		_deadlyCheckBox.addActionListener(this);	
 		_mainC.add(_grappleableCheckBox);
 		_mainC.add(_deadlyCheckBox);
@@ -86,7 +94,7 @@ public class LevelEditor extends Screen {
 		//radio buttons
 		IFRadioController rc = new IFRadioController("Mode Selector");
 		rc.addActionListener(this);
-		int radioStart = topPart+300;
+		int radioStart = topPart+110;
 		_dynamicRadio = new IFRadioButton("Dynamic Object", 15, radioStart, rc);
 		_staticRadio = new IFRadioButton("Static Object", 15, radioStart+20, rc);
 		_graphicalRadio = new IFRadioButton("Graphical Only", 15, radioStart+40, rc);
@@ -95,32 +103,24 @@ public class LevelEditor extends Screen {
 		_mainC.add(_staticRadio);
 		_mainC.add(_graphicalRadio);
 
-		//universal properties
-		float propertiesStart = _window.height - 120;
-		
-		_gravityLabel = new IFLabel("Level Gravity", 15, (int) propertiesStart);
-		_gravity = new IFTextField("Gravity", 90, (int) propertiesStart - 4, 60);
-		_gravity.setValue("" + _level.getGravity().y);
-		_gravity.addActionListener(this);
-		_mainC.add(_gravityLabel);
-		_mainC.add(_gravity);
-		
-		_frictionLabel = new IFLabel("Friction", 15, (int) propertiesStart + 30);
-		_friction = new IFTextField("Friction", 90, (int) propertiesStart - 4 + 30, 60);
+		//more default shape properties
+		int defaultStart = radioStart + 80;
+		_frictionLabel = new IFLabel("Friction", 15, (int) defaultStart);
+		_friction = new IFTextField("Friction", 90, (int) defaultStart - 4, 60);
 		_friction.setValue("1.3");
 		_friction.addActionListener(this);
 		_mainC.add(_frictionLabel);
 		_mainC.add(_friction);
 		
-		_bouncinessLabel = new IFLabel("Bounciness", 15, (int) propertiesStart + 60);
-		_bounciness = new IFTextField("Bounciness", 90, (int) propertiesStart - 4 + 60, 60);
+		_bouncinessLabel = new IFLabel("Bounciness", 15, (int) defaultStart + 30);
+		_bounciness = new IFTextField("Bounciness", 90, (int) defaultStart - 4 + 30, 60);
 		_bounciness.setValue("0.3");
 		_bounciness.addActionListener(this);
 		_mainC.add(_bouncinessLabel);
 		_mainC.add(_bounciness);
 		
-		_densityLabel = new IFLabel("Density", 15, (int) propertiesStart + 90);
-		_density = new IFTextField("Density", 90, (int) propertiesStart - 4 + 90, 60);
+		_densityLabel = new IFLabel("Density", 15, (int) defaultStart + 60);
+		_density = new IFTextField("Density", 90, (int) defaultStart - 4 + 60, 60);
 		_density.setValue("4.3");
 		_density.addActionListener(this);
 		_mainC.add(_densityLabel);
@@ -130,7 +130,7 @@ public class LevelEditor extends Screen {
 		//object controls- display when object is selected
 		_objectC = new GUIController(_window);
 		_objectC.setLookAndFeel(ballsyLook);
-		int objectControlStart = topPart + 390;
+		int objectControlStart = defaultStart + 90;
 		_centerXLabel = new IFLabel("Center X", 15, (int) objectControlStart);
 		_centerX = new IFTextField("Center X", 90, (int) objectControlStart - 4, 60);
 		_centerX.setValue("0.0");
@@ -145,7 +145,7 @@ public class LevelEditor extends Screen {
 		_objectC.add(_centerYLabel);
 		_objectC.add(_centerY);
 		
-		_rotationLabel = new IFLabel("Rotation", 15, (int) objectControlStart+60);
+		_rotationLabel = new IFLabel("Rotation", 15, (int) objectControlStart + 60);
 		_rotation = new IFTextField("Rotation", 90, (int) objectControlStart - 4 + 60, 60);
 		_rotation.setValue("0.0");
 		_rotation.addActionListener(this);
@@ -153,11 +153,33 @@ public class LevelEditor extends Screen {
 		_objectC.add(_rotation);
 		_objectC.setVisible(false);
 		
+		_pathButton = new IFButton("Add Path", 15, objectControlStart+150, (int) (EditorConstants.LEFT_PANEL_WIDTH-30));
+		_pathButton.addActionListener(this);
+		_objectC.add(_pathButton);
+		
+		//path controls: display if there is a path
+		_pathC = new GUIController(_window);
+		_pathC.setLookAndFeel(ballsyLook);
+		int pathStart = objectControlStart + 180;
+		_pathSpeedLabel = new IFLabel("Path Speed", 15, (int) pathStart);
+		_pathSpeed = new IFTextField("Path Speed", 90, (int) pathStart - 4, 60);
+		_pathSpeed.setValue("0.0");
+		_pathSpeed.addActionListener(this);
+		_pathC.add(_pathSpeedLabel);
+		_pathC.add(_pathSpeed);
+		
+		_pathRotationLabel = new IFLabel("Rotation Sp.", 15, (int) pathStart+30);
+		_pathRotation = new IFTextField("Rotation Speed", 90, (int) pathStart - 4+30, 60);
+		_pathRotation.setValue("0.0");
+		_pathRotation.addActionListener(this);
+		_pathC.add(_pathRotationLabel);
+		_pathC.add(_pathRotation);
+		_pathC.setVisible(false);
 		
 		//rectangle controls- display when rectangle is selected
 		_rectC = new GUIController(_window);
 		_rectC.setLookAndFeel(ballsyLook);
-		int customControlStart = topPart + 480;
+		int customControlStart = objectControlStart + 90;
 		
 		_widthLabel = new IFLabel("Width", 15, (int) customControlStart);
 		_width = new IFTextField("Width", 90, (int) customControlStart - 4, 60);
@@ -197,6 +219,42 @@ public class LevelEditor extends Screen {
 		_ballC.add(_radiusLabel);
 		_ballC.add(_radius);
 		_ballC.setVisible(false);
+		
+	
+		
+		//world properties
+		float propertiesStart = _window.height - 120;
+		IFLabel worldLabel = new IFLabel("World Properties", 15, (int) propertiesStart-30);
+		_mainC.add(worldLabel);
+		
+		_worldWidthLabel = new IFLabel("Width", 15, (int) propertiesStart);
+		_worldWidth = new IFTextField("World Width", 90, (int) propertiesStart - 4, 60);
+		_worldWidth.setValue("" + _level.getGravity().y);
+		_worldWidth.addActionListener(this);
+		_mainC.add(_worldWidthLabel);
+		_mainC.add(_worldWidth);
+		
+		_worldHeightLabel = new IFLabel("Height", 15, (int) propertiesStart + 30);
+		_worldHeight = new IFTextField("World Height", 90, (int) propertiesStart - 4 + 30, 60);
+		_worldHeight.setValue("" + _level.getGravity().y);
+		_worldHeight.addActionListener(this);
+		_mainC.add(_worldHeightLabel);
+		_mainC.add(_worldHeight);
+		
+		_gravityXLabel = new IFLabel("Gravity X", 15, (int) propertiesStart + 60);
+		_gravityX = new IFTextField("Gravity X", 90, (int) propertiesStart - 4 + 60, 60);
+		_gravityX.setValue("" + _level.getGravity().y);
+		_gravityX.addActionListener(this);
+		_mainC.add(_gravityXLabel);
+		_mainC.add(_gravityX);
+		
+		_gravityYLabel = new IFLabel("Gravity Y", 15, (int) propertiesStart + 90);
+		_gravityY = new IFTextField("Gravity Y", 90, (int) propertiesStart - 4 + 90, 60);
+		_gravityY.setValue("" + _level.getGravity().y);
+		_gravityY.addActionListener(this);
+		_mainC.add(_gravityYLabel);
+		_mainC.add(_gravityY);
+		
 		
 		this.addTopControls();
 		
@@ -296,9 +354,9 @@ public class LevelEditor extends Screen {
 				// fix this up on selected body
 			}
 		}
-		else if (e.getSource() == _gravity) {
+		else if (e.getSource() == _gravityX) {
 			//set gravity
-			_level.setGravity(new Vec2(0,Float.parseFloat(_gravity.getValue())));
+			_level.setGravity(new Vec2(0,Float.parseFloat(_gravityX.getValue())));
 		}
 		else if (e.getSource() == _friction) {
 			//set friction
@@ -340,6 +398,21 @@ public class LevelEditor extends Screen {
 				}
 			}
 		} 
+		else if (e.getSource() == _pathButton) {
+			if (_pathButton.getLabel().equals("Add Path")) {
+				_pathButton.setLabel("End Path");
+				_displayPathProperties = true;
+			}
+			else if (_pathButton.getLabel().equals("End Path")) {
+				_pathButton.setLabel("Remove Path");
+				_displayPathProperties = true;
+			}
+			else if (_pathButton.getLabel().equals("Remove Path")) {
+				_pathButton.setLabel("Add Path");
+				_displayPathProperties = false;
+			}
+			
+		}
 	}
 
 	@Override
@@ -359,6 +432,7 @@ public class LevelEditor extends Screen {
 			_window.pushMatrix();
 	
 			_window.fill(255, 100); // white
+			_window.stroke(255, 0);
 			_window.rectMode(PConstants.CORNER);
 			_window.rect(0,0,EditorConstants.LEFT_PANEL_WIDTH,_window.height);
 			_window.rect(EditorConstants.LEFT_PANEL_WIDTH, 0, _newLevelWidth, _window.height - _newLevelHeight);
@@ -388,6 +462,7 @@ public class LevelEditor extends Screen {
 			_rectC.setVisible(false);
 			_polyC.setVisible(false);
 			_ballC.setVisible(false);
+			_pathC.setVisible(false);
 			
 			_mainC.setVisible(true);
 	
@@ -403,6 +478,9 @@ public class LevelEditor extends Screen {
 			if (_ballButton.isClicked()) {
 				_ballC.setVisible(true);
 			}
+			if (_displayPathProperties) {
+				_pathC.setVisible(true);
+			}
 		
 		}
 		
@@ -415,6 +493,7 @@ public class LevelEditor extends Screen {
 		_rectC.setVisible(false);
 		_polyC.setVisible(false);
 		_ballC.setVisible(false);
+		_pathC.setVisible(false);
 	}
 	
 	@Override
