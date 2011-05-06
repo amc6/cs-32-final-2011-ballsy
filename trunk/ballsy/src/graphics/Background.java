@@ -11,7 +11,7 @@ public class Background {
 	private PhysicsWorld _world = PhysicsWorld.getInstance();
 	private float[] _y;
 	private PImage _img;
-	private int _minX, _minY, _initTransY;
+	private int _minX, _initMinY, _minY, _initTransY, _transY;
 	
 	public Background() {
 		
@@ -22,9 +22,11 @@ public class Background {
 		Vec2[] bounds = _world.getBounds();
 		Vec2 min = bounds[0];
 		_initTransY = (int) _world.transY;
+		System.out.println("init transY" + _initTransY);
+		_transY = _initTransY;
 		_minX = (int) _world.scalarWorldToPixels(min.x);
-		_minY = (int) (_world.scalarWorldToPixels(min.y) + _initTransY);
-		
+		_initMinY = (int) (_world.scalarWorldToPixels(min.y) + _initTransY);
+		_minY = _initMinY;
 		System.out.println("minX, minY: " + _minX + "," + _minY);
 		
 		
@@ -90,39 +92,30 @@ public class Background {
 	}
 	
 	public void draw() {
-//		_window.fill(50,200,200);
-//		_window.stroke(50,200,200);
-//		_window.strokeWeight(3);
 		
-		_window.background(100);
+		_window.background(150);
 		
 		int transX = (int) _world.scalarWorldToPixels(_world.transX);
 		int transY = (int) _world.scalarWorldToPixels(_world.transY);
-//		System.out.println("trans world" + _world.transX + ", " + _world.transY);
+//		System.out.println("bg trans:" + _world.transX + ", " + _world.transY);
 //		System.out.println("trans pixels" + transX + ", " + transY);
 
 		_window.imageMode(_window.CORNER);
-		_window.image(_img, _minX+_world.transX, _minY-_world.transY+_initTransY);
+		_window.image(_img, _minX+_world.transX, _minY-_world.transY+_transY);
 //		_window.image(_img, _minX+_world.transX, _minY);
 
 		
-		//float a = 0.0f;
-		//float inc = 1;
 
-		//float xLast = 0;
-		//float yLast = 500;
-		//float x = 0;
-		//float y = 500;
-		
-//		for(int x=0; x<_y.length; x+=3) {
-//			//x++;
-//			//y = y + _window.sin(a/105)*.5f + _window.cos(a/205)*.3f;
-////			_window.line(xLast, yLast, x, y);
-//			_window.line(x, 0, x, (int)_y[x]);
-//			//a = a + inc;
-////			xLast = x;
-////			yLast = y;
-//		}
+	}
+
+	/**
+	 * Restores translations to old shit
+	 * @param savedTransX
+	 * @param savedTransY
+	 */
+	public void restoreTrans(int savedTransX, int savedTransY) {
+		_world.transX = savedTransX;
+		_world.transY = savedTransY;
 	}
 	
 }
