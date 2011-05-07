@@ -22,16 +22,12 @@
 
 
 package interfascia;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.event.KeyEvent;
+import processing.core.*;
 
-import processing.core.PApplet;
-import ballsy.AbstractLevel;
+import java.awt.event.*;
+import java.awt.datatransfer.*;
+import java.awt.Toolkit;
+import java.util.ArrayList;
 
 public class GUIController extends GUIComponent implements ClipboardOwner {
 	private GUIComponent[] contents;
@@ -152,10 +148,10 @@ public class GUIController extends GUIComponent implements ClipboardOwner {
 		if (focusIndex > -1 && focusIndex < numItems && contents[focusIndex] == c) {
 			focusIndex = -1;
 		}
-		c.loseFocus();
 	}
 	
 	public GUIComponent getComponentWithFocus() {
+		if (focusIndex < 0) return null;
 		return contents[focusIndex];
 	}
 	
@@ -199,7 +195,14 @@ public class GUIController extends GUIComponent implements ClipboardOwner {
 
 
 	public void keyEvent(KeyEvent e) {
-		if (visible) {
+		
+		/* HOLY FUCKING SHIT. BIGGEST WASTE OF TIME EVER.
+		 * We need to make it so that tabs don't cycle through multiple Controllers at once.
+		 * All components should be in the same one. And visibility should be controlled on 
+		 * per component basis. Tabs disabled.
+		 */
+		/*
+		if (visible && this.getComponentWithFocus() != null) { // visible and something focused
 			if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_TAB) {
 				if (focusIndex != -1 && contents[focusIndex] != null) {
 					contents[focusIndex].actionPerformed(
@@ -222,6 +225,13 @@ public class GUIController extends GUIComponent implements ClipboardOwner {
 				if (focusIndex >= 0 && focusIndex < contents.length)
 					contents[focusIndex].keyEvent(e);
 			}
+		}
+		*/
+		
+		// Don't let that tab fucker get in the way
+		if (e.getKeyCode() != KeyEvent.VK_TAB) {
+			if (focusIndex >= 0 && focusIndex < contents.length)
+				contents[focusIndex].keyEvent(e);
 		}
 	}
 	
@@ -257,4 +267,12 @@ public class GUIController extends GUIComponent implements ClipboardOwner {
 			userState.restoreSettingsToApplet(parent);   
 		}
 	}  
+	
+	public ArrayList<GUIComponent> getComponents(){
+		ArrayList<GUIComponent> toReturn = new ArrayList<GUIComponent>();
+		for (int i = 0; i < contents.length; i++){
+			if (contents[i] != null) toReturn.add(contents[i]);
+		}
+		return toReturn;
+	}
 }

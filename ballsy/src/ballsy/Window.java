@@ -33,10 +33,10 @@ public class Window extends PApplet {
 		//this.camera(width/2.0f, height/2.0f, (height/2.0f) / (float) Math.tan(Math.PI*60.0 / 360.0), width/2.0f, height/2.0f, 0f, 0f, 1f, 0f);
 		
 //		this.setScreen(new LevelEditor());
-		this.loadScreen(Screens.WELCOME_SCREEN);
+//		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
-//		this.loadScreen(Screens.LEVEL_EDITOR);
+		this.loadScreen(Screens.LEVEL_EDITOR);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());

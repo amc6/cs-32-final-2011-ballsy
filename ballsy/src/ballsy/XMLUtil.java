@@ -160,6 +160,7 @@ public class XMLUtil {
     		if (currPhysDef.attributeValue("WIDTH") != null)
     			height = Float.parseFloat(currPhysDef.attributeValue("HEIGHT"));
     		boolean mobile = Boolean.parseBoolean(currPhysDef.attributeValue("MOBILE"));
+    		boolean graphicalOnly = Boolean.parseBoolean(currPhysDef.attributeValue("GRAPHICALONLY"));
     		// now reconstruct the present object into ballsy
     		Body body = null;
     		if (bodyType.compareTo("user_ball") == 0) {
@@ -172,7 +173,7 @@ public class XMLUtil {
     		} else if (bodyType.compareTo("ball") == 0) {
     			// it's a ball
     			Ball newBall = new Ball(xPos, yPos, width/2);
-    			newBall.getPhysicsDef().setMobile(mobile);
+//    			newBall.getPhysicsDef().setMobile(mobile);
     			newBall.getGraphicsDef().setColor(color);
     			newBall.setGrappleable(grappleable);
     			newBall.setEndpoint(endpoint);
@@ -180,18 +181,20 @@ public class XMLUtil {
     			// display the line if necessary
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
     			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
-    			newBall.getPhysicsDef().setRotation(rotation);
+    			this.setGeneralPhysicsProperties(newBall, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
+//    			newBall.getPhysicsDef().setRotation(rotation);
     			body = newBall.getPhysicsDef().getBody();
     			newBodies.add(newBall);
     		} else if (bodyType.compareTo("rectangle") == 0) {
     			// it's a rectangle
     			Rectangle newRect = new Rectangle(xPos, yPos, width, height);
-    			newRect.getPhysicsDef().setMobile(mobile);
+//    			newRect.getPhysicsDef().setMobile(mobile);
     			newRect.getGraphicsDef().setColor(color);
     			newRect.setGrappleable(grappleable);
     			newRect.setEndpoint(endpoint);
     			newRect.setDeadly(deadly);
-    			newRect.getPhysicsDef().setRotation(rotation);
+//    			newRect.getPhysicsDef().setRotation(rotation);
+    			this.setGeneralPhysicsProperties(newRect, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
     		} else if (bodyType.compareTo("regular_polygon") == 0 || bodyType.compareTo("irregular_polygon") == 0) {
@@ -211,8 +214,15 @@ public class XMLUtil {
     			newPoly.setGrappleable(grappleable);
     			newPoly.setEndpoint(endpoint);
     			newPoly.setDeadly(deadly);
-    			newPoly.getPhysicsDef().setMobile(mobile);
-    			newPoly.getPhysicsDef().setRotation(rotation);
+//    			newPoly.getPhysicsDef().setMobile(mobile);
+//    			newPoly.getPhysicsDef().setRotation(rotation);
+//    			newPoly.getPhysicsDef().setLinearVelocity(new Vec2(xVel, yVel));
+//    			newPoly.getPhysicsDef().setAngularVelocity(aVel);
+//    			newPoly.getPhysicsDef().setFriction(friction);
+//    			newPoly.getPhysicsDef().setBounciness(restitution);
+//    			newPoly.getPhysicsDef().setDensity(density);
+    			this.setGeneralPhysicsProperties(newPoly, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
+    			
     			body = newPoly.getPhysicsDef().getBody();
     			newBodies.add(newPoly);
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
@@ -225,11 +235,11 @@ public class XMLUtil {
     		}
     		if (body != null) {
         		// set the body properties
-				body.setLinearVelocity(new Vec2(xVel, yVel));
-				body.setAngularVelocity(aVel);
-				body.getShapeList().setFriction(friction);
-				body.getShapeList().setRestitution(restitution);
-				body.getShapeList().m_density = density; // idk why there's not a setter for this...
+//				body.setLinearVelocity(new Vec2(xVel, yVel));
+//				body.setAngularVelocity(aVel);
+//				body.getShapeList().setFriction(friction);
+//				body.getShapeList().setRestitution(restitution);
+//				body.getShapeList().m_density = density; // idk why there's not a setter for this...
     		}
     		// handle pathing
     		if (currPathDef != null) {
@@ -265,4 +275,14 @@ public class XMLUtil {
     	level.setPlayer(newPlayer);
 	}
 	
+	private void setGeneralPhysicsProperties(AbstractBody body, boolean mobile, boolean graphicalOnly, float rotation, float xVel, float yVel, float aVel, float friction, float restitution, float density){
+		body.getPhysicsDef().setMobile(mobile);
+		body.getPhysicsDef().setGraphicalOnly(graphicalOnly);
+		body.getPhysicsDef().setRotation(rotation);
+		body.getPhysicsDef().setLinearVelocity(new Vec2(xVel, yVel));
+		body.getPhysicsDef().setAngularVelocity(aVel);
+		body.getPhysicsDef().setFriction(friction);
+		body.getPhysicsDef().setBounciness(restitution);
+		body.getPhysicsDef().setDensity(density);
+	}
 }

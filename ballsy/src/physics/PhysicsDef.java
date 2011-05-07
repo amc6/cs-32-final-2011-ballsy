@@ -25,6 +25,7 @@ public abstract class PhysicsDef {
 				  _friction = DEFAULT_BODY_FRICTION,
 				  _bounciness = DEFAULT_BODY_BOUNCINESS;
 	private boolean _mobile = true;
+	private boolean _graphicalOnly = false;
 	protected Body _body;
 		
 	public PhysicsDef(float x, float y){
@@ -68,9 +69,11 @@ public abstract class PhysicsDef {
 	}
 	
 	public void setRotation(float r) {
-		//_body.m_sweep.a = r;
-		//this.createBody();
 		this.getBody().setXForm(this.getBody().getXForm().position, r);
+	}
+	
+	public float getRotation(){
+		return this.getBody().getAngle();
 	}
 	
 	/**
@@ -148,6 +151,15 @@ public abstract class PhysicsDef {
 		}
 	}
 	
+	public boolean getGraphicalOnly(){
+		return _graphicalOnly;
+	}
+	
+	//MORE TO DO HERE
+	public void setGraphicalOnly(boolean graphicalOnly){
+		_graphicalOnly = graphicalOnly;
+	}
+	
 	/**
 	 * Applies a force given by the parameter to the object's center of mass.
 	 * @param vector
@@ -179,6 +191,11 @@ public abstract class PhysicsDef {
 	
 	public Vec2 getBodyGravityCenter(){
 		return _body.getWorldCenter();
+	}
+	
+	public void setBodyWorldCenter(Vec2 vec){
+		_initialPos = vec;
+		if (_body != null) _body.setXForm(vec, _body.getAngle());
 	}
 	
 	/**
@@ -236,6 +253,7 @@ public abstract class PhysicsDef {
 		newEl.addAttribute("FRICTION", Float.toString(_body.getShapeList().getFriction()));
 		newEl.addAttribute("RESTITUTION", Float.toString(_body.getShapeList().getRestitution()));
 		newEl.addAttribute("MOBILE", Boolean.toString(_mobile));
+		newEl.addAttribute("GRAPHICALONLY", Boolean.toString(_graphicalOnly));
 		// return
 		return newEl;
 	}

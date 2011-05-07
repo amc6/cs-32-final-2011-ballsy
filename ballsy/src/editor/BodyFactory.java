@@ -35,7 +35,7 @@ public class BodyFactory {
 	public float bounciness = DEFAULT_BODY_BOUNCINESS;
 	public boolean deadly = false;
 	public boolean grappleable = true;
-	public boolean fixed = false;
+	public boolean dynamic = true;
 	public boolean graphicalOnly = false;
 	public int polyPointCount = 3;
 	public ArrayList<Vec2> polyPoints = null;
@@ -76,17 +76,17 @@ public class BodyFactory {
 			break;
 		}
 		// set the properties
-		newBody.getPhysicsDef().setMobile(!fixed);
+		newBody.getPhysicsDef().setMobile(dynamic);
+		newBody.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 		newBody.getGraphicsDef().setColor(color);
 		newBody.setGrappleable(grappleable);
 		newBody.setDeadly(deadly);
-		Body body = newBody.getPhysicsDef().getBody();
-		body.setLinearVelocity(velocity);
-		body.setAngularVelocity(angularVelocity);
-		body.m_sweep.a = rotation;
-		body.getShapeList().setFriction(friction);
-		body.getShapeList().setRestitution(bounciness);
-		body.getShapeList().m_density = density;
+		newBody.getPhysicsDef().setLinearVelocity(velocity);
+		newBody.getPhysicsDef().setAngularVelocity(angularVelocity);
+		newBody.getPhysicsDef().setRotation(rotation);
+		newBody.getPhysicsDef().setFriction(friction);
+		newBody.getPhysicsDef().setBounciness(bounciness);
+		newBody.getPhysicsDef().setDensity(density);
 		return newBody;
 	}
 	

@@ -60,6 +60,10 @@ public class PhysicsPath implements Steppable{
 		_stepRotation = r;
 	}
 	
+	public float getRotation(){
+		return _stepRotation;
+	}
+	
 	/**
 	 * Apply all parameters indicated by the path. Moves the body between points; if
 	 * the body is mobile, it simply applies a velocity towards the next point. 
@@ -149,6 +153,10 @@ public class PhysicsPath implements Steppable{
 	public void setCurrTarget(int t) { _currTarget = t; }
 	public void setInitialPoint(Point2D.Float p) { _initPos = p; }
 	public void setVelCoeff(float v) { _velCoeff = v; }
+	
+	public float getVelCoeff(){
+		return _velCoeff;
+	}
 
 	@Override
 	public void step(float dt, int iterations) {

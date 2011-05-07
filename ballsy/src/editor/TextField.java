@@ -4,6 +4,8 @@ import interfascia.IFTextField;
 
 public class TextField extends IFTextField {
 
+	private LevelEditor _editor;
+	
 	/**
 	* creates an empty IFTextField with the specified label and with specified position and width.
 	* @param argLabel the text field's label
@@ -12,9 +14,16 @@ public class TextField extends IFTextField {
 	* @param argWidth the text field's width
 	*/
 	
-	public TextField(String argLabel, int argX, int argY, int argWidth) {
+	public TextField(String argLabel, int argX, int argY, int argWidth, LevelEditor editor) {
 		super(argLabel, argX, argY, argWidth);
+		_editor = editor;
 	}
+	
+	@Override
+	public void loseFocus(){
+		_editor.focusLost(this);
+	}
+	
 	
 	
 	
