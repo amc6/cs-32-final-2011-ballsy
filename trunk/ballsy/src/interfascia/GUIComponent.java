@@ -25,7 +25,7 @@ package interfascia;
 
 import java.awt.event.*;
 
-abstract class GUIComponent {
+public abstract class GUIComponent {
 	private int x, y, wid, hgt;
 	private String label;
 	

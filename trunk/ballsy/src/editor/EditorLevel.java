@@ -47,8 +47,10 @@ public class EditorLevel extends AbstractLevel {
 	private boolean _rotating = false;
 	private Vec2 _rotationCenter;
 	private boolean _resizing = false;
+	private LevelEditor _editor;
 	
-	public EditorLevel(BodyFactory factory) {
+	public EditorLevel(LevelEditor editor, BodyFactory factory) {
+		_editor = editor;
 		// load in the level
 		_factory = factory;
 		this.setInstance(); // set this level as the singleton
@@ -105,6 +107,7 @@ public class EditorLevel extends AbstractLevel {
 		_running = false;
 		this.togglePaused();
 		_camera = null;
+		_editor.updateFieldValues(); // make sure they're correct per XML
 	}
 	
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
@@ -216,7 +219,7 @@ public class EditorLevel extends AbstractLevel {
 				} else if (_placeMode) {
 					// we're placing something, make call to placeObject
 					Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
-					if (_world.contains(newPos)) _selectedBody = this.placeBody(newPos);
+					if (_world.contains(newPos)) this.placeBody(newPos); // don't select it anymore
 				} else {
 					// we're selecting stuff or moving
 					// set selected object to object under mousepress, or null if none
@@ -350,6 +353,7 @@ public class EditorLevel extends AbstractLevel {
 				}
 			}
 		}
+		_editor.updateFieldValues();
 	}
 	
 	/**
@@ -376,14 +380,14 @@ public class EditorLevel extends AbstractLevel {
 			super.keyPressed();
 		} else {
 			switch (_window.key) {
-			case 'y':
-				// toggle static (for body and path)
-				if (!_placeMode && _selectedBody != null && !(_selectedBody instanceof UserBall)) {
-					_selectedBody.getPhysicsDef().setMobile(!_selectedBody.getPhysicsDef().getMobile());
-					if (_selectedBody.getPath() != null) _selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
-				} else if (_placeMode) {
-					_factory.fixed = !_factory.fixed;
-				}
+//			case 'y':
+//				// toggle static (for body and path)
+//				if (!_placeMode && _selectedBody != null && !(_selectedBody instanceof UserBall)) {
+//					_selectedBody.getPhysicsDef().setMobile(!_selectedBody.getPhysicsDef().getMobile());
+//					if (_selectedBody.getPath() != null) _selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
+//				} else if (_placeMode) {
+//					_factory.fixed = !_factory.fixed;
+//				}
 //			case ',':
 //				// start or finish a chain of points
 //				if (_placeMode) {
@@ -419,12 +423,12 @@ public class EditorLevel extends AbstractLevel {
 //					}
 //				}
 //				break;
-			case '.':
-				// remove path if selected, not place mode, and path exists
-				if (!_placeMode && _selectedBody != null && _selectedBody.getPath() != null) {
-					_selectedBody.clearPath();
-				}
-				break;
+//			case '.':
+//				// remove path if selected, not place mode, and path exists
+//				if (!_placeMode && _selectedBody != null && _selectedBody.getPath() != null) {
+//					_selectedBody.clearPath();
+//				}
+//				break;
 			case 'q':
 				System.exit(0);
 				break;

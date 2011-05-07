@@ -52,6 +52,8 @@ public abstract class AbstractLevel extends Screen {
 	public int getBGColor() { return _backgroundColor; }
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {}; // to be overridden in XMLLevel
 	public Vec2[] getWorldBounds() { return _world.getBounds(); }
+	public float getWorldWidth() { return _world.getWidth(); }
+	public float getWorldHeight() { return _world.getHeight(); }
 	public void setGravity(Vec2 g) {
 		_gravity = g;
 		_world.setGravity(g.x, g.y);
@@ -96,6 +98,7 @@ public abstract class AbstractLevel extends Screen {
 			_player.setInPlay(true);
 			_player.getGraphicsDef().setSmoke(new Smoke(_player));
 		}
+		
 	}
 	
 	/**
