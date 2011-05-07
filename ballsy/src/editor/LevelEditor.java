@@ -133,60 +133,18 @@ public class LevelEditor extends Screen {
 		_mainC.add(_densityLabel);
 		_mainC.add(_density);
 		
-	
-		//object controls- display when object is selected
-		_objectC = new GUIController(_window);
-		_objectC.setLookAndFeel(ballsyLook);
-		_objectC.setVisible(false);
-		int objectControlStart = defaultStart + 90;
-		_centerXLabel = new IFLabel("Center X", 15, (int) objectControlStart);
-		_centerX = new TextField("Center X", 90, (int) objectControlStart - 4, 60, this);
-		_centerX.setValue("0.0");
-		_centerX.addActionListener(this);
-		_objectC.add(_centerXLabel);
-		_objectC.add(_centerX);
-	
-		_centerYLabel = new IFLabel("Center Y", 15, (int) objectControlStart+30);
-		_centerY = new TextField("Center Y", 90, (int) objectControlStart - 4 + 30, 60, this);
-		_centerY.setValue("0.0");
-		_centerY.addActionListener(this);
-		_objectC.add(_centerYLabel);
-		_objectC.add(_centerY);
-		
-		_rotationLabel = new IFLabel("Rotation", 15, (int) objectControlStart + 60);
-		_rotation = new TextField("Rotation", 90, (int) objectControlStart - 4 + 60, 60, this);
+		_rotationLabel = new IFLabel("Rotation", 15, (int) defaultStart + 90);
+		_rotation = new TextField("Rotation", 90, (int) defaultStart - 4 + 90, 60, this);
 		_rotation.setValue("0.0");
 		_rotation.addActionListener(this);
 		_mainC.add(_rotationLabel);
 		_mainC.add(_rotation);
-		
-		_pathButton = new IFButton("Add Path", 15, objectControlStart+150, (int) (EditorConstants.LEFT_PANEL_WIDTH-30));
-		_pathButton.addActionListener(this);
-		_objectC.add(_pathButton);
-		
-		//path controls: display if there is a path
-		_pathC = new GUIController(_window);
-		_pathC.setLookAndFeel(ballsyLook);
-		int pathStart = objectControlStart + 180;
-		_pathSpeedLabel = new IFLabel("Path Speed", 15, (int) pathStart);
-		_pathSpeed = new TextField("Path Speed", 90, (int) pathStart - 4, 60, this);
-		_pathSpeed.setValue("0.0");
-		_pathSpeed.addActionListener(this);
-		_pathC.add(_pathSpeedLabel);
-		_pathC.add(_pathSpeed);
-		
-		_pathRotationLabel = new IFLabel("Rotation Sp.", 15, (int) pathStart+30);
-		_pathRotation = new TextField("Rotation Speed", 90, (int) pathStart - 4+30, 60, this);
-		_pathRotation.setValue("0.0");
-		_pathRotation.addActionListener(this);
-		_pathC.add(_pathRotationLabel);
-		_pathC.add(_pathRotation);
-		_pathC.setVisible(false);
+	
 		
 		//rectangle controls- display when rectangle is selected
 		_rectC = new GUIController(_window);
 		_rectC.setLookAndFeel(ballsyLook);
-		int customControlStart = objectControlStart + 90;
+		int customControlStart = defaultStart + 120;
 		
 		_widthLabel = new IFLabel("Width", 15, (int) customControlStart);
 		_width = new TextField("Width", 90, (int) customControlStart - 4, 60, this);
@@ -226,6 +184,54 @@ public class LevelEditor extends Screen {
 		_ballC.add(_radiusLabel);
 		_ballC.add(_radius);
 		_ballC.setVisible(false);
+		
+		
+		
+		//object controls- display when object is selected
+		_objectC = new GUIController(_window);
+		_objectC.setLookAndFeel(ballsyLook);
+		_objectC.setVisible(false);
+		int objectControlStart = customControlStart + 60;
+		_centerXLabel = new IFLabel("Center X", 15, (int) objectControlStart);
+		_centerX = new TextField("Center X", 90, (int) objectControlStart - 4, 60, this);
+		_centerX.setValue("0.0");
+		_centerX.addActionListener(this);
+		_objectC.add(_centerXLabel);
+		_objectC.add(_centerX);
+	
+		_centerYLabel = new IFLabel("Center Y", 15, (int) objectControlStart+30);
+		_centerY = new TextField("Center Y", 90, (int) objectControlStart - 4 + 30, 60, this);
+		_centerY.setValue("0.0");
+		_centerY.addActionListener(this);
+		_objectC.add(_centerYLabel);
+		_objectC.add(_centerY);
+				
+	
+		
+		//path controls: display if there is a path
+		_pathC = new GUIController(_window);
+		_pathC.setLookAndFeel(ballsyLook);
+		int pathStart = objectControlStart + 60;
+		
+		_pathButton = new IFButton("Add Path", 15, pathStart, (int) (EditorConstants.LEFT_PANEL_WIDTH-30));
+		_pathButton.addActionListener(this);
+		_objectC.add(_pathButton);
+		
+		_pathSpeedLabel = new IFLabel("Path Speed", 15, (int) pathStart + 30);
+		_pathSpeed = new TextField("Path Speed", 90, (int) pathStart - 4 + 30, 60, this);
+		_pathSpeed.setValue("0.0");
+		_pathSpeed.addActionListener(this);
+		_pathC.add(_pathSpeedLabel);
+		_pathC.add(_pathSpeed);
+		
+		_pathRotationLabel = new IFLabel("Rotation Sp.", 15, (int) pathStart + 60);
+		_pathRotation = new TextField("Rotation Speed", 90, (int) pathStart - 4+ 60, 60, this);
+		_pathRotation.setValue("0.0");
+		_pathRotation.addActionListener(this);
+		_pathC.add(_pathRotationLabel);
+		_pathC.add(_pathRotation);
+		_pathC.setVisible(false);
+		
 		
 	
 		
