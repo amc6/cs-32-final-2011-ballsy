@@ -41,7 +41,7 @@ public class PhysicsPolygon extends PhysicsDef {
 		ArrayList<Vec2> newOffsets = new ArrayList<Vec2>();
 		int countTooSmall = 0; // we'll count the number of points < minSize. if == # of points, return
 		for (Vec2 v : _pointOffsets) {
-			System.out.println(Math.abs(v.x*r) + " " + Math.abs(v.y*r));
+			//System.out.println(Math.abs(v.x*r) + " " + Math.abs(v.y*r));
 			if (Math.sqrt(v.x*v.x*r*r + v.y*v.y*r*r) < minSize) countTooSmall++; 
 			if (countTooSmall == _pointOffsets.size()) return; // bail if it's getting too small
 			newOffsets.add(new Vec2(v.x*r, v.y*r));

@@ -5,13 +5,16 @@ import graphics.GraphicsGrappleLine;
 
 import org.dom4j.Element;
 
+import physics.PhysicsGrapple;
 import physics.PhysicsGrappleLine;
+import physics.PhysicsGrappleLineSolid;
 
 
 public class GrappleLine extends AbstractBody {
 
 	public GrappleLine(UserBall ball) {
-		PhysicsGrappleLine physics = new PhysicsGrappleLine(ball);
+		PhysicsGrapple physics = new PhysicsGrappleLine(ball);
+		//PhysicsGrapple physics = new PhysicsGrappleLineSolid(ball);
 		GraphicsGrappleLine graphics = new GraphicsGrappleLine(DEFAULT_BODY_COLOR, ball);
 		this.setPhysicsAndGraphics(physics, graphics);
 	}
@@ -21,20 +24,25 @@ public class GrappleLine extends AbstractBody {
 		return null;
 	}
 	
+	@Override
+	public PhysicsGrapple getPhysicsDef() {
+		return (PhysicsGrapple) super.getPhysicsDef();
+	}
+	
 	public void grapple() {
-		((physics.PhysicsGrappleLine) this.getPhysicsDef()).grapple();
+		this.getPhysicsDef().grapple();
 	}
 	
 	public void releaseGrapple() {
-		((physics.PhysicsGrappleLine) this.getPhysicsDef()).releaseGrapple();
+		this.getPhysicsDef().releaseGrapple();
 	}
 
 	
 	public void extendGrapple() {
-		((physics.PhysicsGrappleLine) this.getPhysicsDef()).extendGrapple();
+		this.getPhysicsDef().extendGrapple();
 	}
 	
 	public void retractGrapple() {
-		((physics.PhysicsGrappleLine) this.getPhysicsDef()).retractGrapple();
+		this.getPhysicsDef().retractGrapple();
 	}
 }

@@ -196,7 +196,7 @@ public class EditorLevel extends AbstractLevel {
 				_lastMouseY = _window.mouseY;
 				if (_selectingPoints) {
 					Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
-					System.out.println("clicked point: " + newPoint);
+					//System.out.println("clicked point: " + newPoint);
 					if (_placeMode && _selectedPoints.size() > 1) {
 						// we're placing a polygon, so points need to be counterclockwise and convex
 						ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
@@ -282,7 +282,7 @@ public class EditorLevel extends AbstractLevel {
 				// else notify?
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
-				_world.moveCamera(distX, distY, true);
+				_world.moveCamera(distX, distY);
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null) {
 				// we're rotating the object. Calculate the angle...
 				float angleNow = (float) Math.atan2(_world.pixelYtoWorldY(_window.mouseY) - _rotationCenter.y, (_world.pixelXtoWorldX(_window.mouseX) - _rotationCenter.x));
