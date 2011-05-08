@@ -1,20 +1,25 @@
 package ballsy;
 
-import java.util.ArrayList;
+import graphics.Background;
+import graphics.TrackingCamera;
 
-import org.jbox2d.dynamics.Body;
+import java.util.ArrayList;
 
 import physics.PhysicsWorld;
 import bodies.AbstractBody;
 
 public class XMLLevel extends AbstractLevel {
 	private String _path;
+	private Background _background;
+	private TrackingCamera _camera;
+	
 	public XMLLevel(String path) {
 		_path = path;
 		// load in the level
 		this.setInstance(); // set this level as the singleton
 		XMLUtil.getInstance().readFile(this, path);
-		
+		_background = new Background();
+		_camera = new TrackingCamera(_player);
 	}
 	
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
@@ -28,10 +33,14 @@ public class XMLLevel extends AbstractLevel {
 	public void draw() {
 		// draw window stuffs
 		_window.background(_backgroundColor);
+		_background.draw();
 		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		// step physics world
-		_world.step();
+		if (!_paused) {
+			_world.step();
+		}
+		_camera.update();
 		// display all objects
 		for (AbstractBody body : _bodies) { body.display(); }
 		// handle keypresses
@@ -44,13 +53,20 @@ public class XMLLevel extends AbstractLevel {
 			case 'd': // right
 				_player.moveRight();
 				break;
-			case 's': // up
-				_player.moveDown();
+			case 's': // extend
+				if (_player.isGrappled()) {
+					_player.extendGrapple();
+				}
 				break;
-			case 'w': // down
-				_player.moveUp();
+			case 'w': // retract
+				if (_player.isGrappled()) {
+					_player.retractGrapple();
+				}
 				break;	
 			}
+		}
+		if (_paused) {
+			_pauseScreen.draw();
 		}
 	}
 
@@ -59,6 +75,9 @@ public class XMLLevel extends AbstractLevel {
 	 * Fires the grapple if it's unfired, releases it if it's fired.
 	 */
 	public void mousePressed() {
+		if (_paused) {
+			_pauseScreen.mousePressed();
+		}
 		if (!_player.isGrappled()) _player.fireGrapple();
 		else _player.releaseGrapple();
 	}

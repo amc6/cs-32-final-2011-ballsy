@@ -42,6 +42,7 @@ public class PauseScreen {
 	}
 
 	public void mousePressed() {
+		System.out.println("clicked pause screen");
 		if (_resume.mouseOver()) {
 			_level.togglePaused();
 		}

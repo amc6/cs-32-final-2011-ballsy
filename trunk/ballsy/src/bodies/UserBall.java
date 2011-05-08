@@ -103,7 +103,10 @@ public class UserBall extends AbstractBody {
 //		_grapple = grapple;
 //	}
 	
-
+	public void setCrosshairVisible(boolean visible) {
+		if (visible) _crosshair.show();
+		else _crosshair.hide();
+	}
 	
 	public void setGrapple(GrappleLine grapple) {
 		_grapple = grapple;

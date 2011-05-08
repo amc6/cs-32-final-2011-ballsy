@@ -59,7 +59,8 @@ public class WelcomeScreen extends Screen {
 		
 		//if (_levelsGraphic.mouseOver()) {
 		if (_level.mouseOver()) {
-			_window.setScreenAndSetup(new LevelMenu1());
+			_window.setScreenAndSetup(new menu.Menu());
+
 		}
 		if (_exit.mouseOver()) {
 			System.exit(0);
