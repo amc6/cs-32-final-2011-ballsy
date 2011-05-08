@@ -7,7 +7,6 @@ import org.dom4j.Element;
 
 import physics.PhysicsGrapple;
 import physics.PhysicsGrappleLine;
-import physics.PhysicsGrappleLineSolid;
 
 
 public class GrappleLine extends AbstractBody {
