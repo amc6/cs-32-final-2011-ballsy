@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LEVELS_LIST>
+  <LEVEL PATH="levels/levelone.xml" THUMBNAIL="levels/thumbs/levelone.png"/>
+  <LEVEL PATH="levels/leveltwo.xml" THUMBNAIL="levels/thumbs/leveltwo.png"/>
+  <LEVEL PATH="levels/levelthree.xml" THUMBNAIL="levels/thumbs/levelthree.png"/>
+</LEVELS_LIST>
