@@ -142,7 +142,7 @@ public class PhysicsWorld {
 		world = new World(worldAABB, gravity, doSleep);
 		listenForCollisions();
 	}
-
+	
 	// Set the gravity (this can change in real-time)
 	public void setGravity(float x, float y) {
 		world.setGravity(new Vec2(x,y));
@@ -153,7 +153,7 @@ public class PhysicsWorld {
 	 * @param dx
 	 * @param dy
 	 */
-	public void moveCamera(float dx, float dy, boolean allowOutOfBounds) {
+	public void moveCamera(float dx, float dy) {
 		transX-=dx;
 		transY-=dy;
 	}
@@ -343,7 +343,7 @@ public class PhysicsWorld {
 	 * @return
 	 */
 	public boolean contains(Vec2 point) {
-		System.out.println(point.x + " " + point.y);
+		//System.out.println(point.x + " " + point.y);
 		Vec2 minBounds = this.getBounds()[0];
 		Vec2 maxBounds = this.getBounds()[1];
 		if (minBounds.x <= point.x && maxBounds.x >= point.x &&

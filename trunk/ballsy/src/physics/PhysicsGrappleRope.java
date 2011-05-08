@@ -57,7 +57,7 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 			Vec2 dist = pos2.sub(pos1);
 			float magDist = dist.length();
 			_numLinks = (int) (magDist*2);
-			System.out.println("numlinks: " + _numLinks);
+			//System.out.println("numlinks: " + _numLinks);
 			float dx = dist.x/_numLinks;
 			float dy = dist.y/_numLinks;
 			
@@ -183,5 +183,11 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 
 	// Required by PhysicsDef. How can we refactor this better?
 	protected void createBody() {
+	}
+
+	@Override
+	public Vec2 getGrapplePoint() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

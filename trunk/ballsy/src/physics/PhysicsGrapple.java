@@ -24,6 +24,8 @@ public abstract class PhysicsGrapple extends PhysicsDef {
 	
 	public abstract void retractGrapple();
 	
+	public abstract Vec2 getGrapplePoint();
+	
 	public Element writeXML() {
 		return null;
 	}

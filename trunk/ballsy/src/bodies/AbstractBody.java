@@ -51,8 +51,12 @@ public abstract class AbstractBody {
 	
 	public void setPhysicsAndGraphics(PhysicsDef physics, GraphicsDef graphics){
 		_physicsDef = physics;
+		this.setGraphics(graphics);
+	}
+	
+	public void setGraphics(GraphicsDef graphics) {
 		_graphicsDef = graphics;
-		_graphicsDef.setPhysicsDef(physics);
+		_graphicsDef.setPhysicsDef(_physicsDef);
 	}
 	
 	/**
@@ -96,7 +100,7 @@ public abstract class AbstractBody {
 	public void setPath(ArrayList<Vec2> p) {
 		Vector<Point2D.Float> vec = new Vector <Point2D.Float>();
 		for (Vec2 v : p) {
-			System.out.println(v.x + " " + v.y);
+			//System.out.println(v.x + " " + v.y);
 			vec.add(new Point2D.Float(v.x, v.y));
 		}
 		this.setPath(vec);

@@ -5,7 +5,9 @@ import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
+import physics.PhysicsGrapple;
 import ballsy.Window;
+import bodies.GrappleLine;
 
 public class GraphicsGrappleLine extends GraphicsDef{
 	
@@ -25,7 +27,8 @@ public class GraphicsGrappleLine extends GraphicsDef{
 
 		if (_ball.isGrappled()) {
 			//Point2D.Float grapplePoint = _ball.getPixelGrapplePoint();
-			physics.PhysicsGrappleLine physicsDef = (physics.PhysicsGrappleLine) _physicsDef; 
+			//physics.PhysicsGrappleLine physicsDef = (physics.PhysicsGrappleLine) _physicsDef;
+			PhysicsGrapple  physicsDef = (PhysicsGrapple) _physicsDef;
 			Vec2 grapplePoint = _world.coordWorldToPixels(physicsDef.getGrapplePoint());
 			int ballX = (int) _ball.getPixelPosition().x;
 			int ballY = (int) _ball.getPixelPosition().y;
