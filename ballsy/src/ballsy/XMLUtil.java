@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import menu.MenuButton;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -38,6 +40,92 @@ public class XMLUtil {
 	// accessor/mutator for singleton
 	public static void setInstance(XMLUtil u) { XMLUTIL = u; }
 	public static XMLUtil getInstance() { return XMLUTIL; }
+	
+	/**
+	 * loads menu buttons from xml
+	 * @return
+	 */
+	public Vector<MenuButton> loadMenuButtons() {
+    	Vector<MenuButton> _buttons = new Vector<MenuButton>();
+
+		String path = "levels/list.xml";
+    	SAXReader reader = new SAXReader();
+    	Document doc;
+		try { doc = reader.read(new FileReader(path));} 
+		catch (FileNotFoundException e) { 
+			System.out.println("file not found");
+			return _buttons; } 
+		catch (DocumentException e) { 
+			System.out.println("document exception");
+			return _buttons; }
+    	Element root = doc.getRootElement();
+    	    	
+    	for (Iterator i = root.elementIterator("LEVEL"); i.hasNext();) {
+    		// get references to the various elements
+    		Element currLevel = (Element) i.next();
+    		String levelPath = currLevel.attributeValue("PATH");
+    		String thumbPath = currLevel.attributeValue("THUMBNAIL");
+    		_buttons.add(new MenuButton(levelPath, thumbPath));
+    	}
+    	
+		return _buttons;
+	}
+	
+	/**
+	 * Saves menu buttons to xml
+	 * @param buttons
+	 * @return
+	 */
+	public boolean saveMenuButtons(Vector<MenuButton> buttons) {
+		Document doc = DocumentHelper.createDocument();
+		
+		Element root = DocumentHelper.createElement("LEVELS_LIST");
+		for (Iterator<MenuButton> i = buttons.iterator(); i.hasNext();) {
+			MenuButton button = i.next();
+			Element buttonEl = DocumentHelper.createElement("LEVEL");
+			buttonEl.addAttribute("PATH", button.getLevelPath());
+			buttonEl.addAttribute("THUMBNAIL", button.getThumbnailPath());
+			root.add(buttonEl);
+		}
+		
+		
+    	doc.setRootElement(root);
+		// actually save the file, return false if IO failure
+		OutputFormat pretty = OutputFormat.createPrettyPrint();
+		try {
+			// write that shit out, pretty style
+			XMLWriter fileWriter = new XMLWriter(new FileWriter("levels/list.xml"), pretty);
+			fileWriter.write(doc);
+			fileWriter.flush();
+			fileWriter.close();
+			return true;
+		} catch (IOException e) {
+			// something went horribly wrong
+			return false;
+		}
+		
+
+	}
+	
+	public void addMenuButton(String levelPath, String thumbPath) {
+		Vector<MenuButton> buttons = loadMenuButtons();
+		boolean newButton = true;
+		//check for existing. if so, overwrite
+		for (Iterator<MenuButton> i = buttons.iterator(); i.hasNext();) {
+			MenuButton button = i.next();
+			if (levelPath.equals(button.getLevelPath())) {
+				int index = buttons.indexOf(button);
+				buttons.remove(button);
+				buttons.add(index, new MenuButton(levelPath, thumbPath));
+				newButton = false;
+				break;
+			}
+		}
+		if (newButton) {
+			buttons.add(new MenuButton(levelPath, thumbPath));
+		}
+		saveMenuButtons(buttons);
+	}
 	
 	/**
 	 * Read in an XML file at path (formatted as in writeFile) into the provided level.

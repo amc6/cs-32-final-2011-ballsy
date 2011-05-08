@@ -45,6 +45,10 @@ public class LoadButton extends AbstractButton {
 			public void run() {
 				try {
 					JFileChooser fc = new JFileChooser();
+				    // Set the current directory
+				    File f = new File(new File("./levels").getCanonicalPath());
+				    fc.setCurrentDirectory(f);
+				    
 					int returnVal = fc.showOpenDialog(null);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 //						File file = fc.getSelectedFile();

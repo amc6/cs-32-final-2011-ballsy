@@ -15,6 +15,7 @@ import physics.PhysicsRectangle;
 import physics.PhysicsRegularPolygon;
 import physics.PhysicsWorld;
 import processing.core.PConstants;
+import processing.core.PImage;
 import ballsy.AbstractLevel;
 import ballsy.XMLUtil;
 import bodies.AbstractBody;
@@ -523,5 +524,23 @@ public class EditorLevel extends AbstractLevel {
 
 	public AbstractBody getSelected(){
 		return _selectedBody;
+	}
+	
+	public void makeThumbnail(String path) {
+		System.out.println("makeThumbnail called");
+		//PhysicsWorld world = PhysicsWorld.getInstance();
+		this.play();
+//		_player.setCrosshairVisible(false);
+		this.draw();
+//		_player.setCrosshairVisible(true);
+		this.stop();
+		_window.save("levels/thumbs/tempThumb.png");
+		PImage img = _window.loadImage("levels/thumbs/tempThumb.png");
+		int captureSize = 500;
+		int xMin = img.width/2-captureSize/2;
+		int yMin = img.height/2-captureSize/2;
+		PImage thumb = img.get(xMin, yMin, captureSize, captureSize);
+		thumb.resize(menu.MenuConstants.THUMBNAIL_SIZE, menu.MenuConstants.THUMBNAIL_SIZE);
+		thumb.save(path);
 	}
 }
