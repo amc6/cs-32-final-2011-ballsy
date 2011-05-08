@@ -7,9 +7,9 @@ public class NewButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public NewButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public NewButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 	
 		_image = _window.loadImage("res/newicon.png");
 

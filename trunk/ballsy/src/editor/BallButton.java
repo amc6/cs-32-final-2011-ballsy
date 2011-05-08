@@ -4,9 +4,9 @@ import ballsy.Window;
 
 public class BallButton extends AbstractButton {
 
-	public BallButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public BallButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 	}
 
 

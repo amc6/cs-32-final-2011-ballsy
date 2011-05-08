@@ -45,7 +45,9 @@ public class MenuButton {
 		_window.image(_thumbnail, _minX, _minY);
 		if (!mouseInBounds()) { //inactive
 			_window.rectMode(_window.CORNER);
-			_window.fill(0, 50);
+			_window.fill(50,200,200, 100);
+			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+			_window.fill(255, 50);
 			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 		}
 	}

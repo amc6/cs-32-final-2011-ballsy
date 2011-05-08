@@ -24,8 +24,12 @@ public class Text {
 	
 	public void setSize(int size) {
 		switch (size) {
+		case 0:
+			_font = STUPID_FONT;
+			break;
 		case 30:
 			_font = DEFAULT_FONT_SMALLER;
+			break;
 		case 38:
 			_font = DEFAULT_FONT;
 			break;

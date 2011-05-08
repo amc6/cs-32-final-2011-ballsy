@@ -9,7 +9,7 @@ public final class GeneralConstants {
 	public static final PFont DEFAULT_FONT = Window.getInstance().loadFont("StrandedBRK-38.vlw");
 	public static final PFont DEFAULT_FONT_BIGGER = Window.getInstance().loadFont("StrandedBRK-40.vlw");
 	public static final PFont DEFAULT_FONT_TITLE = Window.getInstance().loadFont("StrandedBRK-72.vlw");
-	public static final PFont STUPID_FONT = Window.getInstance().createFont("Verdana", 20, true);
+	public static final PFont STUPID_FONT = Window.getInstance().createFont("Verdana", 14, true);
 
 	public static final int DEFAULT_FONT_INACTIVE = 200;
 	public static final int DEFAULT_FONT_ACTIVE = 255;

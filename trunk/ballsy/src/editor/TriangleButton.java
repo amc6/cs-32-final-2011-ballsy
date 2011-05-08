@@ -6,9 +6,9 @@ import processing.core.PConstants;
 
 public class TriangleButton extends AbstractButton {
 
-	public TriangleButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public TriangleButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 
 	}
 

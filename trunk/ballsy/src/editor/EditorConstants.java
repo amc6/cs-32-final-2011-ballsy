@@ -4,6 +4,10 @@ import processing.core.PFont;
 import ballsy.Window;
 
 public class EditorConstants {
+	
+	public static final int ERROR = 0;
+	public static final int WARNING = 1;
+	public static final int INFO = 2;
 
 	public static final int BUTTON_BORDER_WIDTH = 0;
 	public static final int BUTTON_BORDER_COLOR = Window.getInstance().color(0);

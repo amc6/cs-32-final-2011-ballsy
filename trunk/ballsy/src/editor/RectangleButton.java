@@ -2,9 +2,9 @@ package editor;
 
 public class RectangleButton extends AbstractButton {
 
-	public RectangleButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public RectangleButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 	}
 
 

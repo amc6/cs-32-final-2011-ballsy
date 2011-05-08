@@ -138,8 +138,12 @@ public class XMLUtil {
     	SAXReader reader = new SAXReader();
     	Document doc;
 		try { doc = reader.read(new FileReader(path));} 
-		catch (FileNotFoundException e) { return false; } 
-		catch (DocumentException e) { return false; }
+		catch (FileNotFoundException e) { 
+			System.out.println("file not found");
+			return false; } 
+		catch (DocumentException e) { 
+			System.out.println("document exception");
+			return false; }
     	Element root = doc.getRootElement();
     	this.restoreXML(level, root);
     	return true;
