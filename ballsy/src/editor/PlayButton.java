@@ -8,9 +8,9 @@ public class PlayButton extends AbstractButton {
 	private PImage _image;
 	private PImage _stopImage;
 	
-	public PlayButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public PlayButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);	
+		super(editor, factory, minX, minY, maxX, maxY);	
 		_image = _window.loadImage("res/playicon.png");
 
 	}

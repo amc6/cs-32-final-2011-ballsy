@@ -17,9 +17,9 @@ public class SaveButton extends AbstractButton {
 	private String _name;
 	private boolean _save = false;
 	
-	public SaveButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public SaveButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/saveicon.png");
 	}
 

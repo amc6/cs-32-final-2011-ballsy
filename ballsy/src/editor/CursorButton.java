@@ -7,9 +7,9 @@ public class CursorButton extends AbstractButton {
 
 	private PImage _image;
 	
-	public CursorButton(BodyFactory factory, int minX, int minY, int maxX, int maxY) {
+	public CursorButton(LevelEditor editor, BodyFactory factory, int minX, int minY, int maxX, int maxY) {
 
-		super(factory, minX, minY, maxX, maxY);
+		super(editor, factory, minX, minY, maxX, maxY);
 		_image = _window.loadImage("res/cursor.png");
 
 	}
