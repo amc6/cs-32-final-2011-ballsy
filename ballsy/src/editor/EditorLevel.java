@@ -81,8 +81,10 @@ public class EditorLevel extends AbstractLevel {
 		_savedTransY = (int) _world.transY;
 		// clear points if we're setting
 		_selectedPoints = null;
-		if (_selectingPoints){ // so that when we return from playing we create a new polygon
+		if (_selectingPoints && _placeMode){ // so that when we return from playing we create a new polygon
 			this.startPoints();
+		} else {
+			_selectingPoints = false;
 		}
 		
 		// reset selected object
@@ -139,7 +141,7 @@ public class EditorLevel extends AbstractLevel {
 		// display all objects
 		for (AbstractBody body : _bodies) { 
 			// if not running and not selecting points, display the path behind the selected body body
-			if (!_running && body.getPath() != null && !_selectingPoints && _selectedBody == body) {
+			if (!_running && body.getPath() != null && !_selectingPoints && _selectedBody == body && body.getPath().getWorldPoints().size() > 1) {
 				_window.stroke(200);
 				_window.strokeWeight(2);
 				ArrayList<Vec2> pathPoints = body.getPath().getWorldPoints();
@@ -156,8 +158,8 @@ public class EditorLevel extends AbstractLevel {
 		if (_running) {
 			_window.noCursor();
 			// step physics world and camera
-			_world.step();
 			_camera.update();
+			_world.step();
 			// handle keypresses
 			this.applyInput();
 		} else {
@@ -185,7 +187,6 @@ public class EditorLevel extends AbstractLevel {
 	public void mousePressed() {
 		if (_running) super.mousePressed();
 		else {
-			
 			if (_window.mouseButton == PConstants.RIGHT && _selectingPoints){
 				this.handleRightClick();
 			}else if (_window.mouseButton == PConstants.LEFT){
@@ -230,6 +231,8 @@ public class EditorLevel extends AbstractLevel {
 					}
 				}
 			}
+			// update the gui
+			_editor.updateFieldValues();
 		}
 	}
 	
@@ -241,6 +244,8 @@ public class EditorLevel extends AbstractLevel {
 			if (_placeMode) this.resetSelected(null);
 			// the rotation center should be null now
 			_rotationCenter = null;
+			// update the gui
+			_editor.updateFieldValues();
 		}
 	}
 	
@@ -277,8 +282,6 @@ public class EditorLevel extends AbstractLevel {
 				// else notify?
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
-//				System.out.println("moving camera");
-//				System.out.println("trans world" + _world.transX + ", " + _world.transY);
 				_world.moveCamera(distX, distY, true);
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null) {
 				// we're rotating the object. Calculate the angle...
@@ -304,6 +307,12 @@ public class EditorLevel extends AbstractLevel {
 						ballPhysDef.setRadius(ballPhysDef.getRadius() + distTotal);
 				} else if (_selectedBody instanceof Rectangle) {
 					PhysicsRectangle rectPhysDef = (PhysicsRectangle) _selectedBody.getPhysicsDef();
+					// get the x & y change along rotation of object
+					float rectRotAng = rectPhysDef.getBody().m_sweep.a;
+					float dragAng = (float) Math.atan2(distYW, distXW);
+					distYW = (float) Math.sin(rectRotAng - dragAng) * Math.abs(distTotal);
+					distXW = (float) Math.cos(rectRotAng - dragAng) * Math.abs(distTotal);
+					// 
 					if (rectPhysDef.getHeight() + distYW * 2 > MINIMUM_SIZE)
 						rectPhysDef.setHeight(rectPhysDef.getHeight() + distYW * 2);
 					if (rectPhysDef.getWidth() + distXW * 2 > MINIMUM_SIZE)
@@ -317,6 +326,8 @@ public class EditorLevel extends AbstractLevel {
 					polyPhysDef.scalePoints(ratio, MINIMUM_SIZE); // will check for size and not execute if it'll be too small
 				}
 			}
+			// update the gui
+			_editor.updateFieldValues();
 			// reset mouse shits
 			_lastMouseX = _window.mouseX;
 			_lastMouseY = _window.mouseY;
@@ -493,6 +504,7 @@ public class EditorLevel extends AbstractLevel {
 			_selectedBody.setPath(PhysicsPolygon.getOffsets(_selectedPoints, _selectedBody.getWorldPosition()));
 			_selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
 			_selectedPoints = null;
+			_editor.updateFieldValues();
 		}
 
 	}
@@ -520,6 +532,10 @@ public class EditorLevel extends AbstractLevel {
 	public void clearPoints(){
 		_selectedPoints = null;
 		_selectingPoints = false;
+	}
+	
+	public boolean selectingPoints() {
+		return _selectingPoints;
 	}
 
 	public AbstractBody getSelected(){

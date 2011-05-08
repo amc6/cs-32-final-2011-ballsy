@@ -4,4 +4,7 @@
   <LEVEL PATH="levels/levelone.xml" THUMBNAIL="levels/thumbs/levelone.png"/>
   <LEVEL PATH="levels/leveltwo.xml" THUMBNAIL="levels/thumbs/leveltwo.png"/>
   <LEVEL PATH="levels/levelthree.xml" THUMBNAIL="levels/thumbs/levelthree.png"/>
+  <LEVEL PATH="levels/testlevel.xml" THUMBNAIL="levels/thumbs/testlevel.png"/>
+  <LEVEL PATH="levels/deadlyTest.xml" THUMBNAIL="levels/thumbs/deadlyTest.png"/>
+  <LEVEL PATH="levels/isaacLevel.xml" THUMBNAIL="levels/thumbs/isaacLevel.png"/>
 </LEVELS_LIST>

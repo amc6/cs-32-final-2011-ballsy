@@ -82,6 +82,16 @@ public class XMLLevel extends AbstractLevel {
 		else _player.releaseGrapple();
 	}
 
+	/**
+	 * load the level from the file again - its starting place
+	 */
+	public void reload() {
+		this.setInstance(); // set this level as the singleton
+		XMLUtil.getInstance().readFile(this, _path);
+		_background = new Background();
+		_camera = new TrackingCamera(_player);
+	}
+	
 	// necessary empty overrides
 	public void setup() { }
 }

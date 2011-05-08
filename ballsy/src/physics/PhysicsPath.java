@@ -89,12 +89,12 @@ public class PhysicsPath implements Steppable{
 		Point2D.Float destination = getAdjusted(_currTarget);
 		// find the angle towards the next point
 		double angle = Math.atan2((destination.getY() - position.getY()), (destination.getX() - position.getX()));
-		if (!_static && !paused) {
+		if (!_static && !paused && _pathPoints.size() > 1) {
 			// if it's not static, create velocity in that direction
 			Vec2 vel = new Vec2((float)(_velCoeff * Math.cos(angle)), (float)(_velCoeff * Math.sin(angle)));
 			// set velocity towards target point
 			_physDef.setLinearVelocity(vel);
-		} else if (!paused) {
+		} else if (!paused && _pathPoints.size() > 1) {
 			// if it is, simply change the position...
 			float unitsToMove = PhysicsWorld.getInstance().scalarPixelsToWorld(_velCoeff)/4; // figure out how many units to move it, off of the position
 			float xNew = _physDef.getBody().getXForm().position.x + (float) (unitsToMove * Math.cos(angle));
