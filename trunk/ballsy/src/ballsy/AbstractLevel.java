@@ -27,7 +27,6 @@ public abstract class AbstractLevel extends Screen {
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
-	private boolean _pressRegistered = false;
 	protected static Text _debug = new Text("",100,100);
 
 	
@@ -181,7 +180,6 @@ public abstract class AbstractLevel extends Screen {
 	public void mouseDragged() {
 		if (_player == null) System.out.println("player null");
 		if (!_paused && !_player.isGrappled()) _player.fireGrapple();
-		_pressRegistered = true;
 	}
 	
 	/**
@@ -192,7 +190,6 @@ public abstract class AbstractLevel extends Screen {
 			_pauseScreen.mousePressed();
 		}
 		else if (!_player.isGrappled()) _player.fireGrapple();
-		_pressRegistered = true;
 	}
 	
 	/**
@@ -200,7 +197,6 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void mouseReleased() {
 		if (!_paused && _player.isGrappled()) _player.releaseGrapple();
-		_pressRegistered = false;
 	}
 	
 	/**

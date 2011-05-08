@@ -380,7 +380,9 @@ public class LevelEditor extends Screen {
 				//nothing is selected
 				_factory.dynamic = _dynamicRadio.isSelected();
 			} else {
-				_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
+				if (_level.getSelected().getPath() == null)
+					_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
+				else _level.getSelected().getPath().setStatic(_staticRadio.isSelected());
 			}
 		}
 		else if (e.getSource() == _graphicalRadio) {
@@ -650,8 +652,10 @@ public class LevelEditor extends Screen {
 				_window.key = 0;
 				_level.stop();
 			} else _level.keyPressed();
-		} 
-		else if (_window.key == 27) { //esc takes us back to welcome screen
+		} else if (_level.selectingPoints()) {
+			_level.clearPoints();
+			this.updateFieldValues();
+		}	else if (_window.key == 27) { //esc takes us back to welcome screen
 			_window.key = 0;
 			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
@@ -792,8 +796,11 @@ public class LevelEditor extends Screen {
 			if (_level.getSelected().getPath() != null){
 				_pathSpeed.setValue("" + _level.getSelected().getPath().getVelCoeff());
 				_pathRotation.setValue("" + _level.getSelected().getPath().getRotation());
+				_pathButton.setLabel("Remove Path");
+			} else {
+				if (_pathButton.getLabel().equals("Remove Path") || (_pathButton.getLabel().equals("End Path") && !_level.selectingPoints())) 
+					_pathButton.setLabel("Add Path");
 			}
-						
 		}		
 		
 		// Properties that never change regardless of selection

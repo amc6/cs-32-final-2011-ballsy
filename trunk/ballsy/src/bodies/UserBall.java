@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
+import ballsy.AbstractLevel;
+import ballsy.XMLLevel;
+import ballsy.ScreenLoader.Screens;
 import ddf.minim.AudioSample;
 import ddf.minim.Minim;
-
-import ballsy.AbstractLevel;
-import ballsy.ScreenLoader.Screens;
-import ballsy.Window;
+import editor.EditorLevel;
 
 public class UserBall extends AbstractBody {
 
@@ -209,13 +209,23 @@ public class UserBall extends AbstractBody {
 		
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
-			//Window.getInstance().setScreenAndSetup(new WelcomeScreen());
-			_window.loadScreen(Screens.WELCOME_SCREEN);
-			
+			if (AbstractLevel.getInstance() instanceof EditorLevel) {
+				// this is running in the level editor, so just stop it.
+				((EditorLevel) AbstractLevel.getInstance()).stop();
+			} else {
+				// it's a real level. make shit happen
+				_window.loadScreen(Screens.WELCOME_SCREEN);
+			}
 		}
 		if (other.isDeadly()) {
 			// UserBall fucked up. DEATH ENSUES
-			System.exit(0);
+			if (AbstractLevel.getInstance() instanceof EditorLevel) {
+				// this is running in the level editor, so just stop it.
+				((EditorLevel) AbstractLevel.getInstance()).stop();
+			} else if (AbstractLevel.getInstance() instanceof XMLLevel){
+				// it's a real level. make shit happen
+				((XMLLevel) AbstractLevel.getInstance()).reload();
+			}
 		}
 	}
 	
