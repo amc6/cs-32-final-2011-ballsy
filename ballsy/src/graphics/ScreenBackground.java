@@ -1,4 +1,7 @@
 package graphics;
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsWorld;
@@ -12,6 +15,8 @@ public class ScreenBackground {
 	private float[] _y;
 	private PImage _img;
 	private int _minX, _initMinY, _minY, _initTransY, _transY;
+	
+	private Vector<Cloud> _clouds;
 	
 	public ScreenBackground() {
 		
@@ -77,6 +82,29 @@ public class ScreenBackground {
 
 		}
 		_img.updatePixels();
+		
+		
+		_clouds = new Vector<Cloud>();
+		_clouds.add(new Cloud(200,300,40));		
+		_clouds.add(new Cloud(300,450,20));
+		
+		int randClouds = (int) (Math.floor(Math.random()*3) + 7);
+		for (int i = 0; i< randClouds; i++) {
+			//10-40
+			int randSize = (int) (Math.floor(Math.random()*30) + 10);
+			int randX = (int) (Math.floor(Math.random()*(_window.width*2)) - _window.width);
+			int randY;
+			if (randSize < 20) {			//450-500
+				randY = (int) (Math.floor(Math.random()*50) + 450);
+			}
+			else if (randSize < 30) {			//400-450
+				randY = (int) (Math.floor(Math.random()*50) + 400);
+			}
+			else {			//200-300
+				randY = (int) (Math.floor(Math.random()*100) + 200);
+			}
+			_clouds.add(new Cloud(randX,randY,randSize));
+		}
 	}
 	
 	public void draw() {
@@ -88,7 +116,11 @@ public class ScreenBackground {
 		_window.image(_img, 0, 0);
 
 		
-
+		for (Iterator<Cloud> i = _clouds.iterator(); i.hasNext();) {
+			Cloud c = i.next();
+			c.drift(1);
+			c.draw();
+		}
 	}
 
 }
