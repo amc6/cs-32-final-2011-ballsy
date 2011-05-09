@@ -575,4 +575,18 @@ public class EditorLevel extends AbstractLevel {
 		thumb.resize(menu.MenuConstants.THUMBNAIL_SIZE, menu.MenuConstants.THUMBNAIL_SIZE);
 		thumb.save(path);
 	}
+	
+	public void updateWorldDimensions(float width, float height){
+		_world.setBounds(width, height);
+		_savedState = XMLUtil.getInstance().genXML(this);
+		// load in saved state
+		XMLUtil.getInstance().restoreXML(this, _savedState);
+		// make extra sure we're not running
+		_running = false;
+		_paused = false; // just so we toggle off of that
+		this.togglePaused();
+		_background = new Background();
+		
+		
+	}
 }

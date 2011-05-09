@@ -366,6 +366,12 @@ public class LevelEditor extends Screen {
 		
 		if (e.getSource() == _grappleableCheckBox) {
 			//grappleable
+			
+			if (_graphicalRadio.isSelected()) {
+				_grappleableCheckBox.setSelected(false);
+				return;
+			}
+			
 			if (_level.getSelected() == null) {
 				//nothing is selected
 				_factory.grappleable = _grappleableCheckBox.isSelected();
@@ -376,6 +382,11 @@ public class LevelEditor extends Screen {
 		}
 		else if (e.getSource() == _deadlyCheckBox) {
 			//deadly
+			
+			if (_graphicalRadio.isSelected()) {
+				_deadlyCheckBox.setSelected(false);
+				return;
+			}
 			if (_level.getSelected() == null) {
 				//nothing is selected
 				_factory.deadly = _deadlyCheckBox.isSelected();
@@ -388,8 +399,13 @@ public class LevelEditor extends Screen {
 			if (_level.getSelected() == null) {
 				//nothing is selected
 				_factory.dynamic = _dynamicRadio.isSelected();
+				_factory.graphicalOnly = false;
 			} else {
 				_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
+				if (_level.getSelected().getPath() != null)
+					_level.getSelected().getPath().setStatic(_dynamicRadio.isSelected());
+				
+				_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
 			}
 		} 
 		else if (e.getSource() == _staticRadio) {
@@ -397,10 +413,13 @@ public class LevelEditor extends Screen {
 			if (_level.getSelected() == null) {
 				//nothing is selected
 				_factory.dynamic = _dynamicRadio.isSelected();
+				_factory.graphicalOnly = false;
 			} else {
-				if (_level.getSelected().getPath() == null)
-					_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
-				else _level.getSelected().getPath().setStatic(_staticRadio.isSelected());
+				_level.getSelected().getPhysicsDef().setMobile(!_staticRadio.isSelected());
+				if (_level.getSelected().getPath() != null)
+					_level.getSelected().getPath().setStatic(_staticRadio.isSelected());
+				
+				_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
 			}
 		}
 		else if (e.getSource() == _graphicalRadio) {
@@ -408,10 +427,19 @@ public class LevelEditor extends Screen {
 			if (_level.getSelected() == null) {
 				//nothing is selected
 				_factory.graphicalOnly = _graphicalRadio.isSelected();
+				_factory.grappleable = false;
+				_factory.deadly = false;
+				_grappleableCheckBox.setSelected(false);
+				_deadlyCheckBox.setSelected(false);
 			} else {
 				_level.getSelected().getPhysicsDef().setGraphicalOnly(_graphicalRadio.isSelected());
+				_level.getSelected().setDeadly(false);
+				_level.getSelected().setGrappleable(false);
+				_grappleableCheckBox.setSelected(false);
+				_deadlyCheckBox.setSelected(false);
 			}
-		}else if (e.getSource() == _pathButton) {
+		}
+		else if (e.getSource() == _pathButton) {
 			if (_pathButton.getLabel().equals("Add Path")) {
 				_pathButton.setLabel("End Path");
 				_level.startPoints();
@@ -558,14 +586,14 @@ public class LevelEditor extends Screen {
 		}
 		else if (e == _worldWidth) {
 			//set gravity
-			if (LevelEditor.isPositive(_gravityX.getValue())){
-			// do later
+			if (LevelEditor.isPositive(_worldWidth.getValue(), 100)){ // 100 is minimum
+				_level.updateWorldDimensions(Float.parseFloat(_worldWidth.getValue()), _level.getWorldHeight());
 			}
 		}
 		else if (e == _worldHeight) {
 			//set gravity
-			if (LevelEditor.isPositive(_gravityX.getValue())){
-			 // do later
+			if (LevelEditor.isPositive(_worldHeight.getValue(), 100)){ // 100 is minimum
+				_level.updateWorldDimensions(_level.getWorldWidth(), Float.parseFloat(_worldHeight.getValue()));
 			}
 		}
 			
@@ -784,9 +812,9 @@ public class LevelEditor extends Screen {
 			_deadlyCheckBox.setSelected(_factory.deadly);
 			
 			//radio buttons
-			if(_factory.dynamic) _dynamicRadio.setSelected();
+			if (_factory.graphicalOnly) _graphicalRadio.setSelected();
+			else if(_factory.dynamic) _dynamicRadio.setSelected();
 			else _staticRadio.setSelected();
-			if(_factory.graphicalOnly) _graphicalRadio.setSelected();
 			
 			//text fields
 			_density.setValue(_factory.density);
@@ -814,9 +842,10 @@ public class LevelEditor extends Screen {
 			_deadlyCheckBox.setSelected(_level.getSelected().isDeadly());
 			
 			//radio buttons
-			if(_level.getSelected().getPhysicsDef().getMobile()) _dynamicRadio.setSelected();
-			else _staticRadio.setSelected();
 			if(_level.getSelected().getPhysicsDef().getGraphicalOnly()) _graphicalRadio.setSelected();
+			else if(_level.getSelected().getPhysicsDef().getMobile()) _dynamicRadio.setSelected();
+			else _staticRadio.setSelected();
+			
 			
 			//text fields
 			_density.setValue(_level.getSelected().getPhysicsDef().getDensity());

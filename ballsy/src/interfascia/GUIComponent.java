@@ -107,7 +107,7 @@ public abstract class GUIComponent {
 	public void addActionListener (Object newListener) {
 		listener = newListener;
 	}
-	
+		
 	public void setSize(int newWidth, int newHeight) {
 		if (newHeight > 0 && newWidth > 0) {
 			hgt = newHeight;
