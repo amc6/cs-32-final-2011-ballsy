@@ -3,6 +3,8 @@ package menu;
 import java.util.Iterator;
 import java.util.Vector;
 
+import processing.core.PImage;
+
 import editor.LevelEditor;
 import graphics.Image;
 import graphics.ScreenBackground;
@@ -15,22 +17,21 @@ import static menu.MenuConstants.*;
 
 public class Menu extends Screen {
 
-	private Image _title;
+	private PImage _title, _titleBack;
 	private Vector<MenuButton> _buttons;
 	private ScreenBackground _background;
-//	private Text _title, _titleBack;
 	
 	@Override
 	public void setup() {
 		_background = new ScreenBackground();
-		_title = new Image(_window, "res/pick_level_title.png", 582,125, 10,20);
-		_title.setImageMode(_window.CORNER);
+		_title = _window.loadImage("res/pick_level_title.png");
+		_titleBack = _window.loadImage("res/pick_level_back.png");
 		_buttons = XMLUtil.getInstance().loadMenuButtons();
 
 		
 		int menuWidth = 6*THUMBNAIL_SIZE + 5*THUMBNAIL_PADDING;
 		int x = (_window.width - menuWidth)/2;
-		int y = 190;
+		int y = 170;
 		
 		
 		int rowCounter = 0;
@@ -57,7 +58,17 @@ public class Menu extends Screen {
 		_window.stroke(0);
 
 		//title
-		_title.draw();
+		_window.image(_title, 70, 20);
+		
+		//stupid back button hack lol.
+		int mouseX = _window.mouseX;
+		int mouseY = _window.mouseY;
+		if (mouseX < 50 && mouseY > 20 && mouseY < 110) {
+			_window.image(_titleBack,-15, 20);
+		}
+		else {
+			_window.image(_titleBack,-20, 20);
+		}
 		
 		for (Iterator<MenuButton> i = _buttons.iterator(); i.hasNext();) {
 			MenuButton b = i.next();
@@ -72,6 +83,13 @@ public class Menu extends Screen {
 		for (Iterator<MenuButton> i = _buttons.iterator(); i.hasNext();) {
 			MenuButton b = i.next();
 			b.click();
+		}
+		
+		//stupid back button hack lol.
+		int mouseX = _window.mouseX;
+		int mouseY = _window.mouseY;
+		if (mouseX < 50 && mouseY > 20 && mouseY < 110) {
+			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
 	}
 	

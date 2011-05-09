@@ -38,7 +38,7 @@ public class LevelEditor extends Screen {
 
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
 	private Text _errorMessage;
-	private PImage _levelEditorTitle;
+	private PImage _levelEditorTitle, _levelEditorBack;
 
 	private GUIController _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC;
 	private IFButton _pathButton;
@@ -64,6 +64,7 @@ public class LevelEditor extends Screen {
 		_components = new ArrayList<GUIComponent>();
 			
 		_levelEditorTitle = _window.loadImage("res/level_editor_title.png");
+		_levelEditorBack = _window.loadImage("res/level_editor_back.png");
 
 		_newLevelWidth = _window.width - EditorConstants.LEFT_PANEL_WIDTH;
 		_scaleFactor = _newLevelWidth/_window.width;
@@ -323,20 +324,20 @@ public class LevelEditor extends Screen {
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
-		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*7), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*7), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*5), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*5), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		_cursorButton.setActive(true);
 		shapeGroup.add(_cursorButton);
 		
-		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*6), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*6), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_rectButton);
 		
-		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*5), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*5), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_triangleButton);
 		
-		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_irregPolyButton);
 		
-		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*1), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*1), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_ballButton);
 
 	}
@@ -608,7 +609,17 @@ public class LevelEditor extends Screen {
 			_window.popMatrix();
 	
 			_window.imageMode(_window.CORNER);
-			_window.image(_levelEditorTitle, 10, 17);
+			_window.image(_levelEditorTitle, 45, 17);
+			//if hover? ... gahhjustdoitherekthnx
+			int mouseX = _window.mouseX;
+			int mouseY = _window.mouseY;
+			if (mouseX < 40 && mouseY > 17 && mouseY < 80) {
+				_window.image(_levelEditorBack, -12, 18);
+			}
+			else {
+				_window.image(_levelEditorBack, -15, 18);
+			}
+
 			
 			for (ButtonGroup group : _buttonGroups){
 				group.display();
@@ -714,6 +725,12 @@ public class LevelEditor extends Screen {
 		if (!_level.isRunning()){
 			for (ButtonGroup group : _buttonGroups){
 				group.click(_window.mouseX, _window.mouseY);
+			}
+			//stupid back button hack lol.
+			int mouseX = _window.mouseX;
+			int mouseY = _window.mouseY;
+			if (mouseX < 40 && mouseY > 17 && mouseY < 80) {
+				_window.loadScreen(Screens.WELCOME_SCREEN);
 			}
 		}
 	}
