@@ -11,6 +11,9 @@ public class LoadingScreen extends Screen {
 		_window = Window.getInstance();
 		_message = new Text("Loading...", _window.width/2, _window.height/2);
 		_message.setColor(WelcomeScreen.DEFAULT_TEXT_COLOR);
+		_window.noCursor();
+		_window.background(50,200,200);
+		_message.draw();
 	}
 
 	@Override
@@ -19,9 +22,10 @@ public class LoadingScreen extends Screen {
 
 	@Override
 	public void draw() {
-		_window.noCursor();
-		_window.background(50,200,200);
-		_message.draw();
+//			_window.noCursor();
+//			_window.background(50,200,200);
+//			_message.draw();
+
 	}
 
 	@Override
