@@ -1,5 +1,6 @@
 package ballsy;
 
+import menu.Menu;
 import editor.EditorLevel;
 import editor.LevelEditor;
 
@@ -27,7 +28,7 @@ public class ScreenLoader implements Runnable {
 			screen = new WelcomeScreen();
 			break;
 		case LEVEL_MENU:
-			screen = new LevelMenu1();
+			screen = new Menu();
 			break;
 		case LEVEL_ONE:
 			screen = new LevelOne();

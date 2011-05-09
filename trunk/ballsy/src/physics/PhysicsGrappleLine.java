@@ -8,10 +8,13 @@ import org.jbox2d.dynamics.joints.DistanceJointDef;
 import ballsy.AbstractLevel;
 import bodies.UserBall;
 
+import static bodies.BodyConstants.*;
+
 public class PhysicsGrappleLine extends PhysicsGrapple {
 	
 	private DistanceJoint _joint;
 	private UserBall _ball;
+	private float _grappleLength;
 	
 	private static final float FREQ = 1f;
 	private static final float DAMPING = .9f;
@@ -23,6 +26,13 @@ public class PhysicsGrappleLine extends PhysicsGrapple {
 	
 	public void grapple() {
 		if (_ball.isGrappled()) {
+			Vec2 pos1 = _ball.getWorldPosition();
+			Vec2 pos2 = _ball.getWorldGrapplePointVec();
+			Vec2 distVec = pos2.sub(pos1);
+			_grappleLength = distVec.length();
+			
+			
+			
 			bodies.AbstractBody grappledBody = _ball.getGrappleObject();
 			DistanceJointDef jointDef = new DistanceJointDef();
 			jointDef.initialize(_ball.getPhysicsDef().getBody(), grappledBody.getPhysicsDef().getBody(), _ball.getWorldPosition(), _ball.getWorldGrapplePointVec());
@@ -42,11 +52,15 @@ public class PhysicsGrappleLine extends PhysicsGrapple {
 	}
 	
 	public void extendGrapple() {
-		_joint.m_length = _joint.m_length + .5F;
+		if (_grappleLength < CROSSHAIR_RANGE) {
+			_joint.m_length = _joint.m_length + .5F;
+			_grappleLength += .5F;
+		}
 	}
 	
 	public void retractGrapple() {
 		_joint.m_length = _joint.m_length - .5F;
+		_grappleLength -= .5;
 	}
 	
 	public Vec2 getGrapplePoint(){

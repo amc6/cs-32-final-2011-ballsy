@@ -5,7 +5,7 @@ package bodies;
  * and all other things specific to the user's ball.
  */
 
-import static bodies.BodyConstants.USER_ANGULAR_VELOCITY;
+import static bodies.BodyConstants.*;
 import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import graphics.Crosshair;
@@ -42,6 +42,7 @@ public class UserBall extends AbstractBody {
 		_crosshair = new Crosshair(this);
 		_grapple = new GrappleLine(this);
 //		_grapple = new GrappleRope(this);
+		this.getPhysicsDef().setDensity(DEFAULT_BODY_DENSITY*3);
 		this.getPhysicsDef().setFriction(200f); // to make rolling work well
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
 	}
@@ -53,6 +54,7 @@ public class UserBall extends AbstractBody {
 			if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
 				this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));			
 		}else{
+			this.getPhysicsDef().getBody().wakeUp();
 			this.getPhysicsDef().setAngularVelocity(USER_ANGULAR_VELOCITY);
 		}
 	}
@@ -62,6 +64,7 @@ public class UserBall extends AbstractBody {
 			if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
 				this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
 		}else{
+			this.getPhysicsDef().getBody().wakeUp();
 			this.getPhysicsDef().setAngularVelocity(-USER_ANGULAR_VELOCITY);	
 		}
 	}

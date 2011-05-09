@@ -10,7 +10,7 @@ public class WelcomeScreen extends Screen {
 	Window _window;
 	Image _titleGraphic;
 	HoverImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
-	TextButton _newGame, _level, _exit;
+	TextButton _newGame, _level, _levelEditor, _exit;
 	
 	public static final int DEFAULT_TEXT_COLOR = 245;
 	
@@ -22,7 +22,8 @@ public class WelcomeScreen extends Screen {
 		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
 		_newGame = new TextButton("New Game", _window.width/2, 450, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_level = new TextButton("Pick Level", _window.width/2, 520, DEFAULT_TEXT_COLOR, Window.CENTER);
-		_exit = new TextButton("Exit", _window.width/2, 585, 235, Window.CENTER);
+		_levelEditor = new TextButton("Edit Level", _window.width/2, 590, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_exit = new TextButton("Exit", _window.width/2, 660, DEFAULT_TEXT_COLOR, Window.CENTER);
 
 		//so jessica can listen to her own music... we need a mute feature
 //		AudioClip clip = new AudioClip("res/titlebg.wav");
@@ -40,8 +41,7 @@ public class WelcomeScreen extends Screen {
 		_titleGraphic.draw();
 		_newGame.draw();
 		_level.draw();
-		//_levelsGraphic.draw();
-		//_newGraphic.draw();
+		_levelEditor.draw();
 		_exit.draw();
 		
 	}
@@ -57,10 +57,11 @@ public class WelcomeScreen extends Screen {
 //			_window.loadLevel("default.xml");
 		}
 		
-		//if (_levelsGraphic.mouseOver()) {
 		if (_level.mouseOver()) {
-			_window.setScreenAndSetup(new menu.Menu());
-
+			_window.loadScreen(Screens.LEVEL_MENU);
+		}
+		if (_levelEditor.mouseOver()) {
+			_window.loadScreen(Screens.LEVEL_EDITOR);
 		}
 		if (_exit.mouseOver()) {
 			System.exit(0);

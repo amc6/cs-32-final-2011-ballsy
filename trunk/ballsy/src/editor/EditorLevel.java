@@ -113,6 +113,13 @@ public class EditorLevel extends AbstractLevel {
 		_editor.updateFieldValues(); // make sure they're correct per XML
 	}
 	
+	/**
+	 * recenters camera
+	 */
+	public void centerCamera() {
+		_world.centerCameraOn(_player.getWorldPosition().x, _player.getWorldPosition().y);
+	}
+	
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
 		_minX = minX;
 		_minY = minY;

@@ -36,7 +36,7 @@ public class Menu extends Screen {
 
 	@Override
 	public void draw() {
-		
+		_window.cursor();
 		_window.background(50,200,200);
 //		_window.background(255);
 		_window.stroke(0);
@@ -58,28 +58,6 @@ public class Menu extends Screen {
 			MenuButton b = i.next();
 			b.click();
 		}
-//		//new game click detect
-//		int x_left = 100;
-//		int x_right = 200;
-//		int y_top = 200;
-//		int y_bottom = 300;
-//		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-//					
-////			_window.setScreenAndSetup(new LevelEditor());
-//			_window.loadScreen(Screens.LEVEL_EDITOR);
-//		}
-//		
-//		//new game click detect
-//		x_left = 300;
-//		x_right = 400;
-//		y_top = 200;
-//		y_bottom = 300;
-//		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
-////			_window.setScreenAndSetup(new EditorLevel());
-////			_window.loadScreen(Screens.LEVEL_TWO);
-//			_window.setScreenAndSetup(new XMLLevel("levels/default.xml"));
-//		}
-
 	}
 	
 	public void addButtons() {

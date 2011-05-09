@@ -22,7 +22,7 @@ public abstract class AbstractLevel extends Screen {
 	protected ArrayList<AbstractBody> _bodies; // an array of the bodies in a given level
 	protected UserBall _player; // the player instance, also contained in bodies
 	protected int _backgroundColor = 255; // color of the background, defaults to white
-	protected Vec2 _gravity = new Vec2(0, -20);
+	protected Vec2 _gravity = new Vec2(0, -30);
 	protected boolean _paused = false;
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
