@@ -121,28 +121,28 @@ public class LevelEditor extends Screen {
 		int defaultStart = radioStart + 80;
 		_frictionLabel = new IFLabel("Friction", 15, (int) defaultStart);
 		_friction = new TextField("Friction", 90, (int) defaultStart - 4, 60, this);
-		_friction.setValue("" + _factory.friction);
+		_friction.setValue(_factory.friction);
 		_friction.addActionListener(this);
 		_mainC.add(_frictionLabel);
 		_mainC.add(_friction);
 		
 		_bouncinessLabel = new IFLabel("Bounciness", 15, (int) defaultStart + 30);
 		_bounciness = new TextField("Bounciness", 90, (int) defaultStart - 4 + 30, 60, this);
-		_bounciness.setValue("" + _factory.bounciness);
+		_bounciness.setValue(_factory.bounciness);
 		_bounciness.addActionListener(this);
 		_mainC.add(_bouncinessLabel);
 		_mainC.add(_bounciness);
 		
 		_densityLabel = new IFLabel("Density", 15, (int) defaultStart + 60);
 		_density = new TextField("Density", 90, (int) defaultStart - 4 + 60, 60, this);
-		_density.setValue("" + _factory.density);
+		_density.setValue(_factory.density);
 		_density.addActionListener(this);
 		_mainC.add(_densityLabel);
 		_mainC.add(_density);
 		
 		_rotationLabel = new IFLabel("Rotation", 15, (int) defaultStart + 90);
 		_rotation = new TextField("Rotation", 90, (int) defaultStart - 4 + 90, 60, this);
-		_rotation.setValue("0.0");
+		_rotation.setValue(0);
 		_rotation.addActionListener(this);
 		_mainC.add(_rotationLabel);
 		_mainC.add(_rotation);
@@ -155,14 +155,14 @@ public class LevelEditor extends Screen {
 		
 		_widthLabel = new IFLabel("Width", 15, (int) customControlStart);
 		_width = new TextField("Width", 90, (int) customControlStart - 4, 60, this);
-		_width.setValue("0.0");
+		_width.setValue(0);
 		_width.addActionListener(this);
 		_rectC.add(_widthLabel);
 		_rectC.add(_width);
 		
 		_heightLabel = new IFLabel("Height", 15, (int) customControlStart+30);
 		_height = new TextField("Height", 90, (int) customControlStart - 4 + 30, 60, this);
-		_height.setValue("0.0");
+		_height.setValue(0);
 		_height.addActionListener(this);
 		_rectC.add(_heightLabel);
 		_rectC.add(_height);
@@ -174,7 +174,7 @@ public class LevelEditor extends Screen {
 		
 		_sizeLabel = new IFLabel("Size", 15, (int) customControlStart);
 		_size = new TextField("Size", 90, (int) customControlStart - 4, 60, this);
-		_size.setValue("0.0");
+		_size.setValue(0);
 		_size.addActionListener(this);
 		_polyC.add(_sizeLabel);
 		_polyC.add(_size);
@@ -186,7 +186,7 @@ public class LevelEditor extends Screen {
 		
 		_radiusLabel = new IFLabel("Radius", 15, (int) customControlStart);
 		_radius = new TextField("Radius", 90, (int) customControlStart - 4, 60, this);
-		_radius.setValue("0.0");
+		_radius.setValue(0);
 		_radius.addActionListener(this);
 		_ballC.add(_radiusLabel);
 		_ballC.add(_radius);
@@ -201,14 +201,14 @@ public class LevelEditor extends Screen {
 		int objectControlStart = customControlStart + 60;
 		_centerXLabel = new IFLabel("Center X", 15, (int) objectControlStart);
 		_centerX = new TextField("Center X", 90, (int) objectControlStart - 4, 60, this);
-		_centerX.setValue("0.0");
+		_centerX.setValue(0);
 		_centerX.addActionListener(this);
 		_objectC.add(_centerXLabel);
 		_objectC.add(_centerX);
 	
 		_centerYLabel = new IFLabel("Center Y", 15, (int) objectControlStart+30);
 		_centerY = new TextField("Center Y", 90, (int) objectControlStart - 4 + 30, 60, this);
-		_centerY.setValue("0.0");
+		_centerY.setValue(0);
 		_centerY.addActionListener(this);
 		_objectC.add(_centerYLabel);
 		_objectC.add(_centerY);
@@ -226,14 +226,14 @@ public class LevelEditor extends Screen {
 		
 		_pathSpeedLabel = new IFLabel("Path Speed", 15, (int) pathStart + 30);
 		_pathSpeed = new TextField("Path Speed", 90, (int) pathStart - 4 + 30, 60, this);
-		_pathSpeed.setValue("0.0");
+		_pathSpeed.setValue(0);
 		_pathSpeed.addActionListener(this);
 		_pathC.add(_pathSpeedLabel);
 		_pathC.add(_pathSpeed);
 		
 		_pathRotationLabel = new IFLabel("Rotation Sp.", 15, (int) pathStart + 60);
 		_pathRotation = new TextField("Rotation Speed", 90, (int) pathStart - 4+ 60, 60, this);
-		_pathRotation.setValue("0.0");
+		_pathRotation.setValue(0);
 		_pathRotation.addActionListener(this);
 		_pathC.add(_pathRotationLabel);
 		_pathC.add(_pathRotation);
@@ -249,28 +249,28 @@ public class LevelEditor extends Screen {
 		
 		_worldWidthLabel = new IFLabel("Width", 15, (int) propertiesStart);
 		_worldWidth = new TextField("World Width", 90, (int) propertiesStart - 4, 60, this);
-		_worldWidth.setValue("" + _level.getWorldWidth());
+		_worldWidth.setValue(_level.getWorldWidth());
 		_worldWidth.addActionListener(this);
 		_mainC.add(_worldWidthLabel);
 		_mainC.add(_worldWidth);
 		
 		_worldHeightLabel = new IFLabel("Height", 15, (int) propertiesStart + 30);
 		_worldHeight = new TextField("World Height", 90, (int) propertiesStart - 4 + 30, 60, this);
-		_worldHeight.setValue("" + _level.getWorldHeight());
+		_worldHeight.setValue(_level.getWorldHeight());
 		_worldHeight.addActionListener(this);
 		_mainC.add(_worldHeightLabel);
 		_mainC.add(_worldHeight);
 		
 		_gravityXLabel = new IFLabel("Gravity X", 15, (int) propertiesStart + 60);
 		_gravityX = new TextField("Gravity X", 90, (int) propertiesStart - 4 + 60, 60, this);
-		_gravityX.setValue("" + _level.getGravity().x);
+		_gravityX.setValue(_level.getGravity().x);
 		_gravityX.addActionListener(this);
 		_mainC.add(_gravityXLabel);
 		_mainC.add(_gravityX);
 		
 		_gravityYLabel = new IFLabel("Gravity Y", 15, (int) propertiesStart + 90);
 		_gravityY = new TextField("Gravity Y", 90, (int) propertiesStart - 4 + 90, 60, this);
-		_gravityY.setValue("" + _level.getGravity().y);
+		_gravityY.setValue(_level.getGravity().y);
 		_gravityY.addActionListener(this);
 		_mainC.add(_gravityYLabel);
 		_mainC.add(_gravityY);
@@ -737,18 +737,18 @@ public class LevelEditor extends Screen {
 			if(_factory.graphicalOnly) _graphicalRadio.setSelected();
 			
 			//text fields
-			_density.setValue("" + _factory.density);
-			_friction.setValue("" + _factory.friction);
-			_bounciness.setValue("" + _factory.bounciness);
+			_density.setValue(_factory.density);
+			_friction.setValue(_factory.friction);
+			_bounciness.setValue(_factory.bounciness);
 			
-			_rotation.setValue("" + _factory.rotation);
+			_rotation.setValue(_factory.rotation);
 			
 			// For rectangles
-			_width.setValue("" + _factory.width);
-			_height.setValue("" + _factory.height);
+			_width.setValue(_factory.width);
+			_height.setValue(_factory.height);
 			
 			// For circle
-			_radius.setValue("" + _factory.radius);
+			_radius.setValue(_factory.radius);
 			// For polygons
 //			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
 //				_size.setValue("" + ((PhysicsPolygon) _level.getSelected().getPhysicsDef()).getSize());
@@ -769,23 +769,23 @@ public class LevelEditor extends Screen {
 			if(_level.getSelected().getPhysicsDef().getGraphicalOnly()) _graphicalRadio.setSelected();
 			
 			//text fields
-			_density.setValue("" + _level.getSelected().getPhysicsDef().getDensity());
-			_friction.setValue("" +  _level.getSelected().getPhysicsDef().getFriction());
-			_bounciness.setValue("" +  _level.getSelected().getPhysicsDef().getBounciness());
+			_density.setValue(_level.getSelected().getPhysicsDef().getDensity());
+			_friction.setValue(_level.getSelected().getPhysicsDef().getFriction());
+			_bounciness.setValue(_level.getSelected().getPhysicsDef().getBounciness());
 			
-			_centerX.setValue("" + _level.getSelected().getPhysicsDef().getBodyWorldCenter().x);
-			_centerY.setValue("" + _level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
-			_rotation.setValue("" + _level.getSelected().getPhysicsDef().getRotation());
+			_centerX.setValue(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x);
+			_centerY.setValue(_level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
+			_rotation.setValue(_level.getSelected().getPhysicsDef().getRotation());
 			
 			// For rectangles
 			if (_level.getSelected().getPhysicsDef() instanceof PhysicsRectangle){
-				_width.setValue("" + ((PhysicsRectangle) _level.getSelected().getPhysicsDef()).getWidth());
-				_height.setValue("" + ((PhysicsRectangle) _level.getSelected().getPhysicsDef()).getHeight());
+				_width.setValue(((PhysicsRectangle) _level.getSelected().getPhysicsDef()).getWidth());
+				_height.setValue(((PhysicsRectangle) _level.getSelected().getPhysicsDef()).getHeight());
 			}
 			
 			// For circle
 			if (_level.getSelected().getPhysicsDef() instanceof PhysicsBall){
-				_radius.setValue("" + ((PhysicsBall) _level.getSelected().getPhysicsDef()).getRadius());
+				_radius.setValue(((PhysicsBall) _level.getSelected().getPhysicsDef()).getRadius());
 			}
 			// For polygons
 //			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
@@ -794,8 +794,8 @@ public class LevelEditor extends Screen {
 			// For paths
 			
 			if (_level.getSelected().getPath() != null){
-				_pathSpeed.setValue("" + _level.getSelected().getPath().getVelCoeff());
-				_pathRotation.setValue("" + _level.getSelected().getPath().getRotation());
+				_pathSpeed.setValue(_level.getSelected().getPath().getVelCoeff());
+				_pathRotation.setValue(_level.getSelected().getPath().getRotation());
 				_pathButton.setLabel("Remove Path");
 			} else {
 				if (_pathButton.getLabel().equals("Remove Path") || (_pathButton.getLabel().equals("End Path") && !_level.selectingPoints())) 
@@ -804,10 +804,10 @@ public class LevelEditor extends Screen {
 		}		
 		
 		// Properties that never change regardless of selection
-		_worldWidth.setValue("" + _level.getWorldWidth());
-		_worldHeight.setValue("" + _level.getWorldHeight());
-		_gravityX.setValue("" + _level.getGravity().x);
-		_gravityY.setValue("" + _level.getGravity().y);
+		_worldWidth.setValue(_level.getWorldWidth());
+		_worldHeight.setValue(_level.getWorldHeight());
+		_gravityX.setValue(_level.getGravity().x);
+		_gravityY.setValue(_level.getGravity().y);
 
 	}
 
