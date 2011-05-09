@@ -24,7 +24,9 @@
 package interfascia;
 //import processing.core.*;
 
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 
 
@@ -77,7 +79,7 @@ public class IFTextField extends GUIComponent {
 		setLabel(argLabel);
 		setPosition(argX, argY);
 		setSize(argWidth, 21);
-		setValue(newValue);
+		setValue(0); // changed for Ballsy
 	}
 	
 
@@ -510,9 +512,9 @@ public class IFTextField extends GUIComponent {
 	* @param val the string to become the text field's contents
 	*/
 	
-	public void setValue(String newValue) {
+	public void setValue(float newValue) {
 		
-		contents = newValue;
+		contents = new DecimalFormat("#.##").format(newValue);
 		cursorPos = contents.length();
 		startSelect = endSelect = -1;
 		

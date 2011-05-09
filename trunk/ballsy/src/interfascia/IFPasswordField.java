@@ -110,7 +110,7 @@ public class IFPasswordField extends IFTextField {
 	public void setValue(String value)
 	{
 		hiddenValue = value;
-		super.setValue(repeatChar(displayChar,hiddenValue.length()));
+		super.setValue(Float.parseFloat(repeatChar(displayChar,hiddenValue.length()))); // put in the parse float for Ballsy changes
 	}
 	
 	protected void copySubstring(int start, int end) {
