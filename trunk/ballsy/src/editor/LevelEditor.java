@@ -485,6 +485,7 @@ public class LevelEditor extends Screen {
 					// assume this has a width
 					PhysicsRectangle physicsDef = (PhysicsRectangle) _level.getSelected().getPhysicsDef();
 					physicsDef.setWidth(Float.parseFloat(_width.getValue()));
+		
 				}
 			}
 		}
@@ -510,6 +511,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _radius) {
+			System.out.println("got here");
 			if (LevelEditor.isPositive(_radius.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.radius = Float.parseFloat(_radius.getValue());
@@ -678,7 +680,8 @@ public class LevelEditor extends Screen {
 		}
 		
 		for (GUIComponent comp : _components){
-			if (comp.isMouseOver(_window.mouseX, _window.mouseY)){
+			// If the mouse is over it (when we clicked) and it's visible
+			if (comp.isMouseOver(_window.mouseX, _window.mouseY) && comp.getController().getVisible()){
 				_componentWithFocus = comp;
 				break;
 			}
