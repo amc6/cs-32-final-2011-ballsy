@@ -6,14 +6,12 @@ import static bodies.BodyConstants.DEFAULT_BODY_FRICTION;
 
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.jbox2d.collision.FilterData;
 import org.jbox2d.collision.MassData;
 import org.jbox2d.collision.shapes.ShapeDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.ContactListener;
-import org.jbox2d.dynamics.contacts.ContactPoint;
-import org.jbox2d.dynamics.contacts.ContactResult;
 
 
 
@@ -27,6 +25,7 @@ public abstract class PhysicsDef {
 	private boolean _mobile = true;
 	private boolean _graphicalOnly = false;
 	protected Body _body;
+	private FilterData _fd = null;
 		
 	public PhysicsDef(float x, float y){
 		_initialPos = new Vec2(x, y);
@@ -158,6 +157,19 @@ public abstract class PhysicsDef {
 	//MORE TO DO HERE
 	public void setGraphicalOnly(boolean graphicalOnly){
 		_graphicalOnly = graphicalOnly;
+		if (_body != null) {
+			this.setMobile(!graphicalOnly);
+			if (graphicalOnly) {
+				FilterData fd = new FilterData();
+				fd.maskBits = 0x0000;
+				_body.getShapeList().setFilterData(fd);
+			} else {
+				FilterData fd = new FilterData();
+				fd.maskBits = 0xFFFF;
+				_body.getShapeList().setFilterData(fd);
+				System.out.println("asdff");
+			}
+		}
 	}
 	
 	/**
@@ -229,6 +241,7 @@ public abstract class PhysicsDef {
 		newEl.addAttribute("WIDTH", Float.toString(width));
 		newEl.addAttribute("HEIGHT", Float.toString(height));
 		newEl.addAttribute("MOBILE", Boolean.toString(_mobile));
+		newEl.addAttribute("GRAPHICALONLY", Boolean.toString(_graphicalOnly));
 		// return
 		return newEl;
 	}

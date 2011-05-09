@@ -77,7 +77,6 @@ public class BodyFactory {
 		}
 		// set the properties
 		newBody.getPhysicsDef().setMobile(dynamic);
-		newBody.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 		newBody.getGraphicsDef().setColor(color);
 		newBody.setGrappleable(grappleable);
 		newBody.setDeadly(deadly);
@@ -86,7 +85,9 @@ public class BodyFactory {
 		newBody.getPhysicsDef().setRotation(rotation);
 		newBody.getPhysicsDef().setFriction(friction);
 		newBody.getPhysicsDef().setBounciness(bounciness);
-		newBody.getPhysicsDef().setDensity(density);
+		newBody.getPhysicsDef().setDensity(density);	
+		newBody.getPhysicsDef().setMobile(dynamic);
+		newBody.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 		return newBody;
 	}
 	
