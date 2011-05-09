@@ -26,6 +26,10 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 	private DistanceJoint _firstJoint, _secondJoint, _lastJoint;
 	private int _numLinks = 40;
 	private float _maxLenth = CROSSHAIR_RANGE;
+	
+	private static final float LINK_PER_DISTANCE = 2f;
+	private static final float FREQ = 0f;
+	private static final float DAMPING = 1f;
 
 	public PhysicsGrappleRope(bodies.UserBall ball) {
 		super(ball); // Super class PhysicsDef requires this...how can we refactor this better?
@@ -56,7 +60,7 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 	
 			Vec2 dist = pos2.sub(pos1);
 			float magDist = dist.length();
-			_numLinks = (int) (magDist*2);
+			_numLinks = (int) (magDist*LINK_PER_DISTANCE);
 			//System.out.println("numlinks: " + _numLinks);
 			float dx = dist.x/_numLinks;
 			float dy = dist.y/_numLinks;
@@ -68,6 +72,8 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 			Link link = new Link(x, y);
 			_links.add(link);
 			DistanceJointDef jointDef = new DistanceJointDef();
+			jointDef.frequencyHz = FREQ;
+			jointDef.dampingRatio = DAMPING;
 			jointDef.initialize(body1, link.getPhysicsDef().getBody(), pos1, link.getWorldPosition());
 			jointDef.collideConnected = false;
 			_firstJoint = (DistanceJoint) _world.createJoint(jointDef);
@@ -82,6 +88,8 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 			jointDef = new DistanceJointDef();
 			jointDef.initialize(lastLink.getPhysicsDef().getBody(), link.getPhysicsDef().getBody(), lastLink.getWorldPosition(), link.getWorldPosition());
 			jointDef.collideConnected = false;
+			jointDef.frequencyHz = FREQ;
+			jointDef.dampingRatio = DAMPING;
 			_secondJoint = (DistanceJoint) _world.createJoint(jointDef);
 			lastLink.setNext(link, _secondJoint); //set link refs
 			link.setPrev(lastLink, _secondJoint); //set link refs
@@ -96,6 +104,8 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 				jointDef = new DistanceJointDef();
 				jointDef.initialize(lastLink.getPhysicsDef().getBody(), link.getPhysicsDef().getBody(), lastLink.getWorldPosition(), link.getWorldPosition());
 				jointDef.collideConnected = false;
+				jointDef.frequencyHz = FREQ;
+				jointDef.dampingRatio = DAMPING;
 				DistanceJoint joint = (DistanceJoint) _world.createJoint(jointDef);
 				lastLink.setNext(link, joint); //set link refs
 				link.setPrev(lastLink, joint); //set link refs
@@ -106,6 +116,8 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 			jointDef = new DistanceJointDef();
 			jointDef.initialize(lastLink.getPhysicsDef().getBody(), body2, lastLink.getWorldPosition(), pos2);
 			jointDef.collideConnected = false;
+			jointDef.frequencyHz = FREQ;
+			jointDef.dampingRatio = DAMPING;
 			_lastJoint = (DistanceJoint) _world.createJoint(jointDef);
 			lastLink.setNext(_ball.getGrappleObject(), _lastJoint); //set last link ref
 		}

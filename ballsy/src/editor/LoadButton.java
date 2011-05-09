@@ -88,6 +88,7 @@ public class LoadButton extends AbstractButton {
 			System.out.println(XMLUtil.getInstance().readFile(_level, _name));
 			_level.play();
 			_level.stop(); //lol this gets rid of crosshair and smoke. we should probs do it more directly iunno.
+			_level.centerCamera();
 			_load = false;
 		}
 	}
