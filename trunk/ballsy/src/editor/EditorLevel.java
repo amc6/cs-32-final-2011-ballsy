@@ -37,7 +37,7 @@ public class EditorLevel extends AbstractLevel {
 	private float _minX, _minY, _maxX, _maxY;
 	private float _lastMouseX, _lastMouseY;
 	private Element _savedState;
-	private int _savedTransX, _savedTransY;
+	//private int _savedTransX, _savedTransY;
 	private AbstractBody _selectedBody;
 	private boolean _placeMode = false; // either placing or modifying (or running, I guess)
 	private BodyFactory _factory;
@@ -49,6 +49,7 @@ public class EditorLevel extends AbstractLevel {
 	private Vec2 _rotationCenter;
 	private boolean _resizing = false;
 	private LevelEditor _editor;
+	private float _savedViewX, _savedViewY;
 	
 	public EditorLevel(LevelEditor editor, BodyFactory factory) {
 		_editor = editor;
@@ -59,26 +60,30 @@ public class EditorLevel extends AbstractLevel {
 	}
 	
 	public void setup() {
-		setupWorld(-100, -100, 100, 100);
+		//setupWorld(-100, -100, 100, 100);
+		setupWorld(0,0,200,200);
 		_background = new Background();
 		// make a player
-		_player = new UserBall(0, 0, USER_RADIUS);
+		_player = new UserBall(100, 50, USER_RADIUS);
 		_bodies.add(_player);
 		_player.setInPlay(false);
 		_player.getGraphicsDef().setSmoke(null);
 		_paused = true;
 		// make an endpoint offset to the right of the body
-		EndPoint ep = new EndPoint(BodyConstants.USER_RADIUS * 5, 0);
+		//EndPoint ep = new EndPoint(BodyConstants.USER_RADIUS * 5, 0);
+		EndPoint ep = new EndPoint(120,50);
 		_bodies.add(ep);
+		Vec2 pos = _player.getWorldPosition();
+		_world.centerCameraOn(pos.x,pos.y);
 	}
 	
 	/**
 	 * Play the current level from the beginning (saved state).
 	 */
 	public void play() {
-		//save trans for bg restoration
-		_savedTransX = (int) _world.transX;
-		_savedTransY = (int) _world.transY;
+		//save view for restoring
+		_savedViewX = _world.pixelXtoWorldX(_window.width/2);
+		_savedViewY = _world.pixelYtoWorldY(_window.height/2);
 		// clear points if we're setting
 		_selectedPoints = null;
 		if (_selectingPoints && _placeMode){ // so that when we return from playing we create a new polygon
@@ -102,14 +107,14 @@ public class EditorLevel extends AbstractLevel {
 	 * Stop the level and restore the saved beginning state.
 	 */
 	public void stop() {
-		//restore bg
-		_background.restoreTrans(_savedTransX, _savedTransY);
+	
 		// load in saved state
 		XMLUtil.getInstance().restoreXML(this, _savedState);
 		// stop the running
 		_running = false;
 		this.togglePaused();
 		_camera = null;
+		_world.centerCameraOn(_savedViewX, _savedViewY);
 		_editor.updateFieldValues(); // make sure they're correct per XML
 	}
 	
