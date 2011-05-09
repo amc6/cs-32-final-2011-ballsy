@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import physics.PhysicsBall;
+import processing.core.PImage;
 
 import ballsy.Window;
 
@@ -31,7 +32,6 @@ public class GraphicsUserBall extends GraphicsDef {
 		window.stroke(0);
 		if (_image == null) _image = new Image(Window.getInstance(), "res/beachball.png", this.getPixelRadius()*2, this.getPixelRadius()*2);
 
-		//window.ellipse(0,0,_world.scalarWorldToPixels(physicsDef.getRadius()) * 2 , _world.scalarWorldToPixels(physicsDef.getRadius()) * 2);
 		_image.draw();
 		
 	

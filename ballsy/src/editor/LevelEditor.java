@@ -3,6 +3,7 @@ package editor;
 import static editor.EditorConstants.ERROR;
 import static editor.EditorConstants.INFO;
 import static editor.EditorConstants.WARNING;
+import graphics.Text;
 import interfascia.GUIComponent;
 import interfascia.GUIController;
 import interfascia.GUIEvent;
@@ -10,6 +11,7 @@ import interfascia.IFButton;
 import interfascia.IFCheckBox;
 import interfascia.IFLabel;
 import interfascia.IFLookAndFeel;
+import interfascia.IFPGraphicsState;
 import interfascia.IFRadioButton;
 import interfascia.IFRadioController;
 
@@ -22,12 +24,12 @@ import physics.PhysicsBall;
 import physics.PhysicsPolygon;
 import physics.PhysicsRectangle;
 import physics.PhysicsRegularPolygon;
+import physics.PhysicsWorld;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.GeneralConstants;
 import ballsy.Screen;
 import ballsy.ScreenLoader.Screens;
-import graphics.Text;
 
 public class LevelEditor extends Screen {
 
@@ -60,6 +62,7 @@ public class LevelEditor extends Screen {
 		_factory = new BodyFactory();
 		_level = new EditorLevel(this, _factory);
 		_level.setup();
+		IFPGraphicsState temp = new IFPGraphicsState(_window);
 		
 		_components = new ArrayList<GUIComponent>();
 			
@@ -297,6 +300,8 @@ public class LevelEditor extends Screen {
 		_components.addAll(_polyC.getComponents());
 		_components.addAll(_ballC.getComponents());
 		_components.addAll(_pathC.getComponents());
+		
+		temp.restoreSettingsToApplet(_window);
 	}
 	
 	private void addTopControls(){
@@ -581,8 +586,10 @@ public class LevelEditor extends Screen {
 	
 		
 		// TODO Auto-generated method stub
-
-		_level.draw();	
+		PhysicsWorld world = PhysicsWorld.getInstance();
+		float scale = 0;
+		_level.draw();
+		
 		this.onClose();
 		
 		if (!_level.isRunning()){
@@ -694,6 +701,7 @@ public class LevelEditor extends Screen {
 		
 		_level.keyPressed();
 	}
+	
 	
 	@Override
 	public void keyReleased() {
