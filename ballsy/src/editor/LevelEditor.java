@@ -401,9 +401,10 @@ public class LevelEditor extends Screen {
 				_factory.dynamic = _dynamicRadio.isSelected();
 				_factory.graphicalOnly = false;
 			} else {
-				_level.getSelected().getPhysicsDef().setMobile(_dynamicRadio.isSelected());
+				System.out.println("here");
+				_level.getSelected().getPhysicsDef().setMobile(true);
 				if (_level.getSelected().getPath() != null)
-					_level.getSelected().getPath().setStatic(_dynamicRadio.isSelected());
+					_level.getSelected().getPath().setStatic(false);
 				
 				_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
 			}
@@ -415,9 +416,9 @@ public class LevelEditor extends Screen {
 				_factory.dynamic = _dynamicRadio.isSelected();
 				_factory.graphicalOnly = false;
 			} else {
-				_level.getSelected().getPhysicsDef().setMobile(!_staticRadio.isSelected());
+				_level.getSelected().getPhysicsDef().setMobile(false);
 				if (_level.getSelected().getPath() != null)
-					_level.getSelected().getPath().setStatic(_staticRadio.isSelected());
+					_level.getSelected().getPath().setStatic(true);
 				
 				_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
 			}
