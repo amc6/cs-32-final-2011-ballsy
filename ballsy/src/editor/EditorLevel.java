@@ -304,6 +304,10 @@ public class EditorLevel extends AbstractLevel {
 				float distYW = - _world.scalarPixelsToWorld(distY);
 				float distTotal = (float) Math.sqrt(distXW * distXW + distYW * distYW); // for use with reg. polygons and circles
 				if (distXW < 0) distTotal = -distTotal; // to compensate for always positive sqrt
+				float distCX = _world.pixelXtoWorldX(_lastMouseX) - _selectedBody.getWorldPosition().x; //before from center
+				float distCY = _world.pixelYtoWorldY(_lastMouseY) - _selectedBody.getWorldPosition().y; //before
+				float distCXN = _world.pixelXtoWorldX(_window.mouseX) - _selectedBody.getWorldPosition().x; //new from center
+				float distCYN = _world.pixelYtoWorldY(_window.mouseY) - _selectedBody.getWorldPosition().y; //new
 				if (_selectedBody instanceof RegularPolygon) {
 					PhysicsRegularPolygon polyPhysDef = (PhysicsRegularPolygon) _selectedBody.getPhysicsDef();
 					if (polyPhysDef.getRadius() + distTotal > MINIMUM_SIZE)
@@ -315,18 +319,22 @@ public class EditorLevel extends AbstractLevel {
 				} else if (_selectedBody instanceof Rectangle) {
 					PhysicsRectangle rectPhysDef = (PhysicsRectangle) _selectedBody.getPhysicsDef();
 					// get the x & y change along rotation of object
-					float rectRotAng = rectPhysDef.getBody().m_sweep.a;
-					float dragAng = (float) Math.atan2(distYW, distXW);
-					distYW = (float) Math.sin(rectRotAng - dragAng) * Math.abs(distTotal);
-					distXW = (float) Math.cos(rectRotAng - dragAng) * Math.abs(distTotal);
-					// 
-					if (rectPhysDef.getHeight() + distYW * 2 > MINIMUM_SIZE)
-						rectPhysDef.setHeight(rectPhysDef.getHeight() + distYW * 2);
-					if (rectPhysDef.getWidth() + distXW * 2 > MINIMUM_SIZE)
-						rectPhysDef.setWidth(rectPhysDef.getWidth() + distXW * 2);
+					float rectRotAng = - rectPhysDef.getBody().m_sweep.a;
+					// get the rotated distance dragged from center
+					float rdx = (float) ((distCXN-distCX) * Math.cos(rectRotAng) - (distCYN-distCY) * Math.sin(rectRotAng));
+					float rdy = (float) ((distCXN-distCX) * Math.sin(rectRotAng) + (distCYN-distCY) * Math.cos(rectRotAng));
+					// and the rotated point on the shape...
+					float dcxn = (float) (distCXN * Math.cos(rectRotAng) - distCYN * Math.sin(rectRotAng));
+					float dcxy = (float) (distCXN * Math.sin(rectRotAng) + distCYN * Math.cos(rectRotAng));
+					// and now if the point is at the right place on the shape, adjust
+					if (dcxn < 0) rdx = -rdx;
+					if (dcxy < 0) rdy = -rdy;
+					// FINALLY actually do the resize
+					if (rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE)
+						rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy * 2);
+					if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
+						rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx * 2);
 				} else if (_selectedBody instanceof IrregularPolygon) {
-					float distCX = _world.pixelXtoWorldX(_lastMouseX) - _selectedBody.getWorldPosition().x;
-					float distCY = _world.pixelYtoWorldY(_lastMouseY) - _selectedBody.getWorldPosition().y;
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
 					float ratio = (distLast + distTotal) / distLast;
 					PhysicsPolygon polyPhysDef = (PhysicsPolygon) _selectedBody.getPhysicsDef();
