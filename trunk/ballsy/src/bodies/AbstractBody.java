@@ -16,6 +16,8 @@ import physics.PhysicsWorld;
 import ballsy.AbstractLevel;
 import ballsy.Window;
 
+import static bodies.BodyConstants.*;
+
 public abstract class AbstractBody {
 
 	protected PhysicsWorld _world = PhysicsWorld.getInstance();
@@ -46,6 +48,30 @@ public abstract class AbstractBody {
 	 */
 	public void display(){
 		_graphicsDef.displayEffects(); // effects should be behind the object itself
+//		if (_grappleable && !_deadly) {
+//			_graphicsDef.setColor(50, 250, 100);
+//		}
+//		else if (!_grappleable && !_deadly) {
+//			_graphicsDef.setColor(0);
+//		}
+//		else if (_grappleable && _deadly) {
+//			
+//		}
+//		else if (!_grappleable && _deadly) {
+//			
+//		}
+		if (_grappleable) {
+			_graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR);
+		}
+		else {
+			_graphicsDef.setStrokeWeightAndColor(UNGRAPPLEABLE_STROKE_WEIGHT,UNGRAPPLEABLE_BORDER_COLOR);
+		}
+		if (_deadly) {
+			_graphicsDef.setColor(DEADLY_FILL_COLOR);
+		}
+		else {
+			_graphicsDef.setColor(NOT_DEADLY_FILL_COLOR);
+		}
 		_graphicsDef.display();
 	}
 	

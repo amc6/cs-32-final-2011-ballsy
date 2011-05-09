@@ -28,9 +28,9 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import physics.PhysicsPath;
-import physics.PhysicsWorld;
 import bodies.AbstractBody;
 import bodies.Ball;
+import bodies.EndPoint;
 import bodies.IrregularPolygon;
 import bodies.Rectangle;
 import bodies.UserBall;
@@ -273,7 +273,18 @@ public class XMLUtil {
     			newPlayer.getPhysicsDef().setRotation(rotation);
     			body = newPlayer.getPhysicsDef().getBody();
     			newBodies.add(newPlayer); // add it to the bodies too!
-    		} else if (bodyType.compareTo("ball") == 0) {
+    		} else if (bodyType.compareTo("end_point") == 0 || endpoint) {
+    			EndPoint endPoint = new EndPoint(xPos,yPos,width,height);
+    			endPoint.getGraphicsDef().setColor(color);
+    			endPoint.getPhysicsDef().setRotation(rotation);
+    			endPoint.setGrappleable(grappleable);
+    			endPoint.setEndpoint(true);
+    			endPoint.setDeadly(deadly);
+    			this.setGeneralPhysicsProperties(endPoint, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
+    			body = endPoint.getPhysicsDef().getBody();
+    			newBodies.add(endPoint);
+    		}
+    		else if (bodyType.compareTo("ball") == 0) {
     			// it's a ball
     			Ball newBall = new Ball(xPos, yPos, width/2);
 //    			newBall.getPhysicsDef().setMobile(mobile);
