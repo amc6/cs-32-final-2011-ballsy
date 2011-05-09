@@ -329,6 +329,13 @@ public class PhysicsWorld {
 		return points;
 	}
 	
+	public void setBounds(float width, float height){
+		world.getWorldAABB().lowerBound.x = 0;
+		world.getWorldAABB().lowerBound.y = 0;
+		world.getWorldAABB().upperBound.x = width;
+		world.getWorldAABB().upperBound.y = height;
+	}
+	
 	public static PhysicsWorld getInstance() {
 		return PHYSICS_WORLD;
 	}

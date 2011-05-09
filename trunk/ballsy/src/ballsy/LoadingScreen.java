@@ -14,6 +14,7 @@ public class LoadingScreen extends Screen {
 		_window.noCursor();
 		_window.background(50,200,200);
 		_message.draw();
+	
 	}
 
 	@Override
