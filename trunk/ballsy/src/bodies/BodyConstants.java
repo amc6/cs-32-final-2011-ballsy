@@ -20,7 +20,7 @@ public final class BodyConstants {
 	public static final float DEFAULT_BALL_RADIUS = 2f;
 	
 	/*Endpoint constants*/
-	public static final String ENDPOINT_IMAGE = "res/sandpail.jpg";
+	public static final String ENDPOINT_IMAGE = "res/sandpail.png";
 	public static final float ENDPOINT_HEIGHT = 9f;
 	public static final float ENDPOINT_WIDTH = 6.5f;
 	
