@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -178,6 +179,11 @@ public class XMLUtil {
 	public Element genXML(AbstractLevel level) {
 		// get the bodies, to iterate through
 		ArrayList<AbstractBody> bodies = level.getBodies();
+		// move player to the end (for cursor shit)
+		int index = bodies.indexOf(level.getPlayer());
+		for (int i = index; i < bodies.size() - 1; i++) {
+			Collections.swap(bodies, i, i + 1);
+		}
 		// make the element
 		Element root = DocumentHelper.createElement("BALLSY_LEVEL");
 		// add attributes pertinent to the level

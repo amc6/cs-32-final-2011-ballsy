@@ -3,13 +3,11 @@ package bodies;
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
 import graphics.GraphicsGrappleLine;
 import graphics.GraphicsGrappleRope;
-import graphics.GraphicsGrappleRopeTest;
 
 import org.dom4j.Element;
 
 import physics.PhysicsGrappleLine;
 import physics.PhysicsGrappleRope;
-import physics.PhysicsGrappleRopeTest;
 
 
 public class GrappleRope extends AbstractBody {
