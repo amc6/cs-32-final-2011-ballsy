@@ -10,6 +10,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
 import editor.LevelEditor;
+import graphics.Text;
 
 public class Window extends PApplet {
 	
@@ -65,8 +66,14 @@ public class Window extends PApplet {
 	}
 	
 	public void loadScreen(Screens s) {
-		this.setScreenAndSetup(new LoadingScreen());
-		new Thread(new ScreenLoader(s)).start();
+		//this.setScreenAndSetup(new LoadingScreen());
+		Text message = new Text("Loading...", this.width/2, this.height/2);
+		message.setColor(WelcomeScreen.DEFAULT_TEXT_COLOR);
+		this.noCursor();
+		this.background(50,200,200);
+		message.draw();
+		//new Thread(new ScreenLoader(s)).start();
+		new ScreenLoader(s).run();
 	}
 		
 	/**

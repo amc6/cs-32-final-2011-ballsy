@@ -125,10 +125,10 @@ public class IFPGraphicsState {
 		if(tint) applet.tint(tintColor);
 		else applet.noTint();
 		
-//		if(fill) applet.fill(fillColor);
-//		else applet.noFill();
+		if(fill) applet.fill(fillColor);
+		else applet.noFill();
 		//woooo... commenting things out that i reall shouldn't -amc6
-		applet.noFill();
+//		applet.noFill();
 		
 		if(stroke) applet.stroke(strokeColor);
 		else applet.noStroke();
