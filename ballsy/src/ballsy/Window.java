@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
-import editor.LevelEditor;
 import graphics.Text;
 
 public class Window extends PApplet {
@@ -37,7 +36,7 @@ public class Window extends PApplet {
 //		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
-		this.loadScreen(Screens.LEVEL_EDITOR);
+		this.loadScreen(Screens.WELCOME_SCREEN);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -46,10 +45,9 @@ public class Window extends PApplet {
 	}
 	
 	public void draw() {
-//		if (_screen == null){
-//			this.loadScreen(Screens.LEVEL_EDITOR);
-////			this.setScreenAndSetup(new LevelEditor());
-//		}
+		if (_screen == null){
+			this.loadScreen(Screens.WELCOME_SCREEN);
+		}
 		_screen.draw();	
 	}
 	

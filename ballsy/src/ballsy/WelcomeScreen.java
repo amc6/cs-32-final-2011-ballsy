@@ -2,6 +2,7 @@ package ballsy;
 
 import graphics.HoverImage;
 import graphics.Image;
+import graphics.ScreenBackground;
 import graphics.TextButton;
 import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
@@ -11,6 +12,7 @@ public class WelcomeScreen extends Screen {
 	Image _titleGraphic;
 	HoverImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	TextButton _newGame, _level, _levelEditor, _exit;
+	private ScreenBackground _background;
 	
 	public static final int DEFAULT_TEXT_COLOR = 245;
 	
@@ -24,7 +26,12 @@ public class WelcomeScreen extends Screen {
 		_level = new TextButton("Pick Level", _window.width/2, 520, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_levelEditor = new TextButton("Edit Level", _window.width/2, 590, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_exit = new TextButton("Exit", _window.width/2, 660, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_newGame.setColor(255);
+		_level.setColor(255);
+		_levelEditor.setColor(255);
+		_exit.setColor(255);
 
+		_background = new ScreenBackground();
 		//so jessica can listen to her own music... we need a mute feature
 //		AudioClip clip = new AudioClip("res/titlebg.wav");
 //		clip.start();
@@ -33,6 +40,7 @@ public class WelcomeScreen extends Screen {
 	public void draw() {
 		_window.cursor();
 		_window.background(50,200,200);
+		_background.draw();
 		
 		// put stuff in the middle
 		_window.imageMode(PConstants.CENTER);

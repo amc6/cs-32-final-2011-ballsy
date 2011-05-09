@@ -44,6 +44,10 @@ public class Text {
 		}
 	}
 	
+	public void setFont(PFont font) {
+		_font = font;
+	}
+	
 	public Text(String text, int x, int y, int color) {
 		_window = Window.getInstance();
 		_text = text;

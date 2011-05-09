@@ -37,17 +37,15 @@ public class MenuButton {
 	}
 	
 	public void draw() {
-		_window.fill(0, 255);
+		_window.fill(255, 255);
 		_window.stroke(255, 0);
-		_window.rect(_minX-4, _minY-4, THUMBNAIL_SIZE+8, THUMBNAIL_SIZE+8);
+		_window.rect(_minX-3, _minY-3, THUMBNAIL_SIZE+6, THUMBNAIL_SIZE+6);
 
 		_window.imageMode(_window.CORNER);
 		_window.image(_thumbnail, _minX, _minY);
-		if (!mouseInBounds()) { //inactive
+		if (mouseInBounds()) { //inactive
 			_window.rectMode(_window.CORNER);
-			_window.fill(50,200,200, 100);
-			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-			_window.fill(255, 50);
+			_window.fill(255, 100);
 			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 		}
 	}

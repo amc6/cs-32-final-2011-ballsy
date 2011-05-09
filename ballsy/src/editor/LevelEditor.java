@@ -23,6 +23,7 @@ import physics.PhysicsPolygon;
 import physics.PhysicsRectangle;
 import physics.PhysicsRegularPolygon;
 import processing.core.PConstants;
+import processing.core.PImage;
 import ballsy.GeneralConstants;
 import ballsy.Screen;
 import ballsy.ScreenLoader.Screens;
@@ -36,7 +37,8 @@ public class LevelEditor extends Screen {
 			_irregPolyButton, _ballButton;
 
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
-	private Text _levelEditorTitle, _errorMessage;
+	private Text _errorMessage;
+	private PImage _levelEditorTitle;
 
 	private GUIController _mainC, _objectC, _rectC, _polyC, _ballC, _pathC;
 	private IFButton _pathButton;
@@ -61,10 +63,7 @@ public class LevelEditor extends Screen {
 		
 		_components = new ArrayList<GUIComponent>();
 			
-		_levelEditorTitle = new Text("Level Editor", 20, 60);
-		_levelEditorTitle.setAlign(PConstants.LEFT);
-		_levelEditorTitle.setSize(40);
-		_levelEditorTitle.setColor(0);
+		_levelEditorTitle = _window.loadImage("res/level_editor_title.png");
 
 		_newLevelWidth = _window.width - EditorConstants.LEFT_PANEL_WIDTH;
 		_scaleFactor = _newLevelWidth/_window.width;
@@ -313,20 +312,20 @@ public class LevelEditor extends Screen {
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
-		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*11), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*11), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*7), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*7), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		_cursorButton.setActive(true);
 		shapeGroup.add(_cursorButton);
 		
-		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*10), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*10), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*6), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*6), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_rectButton);
 		
-		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*9), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*9), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*5), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*5), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_triangleButton);
 		
-		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*8), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*8), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_irregPolyButton);
 		
-		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*7), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*7), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_ballButton);
 
 	}
@@ -591,7 +590,8 @@ public class LevelEditor extends Screen {
 			_window.strokeWeight(GeneralConstants.DEFAULT_LINE_WIDTH);
 			_window.popMatrix();
 	
-			_levelEditorTitle.draw();
+			_window.imageMode(_window.CORNER);
+			_window.image(_levelEditorTitle, 10, 17);
 			
 			for (ButtonGroup group : _buttonGroups){
 				group.display();
