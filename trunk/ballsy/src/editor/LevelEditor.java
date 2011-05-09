@@ -1,5 +1,8 @@
 package editor;
 
+import static editor.EditorConstants.ERROR;
+import static editor.EditorConstants.INFO;
+import static editor.EditorConstants.WARNING;
 import interfascia.GUIComponent;
 import interfascia.GUIController;
 import interfascia.GUIEvent;
@@ -16,15 +19,14 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import physics.PhysicsBall;
+import physics.PhysicsPolygon;
 import physics.PhysicsRectangle;
-import physics.PhysicsWorld;
+import physics.PhysicsRegularPolygon;
 import processing.core.PConstants;
 import ballsy.GeneralConstants;
 import ballsy.Screen;
 import ballsy.ScreenLoader.Screens;
 import graphics.Text;
-
-import static editor.EditorConstants.*;
 
 public class LevelEditor extends Screen {
 
@@ -142,7 +144,7 @@ public class LevelEditor extends Screen {
 		
 		_rotationLabel = new IFLabel("Rotation", 15, (int) defaultStart + 90);
 		_rotation = new TextField("Rotation", 90, (int) defaultStart - 4 + 90, 60, this);
-		_rotation.setValue(0);
+		_rotation.setValue(_factory.rotation);
 		_rotation.addActionListener(this);
 		_mainC.add(_rotationLabel);
 		_mainC.add(_rotation);
@@ -155,14 +157,14 @@ public class LevelEditor extends Screen {
 		
 		_widthLabel = new IFLabel("Width", 15, (int) customControlStart);
 		_width = new TextField("Width", 90, (int) customControlStart - 4, 60, this);
-		_width.setValue(0);
+		_width.setValue(_factory.width);
 		_width.addActionListener(this);
 		_rectC.add(_widthLabel);
 		_rectC.add(_width);
 		
 		_heightLabel = new IFLabel("Height", 15, (int) customControlStart+30);
 		_height = new TextField("Height", 90, (int) customControlStart - 4 + 30, 60, this);
-		_height.setValue(0);
+		_height.setValue(_factory.height);
 		_height.addActionListener(this);
 		_rectC.add(_heightLabel);
 		_rectC.add(_height);
@@ -172,9 +174,9 @@ public class LevelEditor extends Screen {
 		_polyC = new GUIController(_window);
 		_polyC.setLookAndFeel(ballsyLook);
 		
-		_sizeLabel = new IFLabel("Size", 15, (int) customControlStart);
-		_size = new TextField("Size", 90, (int) customControlStart - 4, 60, this);
-		_size.setValue(0);
+		_sizeLabel = new IFLabel("Scale", 15, (int) customControlStart);
+		_size = new TextField("Scale", 90, (int) customControlStart - 4, 60, this);
+		_size.setValue(1);
 		_size.addActionListener(this);
 		_polyC.add(_sizeLabel);
 		_polyC.add(_size);
@@ -186,7 +188,7 @@ public class LevelEditor extends Screen {
 		
 		_radiusLabel = new IFLabel("Radius", 15, (int) customControlStart);
 		_radius = new TextField("Radius", 90, (int) customControlStart - 4, 60, this);
-		_radius.setValue(0);
+		_radius.setValue(_factory.radius);
 		_radius.addActionListener(this);
 		_ballC.add(_radiusLabel);
 		_ballC.add(_radius);
@@ -201,14 +203,14 @@ public class LevelEditor extends Screen {
 		int objectControlStart = customControlStart + 60;
 		_centerXLabel = new IFLabel("Center X", 15, (int) objectControlStart);
 		_centerX = new TextField("Center X", 90, (int) objectControlStart - 4, 60, this);
-		_centerX.setValue(0);
+		_centerX.setValue(0); // will be changed
 		_centerX.addActionListener(this);
 		_objectC.add(_centerXLabel);
 		_objectC.add(_centerX);
 	
 		_centerYLabel = new IFLabel("Center Y", 15, (int) objectControlStart+30);
 		_centerY = new TextField("Center Y", 90, (int) objectControlStart - 4 + 30, 60, this);
-		_centerY.setValue(0);
+		_centerY.setValue(0); // will be changed
 		_centerY.addActionListener(this);
 		_objectC.add(_centerYLabel);
 		_objectC.add(_centerY);
@@ -502,12 +504,9 @@ public class LevelEditor extends Screen {
 		}
 		else if (e == _size) {
 			if (LevelEditor.isPositive(_size.getValue())){
-				if (_level.getSelected() == null) {
-					// what do we do?
-				} else {
-					// assume this has a size
-					//whaat now???
-				}
+				// assume a polygon
+				PhysicsPolygon physicsDef = (PhysicsPolygon) _level.getSelected().getPhysicsDef();
+				physicsDef.setScale(Float.parseFloat(_size.getValue()));
 			}
 		}
 		else if (e == _radius) {
@@ -618,10 +617,10 @@ public class LevelEditor extends Screen {
 			if (_rectButton.isClicked() || _level.getSelected() instanceof bodies.Rectangle) {
 				_rectC.setVisible(true);
 			}
-			if (_triangleButton.isClicked() || _irregPolyButton.isClicked() || _level.getSelected() instanceof bodies.IrregularPolygon || _level.getSelected() instanceof bodies.RegularPolygon) {
+			if (_level.getSelected() instanceof bodies.IrregularPolygon || _level.getSelected() instanceof bodies.RegularPolygon) {
 				_polyC.setVisible(true);
 			}
-			if (_ballButton.isClicked() || _level.getSelected() instanceof bodies.Ball) {
+			if (_triangleButton.isClicked() || _ballButton.isClicked() || _level.getSelected() instanceof bodies.Ball) {
 				_ballC.setVisible(true);
 			}
 			
@@ -691,8 +690,10 @@ public class LevelEditor extends Screen {
 		if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
 			_level.mousePressed();
 		
-		for (ButtonGroup group : _buttonGroups){
-			group.click(_window.mouseX, _window.mouseY);
+		if (!_level.isRunning()){
+			for (ButtonGroup group : _buttonGroups){
+				group.click(_window.mouseX, _window.mouseY);
+			}
 		}
 	}
 
@@ -790,11 +791,13 @@ public class LevelEditor extends Screen {
 			if (_level.getSelected().getPhysicsDef() instanceof PhysicsBall){
 				_radius.setValue(((PhysicsBall) _level.getSelected().getPhysicsDef()).getRadius());
 			}
-			// For polygons
-//			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
-//				_size.setValue("" + ((PhysicsPolygon) _level.getSelected().getPhysicsDef()).getSize());
-//			}
-			// For paths
+
+			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
+				_size.setValue(((PhysicsPolygon) _level.getSelected().getPhysicsDef()).getScale());
+				
+				System.out.println(((PhysicsPolygon)_level.getSelected().getPhysicsDef()).getScale());
+			}
+
 			
 			if (_level.getSelected().getPath() != null){
 				_pathSpeed.setValue(_level.getSelected().getPath().getVelCoeff());
