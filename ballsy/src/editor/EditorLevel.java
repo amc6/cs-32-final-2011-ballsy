@@ -308,11 +308,7 @@ public class EditorLevel extends AbstractLevel {
 				float distCY = _world.pixelYtoWorldY(_lastMouseY) - _selectedBody.getWorldPosition().y; //before
 				float distCXN = _world.pixelXtoWorldX(_window.mouseX) - _selectedBody.getWorldPosition().x; //new from center
 				float distCYN = _world.pixelYtoWorldY(_window.mouseY) - _selectedBody.getWorldPosition().y; //new
-				if (_selectedBody instanceof RegularPolygon) {
-					PhysicsRegularPolygon polyPhysDef = (PhysicsRegularPolygon) _selectedBody.getPhysicsDef();
-					if (polyPhysDef.getRadius() + distTotal > MINIMUM_SIZE)
-						polyPhysDef.resizeBy(distTotal);
-				} else if (_selectedBody instanceof Ball) {
+				if (_selectedBody instanceof Ball) {
 					PhysicsBall ballPhysDef = (PhysicsBall) _selectedBody.getPhysicsDef();
 					if (ballPhysDef.getRadius() + distTotal > MINIMUM_SIZE)
 						ballPhysDef.setRadius(ballPhysDef.getRadius() + distTotal);
@@ -334,11 +330,11 @@ public class EditorLevel extends AbstractLevel {
 						rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy * 2);
 					if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
 						rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx * 2);
-				} else if (_selectedBody instanceof IrregularPolygon) {
+				} else if (_selectedBody.getPhysicsDef() instanceof PhysicsPolygon) {
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
-					float ratio = (distLast + distTotal) / distLast;
+					float ratio = Math.abs((distLast + distTotal) / distLast); // so no mirroring with a negative ratio
 					PhysicsPolygon polyPhysDef = (PhysicsPolygon) _selectedBody.getPhysicsDef();
-					polyPhysDef.scalePoints(ratio, MINIMUM_SIZE); // will check for size and not execute if it'll be too small
+					polyPhysDef.scalePoints(ratio); // will check for size and not execute if it'll be too small
 				}
 			}
 			// update the gui
