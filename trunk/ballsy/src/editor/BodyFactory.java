@@ -85,8 +85,7 @@ public class BodyFactory {
 		newBody.getPhysicsDef().setRotation(rotation);
 		newBody.getPhysicsDef().setFriction(friction);
 		newBody.getPhysicsDef().setBounciness(bounciness);
-		newBody.getPhysicsDef().setDensity(density);	
-		newBody.getPhysicsDef().setMobile(dynamic);
+		newBody.getPhysicsDef().setDensity(density);
 		newBody.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 		return newBody;
 	}

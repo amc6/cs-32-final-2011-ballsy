@@ -158,16 +158,19 @@ public abstract class PhysicsDef {
 	public void setGraphicalOnly(boolean graphicalOnly){
 		_graphicalOnly = graphicalOnly;
 		if (_body != null) {
-			this.setMobile(!graphicalOnly);
 			if (graphicalOnly) {
+				this.setMobile(false);
 				FilterData fd = new FilterData();
 				fd.maskBits = 0x0000;
 				_body.getShapeList().setFilterData(fd);
+				_body.getShapeList().m_isSensor = true;
 			} else {
 				FilterData fd = new FilterData();
 				fd.maskBits = 0xFFFF;
+				fd.categoryBits = 0x0001;
+				fd.groupIndex = 0;
 				_body.getShapeList().setFilterData(fd);
-				System.out.println("asdff");
+				_body.getShapeList().m_isSensor = false;
 			}
 		}
 	}
