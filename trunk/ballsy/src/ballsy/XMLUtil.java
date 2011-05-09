@@ -375,12 +375,12 @@ public class XMLUtil {
 	
 	private void setGeneralPhysicsProperties(AbstractBody body, boolean mobile, boolean graphicalOnly, float rotation, float xVel, float yVel, float aVel, float friction, float restitution, float density){
 		body.getPhysicsDef().setMobile(mobile);
-		body.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 		body.getPhysicsDef().setRotation(rotation);
 		body.getPhysicsDef().setLinearVelocity(new Vec2(xVel, yVel));
 		body.getPhysicsDef().setAngularVelocity(aVel);
 		body.getPhysicsDef().setFriction(friction);
 		body.getPhysicsDef().setBounciness(restitution);
 		body.getPhysicsDef().setDensity(density);
+		body.getPhysicsDef().setGraphicalOnly(graphicalOnly);
 	}
 }
