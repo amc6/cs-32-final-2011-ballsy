@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LEVELS_LIST>
-  <LEVEL PATH="levels/levelone.xml" THUMBNAIL="levels/thumbs/levelone.png"/>
-  <LEVEL PATH="levels/leveltwo.xml" THUMBNAIL="levels/thumbs/leveltwo.png"/>
-  <LEVEL PATH="levels/levelthree.xml" THUMBNAIL="levels/thumbs/levelthree.png"/>
-  <LEVEL PATH="levels/testlevel.xml" THUMBNAIL="levels/thumbs/testlevel.png"/>
-  <LEVEL PATH="levels/safelevel.xml" THUMBNAIL="levels/thumbs/safelevel.png"/>
-  <LEVEL PATH="levels/anotherlevel.xml" THUMBNAIL="levels/thumbs/anotherlevel.png"/>
-  <LEVEL PATH="levels/stupidlevel.xml" THUMBNAIL="levels/thumbs/stupidlevel.png"/>
-  <LEVEL PATH="levels/stupiderlevel.xml" THUMBNAIL="levels/thumbs/stupiderlevel.png"/>
+  <LEVEL PATH="levels/LevelOne-Final.xml" THUMBNAIL="levels/thumbs/LevelOne-Final.png"/>
+  <LEVEL PATH="levels/LevelTwo-Final.xml" THUMBNAIL="levels/thumbs/LevelTwo-Final.png"/>
+  <LEVEL PATH="levels/LevelThree-Final.xml" THUMBNAIL="levels/thumbs/LevelThree-Final.png"/>
 </LEVELS_LIST>

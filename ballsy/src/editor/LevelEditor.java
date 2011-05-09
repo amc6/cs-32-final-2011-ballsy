@@ -264,7 +264,7 @@ public class LevelEditor extends Screen {
 		
 		//world properties
 		float propertiesStart = _window.height - 120;
-		IFLabel worldLabel = new IFLabel("World Properties", 15, (int) propertiesStart-30);
+		IFLabel worldLabel = new IFLabel("World Properties:", 15, (int) propertiesStart-30);
 		_mainC.add(worldLabel);
 		
 		_worldWidthLabel = new IFLabel("Width", 15, (int) propertiesStart);

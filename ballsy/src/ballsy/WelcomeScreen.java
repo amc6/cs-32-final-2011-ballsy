@@ -1,9 +1,12 @@
 package ballsy;
 
 import graphics.HoverImage;
-import graphics.Image;
 import graphics.ScreenBackground;
 import graphics.TextButton;
+
+import java.util.Vector;
+
+import menu.MenuButton;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.ScreenLoader.Screens;
@@ -65,8 +68,13 @@ public class WelcomeScreen extends Screen {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
 			//_window.setScreen(new LevelOne());
-			_window.loadScreen(Screens.LEVEL_ONE);
+//			_window.loadScreen(Screens.LEVEL_ONE);
 //			_window.loadLevel("default.xml");
+			
+			Vector<MenuButton> buttons = XMLUtil.getInstance().loadMenuButtons();
+			MenuButton first = buttons.firstElement();
+			_window.loadScreen(Screens.XML_LEVEL, first.getLevelPath(), first);
+			
 		}
 		
 		if (_level.mouseOver()) {
