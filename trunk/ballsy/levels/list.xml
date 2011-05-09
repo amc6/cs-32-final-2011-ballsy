@@ -5,4 +5,5 @@
   <LEVEL PATH="levels/LevelTwo-Final.xml" THUMBNAIL="levels/thumbs/LevelTwo-Final.png"/>
   <LEVEL PATH="levels/LevelThree-Final.xml" THUMBNAIL="levels/thumbs/LevelThree-Final.png"/>
   <LEVEL PATH="levels/LevelFour-Final.xml" THUMBNAIL="levels/thumbs/LevelFour-Final.png"/>
+  <LEVEL PATH="levels/PhysicsOne.xml" THUMBNAIL="levels/thumbs/PhysicsOne.png"/>
 </LEVELS_LIST>
