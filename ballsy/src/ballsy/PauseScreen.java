@@ -50,7 +50,7 @@ public class PauseScreen {
 			System.exit(0);
 		}
 		else if (_menu.mouseOver()) {
-			_window.loadScreen(Screens.WELCOME_SCREEN);
+			_window.loadScreen(Screens.WELCOME_SCREEN, null);
 		}
 	}
 

@@ -59,7 +59,7 @@ public class LevelMenu1 extends Screen {
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 					
 //			_window.setScreenAndSetup(new LevelEditor());
-			_window.loadScreen(Screens.LEVEL_EDITOR);
+			_window.loadScreen(Screens.LEVEL_EDITOR, null);
 		}
 		
 		//new game click detect
@@ -69,7 +69,7 @@ public class LevelMenu1 extends Screen {
 		y_bottom = 300;
 		if (_window.mouseX > x_left && _window.mouseX < x_right && _window.mouseY > y_top && _window.mouseY < y_bottom) {
 //			_window.setScreenAndSetup(new EditorLevel());
-			_window.loadScreen(Screens.LEVEL_TWO);
+			//_window.loadScreen(Screens.LEVEL_TWO, null);
 		}
 
 	}
@@ -86,7 +86,7 @@ public class LevelMenu1 extends Screen {
 		
 		if (_window.key == 27 ) { //ESC
 			_window.key = 0;
-			_window.loadScreen(Screens.WELCOME_SCREEN);
+			_window.loadScreen(Screens.WELCOME_SCREEN, null);
 		}
 		
 	}

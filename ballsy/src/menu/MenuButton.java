@@ -1,5 +1,6 @@
 package menu;
 
+import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
 import ballsy.XMLLevel;
 import processing.core.PImage;
@@ -52,7 +53,8 @@ public class MenuButton {
 	
 	public void click() {
 		if (mouseInBounds()) {
-			_window.setScreenAndSetup(new XMLLevel(_levelPath));
+			//_window.setScreenAndSetup(new XMLLevel(_levelPath));
+			_window.loadScreen(Screens.XML_LEVEL, _levelPath);
 		}
 	}
 	

@@ -711,7 +711,7 @@ public class LevelEditor extends Screen {
 			this.updateFieldValues();
 		}	else if (_window.key == 27) { //esc takes us back to welcome screen
 			_window.key = 0;
-			_window.loadScreen(Screens.WELCOME_SCREEN);
+			_window.loadScreen(Screens.WELCOME_SCREEN, null);
 		}
 		
 		_level.keyPressed();
@@ -751,7 +751,7 @@ public class LevelEditor extends Screen {
 			int mouseX = _window.mouseX;
 			int mouseY = _window.mouseY;
 			if (mouseX < 40 && mouseY > 17 && mouseY < 80) {
-				_window.loadScreen(Screens.WELCOME_SCREEN);
+				_window.loadScreen(Screens.WELCOME_SCREEN, null);
 			}
 		}
 	}
