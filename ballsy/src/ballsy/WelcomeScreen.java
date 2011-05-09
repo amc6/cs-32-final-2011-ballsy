@@ -65,15 +65,15 @@ public class WelcomeScreen extends Screen {
 			// temporary... Matt's gonna do some shit with TestObjects.
 			// set to Level for now
 			//_window.setScreen(new LevelOne());
-			_window.loadScreen(Screens.LEVEL_ONE, null);
+			_window.loadScreen(Screens.LEVEL_ONE);
 //			_window.loadLevel("default.xml");
 		}
 		
 		if (_level.mouseOver()) {
-			_window.loadScreen(Screens.LEVEL_MENU, null);
+			_window.loadScreen(Screens.LEVEL_MENU);
 		}
 		if (_levelEditor.mouseOver()) {
-			_window.loadScreen(Screens.LEVEL_EDITOR, null);
+			_window.loadScreen(Screens.LEVEL_EDITOR);
 		}
 		if (_exit.mouseOver()) {
 			System.exit(0);

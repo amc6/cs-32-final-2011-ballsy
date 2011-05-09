@@ -1,7 +1,11 @@
 package ballsy;
 
+import graphics.Text;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
+import menu.MenuButton;
 
 import org.jbox2d.dynamics.contacts.ContactPoint;
 import org.jbox2d.dynamics.contacts.ContactResult;
@@ -9,7 +13,6 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
-import graphics.Text;
 
 public class Window extends PApplet {
 	
@@ -36,7 +39,7 @@ public class Window extends PApplet {
 //		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
-		this.loadScreen(Screens.WELCOME_SCREEN, null);
+		this.loadScreen(Screens.WELCOME_SCREEN);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -46,7 +49,7 @@ public class Window extends PApplet {
 	
 	public void draw() {
 		if (_screen == null){
-			this.loadScreen(Screens.WELCOME_SCREEN, null);
+			this.loadScreen(Screens.WELCOME_SCREEN);
 		}
 		_screen.draw();	
 	}
@@ -63,17 +66,19 @@ public class Window extends PApplet {
 		_screen = screen;
 	}
 	
-	public void loadScreen(Screens s, String fileName) {
-		//this.setScreenAndSetup(new LoadingScreen());
+	public void loadScreen(Screens s) {
+		this.loadScreen(s, null, null);
+		
+	}
+	
+	public void loadScreen(Screens s, String filename, MenuButton current) {
 		Text message = new Text("Loading...", this.width/2, this.height/2);
 		message.setColor(WelcomeScreen.DEFAULT_TEXT_COLOR);
 		this.noCursor();
 		this.background(50,200,200);
 		message.draw();
-		if (s == Screens.LEVEL_MENU) {
-		}
 		//new Thread(new ScreenLoader(s)).start();
-		new ScreenLoader(s,fileName).run();
+		new ScreenLoader(s,filename,current).run();
 	}
 		
 	/**
@@ -81,10 +86,10 @@ public class Window extends PApplet {
 	 * and constructs it inside a new instance of XMLLevel.
 	 * @param path
 	 */
-	public void loadLevel(String path) {
-		XMLLevel newLevel = new XMLLevel(path);
-		_screen = newLevel;
-	}
+//	public void loadLevel(String path) {
+//		XMLLevel newLevel = new XMLLevel(path);
+//		_screen = newLevel;
+//	}
 	
 	public void mousePressed() {
 		_screen.mousePressed();

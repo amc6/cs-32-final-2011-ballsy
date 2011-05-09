@@ -217,7 +217,9 @@ public class UserBall extends AbstractBody {
 				((EditorLevel) AbstractLevel.getInstance()).stop();
 			} else {
 				// it's a real level. make shit happen
-				_window.loadScreen(Screens.WELCOME_SCREEN, null);
+//				_window.loadScreen(Screens.WELCOME_SCREEN);
+				AbstractLevel.getInstance().setLost();
+
 			}
 		}
 		if (other.isDeadly()) {

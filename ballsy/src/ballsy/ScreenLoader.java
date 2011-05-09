@@ -1,6 +1,7 @@
 package ballsy;
 
 import menu.Menu;
+import menu.MenuButton;
 import editor.EditorLevel;
 import editor.LevelEditor;
 
@@ -16,10 +17,12 @@ public class ScreenLoader implements Runnable {
 	
 	private Screens _screenType;
 	private String _fileName;
+	private MenuButton _current;
 	
-	public ScreenLoader(Screens s, String fileName) {
+	public ScreenLoader(Screens s, String fileName, MenuButton current) {
 		_screenType = s;
 		_fileName = fileName;
+		_current = current;
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class ScreenLoader implements Runnable {
 			screen = new LevelOne();
 			break;
 		case XML_LEVEL:
-			screen = new XMLLevel(_fileName);
+			screen = new XMLLevel(_fileName,_current);
 			break;	
 		case LEVEL_EDITOR:
 			screen = new LevelEditor();

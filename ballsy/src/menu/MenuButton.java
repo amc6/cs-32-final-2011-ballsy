@@ -13,13 +13,15 @@ public class MenuButton {
 	private Window _window;
 	private PImage _thumbnail;
 	private int _minX, _minY, _maxX, _maxY;
-	private String _levelPath, _thumbnailPath;
+	private String _levelPath, _thumbnailPath, _nextLevelPath;
+	private MenuButton _nextLevel;
 	
 	public MenuButton(String levelPath, String thumbPath) {
 		_window = Window.getInstance();
 		_levelPath = levelPath;
 		_thumbnailPath = thumbPath;
 		_thumbnail = _window.loadImage(thumbPath);
+		_nextLevelPath = null;
 	}
 	
 	public void setPosition(int x, int y) {
@@ -35,6 +37,22 @@ public class MenuButton {
 	
 	public String getThumbnailPath() {
 		return _thumbnailPath;
+	}
+	
+	public void setNextLevelPath(String path) {
+		_nextLevelPath = path;
+	}
+
+	public String getNextLevelPath() {
+		return _nextLevelPath;
+	}
+	
+	public void setNextLevel(MenuButton b) {
+		_nextLevel = b;
+	}
+	
+	public MenuButton getNextLevel() {
+		return _nextLevel;
 	}
 	
 	public void draw() {
@@ -53,8 +71,8 @@ public class MenuButton {
 	
 	public void click() {
 		if (mouseInBounds()) {
-			//_window.setScreenAndSetup(new XMLLevel(_levelPath));
-			_window.loadScreen(Screens.XML_LEVEL, _levelPath);
+			//_window.setScreenAndSetup(new XMLLevel(_levelPath, this));
+			_window.loadScreen(Screens.XML_LEVEL,_levelPath,this);
 		}
 	}
 	

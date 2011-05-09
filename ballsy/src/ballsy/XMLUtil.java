@@ -60,13 +60,18 @@ public class XMLUtil {
 			System.out.println("document exception");
 			return _buttons; }
     	Element root = doc.getRootElement();
-    	    	
+    	MenuButton lastButton = null;
     	for (Iterator i = root.elementIterator("LEVEL"); i.hasNext();) {
     		// get references to the various elements
     		Element currLevel = (Element) i.next();
     		String levelPath = currLevel.attributeValue("PATH");
     		String thumbPath = currLevel.attributeValue("THUMBNAIL");
-    		_buttons.add(new MenuButton(levelPath, thumbPath));
+    		MenuButton currButton = new MenuButton(levelPath, thumbPath);
+    		if (lastButton != null) {
+    			lastButton.setNextLevel(currButton);
+    		}
+    		lastButton = currButton;
+    		_buttons.add(lastButton);
     	}
     	
 		return _buttons;
