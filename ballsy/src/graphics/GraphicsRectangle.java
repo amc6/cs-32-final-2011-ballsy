@@ -32,8 +32,8 @@ public class GraphicsRectangle extends GraphicsDef {
 		window.translate(pos.x,pos.y);
 		window.rotate(-a);
 		window.fill(this.getColor());
-		window.stroke(0);
-		window.strokeWeight(DEFAULT_LINE_WIDTH);
+		window.stroke(_strokeColor);
+		window.strokeWeight(_strokeWeight);
 		window.rect(0,0,_world.scalarWorldToPixels(physicsDef.getWidth()),_world.scalarWorldToPixels(physicsDef.getHeight()));
 		window.popMatrix();		
 	}

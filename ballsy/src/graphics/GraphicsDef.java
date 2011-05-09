@@ -15,6 +15,8 @@ public abstract class GraphicsDef {
 	protected PhysicsWorld _world = PhysicsWorld.getInstance();
 	private int _color = DEFAULT_BODY_COLOR;
 	protected Smoke _smoke;
+	protected int _strokeWeight;
+	protected int _strokeColor;
 			
 	public void setPhysicsDef(PhysicsDef physicsDef){
 		_physicsDef = physicsDef;
@@ -48,6 +50,11 @@ public abstract class GraphicsDef {
 	public void setColor(int r, int g, int b) {
 		Window w = Window.getInstance();
 		_color = w.color(r, g, b);
+	}
+	
+	public void setStrokeWeightAndColor(int weight, int color) {
+		_strokeWeight = weight;
+		_strokeColor = color;
 	}
 	
 	/**

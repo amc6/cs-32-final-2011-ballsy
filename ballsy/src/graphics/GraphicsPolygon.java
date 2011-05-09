@@ -33,7 +33,8 @@ public class GraphicsPolygon extends GraphicsDef {
 		window.beginShape();
 		window.translate(pos.x,pos.y);
 		window.rotate(-a);
-		window.strokeWeight(DEFAULT_LINE_WIDTH);
+		window.stroke(_strokeColor);
+		window.strokeWeight(_strokeWeight);
 		window.fill(this.getColor());
 		for (Vec2 vert : vertices){
 			

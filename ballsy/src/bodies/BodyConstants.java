@@ -9,9 +9,20 @@ public final class BodyConstants {
 	public static final float DEFAULT_BODY_FRICTION = 0.3f;
 	public static final float DEFAULT_BODY_BOUNCINESS = 0.5f;
 	public static final int DEFAULT_BODY_COLOR = Window.getInstance().color(0, 0, 0);
+	public static final int GRAPPLEABLE_BORDER_COLOR = Window.getInstance().color(255, 255, 255);
+	public static final int UNGRAPPLEABLE_BORDER_COLOR = Window.getInstance().color(255,0,0);
+	public static final int GRAPPLEABLE_STROKE_WEIGHT = 0;
+	public static final int UNGRAPPLEABLE_STROKE_WEIGHT = 2;
+	public static final int DEADLY_FILL_COLOR = Window.getInstance().color(170,4,4);
+	public static final int NOT_DEADLY_FILL_COLOR = Window.getInstance().color(245,184,0);
 	
 	/* Ball constants. */
 	public static final float DEFAULT_BALL_RADIUS = 2f;
+	
+	/*Endpoint constants*/
+	public static final String ENDPOINT_IMAGE = "res/sandpail.jpg";
+	public static final float ENDPOINT_HEIGHT = 9f;
+	public static final float ENDPOINT_WIDTH = 6.5f;
 	
 	/* Rectangle constants. */
 	public static final float DEFAULT_RECTANGLE_WIDTH = 4;
