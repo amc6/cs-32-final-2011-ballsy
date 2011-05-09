@@ -14,7 +14,6 @@ public final class GeneralConstants {
 	public static final int DEFAULT_FONT_INACTIVE = 200;
 	public static final int DEFAULT_FONT_ACTIVE = 255;
 	
-	
 	public static final float DEFAULT_FONT_HEIGHT = 72f;
 	
 	/* RESOURCES FINAL NAME CONSTANTS */

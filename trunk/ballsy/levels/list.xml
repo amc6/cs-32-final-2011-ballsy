@@ -6,4 +6,7 @@
   <LEVEL PATH="levels/levelthree.xml" THUMBNAIL="levels/thumbs/levelthree.png"/>
   <LEVEL PATH="levels/testlevel.xml" THUMBNAIL="levels/thumbs/testlevel.png"/>
   <LEVEL PATH="levels/safelevel.xml" THUMBNAIL="levels/thumbs/safelevel.png"/>
+  <LEVEL PATH="levels/anotherlevel.xml" THUMBNAIL="levels/thumbs/anotherlevel.png"/>
+  <LEVEL PATH="levels/stupidlevel.xml" THUMBNAIL="levels/thumbs/stupidlevel.png"/>
+  <LEVEL PATH="levels/stupiderlevel.xml" THUMBNAIL="levels/thumbs/stupiderlevel.png"/>
 </LEVELS_LIST>
