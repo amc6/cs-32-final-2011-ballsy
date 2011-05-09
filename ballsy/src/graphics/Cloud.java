@@ -8,7 +8,7 @@ import ballsy.Window;
 public class Cloud {
 	
 	private Vector<CloudPiece> _cloud;
-	private int _radiusBig,_radiusMed,_radiusSmall;
+	private int _radiusBig,_radiusMed,_radiusSmall, _red;
 	private int _counter, _maxCount,_x,_y;
 	private Window _window;
 	
@@ -21,6 +21,8 @@ public class Cloud {
 		_radiusBig = bigRadius;
 		_radiusMed = (int) (bigRadius*.625);
 		_radiusSmall = bigRadius/4;
+		
+		_red = 255-(40-bigRadius)*2;
 		
 		_counter = 0;
 		_maxCount = (int) Math.ceil(40/bigRadius);
@@ -35,7 +37,7 @@ public class Cloud {
 	
 	public void draw() {
 		for (Iterator<CloudPiece> i = _cloud.iterator(); i.hasNext();) {
-			i.next().draw();
+			i.next().draw(_red);
 		}
 	}
 

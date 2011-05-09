@@ -13,6 +13,7 @@ public class TextButton extends Text {
 	private String _text;
 	private Text _shadow;
 
+
 	public TextButton(String text, int x, int y) {
 		super(text, x, y);
 		_window = Window.getInstance();
@@ -45,7 +46,7 @@ public class TextButton extends Text {
 		_shadow.setColor(_window.color(0,100));
 		_shadow.setFont(_font);
 	}
-	
+		
 	public void setSize(int size) {
 		super.setSize(size);
 		_height = _font.getFont().getSize();
@@ -77,7 +78,7 @@ public class TextButton extends Text {
 		if (mouseOver()) {
 			_shadow.setFont(DEFAULT_FONT_BIGGER);
 			_shadow.draw();
-			_window.fill(DEFAULT_FONT_ACTIVE);
+			_window.fill(_activeColor);
 			_window.textAlign(_textAlign);
 			_window.textFont(DEFAULT_FONT_BIGGER);
 			_window.text(_text, _x, _y);

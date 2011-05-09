@@ -10,7 +10,8 @@ public class Text {
 	protected PFont _font = DEFAULT_FONT;
 	protected int _textAlign = _window.CENTER;
 	private int _x, _y;
-	private int _color = DEFAULT_FONT_INACTIVE;
+	protected int _activeColor = DEFAULT_FONT_ACTIVE;
+	protected int _inactiveColor = DEFAULT_FONT_INACTIVE;
 	private String _text;
 
 	public Text(String text, int x, int y) {
@@ -53,7 +54,7 @@ public class Text {
 		_text = text;
 		_x = x;
 		_y = y;
-		_color = color;
+		_inactiveColor = color;
 	}
 	
 	public Text(String text, int x, int y, int color, int align) {
@@ -61,7 +62,7 @@ public class Text {
 		_text = text;
 		_x = x;
 		_y = y;
-		_color = color;
+		_inactiveColor = color;
 		_textAlign = align;
 	}
 	
@@ -71,11 +72,15 @@ public class Text {
 	}
 	
 	public void setColor(int color) {
-		_color = color;
+		_inactiveColor = color;
+	}
+	
+	public void setActiveColor(int color) {
+		_activeColor = color;
 	}
 	
 	public void draw() {
-		_window.fill(_color);
+		_window.fill(_inactiveColor);
 		_window.textAlign(_textAlign);
 		_window.textFont(_font); 
 		_window.text(_text, _x, _y);
