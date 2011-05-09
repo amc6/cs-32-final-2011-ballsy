@@ -615,9 +615,9 @@ public class LevelEditor extends Screen {
 //		_level = new EditorLevel(this, _factory);
 //		_level.setup();
 		XMLUtil.getInstance().readFile(_level, _blankLevelPath);
-		_level.centerCamera();
 		_level.play();
 		_level.stop();
+		_level.centerCamera();
 	}
 
 	@Override

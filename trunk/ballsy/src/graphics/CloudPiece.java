@@ -15,8 +15,8 @@ public class CloudPiece {
 		_radius = radius;
 	}
 	
-	public void draw() {
-		_window.fill(255);
+	public void draw(int red) {
+		_window.fill(red,255,255,255);
 		_window.stroke(255, 0);
 		_window.ellipse(_x, _y, 2*_radius, 2*_radius);
 	}

@@ -20,6 +20,10 @@ public class WelcomeScreen extends Screen {
 	
 	public static final int DEFAULT_TEXT_COLOR = 245;
 	
+	public static final int ACTIVE_LINK_COLOR = Window.getInstance().color(245,184,0);
+	public static final int LINK_COLOR = Window.getInstance().color(252,237,152);
+
+	
 	public void setup() {
 		_window = Window.getInstance();
 		_window.cursor(); // make the cursor visible
@@ -32,10 +36,16 @@ public class WelcomeScreen extends Screen {
 		_level = new TextButton("Pick Level", _window.width/2, 520, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_levelEditor = new TextButton("Level Editor", _window.width/2, 590, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_exit = new TextButton("Exit", _window.width/2, 660, DEFAULT_TEXT_COLOR, Window.CENTER);
-		_newGame.setColor(255);
-		_level.setColor(255);
-		_levelEditor.setColor(255);
-		_exit.setColor(255);
+		_newGame.setColor(LINK_COLOR);
+		_level.setColor(LINK_COLOR);
+		_levelEditor.setColor(LINK_COLOR);
+		_exit.setColor(LINK_COLOR);
+		
+		_newGame.setActiveColor(ACTIVE_LINK_COLOR);
+		_level.setActiveColor(ACTIVE_LINK_COLOR);
+		_levelEditor.setActiveColor(ACTIVE_LINK_COLOR);
+		_exit.setActiveColor(ACTIVE_LINK_COLOR);
+		
 
 		_background = new ScreenBackground();
 		//so jessica can listen to her own music... we need a mute feature
@@ -53,6 +63,8 @@ public class WelcomeScreen extends Screen {
 		
 		// draw graphics
 //		_titleGraphic.draw();
+		
+		
 		_window.image(_titleGraphic, _window.width/2, _window.height/2-70);
 		_newGame.draw();
 		_level.draw();
