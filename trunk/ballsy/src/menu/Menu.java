@@ -89,7 +89,7 @@ public class Menu extends Screen {
 		int mouseX = _window.mouseX;
 		int mouseY = _window.mouseY;
 		if (mouseX < 50 && mouseY > 20 && mouseY < 110) {
-			_window.loadScreen(Screens.WELCOME_SCREEN, null);
+			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class Menu extends Screen {
 		
 		if (_window.key == 27 ) { //ESC
 			_window.key = 0;
-			_window.loadScreen(Screens.WELCOME_SCREEN, null);
+			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
 		
 	}

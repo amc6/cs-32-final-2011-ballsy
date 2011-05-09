@@ -5,16 +5,21 @@ import graphics.TrackingCamera;
 
 import java.util.ArrayList;
 
+import menu.MenuButton;
+
 import physics.PhysicsWorld;
+import ballsy.ScreenLoader.Screens;
 import bodies.AbstractBody;
 
 public class XMLLevel extends AbstractLevel {
-	private String _path;
+	private String _path, _nextLevelPath;
 	private Background _background;
 	private TrackingCamera _camera;
+	private MenuButton _myButton;
 	
-	public XMLLevel(String path) {
+	public XMLLevel(String path, MenuButton myButton) {
 		_path = path;
+		_myButton = myButton;
 		// load in the level
 		this.setInstance(); // set this level as the singleton
 		XMLUtil.getInstance().readFile(this, path);
@@ -37,7 +42,7 @@ public class XMLLevel extends AbstractLevel {
 		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
 		_window.noCursor();
 		// step physics world
-		if (!_paused) {
+		if (!_paused && !_won) {
 			_world.step();
 		}
 		_camera.update();
@@ -68,6 +73,22 @@ public class XMLLevel extends AbstractLevel {
 		if (_paused) {
 			_pauseScreen.draw();
 		}
+		if (_won) {
+			_winScreen.draw();
+			_player.setCrosshairVisible(false);
+		}
+	}
+	
+	public void nextLevel() {
+		_myButton = _myButton.getNextLevel();
+		if (_myButton != null) {
+			_path =_myButton.getLevelPath();
+			_won = false;
+			this.reload();
+		}
+		else {
+			_window.loadScreen(Screens.LEVEL_MENU);
+		}
 	}
 
 	/**
@@ -77,6 +98,9 @@ public class XMLLevel extends AbstractLevel {
 	public void mousePressed() {
 		if (_paused) {
 			_pauseScreen.mousePressed();
+		}
+		if (_won) {
+			_winScreen.mousePressed();
 		}
 		if (!_player.isGrappled()) _player.fireGrapple();
 		else _player.releaseGrapple();

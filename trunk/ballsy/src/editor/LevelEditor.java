@@ -29,6 +29,7 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.GeneralConstants;
 import ballsy.Screen;
+import ballsy.XMLUtil;
 import ballsy.ScreenLoader.Screens;
 
 public class LevelEditor extends Screen {
@@ -56,6 +57,7 @@ public class LevelEditor extends Screen {
 	private BodyFactory _factory;
 	private GUIComponent _componentWithFocus; // managed in draw step
 	private ArrayList<GUIComponent> _components;
+	private String _blankLevelPath = "levels/GenericLevel.xml";
 	
 	@Override
 	public void setup() {
@@ -302,6 +304,9 @@ public class LevelEditor extends Screen {
 		_components.addAll(_pathC.getComponents());
 		
 		temp.restoreSettingsToApplet(_window);
+		
+		XMLUtil.getInstance().writeFile(_level, _blankLevelPath);
+
 	}
 	
 	private void addTopControls(){
@@ -599,6 +604,17 @@ public class LevelEditor extends Screen {
 		}
 			
 		this.updateFieldValues();
+		
+	}
+	
+	public void clear() {
+//		_factory = new BodyFactory();
+//		_level = new EditorLevel(this, _factory);
+//		_level.setup();
+		XMLUtil.getInstance().readFile(_level, _blankLevelPath);
+		_level.centerCamera();
+		_level.play();
+		_level.stop();
 	}
 
 	@Override
@@ -712,7 +728,7 @@ public class LevelEditor extends Screen {
 			this.updateFieldValues();
 		}	else if (_window.key == 27) { //esc takes us back to welcome screen
 			_window.key = 0;
-			_window.loadScreen(Screens.WELCOME_SCREEN, null);
+			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
 		
 		_level.keyPressed();
@@ -752,7 +768,7 @@ public class LevelEditor extends Screen {
 			int mouseX = _window.mouseX;
 			int mouseY = _window.mouseY;
 			if (mouseX < 40 && mouseY > 17 && mouseY < 80) {
-				_window.loadScreen(Screens.WELCOME_SCREEN, null);
+				_window.loadScreen(Screens.WELCOME_SCREEN);
 			}
 		}
 	}

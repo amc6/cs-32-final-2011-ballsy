@@ -24,9 +24,11 @@ public abstract class AbstractLevel extends Screen {
 	protected int _backgroundColor = 255; // color of the background, defaults to white
 	protected Vec2 _gravity = new Vec2(0, -30);
 	protected boolean _paused = false;
+	protected boolean _won = false;
 	private boolean[] _keys = {false, false, false, false};
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
+	protected WinScreen _winScreen = new WinScreen(this);
 	protected static Text _debug = new Text("",100,100);
 
 	
@@ -98,6 +100,11 @@ public abstract class AbstractLevel extends Screen {
 			_player.getGraphicsDef().setSmoke(new Smoke(_player));
 		}
 		
+	}
+	
+	public void setLost() {
+		_window.cursor();
+		_won = true;
 	}
 	
 	/**
