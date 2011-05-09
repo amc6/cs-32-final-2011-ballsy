@@ -36,7 +36,7 @@ public class Window extends PApplet {
 //		this.loadScreen(Screens.WELCOME_SCREEN);
 //		this.setScreen(new LevelOne());
 //		this.setScreen(new LoadingScreen());
-		this.loadScreen(Screens.WELCOME_SCREEN);
+		this.loadScreen(Screens.WELCOME_SCREEN, null);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
@@ -46,7 +46,7 @@ public class Window extends PApplet {
 	
 	public void draw() {
 		if (_screen == null){
-			this.loadScreen(Screens.WELCOME_SCREEN);
+			this.loadScreen(Screens.WELCOME_SCREEN, null);
 		}
 		_screen.draw();	
 	}
@@ -63,15 +63,17 @@ public class Window extends PApplet {
 		_screen = screen;
 	}
 	
-	public void loadScreen(Screens s) {
+	public void loadScreen(Screens s, String fileName) {
 		//this.setScreenAndSetup(new LoadingScreen());
 		Text message = new Text("Loading...", this.width/2, this.height/2);
 		message.setColor(WelcomeScreen.DEFAULT_TEXT_COLOR);
 		this.noCursor();
 		this.background(50,200,200);
 		message.draw();
+		if (s == Screens.LEVEL_MENU) {
+		}
 		//new Thread(new ScreenLoader(s)).start();
-		new ScreenLoader(s).run();
+		new ScreenLoader(s,fileName).run();
 	}
 		
 	/**

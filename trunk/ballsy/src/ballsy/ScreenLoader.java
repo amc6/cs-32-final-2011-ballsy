@@ -11,13 +11,15 @@ public class ScreenLoader implements Runnable {
 		LEVEL_EDITOR,
 		LEVEL_MENU,
 		LEVEL_ONE,
-		LEVEL_TWO
+		XML_LEVEL
 	}
 	
 	private Screens _screenType;
+	private String _fileName;
 	
-	public ScreenLoader(Screens s) {
+	public ScreenLoader(Screens s, String fileName) {
 		_screenType = s;
+		_fileName = fileName;
 	}
 
 	@Override
@@ -33,8 +35,8 @@ public class ScreenLoader implements Runnable {
 		case LEVEL_ONE:
 			screen = new LevelOne();
 			break;
-		case LEVEL_TWO:
-			screen = new LevelTwo();
+		case XML_LEVEL:
+			screen = new XMLLevel(_fileName);
 			break;	
 		case LEVEL_EDITOR:
 			screen = new LevelEditor();

@@ -51,7 +51,7 @@ public class UserBall extends AbstractBody {
 	
 	public void moveLeft() {
 		if (_grappled){
-			if (this.getPhysicsDef().getBody().getLinearVelocity().x > - USER_MAX_VELOCITY)
+			if (this.getPhysicsDef().getBody().getLinearVelocity().length() > - USER_MAX_VELOCITY)
 				this.getPhysicsDef().applyImpulse(new Vec2(-USER_MOVE_COEFFICIENT, 0));			
 		}else{
 			this.getPhysicsDef().getBody().wakeUp();
@@ -61,7 +61,7 @@ public class UserBall extends AbstractBody {
 	
 	public void moveRight() {
 		if (_grappled){
-			if (this.getPhysicsDef().getBody().getLinearVelocity().x < USER_MAX_VELOCITY)
+			if (this.getPhysicsDef().getBody().getLinearVelocity().length() < USER_MAX_VELOCITY)
 				this.getPhysicsDef().applyImpulse(new Vec2(USER_MOVE_COEFFICIENT, 0));
 		}else{
 			this.getPhysicsDef().getBody().wakeUp();
@@ -217,7 +217,7 @@ public class UserBall extends AbstractBody {
 				((EditorLevel) AbstractLevel.getInstance()).stop();
 			} else {
 				// it's a real level. make shit happen
-				_window.loadScreen(Screens.WELCOME_SCREEN);
+				_window.loadScreen(Screens.WELCOME_SCREEN, null);
 			}
 		}
 		if (other.isDeadly()) {
