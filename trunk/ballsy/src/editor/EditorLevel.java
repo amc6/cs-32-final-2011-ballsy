@@ -223,10 +223,7 @@ public class EditorLevel extends AbstractLevel {
 						ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
 						newPoints.add(newPoint);
 						newPoints = PointMath.sortCCW(newPoints, PointMath.getCenter(newPoints));
-						
-						for (Vec2 point : newPoints)
-							System.out.println(point);
-						
+											
 						if (PointMath.isConvex(newPoints) && _world.contains(newPoint)) {
 							// we're good to go
 							_selectedPoints = newPoints;
