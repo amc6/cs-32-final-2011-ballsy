@@ -726,10 +726,11 @@ public class LevelEditor extends Screen {
 		} else if (_level.selectingPoints()) {
 			_level.clearPoints();
 			this.updateFieldValues();
-		}	else if (_window.key == 27) { //esc takes us back to welcome screen
-			_window.key = 0;
-			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
+//		else if (_window.key == 27) { //esc takes us back to welcome screen
+//			_window.key = 0;
+//			_window.loadScreen(Screens.WELCOME_SCREEN);
+//		}
 		
 		_level.keyPressed();
 	}
