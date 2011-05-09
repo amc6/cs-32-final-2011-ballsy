@@ -40,17 +40,17 @@ public class LevelEditor extends Screen {
 	private Text _errorMessage;
 	private PImage _levelEditorTitle;
 
-	private GUIController _mainC, _objectC, _rectC, _polyC, _ballC, _pathC;
+	private GUIController _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC;
 	private IFButton _pathButton;
 	private IFCheckBox _grappleableCheckBox, _deadlyCheckBox;
 	private IFRadioButton _dynamicRadio, _staticRadio, _graphicalRadio;
 	private IFLabel _gravityXLabel, _gravityYLabel, _frictionLabel, _bouncinessLabel, _densityLabel, 
 				_centerXLabel, _centerYLabel, _rotationLabel,
-				_widthLabel, _heightLabel, _sizeLabel, _radiusLabel,
+				_widthLabel, _heightLabel, _sizeLabel, _radiusLabel, _sidesLabel,
 				_pathSpeedLabel, _pathRotationLabel, _worldWidthLabel, _worldHeightLabel;
 	private TextField _gravityX, _gravityY, _friction, _bounciness, _density,
 				_centerX, _centerY, _rotation, _width, _height, _size, _radius,
-				_pathSpeed, _pathRotation, _worldWidth, _worldHeight;
+				_pathSpeed, _pathRotation, _worldWidth, _worldHeight, _sides;
 	private BodyFactory _factory;
 	private GUIComponent _componentWithFocus; // managed in draw step
 	private ArrayList<GUIComponent> _components;
@@ -193,7 +193,17 @@ public class LevelEditor extends Screen {
 		_ballC.add(_radius);
 		_ballC.setVisible(false);
 		
+		//number of sides controller
+		_sidesC = new GUIController(_window);
+		_sidesC.setLookAndFeel(ballsyLook);
 		
+		_sidesLabel = new IFLabel("Sides", 15, (int) customControlStart + 30);
+		_sides = new TextField("Radius", 90, (int) customControlStart - 4 + 30, 60, this);
+		_sides.setValue(_factory.polyPointCount);
+		_sides.addActionListener(this);
+		_sidesC.add(_sidesLabel);
+		_sidesC.add(_sides);
+		_sidesC.setVisible(false);
 		
 		//object controls- display when object is selected
 		_objectC = new GUIController(_window);
@@ -279,6 +289,7 @@ public class LevelEditor extends Screen {
 		
 		this.addTopControls();
 
+		_components.addAll(_sidesC.getComponents());
 		_components.addAll(_mainC.getComponents());
 		_components.addAll(_objectC.getComponents());
 		_components.addAll(_rectC.getComponents());
@@ -413,7 +424,7 @@ public class LevelEditor extends Screen {
 	}
 	
 	public void focusLost(GUIComponent e){
-		
+
 		if (e == _gravityX) {
 			//set gravity
 			if (LevelEditor.isValidNumber(_gravityX.getValue())){
@@ -508,8 +519,14 @@ public class LevelEditor extends Screen {
 				physicsDef.setScale(Float.parseFloat(_size.getValue()));
 			}
 		}
+		else if (e == _sides) {
+			if (LevelEditor.isPositive(_sides.getValue(), 3)){ // minimum of three sides
+				// assume we're not selecting anything
+				System.out.println("got here!");
+				_factory.polyPointCount = Integer.parseInt(_sides.getValue());
+			}
+		}
 		else if (e == _radius) {
-			System.out.println("got here");
 			if (LevelEditor.isPositive(_radius.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.radius = Float.parseFloat(_radius.getValue());
@@ -608,6 +625,7 @@ public class LevelEditor extends Screen {
 			_polyC.setVisible(false);
 			_ballC.setVisible(false);
 			_pathC.setVisible(false);
+			_sidesC.setVisible(false);
 			
 			_mainC.setVisible(true);
 	
@@ -623,7 +641,9 @@ public class LevelEditor extends Screen {
 			if (_triangleButton.isClicked() || _ballButton.isClicked() || _level.getSelected() instanceof bodies.Ball) {
 				_ballC.setVisible(true);
 			}
-			
+			if (_triangleButton.isClicked()){
+				_sidesC.setVisible(true);
+			}			
 			if (_level.getSelected() != null && _level.getSelected().getPath() != null) {
 				_pathC.setVisible(true);
 			}
@@ -640,6 +660,7 @@ public class LevelEditor extends Screen {
 		_objectC.setVisible(false);
 		_rectC.setVisible(false);
 		_polyC.setVisible(false);
+		_sidesC.setVisible(false);
 		_ballC.setVisible(false);
 		_pathC.setVisible(false);
 	}
@@ -727,6 +748,10 @@ public class LevelEditor extends Screen {
 		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) > 0;
 	}
 	
+	private static boolean isPositive(String string, float min){
+		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) >= min;
+	}
+	
 	public void updateFieldValues(){
 		// If no shape is selected we want to display factory values
 		if (_level.getSelected() == null) {
@@ -753,11 +778,9 @@ public class LevelEditor extends Screen {
 			
 			// For circle
 			_radius.setValue(_factory.radius);
-			// For polygons
-//			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
-//				_size.setValue("" + ((PhysicsPolygon) _level.getSelected().getPhysicsDef()).getSize());
-//			}
-			// For paths
+
+			// For polygon sides
+			_sides.setValue((_factory.polyPointCount));
 					
 			
 		//Alternatively if a shape is selected, display its values
@@ -792,10 +815,9 @@ public class LevelEditor extends Screen {
 				_radius.setValue(((PhysicsBall) _level.getSelected().getPhysicsDef()).getRadius());
 			}
 
+			// For polygons
 			if (_level.getSelected().getPhysicsDef() instanceof PhysicsPolygon){
 				_size.setValue(((PhysicsPolygon) _level.getSelected().getPhysicsDef()).getScale());
-				
-				System.out.println(((PhysicsPolygon)_level.getSelected().getPhysicsDef()).getScale());
 			}
 
 			
