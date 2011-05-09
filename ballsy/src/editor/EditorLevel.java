@@ -65,17 +65,17 @@ public class EditorLevel extends AbstractLevel {
 		setupWorld(0,0,200,200);
 		_background = new Background();
 		// make a player
-		_player = new UserBall(100, 50, USER_RADIUS);
-		_bodies.add(_player);
-		_player.setInPlay(false);
-		_player.getGraphicsDef().setSmoke(null);
+//		_player = new UserBall(100, 50, USER_RADIUS);
+//		_bodies.add(_player);
+//		_player.setInPlay(false);
+//		_player.getGraphicsDef().setSmoke(null);
 		_paused = true;
 		// make an endpoint offset to the right of the body
 		//EndPoint ep = new EndPoint(BodyConstants.USER_RADIUS * 5, 0);
-		EndPoint ep = new EndPoint(120,50);
-		_bodies.add(ep);
-		Vec2 pos = _player.getWorldPosition();
-		_world.centerCameraOn(pos.x,pos.y);
+//		EndPoint ep = new EndPoint(120,50);
+//		_bodies.add(ep);
+//		Vec2 pos = _player.getWorldPosition();
+//		_world.centerCameraOn(pos.x,pos.y);
 	}
 	
 	/**

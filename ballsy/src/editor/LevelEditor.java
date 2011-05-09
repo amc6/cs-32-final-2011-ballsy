@@ -64,7 +64,10 @@ public class LevelEditor extends Screen {
 		_factory = new BodyFactory();
 		_level = new EditorLevel(this, _factory);
 		_level.setup();
+		
+		
 		IFPGraphicsState temp = new IFPGraphicsState(_window);
+		
 		
 		_components = new ArrayList<GUIComponent>();
 			
@@ -304,9 +307,9 @@ public class LevelEditor extends Screen {
 		_components.addAll(_pathC.getComponents());
 		
 		temp.restoreSettingsToApplet(_window);
+	
+		this.clear(); // show default level
 		
-		XMLUtil.getInstance().writeFile(_level, _blankLevelPath);
-
 	}
 	
 	private void addTopControls(){
