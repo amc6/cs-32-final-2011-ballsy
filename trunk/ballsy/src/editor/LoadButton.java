@@ -43,13 +43,8 @@ public class LoadButton extends AbstractButton {
 
 
 	public void select() {
-		System.out.println("LOAD!");
 
-
-		Runnable loadTask = new Runnable() {
-//			public String fileName;
-//			public boolean done = false;
-			
+		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
 				try {
 					JFileChooser fc = new JFileChooser();
@@ -60,16 +55,9 @@ public class LoadButton extends AbstractButton {
 					int returnVal = fc.showOpenDialog(null);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
-//						boolean executeOperation = false;
-//						if(file.getName().endsWith("jpg") || file.getName().endsWith("gif")){
-//							//temp = loadImage(file.getPath());
-//
-//						}
 						String filename = file.getName();
 						if(filename.endsWith("xml")) {
-//							System.out.println(file.getName());
-							_name = "levels/" + filename;
-							_load = true;
+							_level.setLoad("levels/" + filename);
 						}
 						
 					}
@@ -78,10 +66,7 @@ public class LoadButton extends AbstractButton {
 					e.printStackTrace();
 				}
 			}
-		};
-		try { SwingUtilities.invokeAndWait(loadTask);} 
-		catch (InterruptedException e) { e.printStackTrace(); } 
-		catch (InvocationTargetException e) { e.printStackTrace();}
+		});	
 		
 		if (_load) {
 			System.out.println("loading.. " + _name);
@@ -103,8 +88,5 @@ public class LoadButton extends AbstractButton {
 	public String tooltip(){
 		return "Load";
 	}
-	
-	
-	
 	
 }

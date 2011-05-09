@@ -603,19 +603,6 @@ public class LevelEditor extends Screen {
 	@Override
 	public void draw() {
 		
-		// Handle focuses of textfields
-		
-//		if (_componentWithNewFocus != null && _componentWithPrevFocus != _componentWithNewFocus){
-//			this.focusLost(_componentWithNewFocus);
-//			_componentWithPrevFocus = _componentWithNewFocus;
-//			_componentWithNewFocus = null;
-//		}
-				
-	
-		
-		// TODO Auto-generated method stub
-		PhysicsWorld world = PhysicsWorld.getInstance();
-		float scale = 0;
 		_level.draw();
 		
 		this.onClose();
@@ -746,7 +733,7 @@ public class LevelEditor extends Screen {
 		}
 		
 		for (GUIComponent comp : _components){
-			if (comp.isMouseOver(_window.mouseX, _window.mouseY)){
+			if (comp.isMouseOver(_window.mouseX, _window.mouseY) && comp.getController().getVisible()){
 				_componentWithFocus = comp;
 				break;
 			}

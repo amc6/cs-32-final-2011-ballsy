@@ -50,6 +50,7 @@ public class EditorLevel extends AbstractLevel {
 	private boolean _resizing = false;
 	private LevelEditor _editor;
 	private float _savedViewX, _savedViewY;
+	private String _savefile, _loadfile;
 	
 	public EditorLevel(LevelEditor editor, BodyFactory factory) {
 		_editor = editor;
@@ -194,6 +195,14 @@ public class EditorLevel extends AbstractLevel {
 		_window.fill(80);
 		_window.stroke(80);
 		if (_rotating && _rotationCenter != null) _window.line(_world.worldXtoPixelX(_rotationCenter.x), _world.worldYtoPixelY(_rotationCenter.y), _window.mouseX, _window.mouseY);
+
+		if (_savefile != null){
+			this.save(_savefile);
+		}
+		
+		if (_loadfile != null){
+			this.load(_loadfile);
+		}
 	}
 	
 	public void mousePressed() {
@@ -589,4 +598,33 @@ public class EditorLevel extends AbstractLevel {
 		
 		
 	}
+	
+	public void setSave(String name){
+		_savefile = name;
+	}
+	
+	public void save(String name) {
+		_savefile = null;
+		this.resetSelected(null);
+		String pathname = "levels/" + name + ".xml";
+		String thumbPathname = "levels/thumbs/" + name + ".png";
+		XMLUtil.getInstance().writeFile(this, pathname);
+		this.makeThumbnail(thumbPathname);
+		XMLUtil.getInstance().addMenuButton(pathname, thumbPathname);
+	}
+	
+	public void setLoad(String name){
+		_loadfile = name;
+	}
+	
+	public void load(String name) {
+		_loadfile = null;
+		
+		XMLUtil.getInstance().readFile(this, name);
+		this.play();
+		this.stop(); //lol this gets rid of crosshair and smoke. we should probs do it more directly iunno.
+		this.centerCamera();
+		
+	}
+	
 }
