@@ -5,11 +5,12 @@ import graphics.Image;
 import graphics.ScreenBackground;
 import graphics.TextButton;
 import processing.core.PConstants;
+import processing.core.PImage;
 import ballsy.ScreenLoader.Screens;
 
 public class WelcomeScreen extends Screen {
 	Window _window;
-	Image _titleGraphic;
+	PImage _titleGraphic;
 	HoverImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	TextButton _newGame, _level, _levelEditor, _exit;
 	private ScreenBackground _background;
@@ -21,7 +22,9 @@ public class WelcomeScreen extends Screen {
 		_window.cursor(); // make the cursor visible
 		//_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 289, 56, _window.width/2, 450);
 		//_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 289, 53, _window.width/2, 520);
-		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
+//		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
+		_titleGraphic = _window.loadImage("res/ballsy_title2.png");
+
 		_newGame = new TextButton("New Game", _window.width/2, 450, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_level = new TextButton("Pick Level", _window.width/2, 520, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_levelEditor = new TextButton("Level Editor", _window.width/2, 590, DEFAULT_TEXT_COLOR, Window.CENTER);
@@ -46,7 +49,8 @@ public class WelcomeScreen extends Screen {
 		_window.imageMode(PConstants.CENTER);
 		
 		// draw graphics
-		_titleGraphic.draw();
+//		_titleGraphic.draw();
+		_window.image(_titleGraphic, _window.width/2, _window.height/2-70);
 		_newGame.draw();
 		_level.draw();
 		_levelEditor.draw();
