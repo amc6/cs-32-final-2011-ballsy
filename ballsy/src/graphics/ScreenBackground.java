@@ -2,9 +2,8 @@ package graphics;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.jbox2d.common.Vec2;
-
 import physics.PhysicsWorld;
+import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.Window;
 
@@ -67,17 +66,17 @@ public class ScreenBackground {
 			  int r = (int) (ratio*250);
 			  int g = (int) (ratio*(241-200) + 200);
 			  int b = (int) (ratio*(218-200) + 200);
-			  _img.pixels[i] = _window.color(r,g,b);
+			  _img.pixels[i] = Color.color(r,g,b);
 		  }
 		  else { //sky
 			  float yFloat = (float) y;
 			  float ratio = yFloat/horizon;
 			  int r = (int) (ratio*(79-9) + 9);
 			  int g = (int) (ratio*(228-96) + 96);
-			  _img.pixels[i] = _window.color(r,g,255);
+			  _img.pixels[i] = Color.color(r,g,255);
 		  } //beach
 		  if (y > _y[x]) {
-			  _img.pixels[i] = _window.color(250,241,218);
+			  _img.pixels[i] = Color.color(250,241,218);
 		  }
 
 		}
@@ -112,7 +111,7 @@ public class ScreenBackground {
 		_window.background(150);
 		
 
-		_window.imageMode(_window.CORNER);
+		_window.imageMode(PConstants.CORNER);
 		_window.image(_img, 0, 0);
 
 		

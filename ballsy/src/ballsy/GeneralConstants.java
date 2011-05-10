@@ -21,4 +21,5 @@ public final class GeneralConstants {
 	
 	/* EFFECTS CONSTANTS */
 	public static final int DEFAULT_SMOKE_COLOR = Window.getInstance().color(250,241,218,75);
+	public static final int FADE_SPEED = 10;
 }
