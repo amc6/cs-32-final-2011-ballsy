@@ -414,62 +414,15 @@ public class EditorLevel extends AbstractLevel {
 			super.keyPressed();
 		} else {
 			switch (_window.key) {
-//			case 'y':
-//				// toggle static (for body and path)
-//				if (!_placeMode && _selectedBody != null && !(_selectedBody instanceof UserBall)) {
-//					_selectedBody.getPhysicsDef().setMobile(!_selectedBody.getPhysicsDef().getMobile());
-//					if (_selectedBody.getPath() != null) _selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
-//				} else if (_placeMode) {
-//					_factory.fixed = !_factory.fixed;
-//				}
-//			case ',':
-//				// start or finish a chain of points
-//				if (_placeMode) {
-//					// start or complete an irregular polygon
-//					if (!_selectingPoints) {
-//						// start a polygon
-//						_selectedPoints = new ArrayList<Vec2>();
-//						_selectingPoints = true;
-//					} else {
-//						// finish/create the polygon
-//						_selectingPoints = false;
-//						Vec2 center = PointMath.getCenter(_selectedPoints);
-//						if (_world.contains(center) && _selectedPoints.size() > 2) {
-//							_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
-//							_factory.setBody(BodyFactory.IPOLY);
-//							_selectedBody = this.placeBody(center);
-//						}
-//						_selectedPoints = null;
-//					}
-//				} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
-//					// make a path if an object is selected
-//					if (!_selectingPoints) {
-//						// start selecting poitns
-//						_selectingPoints = true;
-//						_selectedPoints = new ArrayList<Vec2>();
-//						_selectedPoints.add(_selectedBody.getWorldPosition()); // add the center of the body to start
-//					} else {
-//						// stop selecting points, apply selected
-//						_selectingPoints = false;
-//						_selectedBody.setPath(PhysicsPolygon.getOffsets(_selectedPoints, _selectedBody.getWorldPosition()));
-//						_selectedBody.getPath().setStatic(!_selectedBody.getPhysicsDef().getMobile());
-//						_selectedPoints = null;
-//					}
-//				}
-//				break;
-//			case '.':
-//				// remove path if selected, not place mode, and path exists
-//				if (!_placeMode && _selectedBody != null && _selectedBody.getPath() != null) {
-//					_selectedBody.clearPath();
-//				}
-//				break;
 			case 'q':
 				System.exit(0);
 				break;
 			case 'd':
 				if (_selectedBody != null && !_placeMode && 
-						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) 
+						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) {
 					_selectedBody.killBody();
+					this.resetSelected(null);
+				}
 				break;
 			}
 			// other shit (backspace, and other non character keys)

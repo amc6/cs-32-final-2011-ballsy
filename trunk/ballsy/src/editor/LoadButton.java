@@ -43,6 +43,8 @@ public class LoadButton extends AbstractButton {
 
 
 	public void select() {
+		
+		_clicked = false;
 
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {

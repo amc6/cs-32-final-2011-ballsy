@@ -111,8 +111,9 @@ public class XMLLevel extends AbstractLevel {
 	 */
 	public void reload() {
 		this.setInstance(); // set this level as the singleton
+		_window.fadeOutAndIn();
 		XMLUtil.getInstance().readFile(this, _path);
-		_background = new Background();
+//		_background = new Background(); causes a little bug... how do we fix this?
 		_camera = new TrackingCamera(_player);
 	}
 	

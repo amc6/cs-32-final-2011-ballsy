@@ -29,6 +29,7 @@ public class NewButton extends AbstractButton {
 	public void select() {
 		System.out.println("NEW!");
 		_editor.clear();
+		_clicked = false;
 	}
 	
 

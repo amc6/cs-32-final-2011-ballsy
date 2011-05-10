@@ -28,6 +28,7 @@ public class PlayButton extends AbstractButton {
 
 	public void select() {
 		_level.play();
+		_clicked = false;
 	}
 	
 

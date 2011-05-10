@@ -18,114 +18,133 @@ public class Window extends PApplet {
 	
 	private static Window WINDOW;
 	private Screen _screen;
+	private ScreenLoader _screenToLoad;
+	private Dimension _screenSize;
+	private int _fadeAlphaChange;
+	private int _fadeAlphaCurr; 
 
 	public void setup() {
 		WINDOW = this;
 
 		// Get the current screen size and set to max width
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension scrnsize = toolkit.getScreenSize();
-		this.size(scrnsize.width, scrnsize.height, PConstants.OPENGL);
-		
-//		this.size(800,800,PConstants.OPENGL);
-		// Set appearance and performance
+		_screenSize = toolkit.getScreenSize();
+		this.size(_screenSize.width, _screenSize.height, PConstants.OPENGL);
 		this.hint(PConstants.ENABLE_OPENGL_2X_SMOOTH);	
 		this.frameRate(60);
-		
-		// default camera settings are as follows. could be used to properly implement map? would need to offset all mouse positions though...
-		//this.camera(width/2.0f, height/2.0f, (height/2.0f) / (float) Math.tan(Math.PI*60.0 / 360.0), width/2.0f, height/2.0f, 0f, 0f, 1f, 0f);
-		
-//		this.setScreen(new LevelEditor());
-//		this.loadScreen(Screens.WELCOME_SCREEN);
-//		this.setScreen(new LevelOne());
-//		this.setScreen(new LoadingScreen());
 		this.loadScreen(Screens.WELCOME_SCREEN);
 		
 		// make a new XMLUtil, using singleton Pattern
 		XMLUtil.setInstance(new XMLUtil());
-		
-		this.smooth();
+
 	}
 	
 	public void draw() {
-		if (_screen == null){
-			this.loadScreen(Screens.WELCOME_SCREEN);
+
+		this.noCursor();
+		
+		if (_screenToLoad != null){		
+			_screen = null;
+			_screenToLoad.run();
+			_screenToLoad = null;
 		}
-		_screen.draw();	
+		
+		if (_screen != null){
+			_screen.draw();
+			
+			if (_fadeAlphaChange != 0){
+				_fadeAlphaCurr += _fadeAlphaChange;
+				if (_fadeAlphaCurr < 0) _fadeAlphaCurr = 0;
+				if (_fadeAlphaCurr > 255) _fadeAlphaCurr = 255;
+				
+				this.rectMode(PConstants.CORNER);
+				this.fill(0, _fadeAlphaCurr);
+				this.rect(0, 0, _screenSize.width, _screenSize.height);
+				
+				if (_fadeAlphaChange > 0 && _fadeAlphaCurr == 255){ // end of fading out
+					_fadeAlphaChange = -GeneralConstants.FADE_SPEED; // stop fading
+					_fadeAlphaCurr = 255;
+				}else if (_fadeAlphaChange < 0 && _fadeAlphaCurr == 0){ // end of fading in
+					_fadeAlphaChange = 0; // stop fading
+					_fadeAlphaCurr = 0;
+				}
+			}
+		}
+
+			
 	}
-	
-	public void setScreenAndSetup(Screen screen) {
-		this.setScreen(screen);
-		_screen.setup();
-	}
-	
+		
 	public void setScreen(Screen screen) {
 		if (_screen != null) {
-			_screen.onClose();
+			_screen.onClose(); // close current screen
 		}
 		_screen = screen;
 	}
 	
 	public void loadScreen(Screens s) {
 		this.loadScreen(s, null, null);
-		
 	}
 	
 	public void loadScreen(Screens s, String filename, MenuButton current) {
+		
+		if (_screen != null)
+			_screen.onClose();
+		
 		Text message = new Text("Loading...", this.width/2, this.height/2);
 		message.setColor(WelcomeScreen.DEFAULT_TEXT_COLOR);
 		this.noCursor();
 		this.background(50,200,200);
 		message.draw();
-		//new Thread(new ScreenLoader(s)).start();
-		new ScreenLoader(s,filename,current).run();
+		
+		_screenToLoad = new ScreenLoader(s, filename, current);
+	}
+	
+	public void fadeOutAndIn(){
+		_fadeAlphaCurr = 0;
+		_fadeAlphaChange = GeneralConstants.FADE_SPEED;
 	}
 		
-	/**
-	 * Alternative to setScreen(), takes in a string of the path of a saved level,
-	 * and constructs it inside a new instance of XMLLevel.
-	 * @param path
-	 */
-//	public void loadLevel(String path) {
-//		XMLLevel newLevel = new XMLLevel(path);
-//		_screen = newLevel;
-//	}
-	
 	public void mousePressed() {
-		_screen.mousePressed();
+		if (_screen != null)
+			_screen.mousePressed();
 	}
 	
 	public void mouseReleased() {
-		_screen.mouseReleased();
+		if (_screen != null)
+			_screen.mouseReleased();
 	}
 	
 	public void mouseDragged() {
-		_screen.mouseDragged();
+		if (_screen != null)
+			_screen.mouseDragged();
 	}
 	
 	public void keyPressed() {
-		_screen.keyPressed();
+		if (_screen != null)
+			_screen.keyPressed();
 	}
 	
 	public void keyReleased() {
-		_screen.keyReleased();
+		if (_screen != null)
+			_screen.keyReleased();
 	}
-	
-	public static Window getInstance(){
-		return WINDOW;
-	}
-	
+		
 	/**
 	 *  callback methods for handling contact (for some reason this is delegated to the
 	 *  PApplet, which is Window, from the PhysicsWorld. Works for me.
 	 */
 	public void addContact(ContactPoint cp) {
 		// a contact has happened!
-		_screen.handleCollision(cp.shape1.getBody(), cp.shape2.getBody(), cp.velocity.length());
+		if (_screen != null)
+			_screen.handleCollision(cp.shape1.getBody(), cp.shape2.getBody(), cp.velocity.length());
 	}
 	
 	public void persistContact(ContactPoint cp) { }
 	public void removeContact(ContactPoint cp) { }
 	public void resultContact(ContactResult cr) { }
+	
+	public static Window getInstance(){
+		return WINDOW;
+	}
 	
 }

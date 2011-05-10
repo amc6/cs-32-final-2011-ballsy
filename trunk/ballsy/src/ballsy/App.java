@@ -2,9 +2,6 @@ package ballsy;
 
 import processing.core.PApplet;
 
-// test comment
-
-
 public class App {
 
 	/**
@@ -17,3 +14,4 @@ public class App {
 	}
 
 }
+
