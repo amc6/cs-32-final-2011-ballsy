@@ -29,7 +29,7 @@ public abstract class AbstractBody {
 	private boolean _grappleable = true;
 	private boolean _isEndpoint = false;
 	private boolean _deadly = false;
-	private int SELECTED_OPACITY = 200;
+	private double SELECTED_OPACITY = .8;
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 

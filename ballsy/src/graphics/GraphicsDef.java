@@ -61,12 +61,12 @@ public abstract class GraphicsDef {
 		_color = w.color(r, g, b);
 	}
 	
-	public void setColor(int val, int opacity) {
+	public void setColor(int val, double percent) {
 		Window w= Window.getInstance();
 		int r = (val & 0x00ff0000) >> 16;
 		int g = (val & 0x0000ff00) >> 8;
 		int b = val & 0x000000ff;
-		_color = w.color(r, g, b, opacity);
+		_color = w.color((int) (r * percent), (int) (g * percent), (int) (b * percent));
 	}
 	
 	public void setStrokeWeightAndColor(int weight, int color) {
@@ -74,12 +74,12 @@ public abstract class GraphicsDef {
 		_strokeColor = color;
 	}
 	
-	public void setStrokeWeightAndColor(int weight, int val, int opacity) {
+	public void setStrokeWeightAndColor(int weight, int val, double percent) {
 		_strokeWeight = weight;
 		int r = (val & 0x00ff0000) >> 16;
 		int g = (val & 0x0000ff00) >> 8;
 		int b = val & 0x000000ff;
-		_strokeColor = Window.getInstance().color(r, g, b, opacity);
+		_strokeColor = Window.getInstance().color((int) (r * percent), (int) (g * percent), (int) (b * percent));
 	}
 	
 	/**
