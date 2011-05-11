@@ -102,7 +102,7 @@ public abstract class AbstractLevel extends Screen {
 		
 	}
 	
-	public void setLost() {
+	public void setWon() {
 		_window.cursor();
 		_won = true;
 	}
@@ -118,7 +118,7 @@ public abstract class AbstractLevel extends Screen {
 		if(_window.key == 27) {
 			_window.key = 0;
 			//_paused = !_paused;
-			this.togglePaused();
+			if (!_won) this.togglePaused();
 		}
 		// handle control keypresses
 		switch (_window.key) {

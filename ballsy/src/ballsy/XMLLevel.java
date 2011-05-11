@@ -25,6 +25,7 @@ public class XMLLevel extends AbstractLevel {
 		XMLUtil.getInstance().readFile(this, path);
 		_background = new Background();
 		_camera = new TrackingCamera(_player);
+		
 	}
 	
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
@@ -40,7 +41,8 @@ public class XMLLevel extends AbstractLevel {
 		_window.background(_backgroundColor);
 		_background.draw();
 		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
-		_window.noCursor();
+		
+		
 		// step physics world
 		if (!_paused && !_won) {
 			_world.step();
@@ -70,13 +72,16 @@ public class XMLLevel extends AbstractLevel {
 				break;	
 			}
 		}
+		
 		if (_paused) {
 			_pauseScreen.draw();
-		}
-		if (_won) {
+		}else if (_won) {
 			_winScreen.draw();
 			_player.setCrosshairVisible(false);
-		}
+			_player.setInPlay(false);
+		}		
+		
+//		_window.noCursor();
 	}
 	
 	public void nextLevel() {
@@ -111,7 +116,7 @@ public class XMLLevel extends AbstractLevel {
 	 */
 	public void reload() {
 		this.setInstance(); // set this level as the singleton
-		_window.fadeOutAndIn();
+		_window.fadeIn();
 		XMLUtil.getInstance().readFile(this, _path);
 //		_background = new Background(); causes a little bug... how do we fix this?
 		_camera = new TrackingCamera(_player);

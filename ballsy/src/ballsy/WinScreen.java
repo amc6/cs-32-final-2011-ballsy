@@ -31,7 +31,6 @@ public class WinScreen {
 
 	
 	public void draw() {
-		_window.cursor();
 //		_window.fill(50,200,200,100);
 		_window.fill(0,150);
 		_window.rectMode(_window.CORNER);

@@ -40,8 +40,6 @@ public class Window extends PApplet {
 	}
 	
 	public void draw() {
-
-		this.noCursor();
 		
 		if (_screenToLoad != null){		
 			_screen = null;
@@ -50,7 +48,8 @@ public class Window extends PApplet {
 		}
 		
 		if (_screen != null){
-			_screen.draw();
+			if (_fadeAlphaChange <= 0) // if not fading out
+				_screen.draw();
 			
 			if (_fadeAlphaChange != 0){
 				_fadeAlphaCurr += _fadeAlphaChange;
@@ -64,14 +63,16 @@ public class Window extends PApplet {
 				if (_fadeAlphaChange > 0 && _fadeAlphaCurr == 255){ // end of fading out
 					_fadeAlphaChange = -GeneralConstants.FADE_SPEED; // stop fading
 					_fadeAlphaCurr = 255;
+					if (_screen instanceof XMLLevel){ // if we're playing a level
+						((XMLLevel) _screen).reload(); // includes fade in
+					}
 				}else if (_fadeAlphaChange < 0 && _fadeAlphaCurr == 0){ // end of fading in
 					_fadeAlphaChange = 0; // stop fading
 					_fadeAlphaCurr = 0;
 				}
 			}
 		}
-
-			
+		
 	}
 		
 	public void setScreen(Screen screen) {
@@ -99,9 +100,14 @@ public class Window extends PApplet {
 		_screenToLoad = new ScreenLoader(s, filename, current);
 	}
 	
-	public void fadeOutAndIn(){
+	public void fadeOut(){
 		_fadeAlphaCurr = 0;
 		_fadeAlphaChange = GeneralConstants.FADE_SPEED;
+	}
+	
+	public void fadeIn(){
+		_fadeAlphaCurr = 255;
+		_fadeAlphaChange = -GeneralConstants.FADE_SPEED;
 	}
 		
 	public void mousePressed() {
