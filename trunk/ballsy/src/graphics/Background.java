@@ -79,6 +79,7 @@ public class Background {
 	}
 	
 	public void draw() {
+		_world = PhysicsWorld.getInstance();
 		_window.background(150);
 		Vec2[] bounds = _world.getBounds();
 		
