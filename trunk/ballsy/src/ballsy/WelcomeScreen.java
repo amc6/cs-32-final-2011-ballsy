@@ -32,10 +32,10 @@ public class WelcomeScreen extends Screen {
 //		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
 		_titleGraphic = _window.loadImage("res/ballsy_title2.png");
 
-		_newGame = new TextButton("New Game", _window.width/2, 450, DEFAULT_TEXT_COLOR, Window.CENTER);
-		_level = new TextButton("Pick Level", _window.width/2, 520, DEFAULT_TEXT_COLOR, Window.CENTER);
-		_levelEditor = new TextButton("Level Editor", _window.width/2, 590, DEFAULT_TEXT_COLOR, Window.CENTER);
-		_exit = new TextButton("Exit", _window.width/2, 660, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_newGame = new TextButton("New Game", _window.width/2, _window.height/2 + 50, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_level = new TextButton("Pick Level", _window.width/2, _window.height/2 + 120, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_levelEditor = new TextButton("Level Editor", _window.width/2, _window.height/2 + 190, DEFAULT_TEXT_COLOR, Window.CENTER);
+		_exit = new TextButton("Exit", _window.width/2, _window.height/2 + 260, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_newGame.setColor(LINK_COLOR);
 		_level.setColor(LINK_COLOR);
 		_levelEditor.setColor(LINK_COLOR);
