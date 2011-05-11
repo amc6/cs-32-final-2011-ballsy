@@ -25,7 +25,6 @@ public class ScreenLoader implements Runnable {
 		_current = current;
 	}
 
-	@Override
 	public void run() {
 		Screen screen = null;
 		switch (_screenType) {
