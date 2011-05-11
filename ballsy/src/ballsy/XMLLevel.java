@@ -89,6 +89,7 @@ public class XMLLevel extends AbstractLevel {
 		if (_myButton != null) {
 			_path =_myButton.getLevelPath();
 			_won = false;
+			_window.noCursor();
 			this.reload();
 		}
 		else {
