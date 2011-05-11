@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LEVELS_LIST>
-  <LEVEL PATH="levels/LevelOne-Final.xml" THUMBNAIL="levels/thumbs/LevelOne-Final.png"/>
-  <LEVEL PATH="levels/LevelTwo-Final.xml" THUMBNAIL="levels/thumbs/LevelTwo-Final.png"/>
-  <LEVEL PATH="levels/LevelThree-Final.xml" THUMBNAIL="levels/thumbs/LevelThree-Final.png"/>
-  <LEVEL PATH="levels/LevelFour-Final.xml" THUMBNAIL="levels/thumbs/LevelFour-Final.png"/>
-  <LEVEL PATH="levels/LevelFive-Final.xml" THUMBNAIL="levels/thumbs/LevelFive-Final.png"/>
-  <LEVEL PATH="levels/LevelSix-Final.xml" THUMBNAIL="levels/thumbs/LevelSix-Final.png"/>
+  <LEVEL PATH="levels/LevelOne-Final.ball" THUMBNAIL="levels/thumbs/LevelOne-Final.png"/>
+  <LEVEL PATH="levels/LevelTwo-Final.ball" THUMBNAIL="levels/thumbs/LevelTwo-Final.png"/>
+  <LEVEL PATH="levels/LevelThree-Final.ball" THUMBNAIL="levels/thumbs/LevelThree-Final.png"/>
+  <LEVEL PATH="levels/LevelFour-Final.ball" THUMBNAIL="levels/thumbs/LevelFour-Final.png"/>
+  <LEVEL PATH="levels/LevelFive-Final.ball" THUMBNAIL="levels/thumbs/LevelFive-Final.png"/>
+  <LEVEL PATH="levels/LevelSix-Final.ball" THUMBNAIL="levels/thumbs/LevelSix-Final.png"/>
 </LEVELS_LIST>

@@ -1,18 +1,13 @@
 package editor;
 
 import java.io.File;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
 
 import processing.core.PConstants;
 import processing.core.PImage;
-import ballsy.AbstractLevel;
-import ballsy.XMLUtil;
 
 public class SaveButton extends AbstractButton {
 
@@ -43,18 +38,22 @@ public class SaveButton extends AbstractButton {
 					// Set the current directory
 					File f = new File(new File("./levels").getCanonicalPath());
 					fc.setCurrentDirectory(f);
-
+					FileFilter type = new ExtensionFilter("Ballsy Level (*.ball)", ".ball");
+					  
+					fc.setAcceptAllFileFilterUsed(false);
+					fc.addChoosableFileFilter(type);
+			        fc.setFileFilter(type);
+			        
 					int returnVal = fc.showSaveDialog(null);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 
 						String filename = file.getName();
-						if(filename.endsWith("xml")) {
-
-							_level.setSave(filename.substring(0, filename.indexOf('.')));
-
-							
+						if(!filename.endsWith(".ball")){
+							filename = filename.concat(".ball");
 						}
+						
+						_level.setSave(filename);
 
 					}
 				}
@@ -74,7 +73,8 @@ public class SaveButton extends AbstractButton {
 	}
 	
 	public String tooltip(){
-		return "Save";
+		System.out.println("tooltip here");
+		return "Click to save your level.";
 	}
 	
 }

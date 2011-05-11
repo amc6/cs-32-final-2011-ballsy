@@ -613,8 +613,8 @@ public class EditorLevel extends AbstractLevel {
 	public void save(String name) {
 		_savefile = null;
 		this.resetSelected(null);
-		String pathname = "levels/" + name + ".xml";
-		String thumbPathname = "levels/thumbs/" + name + ".png";
+		String pathname = "levels/" + name;
+		String thumbPathname = "levels/thumbs/" + name.substring(0, name.indexOf('.')) + ".png";
 		XMLUtil.getInstance().writeFile(this, pathname);
 		this.makeThumbnail(thumbPathname);
 		XMLUtil.getInstance().addMenuButton(pathname, thumbPathname);
@@ -628,6 +628,7 @@ public class EditorLevel extends AbstractLevel {
 		_loadfile = null;
 		
 		XMLUtil.getInstance().readFile(this, name);
+		_background = new Background();
 		this.play();
 		this.stop(); //lol this gets rid of crosshair and smoke. we should probs do it more directly iunno.
 		this.centerCamera();

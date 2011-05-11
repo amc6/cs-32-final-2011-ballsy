@@ -9,8 +9,8 @@ public class EditorConstants {
 	public static final int WARNING = 1;
 	public static final int INFO = 2;
 
-	public static final int BUTTON_BORDER_WIDTH = 0;
-	public static final int BUTTON_BORDER_COLOR = Window.getInstance().color(0);
+	public static final int BUTTON_BORDER_WIDTH = 2;
+	public static final int BUTTON_BORDER_COLOR = Window.getInstance().color(0,20);
 	public static final int BUTTON_INACTIVE_COLOR = Window.getInstance().color(255,100);
 	public static final int BUTTON_ACTIVE_COLOR = Window.getInstance().color(255,200);
 	public static final int BUTTON_HOVER_COLOR = Window.getInstance().color(255,150);

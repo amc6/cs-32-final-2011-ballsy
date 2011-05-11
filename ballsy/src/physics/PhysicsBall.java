@@ -23,7 +23,7 @@ public class PhysicsBall extends PhysicsDef {
 		CircleDef circDef = new CircleDef();
 		circDef.radius = _radius;
 		// if it already exists, maintain position & rotation.
-		if (_body != null) this.createBody(circDef, this.getBodyGravityCenter(), _body.getAngle());
+		if (_body != null) this.createBody(circDef, this.getBodyWorldCenter(), _body.getAngle());
 		else this.createBody(circDef);
 	}
 	

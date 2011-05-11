@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import processing.core.PConstants;
 import processing.core.PImage;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 
 import ballsy.Window;
 import ballsy.XMLUtil;
@@ -54,11 +55,16 @@ public class LoadButton extends AbstractButton {
 				    File f = new File(new File("./levels").getCanonicalPath());
 				    fc.setCurrentDirectory(f);
 				    
+					FileFilter type = new ExtensionFilter("Ballsy Level (*.ball)", ".ball");
+					fc.setAcceptAllFileFilterUsed(false);
+					fc.addChoosableFileFilter(type);
+			        fc.setFileFilter(type);
+			        
 					int returnVal = fc.showOpenDialog(null);
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
 						String filename = file.getName();
-						if(filename.endsWith("xml")) {
+						if(filename.endsWith("ball")) {
 							_level.setLoad("levels/" + filename);
 						}
 						
@@ -88,7 +94,7 @@ public class LoadButton extends AbstractButton {
 	}
 	
 	public String tooltip(){
-		return "Load";
+		return "Click to load a saved level.";
 	}
 	
 }

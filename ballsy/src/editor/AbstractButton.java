@@ -1,10 +1,10 @@
 package editor;
 
+import static editor.EditorConstants.INFO;
 import interfascia.GUIController;
-import processing.core.PFont;
+import processing.core.PConstants;
 import ballsy.AbstractLevel;
 import ballsy.Window;
-import static editor.EditorConstants.*;
 
 public abstract class AbstractButton {
 
@@ -31,7 +31,6 @@ public abstract class AbstractButton {
 	public void display() {
 		_window.stroke(EditorConstants.BUTTON_BORDER_COLOR);
 		_window.strokeWeight(EditorConstants.BUTTON_BORDER_WIDTH);
-		_window.strokeJoin(_window.MITER);
 		
 		if (_clicked){
 			_window.fill(EditorConstants.BUTTON_ACTIVE_COLOR);
@@ -57,17 +56,7 @@ public abstract class AbstractButton {
 	}
 	
 	public void displayTooltip(){
-		if (this.mouseInBounds(_window.mouseX, _window.mouseY) || _clicked){
-//			float length = _window.textWidth(this.tooltip());
-//			
-//			_window.fill(EditorConstants.TOOLTIP_BG);
-//			_window.rect(_window.mouseX+10, _window.mouseY+10, length/4 + 15f, 22); // weird length relation
-//			_window.fill(255); // white
-//			_window.textFont(EditorConstants.TOOLTIP_FONT);
-//			_window.text(this.tooltip(),_window.mouseX+16,_window.mouseY+25);
-			
-			_editor.setErrorMessage(this.tooltip(), INFO);
-		}
+		_editor.setErrorMessage(this.tooltip(), INFO);
 	}
 		
 	public void setActive(boolean active) {

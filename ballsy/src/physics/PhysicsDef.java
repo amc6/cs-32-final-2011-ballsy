@@ -204,10 +204,6 @@ public abstract class PhysicsDef {
 		return _world.getBodyWorldCoord(_body);
 	}
 	
-	public Vec2 getBodyGravityCenter(){
-		return _body.getWorldCenter();
-	}
-	
 	public void setBodyWorldCenter(Vec2 vec){
 		_initialPos = vec;
 		if (_body != null) _body.setXForm(vec, _body.getAngle());

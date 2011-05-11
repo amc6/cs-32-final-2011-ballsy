@@ -40,7 +40,7 @@ public class NewButton extends AbstractButton {
 	}
 	
 	public String tooltip(){
-		return "New Level";
+		return "Click to start from a blank level. You will lose all unsaved changes.";
 	}
 	
 }
