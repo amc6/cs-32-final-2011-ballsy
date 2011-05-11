@@ -100,6 +100,11 @@ public abstract class AbstractLevel extends Screen {
 			_player.getGraphicsDef().setSmoke(new Smoke(_player));
 		}
 		
+		// Reset keys!
+		for (int i = 0; i < _keys.length; i++){
+			_keys[i] = false;
+		}
+		
 	}
 	
 	public void setWon() {

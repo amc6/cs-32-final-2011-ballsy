@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import ballsy.GeneralConstants;
 import ballsy.Window;
 
+import physics.PhysicsWorld;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -43,7 +44,7 @@ public class SmokeParticle {
 	// Method to update location
 	private void update() {
 		_vel.add(_acc);
-		_vel.addLocal((float) _generator.nextDouble()*100f - 50, (float) _generator.nextDouble()*100f - 50);
+		_vel.addLocal((float) _generator.nextDouble()*6 - 3, (float) _generator.nextDouble()*6 -3);
 		_loc.add(_vel);
 		_timer -= 2.5;
 		_acc = new Vec2(0,0);
@@ -54,7 +55,8 @@ public class SmokeParticle {
 		Window window = Window.getInstance();
 		window.imageMode(PConstants.CORNER);
 		window.tint(GeneralConstants.DEFAULT_SMOKE_COLOR,_timer); // set main color of trail here
-		window.image(_img,_loc.x-_img.width/2,_loc.y-_img.height/2);
+		Vec2 pixelLoc = PhysicsWorld.getInstance().coordWorldToPixels(_loc);
+		window.image(_img,pixelLoc.x-_img.width/2,pixelLoc.y-_img.height/2);
 		window.noTint(); // remove current fill value
 	}
 

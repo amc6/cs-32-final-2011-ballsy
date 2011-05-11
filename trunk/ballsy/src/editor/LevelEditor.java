@@ -57,7 +57,7 @@ public class LevelEditor extends Screen {
 	private BodyFactory _factory;
 	private GUIComponent _componentWithFocus; // managed in draw step
 	private ArrayList<GUIComponent> _components;
-	private String _blankLevelPath = "levels/GenericLevel.xml";
+	private String _blankLevelPath = "levels/GenericLevel.ball";
 	
 	@Override
 	public void setup() {
@@ -86,8 +86,8 @@ public class LevelEditor extends Screen {
 		///////// GUI STUFF: ////////////
 		
 		_errorMessage = new Text("", (int) (EditorConstants.LEFT_PANEL_WIDTH+5), _window.height-10);
-		_errorMessage.setAlign(_window.LEFT);
-		_errorMessage.setColor(_window.color(255,0,0));
+		_errorMessage.setAlign(PConstants.LEFT);
+		_errorMessage.setColor(_window.color(0));
 		_errorMessage.setSize(0); //sets to STUPID_FONT. really need to redo this shit lol.
 		
 		_mainC = new GUIController(_window,false);
@@ -634,23 +634,26 @@ public class LevelEditor extends Screen {
 	
 			_window.pushMatrix();
 	
-			_window.fill(255, 100); // white
+			_window.fill(255, 150); // white
 			_window.stroke(255, 0);
 			_window.rectMode(PConstants.CORNER);
 			_window.rect(0,0,EditorConstants.LEFT_PANEL_WIDTH,_window.height);
 			_window.rect(EditorConstants.LEFT_PANEL_WIDTH, 0, _newLevelWidth, _window.height - _newLevelHeight);
-	
+			
 			_window.translate(_window.width - _newLevelWidth, _window.height - _newLevelHeight);
-			_window.rectMode(PConstants.CORNER);
 			_window.strokeWeight(2);
 			_window.stroke(255);
+			_window.rectMode(PConstants.CORNER);
+			_window.rect(0, _newLevelHeight - 30, _newLevelWidth, 30);
 			_window.noFill();
 			_window.rect(0,0,_newLevelWidth,_newLevelHeight);
 			_window.strokeWeight(GeneralConstants.DEFAULT_LINE_WIDTH);
 			_window.popMatrix();
 	
-			_window.imageMode(_window.CORNER);
+			_window.imageMode(PConstants.CORNER);
 			_window.image(_levelEditorTitle, 45, 17);
+			
+			
 			//if hover? ... gahhjustdoitherekthnx
 			int mouseX = _window.mouseX;
 			int mouseY = _window.mouseY;
@@ -661,16 +664,18 @@ public class LevelEditor extends Screen {
 				_window.image(_levelEditorBack, -15, 18);
 			}
 
+
+			for (ButtonGroup group : _buttonGroups){
+				group.setActiveTooltip();
+			}
 			
 			for (ButtonGroup group : _buttonGroups){
 				group.display();
-			}
-			
-			for (ButtonGroup group : _buttonGroups){
 				group.displayTooltips();
 			}
 			
-			
+
+				
 			//DISPLAY CUSTOM CONTROLS
 			_objectC.setVisible(false);
 			_rectC.setVisible(false);

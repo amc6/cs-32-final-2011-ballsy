@@ -39,7 +39,7 @@ public class PlayButton extends AbstractButton {
 	}
 	
 	public String tooltip(){
-		return "Play";
+		return "Click to preview your level.";
 	}
 	
 }

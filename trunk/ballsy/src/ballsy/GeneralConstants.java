@@ -20,6 +20,6 @@ public final class GeneralConstants {
 	public static final String SMOKE_GRAPHIC = "res/smoke.png";
 	
 	/* EFFECTS CONSTANTS */
-	public static final int DEFAULT_SMOKE_COLOR = Window.getInstance().color(250,241,218,75);
+	public static final int DEFAULT_SMOKE_COLOR = Window.getInstance().color(250,241,218,100);
 	public static final int FADE_SPEED = 10;
 }

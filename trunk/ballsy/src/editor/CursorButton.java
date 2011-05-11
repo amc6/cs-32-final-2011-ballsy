@@ -28,7 +28,11 @@ public class CursorButton extends AbstractButton {
 	}
 	
 	public String tooltip(){
-		return "Click to select objects in the level.";
+		if (_level.getSelected() != null){
+			return "Drag to move the object, press SHIFT and drag to rotate, or press Z and drag to resize. Press X to snap rotation.";
+		}else{
+			return "Click on an object to select or drag to pan the level.";
+		}
 	}
 
 

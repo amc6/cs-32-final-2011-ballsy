@@ -2,6 +2,8 @@ package editor;
 
 import java.util.ArrayList;
 
+import ballsy.Window;
+
 public class ButtonGroup {
 	
 	private ArrayList<AbstractButton> _buttons;
@@ -44,7 +46,16 @@ public class ButtonGroup {
 	
 	public void displayTooltips(){
 		for (AbstractButton button : _buttons){
-			button.displayTooltip();
+			if (button.mouseInBounds(Window.getInstance().mouseX, Window.getInstance().mouseY))
+				button.displayTooltip();
+		}
+	}
+	
+	public void setActiveTooltip(){
+		for (AbstractButton button : _buttons){
+			if (button.isClicked()){
+				button.displayTooltip();
+			}				
 		}
 	}
 

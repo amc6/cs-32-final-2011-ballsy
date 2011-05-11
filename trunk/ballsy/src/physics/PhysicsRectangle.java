@@ -26,7 +26,7 @@ public class PhysicsRectangle extends PhysicsDef {
 		if (this.getBody() == null)
 			this.createBody(polygonDef);
 		else
-			this.createBody(polygonDef, this.getBodyGravityCenter(), this.getBody().getAngle());
+			this.createBody(polygonDef, this.getBodyWorldCenter(), this.getBody().getAngle());
 	}
 
 	/**
