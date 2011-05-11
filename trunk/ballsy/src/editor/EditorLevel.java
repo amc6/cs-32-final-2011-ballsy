@@ -337,7 +337,7 @@ public class EditorLevel extends AbstractLevel {
 					if (dcxn < 0) rdx = -rdx;
 					if (dcxy < 0) rdy = -rdy;
 					// FINALLY actually do the resize
-					if (/*_rotating*/ false) { 
+					if (/*_rotating*/ false) { //remove false if code is fixed
 						Vec2 bodyPixelCenter = _selectedBody.getPixelPosition();
 						float mouseX = _window.mouseX;
 						float mouseY = _window.mouseY;
@@ -415,11 +415,11 @@ public class EditorLevel extends AbstractLevel {
 	private void resetSelected(AbstractBody newSelected) {
 		if (!_selectingPoints) {
 			// if we're not making a path
-			if (_selectedBody != null && _selectedBody != newSelected) 
-				_selectedBody.getGraphicsDef().setColor(_previousColor);
+			if (_selectedBody != null && _selectedBody != newSelected) {
+				_selectedBody.getGraphicsDef().setSelected(false);
+			}
 			if (newSelected != null && _selectedBody != newSelected) {
-				_previousColor = newSelected.getGraphicsDef().getColor();
-				newSelected.getGraphicsDef().setColor(SELECTED_COLOR);
+				newSelected.getGraphicsDef().setSelected(true);
 			}
 			_selectedBody = newSelected;
 			// if the new body exists, move it to the end of the array, so it's drawn last.

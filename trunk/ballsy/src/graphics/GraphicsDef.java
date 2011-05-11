@@ -17,6 +17,7 @@ public abstract class GraphicsDef {
 	protected Smoke _smoke;
 	protected int _strokeWeight;
 	protected int _strokeColor;
+	private boolean _selected = false;
 			
 	public void setPhysicsDef(PhysicsDef physicsDef){
 		_physicsDef = physicsDef;
@@ -32,6 +33,14 @@ public abstract class GraphicsDef {
 	
 	public void setSmoke(Smoke smoke){
 		_smoke = smoke;
+	}
+	
+	public void setSelected(boolean b) {
+		_selected = b;
+	}
+	
+	public boolean getSelected() {
+		return _selected;
 	}
 	
 	public Smoke getSmoke(){
@@ -52,9 +61,25 @@ public abstract class GraphicsDef {
 		_color = w.color(r, g, b);
 	}
 	
+	public void setColor(int val, int opacity) {
+		Window w= Window.getInstance();
+		int r = (val & 0x00ff0000) >> 16;
+		int g = (val & 0x0000ff00) >> 8;
+		int b = val & 0x000000ff;
+		_color = w.color(r, g, b, opacity);
+	}
+	
 	public void setStrokeWeightAndColor(int weight, int color) {
 		_strokeWeight = weight;
 		_strokeColor = color;
+	}
+	
+	public void setStrokeWeightAndColor(int weight, int val, int opacity) {
+		_strokeWeight = weight;
+		int r = (val & 0x00ff0000) >> 16;
+		int g = (val & 0x0000ff00) >> 8;
+		int b = val & 0x000000ff;
+		_strokeColor = Window.getInstance().color(r, g, b, opacity);
 	}
 	
 	/**

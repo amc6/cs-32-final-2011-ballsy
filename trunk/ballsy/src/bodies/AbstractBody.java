@@ -29,6 +29,7 @@ public abstract class AbstractBody {
 	private boolean _grappleable = true;
 	private boolean _isEndpoint = false;
 	private boolean _deadly = false;
+	private int SELECTED_OPACITY = 200;
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 
@@ -61,16 +62,20 @@ public abstract class AbstractBody {
 //			
 //		}
 		if (_grappleable) {
-			_graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR);
+			if (!_graphicsDef.getSelected()) _graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR);
+			else _graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR, SELECTED_OPACITY);
 		}
 		else {
-			_graphicsDef.setStrokeWeightAndColor(UNGRAPPLEABLE_STROKE_WEIGHT,UNGRAPPLEABLE_BORDER_COLOR);
+			if (!_graphicsDef.getSelected()) _graphicsDef.setStrokeWeightAndColor(UNGRAPPLEABLE_STROKE_WEIGHT,UNGRAPPLEABLE_BORDER_COLOR);
+			else _graphicsDef.setStrokeWeightAndColor(UNGRAPPLEABLE_STROKE_WEIGHT,UNGRAPPLEABLE_BORDER_COLOR, SELECTED_OPACITY);
 		}
 		if (_deadly) {
-			_graphicsDef.setColor(DEADLY_FILL_COLOR);
+			if (!_graphicsDef.getSelected()) _graphicsDef.setColor(DEADLY_FILL_COLOR);
+			else _graphicsDef.setColor(DEADLY_FILL_COLOR, SELECTED_OPACITY);
 		}
 		else {
-			_graphicsDef.setColor(NOT_DEADLY_FILL_COLOR);
+			if (!_graphicsDef.getSelected()) _graphicsDef.setColor(NOT_DEADLY_FILL_COLOR);
+			else _graphicsDef.setColor(NOT_DEADLY_FILL_COLOR, SELECTED_OPACITY);
 		}
 		_graphicsDef.display();
 	}
