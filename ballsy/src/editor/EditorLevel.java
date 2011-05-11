@@ -270,10 +270,11 @@ public class EditorLevel extends AbstractLevel {
 	public void mouseDragged() {
 		if (_running) super.mouseDragged();
 		else {
+			System.out.println("placeMode: " + _placeMode);
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
 			float distY = _window.mouseY - _lastMouseY;
-			if (_selectedBody != null && !_selectingPoints && !_rotating && !_resizing) {
+			if (_selectedBody != null && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
 				// we're dragging a body around
 				PhysicsDef physDef = _selectedBody.getPhysicsDef();
 				float xNew = physDef.getBody().getXForm().position.x - _world.scalarPixelsToWorld(distX);
@@ -309,7 +310,8 @@ public class EditorLevel extends AbstractLevel {
 				// set angle
 				float angle = _selectedBody.getPhysicsDef().getBody().getAngle();
 				_selectedBody.getPhysicsDef().setRotation(angle + angleDiff);
-			} else if (_selectedBody != null && _resizing) {
+			} else if (_selectedBody != null && (_resizing || _placeMode)) {
+				System.out.println("resizing!");
 				// resizing object. Respond depending on what it is.
 				float distXW = - _world.scalarPixelsToWorld(distX);
 				float distYW = - _world.scalarPixelsToWorld(distY);
@@ -386,8 +388,14 @@ public class EditorLevel extends AbstractLevel {
 						rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (distCXN-distCX)/2, rectPhysDef.getBodyWorldCenter().y + (distCYN-distCY)/2));
 					}
 				} else if (_selectedBody.getPhysicsDef() instanceof PhysicsPolygon) {
+					System.out.println("resizing physicspolygon");
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
-					float ratio = Math.abs((distLast + distTotal) / distLast); // so no mirroring with a negative ratio
+					float ratio = 1;
+					if (distLast != 0) {
+						ratio = Math.abs((distLast + distTotal) / distLast); // so no mirroring with a negative ratio
+					}
+					System.out.println("distlast:" + distLast);
+					System.out.println("ratio:" + ratio);
 					PhysicsPolygon polyPhysDef = (PhysicsPolygon) _selectedBody.getPhysicsDef();
 					polyPhysDef.scalePoints(ratio); // will check for size and not execute if it'll be too small
 				}
@@ -404,6 +412,7 @@ public class EditorLevel extends AbstractLevel {
 		AbstractBody newShape = _factory.getBody(pos);
 		_bodies.add(newShape);
 		_previousColor = newShape.getGraphicsDef().getColor(); // because we're selecting it while it's placed
+		_selectedBody = newShape;
 		return newShape;
 	}
 	
