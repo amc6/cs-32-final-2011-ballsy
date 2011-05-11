@@ -218,7 +218,7 @@ public class UserBall extends AbstractBody {
 			} else {
 				// it's a real level. make shit happen
 //				_window.loadScreen(Screens.WELCOME_SCREEN);
-				AbstractLevel.getInstance().setLost();
+				AbstractLevel.getInstance().setWon();
 
 			}
 		}
@@ -229,7 +229,7 @@ public class UserBall extends AbstractBody {
 				((EditorLevel) AbstractLevel.getInstance()).stop();
 			} else if (AbstractLevel.getInstance() instanceof XMLLevel){
 				// it's a real level. make shit happen
-				((XMLLevel) AbstractLevel.getInstance()).reload();
+				_window.fadeOut();
 			}
 		}
 	}
