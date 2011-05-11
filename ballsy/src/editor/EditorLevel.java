@@ -194,7 +194,7 @@ public class EditorLevel extends AbstractLevel {
 		// if rotating, draw a line of rotation...
 		_window.fill(80);
 		_window.stroke(80);
-		if (_rotating && _rotationCenter != null) _window.line(_world.worldXtoPixelX(_rotationCenter.x), _world.worldYtoPixelY(_rotationCenter.y), _window.mouseX, _window.mouseY);
+		if (_rotating && _rotationCenter != null && !_resizing) _window.line(_world.worldXtoPixelX(_rotationCenter.x), _world.worldYtoPixelY(_rotationCenter.y), _window.mouseX, _window.mouseY);
 
 		if (_savefile != null){
 			this.save(_savefile);
@@ -301,7 +301,7 @@ public class EditorLevel extends AbstractLevel {
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
 				_world.moveCamera(distX, distY);
-			} else if (_selectedBody != null && _rotating && _rotationCenter != null) {
+			} else if (_selectedBody != null && _rotating && _rotationCenter != null && !_resizing) {
 				// we're rotating the object. Calculate the angle...
 				float angleNow = (float) Math.atan2(_world.pixelYtoWorldY(_window.mouseY) - _rotationCenter.y, (_world.pixelXtoWorldX(_window.mouseX) - _rotationCenter.x));
 				float angleBefore = (float) Math.atan2(_world.pixelYtoWorldY(_lastMouseY) - _rotationCenter.y, (_world.pixelXtoWorldX(_lastMouseX) - _rotationCenter.x));
@@ -337,10 +337,54 @@ public class EditorLevel extends AbstractLevel {
 					if (dcxn < 0) rdx = -rdx;
 					if (dcxy < 0) rdy = -rdy;
 					// FINALLY actually do the resize
-					if (rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE)
-						rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy * 2);
-					if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
-						rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx * 2);
+					if (/*_rotating*/ false) { 
+						Vec2 bodyPixelCenter = _selectedBody.getPixelPosition();
+						float mouseX = _window.mouseX;
+						float mouseY = _window.mouseY;
+						float mouseAngle = (float) -Math.atan2(mouseY-bodyPixelCenter.y, mouseX-bodyPixelCenter.x);
+						float rotatedMouseAngle = (float) mouseAngle + rectRotAng;
+						rotatedMouseAngle = (float) (((rotatedMouseAngle % (Math.PI*2)) + (Math.PI*2)) % (Math.PI*2));
+						System.out.println("angle:" + Math.toDegrees(mouseAngle));
+						System.out.println("rotation" + Math.toDegrees(rectRotAng));
+						System.out.println("rotated angle:" + Math.toDegrees(rotatedMouseAngle));
+						float xAngInc = 0, yAngInc = 0;
+						if (0<rotatedMouseAngle && rotatedMouseAngle<Math.PI/2) {
+							//quadrant 1
+							xAngInc = 0;
+							yAngInc = (float) (Math.PI/2);
+						}
+						else if (Math.PI/2<rotatedMouseAngle && rotatedMouseAngle<Math.PI) {
+							//quadrant 2
+							xAngInc = (float) (Math.PI/2);
+							yAngInc = (float) (Math.PI);
+						}
+						else if (Math.PI<rotatedMouseAngle && rotatedMouseAngle<3*Math.PI/2) {
+							//quadrant 3
+							xAngInc = (float) (Math.PI);
+							yAngInc = (float) (3*Math.PI/3);
+						}
+						else if (3*Math.PI/2<rotatedMouseAngle && rotatedMouseAngle<2*Math.PI) {
+							//quadrant 4
+							xAngInc = (float) (3*Math.PI/3);
+							yAngInc = (float)  (2*Math.PI);
+						}
+						
+						// if they're also pressing shift, we'll only resize in the direction primarily pulled
+						if (Math.abs(rdy) > Math.abs(rdx) && rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE) { // resize height
+							rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy);// move it in the direction of the cursor
+							rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (float) (rdy/2 * Math.cos(rectRotAng+xAngInc)), rectPhysDef.getBodyWorldCenter().y + (float) (rdy/2 * Math.sin(rectRotAng+yAngInc))));
+						} else if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE) { // resize width
+							rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
+							rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (float) (rdx/2 * Math.cos(rectRotAng+xAngInc)), rectPhysDef.getBodyWorldCenter().y + (float) (rdx/2 * Math.sin(rectRotAng+yAngInc))));
+						}
+					} else {
+						// just resize as expected
+						if (rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE)
+							rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy);
+						if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
+							rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
+						rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (distCXN-distCX)/2, rectPhysDef.getBodyWorldCenter().y + (distCYN-distCY)/2));
+					}
 				} else if (_selectedBody.getPhysicsDef() instanceof PhysicsPolygon) {
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
 					float ratio = Math.abs((distLast + distTotal) / distLast); // so no mirroring with a negative ratio
@@ -424,6 +468,22 @@ public class EditorLevel extends AbstractLevel {
 					this.resetSelected(null);
 				}
 				break;
+			case 'x':
+				// snap shape to nearest rotation
+				if (_selectedBody != null && _selectedBody instanceof Rectangle) {
+					float offset = (float) (_selectedBody.getPhysicsDef().getBody().m_sweep.a % (Math.PI/2));
+					if (Math.abs(offset) < Math.PI/4) {
+						// subtract
+						_selectedBody.getPhysicsDef().setRotation(_selectedBody.getPhysicsDef().getRotation() - offset);
+					} else {
+						// add
+						_selectedBody.getPhysicsDef().setRotation((float) (_selectedBody.getPhysicsDef().getRotation() + (Math.PI/2 - offset)));
+					}
+				}
+				break;
+			case 'z':
+				// user pressed z to resize
+				_resizing = true;
 			}
 			// other shit (backspace, and other non character keys)
 			if (_window.key == 27) {
@@ -433,10 +493,7 @@ public class EditorLevel extends AbstractLevel {
 			} else if (_window.keyCode == PConstants.SHIFT) {
 				// user has pressed shift
 				_rotating = true;
-			} else if (_window.key == 'z') {
-				// user pressed z to resize
-				_resizing = true;
-			}
+			} 
 		}
 	}
 	
