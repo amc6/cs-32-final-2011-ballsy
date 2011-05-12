@@ -200,6 +200,7 @@ public abstract class AbstractBody {
 	 */
 	public void setEndpoint(boolean b) {
 		_isEndpoint = b;
+		if (b) _grappleable = false;
 	}
 	
 	public boolean isEndpoint() {

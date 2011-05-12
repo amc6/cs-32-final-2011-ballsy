@@ -564,7 +564,6 @@ public class LevelEditor extends Screen {
 		else if (e == _sides) {
 			if (LevelEditor.isPositive(_sides.getValue(), 3)){ // minimum of three sides
 				// assume we're not selecting anything
-				System.out.println("got here!");
 				_factory.polyPointCount = Integer.parseInt(_sides.getValue());
 			}
 		}
@@ -732,13 +731,9 @@ public class LevelEditor extends Screen {
 				_level.stop();
 			} else _level.keyPressed();
 		} else if (_level.selectingPoints()) {
-			_level.clearPoints();
+			//_level.clearPoints(); (why was this here???!)
 			this.updateFieldValues();
 		}
-//		else if (_window.key == 27) { //esc takes us back to welcome screen
-//			_window.key = 0;
-//			_window.loadScreen(Screens.WELCOME_SCREEN);
-//		}
 		
 		_level.keyPressed();
 	}
@@ -902,6 +897,16 @@ public class LevelEditor extends Screen {
 		_gravityX.setValue(_level.getGravity().x);
 		_gravityY.setValue(_level.getGravity().y);
 
+	}
+	
+	public void setCursorButton(boolean b) {
+		_cursorButton.setActive(b);
+		if (b) {
+			_rectButton.setActive(false);
+			_triangleButton.setActive(false);
+			_irregPolyButton.setActive(false);
+			_ballButton.setActive(false);
+		}
 	}
 
 //	public static void main(String[] args){

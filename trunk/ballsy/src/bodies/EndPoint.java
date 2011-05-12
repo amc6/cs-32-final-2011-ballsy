@@ -14,9 +14,7 @@ public class EndPoint extends AbstractBody{
 	}
 	
 	public EndPoint(float x, float y, float width, float height) {
-		//PhysicsRegularPolygon physics = new PhysicsRegularPolygon(x, y, 8, ENDPOINT_SIZE);
 		PhysicsRectangle physics = new PhysicsRectangle(x,y,width,height);
-		//GraphicsPolygon graphics = new GraphicsPolygon(ENDPOINT_COLOR);
 		GraphicsImage graphics = new GraphicsImage(ENDPOINT_IMAGE);
 		this.setPhysicsAndGraphics(physics, graphics);
 		this.setEndpoint(true);

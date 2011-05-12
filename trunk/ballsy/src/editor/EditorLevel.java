@@ -12,38 +12,30 @@ import physics.PhysicsBall;
 import physics.PhysicsDef;
 import physics.PhysicsPolygon;
 import physics.PhysicsRectangle;
-import physics.PhysicsRegularPolygon;
-import physics.PhysicsWorld;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.AbstractLevel;
 import ballsy.XMLUtil;
 import bodies.AbstractBody;
 import bodies.Ball;
-import bodies.BodyConstants;
 import bodies.EndPoint;
-import bodies.IrregularPolygon;
 import bodies.Rectangle;
-import bodies.RegularPolygon;
 import bodies.UserBall;
 import graphics.Background;
 import graphics.TrackingCamera;
 
 public class EditorLevel extends AbstractLevel {
-	private final int SELECTED_COLOR = _window.color(100, 100, 100);
 	private final float MINIMUM_SIZE = 1; // radius or width-or-height/2
 	private Background _background;
 	private boolean _running = false;
 	private float _minX, _minY, _maxX, _maxY;
 	private float _lastMouseX, _lastMouseY;
 	private Element _savedState;
-	//private int _savedTransX, _savedTransY;
 	private AbstractBody _selectedBody;
 	private boolean _placeMode = false; // either placing or modifying (or running, I guess)
 	private BodyFactory _factory;
 	private ArrayList<Vec2> _selectedPoints; // WORLD positions of selected points
 	private boolean _selectingPoints = false;
-	private int _previousColor;
 	private TrackingCamera _camera;
 	private boolean _rotating = false;
 	private Vec2 _rotationCenter;
@@ -61,21 +53,9 @@ public class EditorLevel extends AbstractLevel {
 	}
 	
 	public void setup() {
-		//setupWorld(-100, -100, 100, 100);
 		setupWorld(0,0,200,200);
 		_background = new Background();
-		// make a player
-//		_player = new UserBall(100, 50, USER_RADIUS);
-//		_bodies.add(_player);
-//		_player.setInPlay(false);
-//		_player.getGraphicsDef().setSmoke(null);
 		_paused = true;
-		// make an endpoint offset to the right of the body
-		//EndPoint ep = new EndPoint(BodyConstants.USER_RADIUS * 5, 0);
-//		EndPoint ep = new EndPoint(120,50);
-//		_bodies.add(ep);
-//		Vec2 pos = _player.getWorldPosition();
-//		_world.centerCameraOn(pos.x,pos.y);
 	}
 	
 	/**
@@ -132,7 +112,6 @@ public class EditorLevel extends AbstractLevel {
 		_maxX = maxX;
 		_maxY = maxY;
 		// set up the physics world && bodies
-//		_world = new PhysicsWorld(_window); //DON'T CALL THIS!!!!
 		_world.createWorld(minX, minY, maxX, maxY);
 		_world.setGravity(_gravity.x, _gravity.y);
 		_bodies = new ArrayList<AbstractBody>();
@@ -239,7 +218,7 @@ public class EditorLevel extends AbstractLevel {
 				} else if (_placeMode) {
 					// we're placing something, make call to placeObject
 					Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
-					if (_world.contains(newPos)) this.placeBody(newPos); // don't select it anymore
+					if (_world.contains(newPos)) this.placeBody(newPos);
 				} else {
 					// we're selecting stuff or moving
 					// set selected object to object under mousepress, or null if none
@@ -411,8 +390,10 @@ public class EditorLevel extends AbstractLevel {
 	private AbstractBody placeBody(Vec2 pos) {
 		AbstractBody newShape = _factory.getBody(pos);
 		_bodies.add(newShape);
-		_previousColor = newShape.getGraphicsDef().getColor(); // because we're selecting it while it's placed
-		_selectedBody = newShape;
+		_editor.setCursorButton(true);
+		this.clearPoints();
+		_placeMode = false;
+		this.resetSelected(newShape);
 		return newShape;
 	}
 	
@@ -496,9 +477,13 @@ public class EditorLevel extends AbstractLevel {
 			}
 			// other shit (backspace, and other non character keys)
 			if (_window.key == 27) {
-				// clear points if we're setting if they press esc
 				_window.key = 0;
-				this.clearPoints(); // abandonded click creation prematurely!
+				// clear points if we're setting if they press esc
+				if (_selectingPoints) {
+					this.clearPoints(); // abandonded click creation prematurely!
+					if (_placeMode) this.startPoints(); // start the points again if they're making a polygon
+					else _editor.updateFieldValues(); // else change the path buttonb back.
+				}
 			} else if (_window.keyCode == PConstants.SHIFT) {
 				// user has pressed shift
 				_rotating = true;
@@ -532,13 +517,14 @@ public class EditorLevel extends AbstractLevel {
 			// finish/create the polygon
 			_selectingPoints = false;
 			Vec2 center = PointMath.getCenter(_selectedPoints);
+			AbstractBody newBody = null;
 			if (_world.contains(center) && _selectedPoints.size() > 2) {
 				_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
 				_factory.setBody(BodyFactory.IPOLY);
-				_selectedBody = this.placeBody(center);
+				newBody = this.placeBody(center);
 			}
-			this.resetSelected(null);			
-			this.startPoints(); // allow the user to start a new polygon
+//			this.resetSelected(newBody);
+//			_placeMode = false;
 		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
 			// stop selecting points, apply selected for pathing
 			_selectingPoints = false;
