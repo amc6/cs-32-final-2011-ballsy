@@ -1,5 +1,11 @@
 package ballsy;
 
+/**
+ * The implementation of the Processing PApplet, as a full screen window.
+ * Handles screen management, top level drawing stuff, fading, some collision
+ * stuff, and passes all input methods down to the current screen.
+ */
+
 import graphics.Text;
 
 import java.awt.Dimension;
@@ -20,6 +26,7 @@ public class Window extends PApplet {
 	private Screen _screen;
 	private ScreenLoader _screenToLoad;
 	private Dimension _screenSize;
+	// for fading
 	private int _fadeAlphaChange;
 	private int _fadeAlphaCurr; 
 
@@ -39,18 +46,21 @@ public class Window extends PApplet {
 
 	}
 	
+	/**
+	 * Draw the current screen, manage fading
+	 */
 	public void draw() {
-		
+		// load a screen if needed
 		if (_screenToLoad != null){		
 			_screen = null;
 			_screenToLoad.run();
 			_screenToLoad = null;
 		}
-		
+		// draw the screen, handling fading
 		if (_screen != null){
 			if (_fadeAlphaChange <= 0) // if not fading out
-				_screen.draw();
-			
+				_screen.draw(); // simply draw it
+			// else, handle fading
 			if (_fadeAlphaChange != 0){
 				_fadeAlphaCurr += _fadeAlphaChange;
 				if (_fadeAlphaCurr < 0) _fadeAlphaCurr = 0;
@@ -75,6 +85,10 @@ public class Window extends PApplet {
 		
 	}
 		
+	/**
+	 * Set the current screen to the parameter screen
+	 * @param screen
+	 */
 	public void setScreen(Screen screen) {
 		if (_screen != null) {
 			_screen.onClose(); // close current screen
@@ -82,10 +96,21 @@ public class Window extends PApplet {
 		_screen = screen;
 	}
 	
+	/**
+	 * Load the indicated screen, using null values (for non-XMLLevels)
+	 * @param s
+	 */
 	public void loadScreen(Screens s) {
 		this.loadScreen(s, null, null);
 	}
 	
+	/**
+	 * Load a new screen with specified filename and current menubutton.
+	 * Will probably be an XMLLevel, but this is handled by ScreenLoader
+	 * @param s
+	 * @param filename
+	 * @param current
+	 */
 	public void loadScreen(Screens s, String filename, MenuButton current) {
 		
 		if (_screen != null)
@@ -109,7 +134,9 @@ public class Window extends PApplet {
 		_fadeAlphaCurr = 255;
 		_fadeAlphaChange = -GeneralConstants.FADE_SPEED;
 	}
-		
+	
+	/* All following are processing input stuff, we want to pass it down to the current screen */
+	
 	public void mousePressed() {
 		if (_screen != null)
 			_screen.mousePressed();
@@ -149,6 +176,7 @@ public class Window extends PApplet {
 	public void removeContact(ContactPoint cp) { }
 	public void resultContact(ContactResult cr) { }
 	
+	/** return singleton instance **/
 	public static Window getInstance(){
 		return WINDOW;
 	}

@@ -1,5 +1,9 @@
 package ballsy;
 
+/**
+ * Top level class for the application. Handles version checking, and launching of the PApplet
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,13 +25,13 @@ public class App {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, URISyntaxException {
-		
+		// make the eventual textbox the current OS's theme
 		try { 
 			  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
 		} catch (Exception e) { 
 			  e.printStackTrace();  
 		} 
-		
+		/* check online (if online) if this version is up to date. if so, run it, else, notify. */
 		int runCode = 0; // by default, just run Ballsy
 		try {
 			// check this copy's version number against the online version, if online.
@@ -62,7 +66,7 @@ public class App {
 			System.out.println("No version information available.");
 			e.printStackTrace();
 		}
-		// doo dee right ting
+		// do the right thing
 		if (runCode == 1) {
 			// open the website
 			java.awt.Desktop.getDesktop().browse(new URI("http://www.beballsy.com"));
@@ -71,18 +75,26 @@ public class App {
 			PApplet.main(new String[] { "--present", "ballsy.Window" });
 		}
 	}
-
+	
+	/**
+	 * Provided a string str and a size, this will insert new lines at the closest spaces
+	 * after the character length provided. Wraps the content of the message box, so we can
+	 * have bug-fix notifications of unlimited length.
+	 * @param str
+	 * @param size
+	 * @return
+	 */
 	private static String wrapKinda(String str, int size) {
 		String[] lines = str.split("\n");
 		String output = "";
-		for (String s : lines) {
-			if (output.length() > 0) output = output + "\n";
+		for (String s : lines) { // break it up
+			if (output.length() > 0) output = output + "\n"; // add a new line after first
 			if (s.length() > size) {
 				int position = size;
 				while (!s.substring(position, position+1).equals(" ") && position+1 < s.length()) position ++;
 				if (position != s.length() - 1) position ++;
 				output = output + s.substring(0, position) + "\n" + wrapKinda(s.substring(position, s.length()), size);
-			} else output = output + s;
+			} else output = output + s; // else just add it
 		}
 		return output;
 	}

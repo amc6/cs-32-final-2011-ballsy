@@ -1,5 +1,11 @@
 package ballsy;
 
+/** 
+ * The screen which the user sees first, allowing a "new game", selection of level,
+ * access of the level editor, and exit of ballsy. Has awesome graphical background, 
+ * with clouds and whatnot
+ */
+
 import graphics.HoverImage;
 import graphics.ScreenBackground;
 import graphics.TextButton;
@@ -17,21 +23,19 @@ public class WelcomeScreen extends Screen {
 	HoverImage _newGraphic, _newGraphicHover, _levelsGraphic, _levelsGraphicHover;
 	TextButton _newGame, _level, _levelEditor, _exit;
 	private ScreenBackground _background;
-	
+	// constants pertaining to this screen specifically
 	public static final int DEFAULT_TEXT_COLOR = 245;
-	
 	public static final int ACTIVE_LINK_COLOR = Window.getInstance().color(245,184,0);
 	public static final int LINK_COLOR = Window.getInstance().color(252,237,152);
 
-	
+	/**
+	 * prepare the screen
+	 */
 	public void setup() {
 		_window = Window.getInstance();
-		_window.cursor(); // make the cursor visible
-		//_newGraphic = new HoverImage(_window, "res/new_game.png", "res/new_game_hover.png", 289, 56, _window.width/2, 450);
-		//_levelsGraphic = new HoverImage(_window, "res/pick_level.png", "res/pick_level_hover.png", 289, 53, _window.width/2, 520);
-//		_titleGraphic = new Image(_window, "res/ballsy_title.png", 661, 309, _window.width/2, 300);
+		_window.cursor(); 
 		_titleGraphic = _window.loadImage("res/ballsy_title2.png");
-
+		// setup the buttons
 		_newGame = new TextButton("New Game", _window.width/2, _window.height/2 + 50, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_level = new TextButton("Pick Level", _window.width/2, _window.height/2 + 120, DEFAULT_TEXT_COLOR, Window.CENTER);
 		_levelEditor = new TextButton("Level Editor", _window.width/2, _window.height/2 + 190, DEFAULT_TEXT_COLOR, Window.CENTER);
@@ -46,13 +50,12 @@ public class WelcomeScreen extends Screen {
 		_levelEditor.setActiveColor(ACTIVE_LINK_COLOR);
 		_exit.setActiveColor(ACTIVE_LINK_COLOR);
 		
-
 		_background = new ScreenBackground();
-		//so jessica can listen to her own music... we need a mute feature
-//		AudioClip clip = new AudioClip("res/titlebg.wav");
-//		clip.start();
 	}
 	
+	/**
+	 * handle drawing stuff, including background and menu buttons
+	 */
 	public void draw() {
 		_window.cursor();
 		_window.background(50,200,200);
@@ -60,10 +63,6 @@ public class WelcomeScreen extends Screen {
 		
 		// put stuff in the middle
 		_window.imageMode(PConstants.CENTER);
-		
-		// draw graphics
-//		_titleGraphic.draw();
-		
 		
 		_window.image(_titleGraphic, _window.width/2, _window.height/2-70);
 		_newGame.draw();
@@ -73,51 +72,38 @@ public class WelcomeScreen extends Screen {
 		
 	}
 	
+	/**
+	 * Manage mouse press, taking th eproper action
+	 */
 	public void mousePressed() {
-
-		//if (_newGraphic.mouseOver()) {
+		// load a new game
 		if (_newGame.mouseOver()) {
-			// temporary... Matt's gonna do some shit with TestObjects.
-			// set to Level for now
-			//_window.setScreen(new LevelOne());
-//			_window.loadScreen(Screens.LEVEL_ONE);
-//			_window.loadLevel("default.xml");
-			
 			Vector<MenuButton> buttons = XMLUtil.getInstance().loadMenuButtons(false);
 			MenuButton first = buttons.firstElement();
 			_window.loadScreen(Screens.XML_LEVEL, first.getLevelPath(), first);
-			
 		}
-		
+		// open the level viewer
 		if (_level.mouseOver()) {
 			_window.loadScreen(Screens.LEVEL_MENU);
 		}
+		// open the level editor
 		if (_levelEditor.mouseOver()) {
 			_window.loadScreen(Screens.LEVEL_EDITOR);
 		}
+		// exit Ballsy
 		if (_exit.mouseOver()) {
 			System.exit(0);
 		}
 	}
 	
-	public void mouseReleased() {
-
-	}
+	public void mouseReleased() { }
 
 	@Override
-	public void keyPressed() {
-		// TODO Auto-generated method stub
-	}
+	public void keyPressed() { }
 
 	@Override
-	public void keyReleased() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased() { }
 
 	@Override
-	public void mouseDragged() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseDragged() { }
 }

@@ -1,21 +1,19 @@
 package ballsy;
 
+/**
+ * Superclass for all levels. Handles the Singleton, pausing, collisions, control input, and more.
+ */
+
 import graphics.Smoke;
 import graphics.Text;
 
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import ddf.minim.AudioPlayer;
-import ddf.minim.AudioSample;
-import ddf.minim.Minim;
-
 import physics.PhysicsWorld;
-import processing.core.PConstants;
 import bodies.AbstractBody;
 import bodies.UserBall;
 
@@ -32,13 +30,14 @@ public abstract class AbstractLevel extends Screen {
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
 	protected WinScreen _winScreen = new WinScreen(this);
-	protected static Text _debug = new Text("",100,100);
+	protected static Text _debug = new Text("",100,100); // for println to screen
 
-	
+	/** sets this as the current instance of level in the singleton **/
 	public void setInstance(){
 		LEVEL = this;
 	}
 	
+	/** returns singleton **/
 	public static AbstractLevel getInstance(){
 		return LEVEL;
 	}
@@ -90,6 +89,9 @@ public abstract class AbstractLevel extends Screen {
 		return returnBody;
 	}
 	
+	/**
+	 * Switch paused variables in level and player, turn smoke on/off
+	 */
 	public void togglePaused() {
 		_paused = !_paused;
 		if (_paused) {
@@ -110,13 +112,14 @@ public abstract class AbstractLevel extends Screen {
 		
 	}
 	
+	/** handle winning, partially overridden for unlocking **/
 	public void setWon() {
 		_window.cursor();
 		_won = true;
 	}
 	
 	/**
-	 * Handle keypresses (through Processing).
+	 * Handle keypresses, of both arrow keys and WASD
 	 * Overrides escape keypress, and handles sets the boolean array when control keys are pressed
 	 * 
 	 */
@@ -125,7 +128,6 @@ public abstract class AbstractLevel extends Screen {
 		// handle esc keypress
 		if(_window.key == 27) {
 			_window.key = 0;
-			//_paused = !_paused;
 			if (!_won) this.togglePaused();
 		}
 		// handle control keypresses
@@ -230,6 +232,10 @@ public abstract class AbstractLevel extends Screen {
 		return _paused;
 	}
 	
+	/**
+	 * For debugging purposes, print a line to the visable level.
+	 * @param m
+	 */
 	public static void println(String m) {
 		System.out.println("FROM SCREEN: " + m);
 		String s = _debug.getText() + m;

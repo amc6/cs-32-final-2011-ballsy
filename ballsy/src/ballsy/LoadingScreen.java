@@ -1,5 +1,9 @@
 package ballsy;
 
+/**
+ * Simple class to provide a basic "Loading..." screen when the user is waiting for things.
+ */
+
 import graphics.Text;
 
 public class LoadingScreen extends Screen {
@@ -18,36 +22,26 @@ public class LoadingScreen extends Screen {
 	}
 
 	@Override
-	public void setup() {
-	}
+	public void setup() { }
 
 	@Override
-	public void draw() {
-//			_window.noCursor();
-//			_window.background(50,200,200);
-//			_message.draw();
-
-	}
+	public void draw() { }
 
 	@Override
-	public void mousePressed() {
-	}
+	public void mousePressed() { }
 
 	@Override
-	public void mouseReleased() {
-	}
+	public void mouseReleased() { }
 
 	@Override
 	public void keyPressed() {
-		_message.setText("Pressing Keys Won't Make This Go Any Quicker");
+		_message.setText("Pressing Keys Won't Make This Go Any Quicker"); // snark ++
 	}
 
 	@Override
-	public void keyReleased() {
-	}
+	public void keyReleased() { }
 
 	@Override
-	public void mouseDragged() {
-	}
+	public void mouseDragged() { }
 
 }
