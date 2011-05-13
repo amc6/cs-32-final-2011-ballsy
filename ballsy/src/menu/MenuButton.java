@@ -1,5 +1,7 @@
 package menu;
 
+import org.jbox2d.common.Vec2;
+
 import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
 import ballsy.XMLLevel;
@@ -22,6 +24,10 @@ public class MenuButton {
 		_thumbnailPath = thumbPath;
 		_thumbnail = _window.loadImage(thumbPath);
 		_nextLevelPath = null;
+	}
+	
+	public Vec2 getPosition() {
+		return new Vec2(_minX, _minY);
 	}
 	
 	public void setPosition(int x, int y) {

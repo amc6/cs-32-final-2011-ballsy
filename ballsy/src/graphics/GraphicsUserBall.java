@@ -30,11 +30,9 @@ public class GraphicsUserBall extends GraphicsDef {
 		window.rotate(-a);
 		window.fill(this.getColor());
 		window.stroke(0);
-		if (_image == null) _image = new Image(Window.getInstance(), "res/beachball.png", this.getPixelRadius()*2, this.getPixelRadius()*2);
-
+		if (_image == null) _image = new Image("res/beachball.png",0,0);
 		_image.draw();
 		
-	
 		window.popMatrix();
 	}
 

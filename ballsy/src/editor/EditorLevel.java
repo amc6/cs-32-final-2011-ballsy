@@ -318,7 +318,7 @@ public class EditorLevel extends AbstractLevel {
 					if (dcxn < 0) rdx = -rdx;
 					if (dcxy < 0) rdy = -rdy;
 					// FINALLY actually do the resize
-					if (/*_rotating*/ false) { //remove false if code is fixed
+					if (false && _rotating) { //remove false if code is fixed
 						Vec2 bodyPixelCenter = _selectedBody.getPixelPosition();
 						float mouseX = _window.mouseX;
 						float mouseY = _window.mouseY;

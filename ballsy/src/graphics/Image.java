@@ -12,22 +12,17 @@ public class Image {
 	protected int _imageMode = Window.CENTER;
 	
 	
-	public Image(Window window, String image, int width, int height) {
-		this(window,image,width,height,0,0);
-	}
-	
-	
-	public Image(Window window, String image, int width, int height, int x, int y) {
-		_window = window;
+	public Image(String image, int x, int y) {
+		_window = Window.getInstance();
 		_image = _window.loadImage(image);
-		_width = width;
-		_height = height;
+		_width = _image.width;
+		_height = _image.height;
 		_x = x;
 		_y = y;
-		_minX = x-width/2;
-		_maxX = x+width/2;
-		_minY = y-height/2;
-		_maxY = y+height/2;
+		_minX = x-_width/2;
+		_maxX = x+_width/2;
+		_minY = y-_height/2;
+		_maxY = y+_height/2;
 	}
 	
 	/**
@@ -35,7 +30,7 @@ public class Image {
 	 */
 	public void draw() {
 		_window.imageMode(_imageMode);
-		_window.image(_image, _x, _y, _width, _height);
+		_window.image(_image, _x, _y);
 	}
 	
 	
