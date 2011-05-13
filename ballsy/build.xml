@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="Ballsy">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+	<property name="platform" value="win32"/>
+    <path id="Ballsy.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/dom4j-1.6.1.jar"/>
+        <pathelement location="lib/processing-core.jar"/>
+        <pathelement location="lib/gluegen-rt.jar"/>
+        <pathelement location="lib/jogl.jar"/>
+        <pathelement location="lib/pbox2d.jar"/>
+        <pathelement location="lib/opengl.jar"/>
+        <pathelement location="lib/minim_library/jl1.0.jar"/>
+        <pathelement location="lib/minim_library/jsminim.jar"/>
+        <pathelement location="lib/minim_library/minim-spi.jar"/>
+        <pathelement location="lib/minim_library/minim.jar"/>
+        <pathelement location="lib/minim_library/mp3spi1.9.4.jar"/>
+        <pathelement location="lib/minim_library/tritonus_aos.jar"/>
+        <pathelement location="lib/minim_library/tritonus_share.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+		<delete dir="build"/>
+		<delete file="mac/ballsy_mac.zip"/>
+		<delete file="windows64/ballsy_win64.zip"/>
+		<delete file="windows32/ballsy_win32.zip"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-project" name="build"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="Ballsy.classpath"/>
+        </javac>
+    </target>
+	<target name="run" depends="win64">
+        <java jar="build/ballsy.jar" failonerror="true" fork="yes">
+        </java>
+    </target>
+	<target name="jar" depends="build">
+		<delete dir="build"/>
+		<mkdir dir="build"/>
+		<jar destfile="build/ballsy.jar">
+            <manifest>
+                <attribute name="Main-Class" value="ballsy.App"/>
+                <attribute name="Class-Path" value=". lib/dom4j-1.6.1.jar lib/processing-core.jar lib/gluegen-rt.jar lib/jogl.jar lib/pbox2d.jar lib/opengl.jar lib/jl1.0.jar lib/jsminim.jar lib/minim-spi.jar lib/minim.jar lib/mp3spi1.9.4.jar lib/tritonus_aos.jar lib/tritonus_share.jar"/>
+            </manifest>
+            <fileset dir="bin"/>
+        </jar>
+        <mkdir dir="build/lib"/>
+        <copy file="lib/dom4j-1.6.1.jar" todir="build/lib"/>
+        <copy file="lib/processing-core.jar" todir="build/lib"/>
+        <copy file="lib/gluegen-rt.jar" todir="build/lib"/>
+        <copy file="lib/jogl.jar" todir="build/lib"/>
+        <copy file="lib/pbox2d.jar" todir="build/lib"/>
+        <copy file="lib/opengl.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/jl1.0.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/jsminim.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/minim-spi.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/minim.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/mp3spi1.9.4.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/tritonus_aos.jar" todir="build/lib"/>
+        <copy file="lib/minim_library/tritonus_share.jar" todir="build/lib"/>
+		<copy todir="build/res">
+			<fileset dir="res"/>
+		</copy>
+		<copy todir="build/levels">
+			<fileset dir="levels"/>
+		</copy>
+		<copy todir="build/builtin_levels">
+			<fileset dir="builtin_levels"/>
+		</copy>
+		<copy todir="build/data">
+			<fileset dir="data"/>
+		</copy>
+	</target>
+	<target name="win64" depends="jar">
+		<copy file="windows64/jogl.dll" todir="build"/>
+		<copy file="windows64/jogl_awt.dll" todir="build"/>
+		<copy file="windows64/jogl_cg.dll" todir="build"/>
+		<mkdir dir="Ballsy"/>
+		<copy todir="Ballsy">
+			<fileset dir="build"/>
+		</copy>
+		<delete file="windows64/ballsy_win64.zip"/>
+		<zip destfile="windows64/ballsy_win64.zip" basedir="Ballsy"/>
+		<delete dir="Ballsy"/>
+	</target>
+	<target name="win32" depends="jar">
+		<copy file="windows32/jogl.dll" todir="build"/>
+		<copy file="windows32/jogl_awt.dll" todir="build"/>
+		<copy file="windows32/jogl_cg.dll" todir="build"/>
+		<copy file="windows32/gluegen-rt.dll" todir="build"/>
+		<delete file="windows32/ballsy_win32.zip"/>
+		<zip destfile="windows32/ballsy_win32.zip" basedir="build"/>
+	</target>
+	<target name="mac" depends="jar">
+		<copy file="mac/libgluegen-rt.jnilib" todir="build"/>
+		<copy file="mac/libjogl.jnilib" todir="build"/>
+		<copy file="mac/libjogl_awt.jnilib" todir="build"/>
+		<copy file="mac/libjogl_cg.jnilib" todir="build"/>
+		<jarbundler dir="build" name="ballsy" mainclass="ballsy.App" jar="ballsy.jar"/>
+		<delete file="mac/ballsy_mac.zip"/>
+		<zip destfile="mac/ballsy_mac.zip" basedir="build"/>
+	</target>
+	<target name="linux64" depends="jar">
+		<copy file="linux64/libgluegen-rt.so" todir="build"/>
+		<copy file="linux64/libjogl.so" todir="build"/>
+		<copy file="linux64/libjogl_awt.so" todir="build"/>
+		<copy file="linux64/libjogl_cg.so" todir="build"/>
+		<delete file="linux64/ballsy_linux64.zip"/>
+		<zip destfile="linux64/ballsy_linux64.zip" basedir="build"/>
+	</target>
+	<target name="linux586" depends="jar">
+		<copy file="linux586/libgluegen-rt.so" todir="build"/>
+		<copy file="linux586/libjogl.so" todir="build"/>
+		<copy file="linux586/libjogl_awt.so" todir="build"/>
+		<copy file="linux586/libjogl_cg.so" todir="build"/>
+		<delete file="linux586/ballsy_linux586.zip"/>
+		<zip destfile="linux586/ballsy_linux586.zip" basedir="build"/>
+	</target>
+	<target name="test">
+		<echo message="ant.java.version: ${os.arch}" />
+	</target>
+	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+</project>
