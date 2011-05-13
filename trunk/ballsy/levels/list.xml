@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LEVELS_LIST>
-  <LEVEL PATH="levels/LevelOne-Final.ball" THUMBNAIL="levels/thumbs/LevelOne-Final.png" LOCKED="false" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelTwo-Final.ball" THUMBNAIL="levels/thumbs/LevelTwo-Final.png" LOCKED="false" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelThree-Final.ball" THUMBNAIL="levels/thumbs/LevelThree-Final.png" LOCKED="true" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelFour-Final.ball" THUMBNAIL="levels/thumbs/LevelFour-Final.png" LOCKED="true" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelFive-Final.ball" THUMBNAIL="levels/thumbs/LevelFive-Final.png" LOCKED="true" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelSix-Final.ball" THUMBNAIL="levels/thumbs/LevelSix-Final.png" LOCKED="true" CUSTOM="false"/>
-  <LEVEL PATH="levels/LevelSeven-Final.ball" THUMBNAIL="levels/thumbs/LevelSeven-Final.png" LOCKED="true" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelOne-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelOne-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelTwo-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelTwo-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelThree-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelThree-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelFour-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelFour-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelFive-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelFive-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelSix-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelSix-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="builtin_levels/LevelSeven-Final.ball" THUMBNAIL="builtin_levels/thumbs/LevelSeven-Final.png" LOCKED="false" CUSTOM="false"/>
 </LEVELS_LIST>

@@ -48,8 +48,13 @@ public class XMLLevel extends AbstractLevel {
 			_world.step();
 		}
 		_camera.update();
+		
 		// display all objects
 		for (AbstractBody body : _bodies) { body.display(); }
+		
+		this.applyInput();
+		
+		/*
 		// handle keypresses
 		if (_window.keyPressed) {
 			// check for WASD, move accordingly
@@ -72,7 +77,7 @@ public class XMLLevel extends AbstractLevel {
 				break;	
 			}
 		}
-		
+		*/
 		if (_paused) {
 			_pauseScreen.draw();
 		}else if (_won) {
