@@ -1,6 +1,5 @@
 package editor;
 
-import static bodies.BodyConstants.USER_RADIUS;
 import graphics.Background;
 import graphics.Text;
 import graphics.TrackingCamera;
@@ -20,11 +19,9 @@ import physics.PhysicsRectangle;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.AbstractLevel;
-import ballsy.WelcomeScreen;
 import ballsy.XMLUtil;
 import bodies.AbstractBody;
 import bodies.Ball;
-import bodies.BodyConstants;
 import bodies.EndPoint;
 import bodies.Rectangle;
 import bodies.UserBall;
@@ -48,7 +45,7 @@ public class EditorLevel extends AbstractLevel {
 	private LevelEditor _editor;
 	private float _savedViewX, _savedViewY;
 	private String _savefile, _loadfile;
-	private boolean _panned = false;
+	private boolean _panned = false, _objectPressed = false; // object pressed when clicked on object
 	
 	public EditorLevel(LevelEditor editor, BodyFactory factory) {
 		_editor = editor;
@@ -222,12 +219,18 @@ public class EditorLevel extends AbstractLevel {
 				} else if (_placeMode) {
 					// we're placing something, make call to placeObject
 					Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
-					if (_world.contains(newPos)) this.placeBody(newPos);
+					if (_world.contains(newPos)){
+						this.placeBody(newPos);
+						_objectPressed = true;
+					}
 				} else {
 					// we're selecting stuff or moving
 					// set selected object to object under mousepress, or null if none
 					AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
-					if (hovBody != null) this.resetSelected(hovBody);
+					if (hovBody != null) {
+						this.resetSelected(hovBody);
+						_objectPressed = true;
+					}
 					if (_rotating && _selectedBody != null && !this.isBorder(_selectedBody)) {
 						_rotationCenter = _selectedBody.getWorldPosition();
 					}
@@ -242,6 +245,7 @@ public class EditorLevel extends AbstractLevel {
 		if (_running) {
 			super.mouseReleased();
 		} else {
+			_objectPressed = false;
 			if (_panned) {
 				_panned = false;
 			} else {
@@ -264,16 +268,15 @@ public class EditorLevel extends AbstractLevel {
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
 			float distY = _window.mouseY - _lastMouseY;
-			AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
-			if (_selectedBody != null && hovBody != null && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
+			if (_selectedBody != null && _objectPressed && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
 				// we're dragging a body around
 				PhysicsDef physDef = _selectedBody.getPhysicsDef();
 				float xNew = physDef.getBody().getXForm().position.x - _world.scalarPixelsToWorld(distX);
 				float yNew = physDef.getBody().getXForm().position.y - _world.scalarPixelsToWorld(distY);
 				_selectedBody.setPosition(new Vec2(xNew, yNew)); // set the position (won't set, if body or its path is/are not in world
-			} else if (!_placeMode && !_rotating && !_resizing && hovBody == null){
+			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
-				_world.moveCamera(distX, distY);
+				if (!_objectPressed) _world.moveCamera(distX, distY);
 				_panned = true;
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null && !_resizing) {
 				// we're rotating the object. Calculate the angle...
