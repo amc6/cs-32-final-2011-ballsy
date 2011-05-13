@@ -12,7 +12,7 @@ public class LevelMenu1 extends Screen {
 	
 	@Override
 	public void setup() {
-		_title = new Image(_window, "res/pick_level_title.png", 582,125, 10,30);
+		_title = new Image("res/pick_level_title.png", 10,30);
 		_title.setImageMode(_window.CORNER);
 //		_title = new Text("Pick Level", 10, 100);
 //		_title.setAlign(_window.LEFT);

@@ -45,8 +45,7 @@ public class GraphicsImage extends GraphicsDef {
 		else {
 			throw new RuntimeException("A Graphics Image can only use a Rectangle or Ball PhysicsDef");
 		}
-		if (_image == null) _image = new Image(Window.getInstance(), _filename , (int) pixelWidth,(int) pixelHeight);
-
+		if (_image == null) _image = new Image(_filename , 0,0);
 		_image.draw();
 		
 	

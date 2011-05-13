@@ -56,7 +56,7 @@ public class LevelOne extends AbstractLevel {
 		_world.setGravity(0, -30); // otherwise defaults to -10f
 
 		
-		_background = new Image(_window, "res/background1.jpg", _window.width, _window.height);
+		_background = new Image("res/background1.jpg", _window.width, _window.height);
 		_background.setImageMode(_window.CORNER);
 		_bg = new Background();
 
