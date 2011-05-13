@@ -511,7 +511,7 @@ public class LevelEditor extends Screen {
 			if (LevelEditor.isValidNumber(_centerX.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(Float.parseFloat(_centerX.getValue()), _level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
-					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
+					_level.getSelected().setPosition(newPos);
 				}
 			}
 		}
@@ -519,7 +519,7 @@ public class LevelEditor extends Screen {
 			if (LevelEditor.isValidNumber(_centerY.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x, Float.parseFloat(_centerY.getValue()));
-					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
+					_level.getSelected().setPosition(newPos);
 				}
 			}
 		}
