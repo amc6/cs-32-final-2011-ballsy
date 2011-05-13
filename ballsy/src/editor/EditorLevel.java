@@ -43,6 +43,7 @@ public class EditorLevel extends AbstractLevel {
 	private LevelEditor _editor;
 	private float _savedViewX, _savedViewY;
 	private String _savefile, _loadfile;
+	private boolean _panned = false;
 	
 	public EditorLevel(LevelEditor editor, BodyFactory factory) {
 		_editor = editor;
@@ -190,8 +191,6 @@ public class EditorLevel extends AbstractLevel {
 			if (_window.mouseButton == PConstants.RIGHT && _selectingPoints){
 				this.handleRightClick();
 			}else if (_window.mouseButton == PConstants.LEFT){
-	
-				
 				_lastMouseX = _window.mouseX;
 				_lastMouseY = _window.mouseY;
 				if (_selectingPoints) {
@@ -222,7 +221,8 @@ public class EditorLevel extends AbstractLevel {
 				} else {
 					// we're selecting stuff or moving
 					// set selected object to object under mousepress, or null if none
-					this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
+					AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
+					if (hovBody != null) this.resetSelected(hovBody);
 					if (_rotating && _selectedBody != null) {
 						_rotationCenter = _selectedBody.getWorldPosition();
 					}
@@ -237,8 +237,11 @@ public class EditorLevel extends AbstractLevel {
 		if (_running) {
 			super.mouseReleased();
 		} else {
-			// if we're placing, we don't want anything to be selected on mouseup
-			if (_placeMode) this.resetSelected(null);
+			if (_panned) {
+				_panned = false;
+			} else {
+				this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
+			}
 			// the rotation center should be null now
 			_rotationCenter = null;
 			// update the gui
@@ -253,34 +256,17 @@ public class EditorLevel extends AbstractLevel {
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
 			float distY = _window.mouseY - _lastMouseY;
-			if (_selectedBody != null && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
+			AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
+			if (_selectedBody != null && hovBody != null && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
 				// we're dragging a body around
 				PhysicsDef physDef = _selectedBody.getPhysicsDef();
 				float xNew = physDef.getBody().getXForm().position.x - _world.scalarPixelsToWorld(distX);
 				float yNew = physDef.getBody().getXForm().position.y - _world.scalarPixelsToWorld(distY);
-				// make sure that, if there is a path, it's contained in the bounds of the world.
-				boolean pathContained = true;
-				ArrayList<Vec2> newPathPoints = new ArrayList<Vec2>();
-				if (_selectedBody.getPath() != null) {
-					for (Vec2 p : _selectedBody.getPath().getWorldPoints()) {
-						Vec2 newPP = new Vec2(p.x - _world.scalarPixelsToWorld(distX), p.y - _world.scalarPixelsToWorld(distY));
-						if (!_world.contains(newPP)) {
-							pathContained = false;
-							break;
-						} else {
-							newPathPoints.add(newPP);
-						}
-					}
-				}
-				// if teh world contains the new point and all the new path points
-				if (_world.contains(new Vec2(xNew, yNew)) && pathContained) {
-					physDef.getBody().setXForm(new Vec2(xNew, yNew), physDef.getBody().getAngle());
-					if (_selectedBody.getPath() != null) _selectedBody.setPath(PhysicsPolygon.getOffsets(newPathPoints, new Vec2(xNew, yNew)));
-				}
-				// else notify?
-			} else if (!_placeMode && !_rotating && !_resizing){
+				_selectedBody.setPosition(new Vec2(xNew, yNew)); // set the position (won't set, if body or its path is/are not in world
+			} else if (!_placeMode && !_rotating && !_resizing && hovBody == null){
 				// we're not, move the camera
 				_world.moveCamera(distX, distY);
+				_panned = true;
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null && !_resizing) {
 				// we're rotating the object. Calculate the angle...
 				float angleNow = (float) Math.atan2(_world.pixelYtoWorldY(_window.mouseY) - _rotationCenter.y, (_world.pixelXtoWorldX(_window.mouseX) - _rotationCenter.x));
@@ -533,7 +519,7 @@ public class EditorLevel extends AbstractLevel {
 			_selectedPoints = null;
 			_editor.updateFieldValues();
 		}
-
+		_panned = true; // so it doesn't deselect the body
 	}
 	
 	public void startPoints(){

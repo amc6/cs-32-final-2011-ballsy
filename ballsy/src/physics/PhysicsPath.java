@@ -149,6 +149,20 @@ public class PhysicsPath implements Steppable{
 		return points;
 	}
 	
+	public boolean moveBy(Vec2 offset) {
+		boolean pathContained = true;
+		for (int i = 0; i < _pathPoints.size(); i++) {
+			Point2D p = this.getAdjusted(i);
+			Vec2 nPP = new Vec2((float) (p.getX() + offset.x), (float) (p.getY() + offset.y));
+			if (!PhysicsWorld.getInstance().contains(nPP)) {
+				pathContained = false;
+				break;
+			}
+		}
+		if (pathContained) _initPos = new Point2D.Float(_initPos.x + offset.x, _initPos.y + offset.y);
+		return pathContained;
+	}
+	
 	// mutators for use in restoring a saved path
 	public void setCurrTarget(int t) { _currTarget = t; }
 	public void setInitialPoint(Point2D.Float p) { _initPos = p; }

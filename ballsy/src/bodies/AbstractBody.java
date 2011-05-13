@@ -112,6 +112,16 @@ public abstract class AbstractBody {
 		return _physicsDef;
 	}
 	
+	public void setPosition(Vec2 pos) {
+		if (!PhysicsWorld.getInstance().contains(pos)) return; // don't put it there if it's out of this world
+		if (this.getPath() != null) {
+			Vec2 currPos = _physicsDef.getBodyWorldCenter();
+			Vec2 offset = new Vec2(pos.x - currPos.x, pos.y - currPos.y);
+			if (!this.getPath().moveBy(offset)) return; // if the path isn't contained, return
+		}
+		_physicsDef.setBodyWorldCenter(pos);
+	}
+	
 	/**
 	 * Should remove the BallsyObject entirely.
 	 */
