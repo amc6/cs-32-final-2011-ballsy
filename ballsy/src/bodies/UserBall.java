@@ -32,16 +32,17 @@ public class UserBall extends AbstractBody {
 	private boolean _grappled = false, _inPlay = true;
 	private GrappleLine _grapple;
 	
-	// sound shits.
-	private Minim _minim = new Minim(_window);
-	private AudioSample _sound = _minim.loadSample("res/boop.wav", 2048);
-	private float _maxVelocity = 50; // potential max velocity!?
+	/* no sound for now
+		// sound shits.
+		private Minim _minim = new Minim(_window);
+		private AudioSample _sound = _minim.loadSample("res/boop.wav", 2048);
+		private float _maxVelocity = 50; // potential max velocity!?
+	*/
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
 		_crosshair = new Crosshair(this);
 		_grapple = new GrappleLine(this);
-//		_grapple = new GrappleRope(this);
 		this.getPhysicsDef().setDensity(DEFAULT_BODY_DENSITY*3);
 		this.getPhysicsDef().setFriction(200f); // to make rolling work well
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
@@ -100,11 +101,6 @@ public class UserBall extends AbstractBody {
 			}	
 		}
 	}
-	
-//	
-//	public void setGrapple(GrappleLine grapple) {
-//		_grapple = grapple;
-//	}
 	
 	public void setCrosshairVisible(boolean visible) {
 		if (visible) _crosshair.show();
@@ -198,17 +194,19 @@ public class UserBall extends AbstractBody {
 	 * handle UserBall collisions specially!
 	 */
 	public void handleCollision(AbstractBody other, float velocity) {
-		// make a fun sound!
-		_sound.stop();
-		// scale the volume
-		float min = -40;
-		float max = 12f;
-		if (velocity > _maxVelocity) velocity = _maxVelocity;
-		float percent = velocity / _maxVelocity;
-		float gain = min + (max - min)*percent;
-		System.out.println(gain);
-		_sound.setGain(gain);
-		_sound.trigger();
+		/* sound is out of the picture for now... maybe in a future version
+			// make a fun sound!
+			_sound.stop();
+			// scale the volume
+			float min = -40;
+			float max = 12f;
+			if (velocity > _maxVelocity) velocity = _maxVelocity;
+			float percent = velocity / _maxVelocity;
+			float gain = min + (max - min)*percent;
+			System.out.println(gain);
+			_sound.setGain(gain);
+			_sound.trigger();
+		*/
 		
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
