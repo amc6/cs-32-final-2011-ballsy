@@ -46,7 +46,7 @@ public class XMLUtil {
 	 * loads menu buttons from xml
 	 * @return
 	 */
-	public Vector<MenuButton> loadMenuButtons() {
+	public Vector<MenuButton> loadMenuButtons(boolean loadCustom) {
     	Vector<MenuButton> _buttons = new Vector<MenuButton>();
 
 		String path = "levels/list.xml";
@@ -66,15 +66,29 @@ public class XMLUtil {
     		Element currLevel = (Element) i.next();
     		String levelPath = currLevel.attributeValue("PATH");
     		String thumbPath = currLevel.attributeValue("THUMBNAIL");
+    		Boolean locked = Boolean.parseBoolean(currLevel.attributeValue("LOCKED"));
+    		Boolean custom = Boolean.parseBoolean(currLevel.attributeValue("CUSTOM"));
     		MenuButton currButton = new MenuButton(levelPath, thumbPath);
-    		if (lastButton != null) {
-    			lastButton.setNextLevel(currButton);
+    		currButton.setCustom(custom);
+    		currButton.setLocked(locked);
+    		if (loadCustom == custom) {
+	    		if (lastButton != null) {
+	    			lastButton.setNextLevel(currButton);
+	    		}
+	    		lastButton = currButton;
+	    		_buttons.add(lastButton);
     		}
-    		lastButton = currButton;
-    		_buttons.add(lastButton);
     	}
     	
 		return _buttons;
+	}
+	
+	// gets all menu buttons
+	public Vector<MenuButton> loadMenuButtons() {
+		Vector<MenuButton> custom = loadMenuButtons(true);
+		Vector<MenuButton> builtIn = loadMenuButtons(false);
+		custom.addAll(builtIn);
+		return custom;
 	}
 	
 	/**
@@ -91,6 +105,8 @@ public class XMLUtil {
 			Element buttonEl = DocumentHelper.createElement("LEVEL");
 			buttonEl.addAttribute("PATH", button.getLevelPath());
 			buttonEl.addAttribute("THUMBNAIL", button.getThumbnailPath());
+			buttonEl.addAttribute("LOCKED", Boolean.toString(button.isLocked()));
+			buttonEl.addAttribute("CUSTOM", Boolean.toString(button.isCustom()));
 			root.add(buttonEl);
 		}
 		
@@ -113,7 +129,8 @@ public class XMLUtil {
 
 	}
 	
-	public void addMenuButton(String levelPath, String thumbPath) {
+	public void addMenuButton(MenuButton buttonToAdd) {
+		String levelPath = buttonToAdd.getLevelPath();
 		Vector<MenuButton> buttons = loadMenuButtons();
 		boolean newButton = true;
 		//check for existing. if so, overwrite
@@ -122,13 +139,13 @@ public class XMLUtil {
 			if (levelPath.equals(button.getLevelPath())) {
 				int index = buttons.indexOf(button);
 				buttons.remove(button);
-				buttons.add(index, new MenuButton(levelPath, thumbPath));
+				buttons.add(index, buttonToAdd);
 				newButton = false;
 				break;
 			}
 		}
 		if (newButton) {
-			buttons.add(new MenuButton(levelPath, thumbPath));
+			buttons.add(buttonToAdd);
 		}
 		saveMenuButtons(buttons);
 	}

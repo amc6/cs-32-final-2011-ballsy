@@ -123,6 +123,12 @@ public class XMLLevel extends AbstractLevel {
 		_camera = new TrackingCamera(_player);
 	}
 	
+	public void setWon() {
+		super.setWon();
+		_myButton.setLocked(false);
+		XMLUtil.getInstance().addMenuButton(_myButton);
+	}
+	
 	// necessary empty overrides
 	public void setup() { }
 }

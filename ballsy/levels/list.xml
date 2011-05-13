@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LEVELS_LIST>
-  <LEVEL PATH="levels/LevelOne-Final.ball" THUMBNAIL="levels/thumbs/LevelOne-Final.png"/>
-  <LEVEL PATH="levels/LevelTwo-Final.ball" THUMBNAIL="levels/thumbs/LevelTwo-Final.png"/>
-  <LEVEL PATH="levels/LevelThree-Final.ball" THUMBNAIL="levels/thumbs/LevelThree-Final.png"/>
-  <LEVEL PATH="levels/LevelFour-Final.ball" THUMBNAIL="levels/thumbs/LevelFour-Final.png"/>
-  <LEVEL PATH="levels/LevelFive-Final.ball" THUMBNAIL="levels/thumbs/LevelFive-Final.png"/>
-  <LEVEL PATH="levels/LevelSix-Final.ball" THUMBNAIL="levels/thumbs/LevelSix-Final.png"/>
-  <LEVEL PATH="levels/LevelSeven-Final.ball" THUMBNAIL="levels/thumbs/LevelSeven-Final.png"/>
-  <LEVEL PATH="levels/emptylevel1.xml.ball" THUMBNAIL="levels/thumbs/emptylevel1.png"/>
-  <LEVEL PATH="levels/emptylevel2.ball" THUMBNAIL="levels/thumbs/emptylevel2.png"/>
-  <LEVEL PATH="levels/emptylevel3.ball" THUMBNAIL="levels/thumbs/emptylevel3.png"/>
-  <LEVEL PATH="levels/emptylevel4.ball" THUMBNAIL="levels/thumbs/emptylevel4.png"/>
-  <LEVEL PATH="levels/emptylevel5.ball" THUMBNAIL="levels/thumbs/emptylevel5.png"/>
-  <LEVEL PATH="levels/emptylevel6.ball" THUMBNAIL="levels/thumbs/emptylevel6.png"/>
-  <LEVEL PATH="levels/emptylevel7.ball" THUMBNAIL="levels/thumbs/emptylevel7.png"/>
-  <LEVEL PATH="levels/emptylevel8.ball" THUMBNAIL="levels/thumbs/emptylevel8.png"/>
-  <LEVEL PATH="levels/emptylevel9.ball" THUMBNAIL="levels/thumbs/emptylevel9.png"/>
-  <LEVEL PATH="levels/emptylevel10.ball" THUMBNAIL="levels/thumbs/emptylevel10.png"/>
-  <LEVEL PATH="levels/emptylevel12.ball" THUMBNAIL="levels/thumbs/emptylevel12.png"/>
-  <LEVEL PATH="levels/emptylevel13.ball" THUMBNAIL="levels/thumbs/emptylevel13.png"/>
-  <LEVEL PATH="levels/emptylevel14.ball" THUMBNAIL="levels/thumbs/emptylevel14.png"/>
-  <LEVEL PATH="levels/emptylevel15.ball" THUMBNAIL="levels/thumbs/emptylevel15.png"/>
-  <LEVEL PATH="levels/emptylevel16.ball" THUMBNAIL="levels/thumbs/emptylevel16.png"/>
+  <LEVEL PATH="levels/LevelOne-Final.ball" THUMBNAIL="levels/thumbs/LevelOne-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="levels/LevelTwo-Final.ball" THUMBNAIL="levels/thumbs/LevelTwo-Final.png" LOCKED="false" CUSTOM="false"/>
+  <LEVEL PATH="levels/LevelThree-Final.ball" THUMBNAIL="levels/thumbs/LevelThree-Final.png" LOCKED="true" CUSTOM="false"/>
+  <LEVEL PATH="levels/LevelFour-Final.ball" THUMBNAIL="levels/thumbs/LevelFour-Final.png" LOCKED="true" CUSTOM="false"/>
 </LEVELS_LIST>

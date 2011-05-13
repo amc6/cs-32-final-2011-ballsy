@@ -83,7 +83,7 @@ public class WelcomeScreen extends Screen {
 //			_window.loadScreen(Screens.LEVEL_ONE);
 //			_window.loadLevel("default.xml");
 			
-			Vector<MenuButton> buttons = XMLUtil.getInstance().loadMenuButtons();
+			Vector<MenuButton> buttons = XMLUtil.getInstance().loadMenuButtons(false);
 			MenuButton first = buttons.firstElement();
 			_window.loadScreen(Screens.XML_LEVEL, first.getLevelPath(), first);
 			
