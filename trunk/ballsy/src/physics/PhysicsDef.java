@@ -154,7 +154,7 @@ public abstract class PhysicsDef {
 		return _graphicalOnly;
 	}
 	
-	//MORE TO DO HERE
+	// possibly functional?!
 	public void setGraphicalOnly(boolean graphicalOnly){
 		_graphicalOnly = graphicalOnly;
 		if (_body != null) {
@@ -173,6 +173,10 @@ public abstract class PhysicsDef {
 				_body.getShapeList().m_isSensor = false;
 			}
 		}
+	}
+	
+	public boolean isGraphicalOnly() {
+		return _graphicalOnly;
 	}
 	
 	/**

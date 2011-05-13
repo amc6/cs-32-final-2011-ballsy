@@ -77,6 +77,12 @@ public abstract class AbstractBody {
 			if (!_graphicsDef.getSelected()) _graphicsDef.setColor(NOT_DEADLY_FILL_COLOR);
 			else _graphicsDef.setColor(NOT_DEADLY_FILL_COLOR, SELECTED_OPACITY);
 		}
+		// take care of graphical only stuff
+		if (_physicsDef.isGraphicalOnly()) {
+			_graphicsDef.setColor(GRAPHICAL_ONLY_FILL_COLOR);
+			_graphicsDef.setStrokeWeightAndColor(GRAPHICAL_ONLY_STROKE_WEIGHT, GRAPHICAL_ONLY_STROKE_COLOR);
+		}
+			
 		_graphicsDef.display();
 	}
 	

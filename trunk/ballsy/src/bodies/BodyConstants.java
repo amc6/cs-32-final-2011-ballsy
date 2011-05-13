@@ -15,6 +15,10 @@ public final class BodyConstants {
 	public static final int UNGRAPPLEABLE_STROKE_WEIGHT = 2;
 	public static final int DEADLY_FILL_COLOR = Window.getInstance().color(170,4,4);
 	public static final int NOT_DEADLY_FILL_COLOR = Window.getInstance().color(245,184,0);
+	public static final int GRAPHICAL_ONLY_FILL_COLOR = Window.getInstance().color(100, 100, 200);
+	public static final int GRAPHICAL_ONLY_STROKE_WEIGHT = 2;
+	public static final int GRAPHICAL_ONLY_STROKE_COLOR = Window.getInstance().color(0, 0, 200);
+	
 	
 	/* Ball constants. */
 	public static final float DEFAULT_BALL_RADIUS = 2f;
