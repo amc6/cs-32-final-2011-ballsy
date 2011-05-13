@@ -1,5 +1,10 @@
 package ballsy;
 
+/**
+ * Generic superclass for the screen, which is what is contained within the window
+ * (each level extends screen, as do menus, such as the pause/welcome screens). 
+ */
+
 import org.jbox2d.dynamics.Body;
 
 public abstract class Screen {

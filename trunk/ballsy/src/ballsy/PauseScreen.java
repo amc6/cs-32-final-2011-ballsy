@@ -1,5 +1,11 @@
 package ballsy;
 
+/**
+ * Makes a transparent "Paused" screen for when the user presses escape.
+ * Provides options for return to menu, exiting Ballsy, or continuing play.
+ */
+
+import processing.core.PConstants;
 import graphics.Text;
 import graphics.TextButton;
 import ballsy.ScreenLoader.Screens;
@@ -9,17 +15,15 @@ public class PauseScreen {
 	private Text _pause;
 	private TextButton _resume, _exit, _menu;
 	private Window _window;
-	//private AbstractLevel _level = AbstractLevel.getInstance();
 	private AbstractLevel _level;
 	
+	/**
+	 * Construct with proper text buttons.
+	 * @param level
+	 */
 	public PauseScreen(AbstractLevel level) {
 		_level = level;
 		_window = Window.getInstance();
-//		_resume = new Image(_window, "res/resume.png", 257,64, _window.width/2, _window.height/2);
-//		_pause = new Image(_window, "res/pause.png",(int)(257*1.5),(int)(64*1.5),_window.width/2,_window.height/2-200);
-//		_menu = new Image(_window, "res/exit.png", 257,64,_window.width/2,_window.height/2+100);
-		//TODO Jessica needs to make a menu pic, for the menu button
-//		_exit = new Image(_window, "res/exit.png", 257,64,_window.width/2, _window.height/2+200);
 		_pause = new Text("Paused", _window.width/2, _window.height/2-50);	
 		_pause.setSize(72);
 		_pause.setColor(255);
@@ -29,10 +33,12 @@ public class PauseScreen {
 	
 	}
 
+	/**
+	 * Draw everything associated with this screen
+	 */
 	public void draw() {
-//		_window.fill(50,200,200,100);
 		_window.fill(0,150);
-		_window.rectMode(_window.CORNER);
+		_window.rectMode(PConstants.CORNER);
 		_window.rect(0, 0, _window.width, _window.height);
 		_resume.draw();
 		_pause.draw();
@@ -40,6 +46,10 @@ public class PauseScreen {
 		_menu.draw();
 	}
 
+	/**
+	 * handle the mouse click...
+	 * figure out where it is, and either continue, exit, or load welcome screen
+	 */
 	public void mousePressed() {
 		System.out.println("clicked pause screen");
 		if (_resume.mouseOver()) {

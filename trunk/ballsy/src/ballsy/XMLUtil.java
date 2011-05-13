@@ -44,11 +44,12 @@ public class XMLUtil {
 	
 	/**
 	 * loads menu buttons from xml
+	 * If loadCustom, then it will only load the custom, and if not 
+	 * loadCustom, it will only load the non-custom levels
 	 * @return
 	 */
 	public Vector<MenuButton> loadMenuButtons(boolean loadCustom) {
     	Vector<MenuButton> _buttons = new Vector<MenuButton>();
-
 		String path = "levels/list.xml";
     	SAXReader reader = new SAXReader();
     	Document doc;
@@ -62,7 +63,7 @@ public class XMLUtil {
     	Element root = doc.getRootElement();
     	MenuButton lastButton = null;
     	for (Iterator i = root.elementIterator("LEVEL"); i.hasNext();) {
-    		// get references to the various elements
+    		// get references to the various elements, and make new buttons out of them
     		Element currLevel = (Element) i.next();
     		String levelPath = currLevel.attributeValue("PATH");
     		String thumbPath = currLevel.attributeValue("THUMBNAIL");
@@ -79,15 +80,18 @@ public class XMLUtil {
 	    		_buttons.add(lastButton);
     		}
     	}
-    	
+    	// return the compiled list of buttons
 		return _buttons;
 	}
 	
-	// gets all menu buttons
+	/**
+	 * Returns all menubuttons, both the custom and non-custom
+	 * @return
+	 */
 	public Vector<MenuButton> loadMenuButtons() {
 		Vector<MenuButton> custom = loadMenuButtons(true);
 		Vector<MenuButton> builtIn = loadMenuButtons(false);
-		custom.addAll(builtIn);
+		custom.addAll(builtIn); // combine the two vectors
 		return custom;
 	}
 	
@@ -109,8 +113,6 @@ public class XMLUtil {
 			buttonEl.addAttribute("CUSTOM", Boolean.toString(button.isCustom()));
 			root.add(buttonEl);
 		}
-		
-		
     	doc.setRootElement(root);
 		// actually save the file, return false if IO failure
 		OutputFormat pretty = OutputFormat.createPrettyPrint();
@@ -125,10 +127,12 @@ public class XMLUtil {
 			// something went horribly wrong
 			return false;
 		}
-		
-
 	}
 	
+	/**
+	 * Add a menubutton to the list.
+	 * @param buttonToAdd
+	 */
 	public void addMenuButton(MenuButton buttonToAdd) {
 		String levelPath = buttonToAdd.getLevelPath();
 		Vector<MenuButton> buttons = loadMenuButtons();
@@ -261,9 +265,7 @@ public class XMLUtil {
     		boolean grappleable = Boolean.parseBoolean(currBody.attributeValue("GRAPPLEABLE"));
     		boolean endpoint = Boolean.parseBoolean(currBody.attributeValue("ENDPOINT"));
     		boolean deadly = Boolean.parseBoolean(currBody.attributeValue("DEADLY"));
-    		String graphicalType = currGraphDef.attributeValue("TYPE"); // graphical and physics type may not ever be needed
     		int color = Integer.parseInt(currGraphDef.attributeValue("COLOR"));
-    		String physicsType = currPhysDef.attributeValue("TYPE");
     		float xPos = Float.parseFloat(currPhysDef.attributeValue("X"));
     		float yPos = Float.parseFloat(currPhysDef.attributeValue("Y"));
     		float rotation = Float.parseFloat(currPhysDef.attributeValue("ROTATION"));
@@ -345,13 +347,6 @@ public class XMLUtil {
     			newPoly.setGrappleable(grappleable);
     			newPoly.setEndpoint(endpoint);
     			newPoly.setDeadly(deadly);
-//    			newPoly.getPhysicsDef().setMobile(mobile);
-//    			newPoly.getPhysicsDef().setRotation(rotation);
-//    			newPoly.getPhysicsDef().setLinearVelocity(new Vec2(xVel, yVel));
-//    			newPoly.getPhysicsDef().setAngularVelocity(aVel);
-//    			newPoly.getPhysicsDef().setFriction(friction);
-//    			newPoly.getPhysicsDef().setBounciness(restitution);
-//    			newPoly.getPhysicsDef().setDensity(density);
     			this.setGeneralPhysicsProperties(newPoly, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
     			
     			body = newPoly.getPhysicsDef().getBody();
@@ -359,18 +354,10 @@ public class XMLUtil {
     		} else if (bodyType.compareTo("vertex_surface") == 0) {
     			// it's a surface
     			
-    			////////////////////////////////////////////////////
-    			// to be filled out if/when surfaces are complete //
-    			////////////////////////////////////////////////////r
+    			/////////////////////////////////////////////////////////////
+    			// to be filled out if/when surfaces are complete, if ever //
+    			/////////////////////////////////////////////////////////////
     			
-    		}
-    		if (body != null) {
-        		// set the body properties
-//				body.setLinearVelocity(new Vec2(xVel, yVel));
-//				body.setAngularVelocity(aVel);
-//				body.getShapeList().setFriction(friction);
-//				body.getShapeList().setRestitution(restitution);
-//				body.getShapeList().m_density = density; // idk why there's not a setter for this...
     		}
     		// handle pathing
     		if (currPathDef != null) {
@@ -406,6 +393,19 @@ public class XMLUtil {
     	level.setPlayer(newPlayer);
 	}
 	
+	/**
+	 * Helper method - sets up the provided body with a bunch of properties:
+	 * @param body
+	 * @param mobile
+	 * @param graphicalOnly
+	 * @param rotation
+	 * @param xVel
+	 * @param yVel
+	 * @param aVel
+	 * @param friction
+	 * @param restitution
+	 * @param density
+	 */
 	private void setGeneralPhysicsProperties(AbstractBody body, boolean mobile, boolean graphicalOnly, float rotation, float xVel, float yVel, float aVel, float friction, float restitution, float density){
 		body.getPhysicsDef().setMobile(mobile);
 		body.getPhysicsDef().setRotation(rotation);

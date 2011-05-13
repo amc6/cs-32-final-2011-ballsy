@@ -1,8 +1,11 @@
 package ballsy;
 
+/** 
+ * Simplifies the screen loading process.
+ */
+
 import menu.Menu;
 import menu.MenuButton;
-import editor.EditorLevel;
 import editor.LevelEditor;
 
 public class ScreenLoader implements Runnable {
@@ -19,6 +22,12 @@ public class ScreenLoader implements Runnable {
 	private String _fileName;
 	private MenuButton _current;
 	
+	/**
+	 * Constructor
+	 * @param s - the screen type (as in enum)
+	 * @param fileName for XMLevel
+	 * @param current menubutton pressed, if selected from select level
+	 */
 	public ScreenLoader(Screens s, String fileName, MenuButton current) {
 		_screenType = s;
 		_fileName = fileName;
@@ -33,9 +42,6 @@ public class ScreenLoader implements Runnable {
 			break;
 		case LEVEL_MENU:
 			screen = new Menu();
-			break;
-		case LEVEL_ONE:
-			screen = new LevelOne();
 			break;
 		case XML_LEVEL:
 			screen = new XMLLevel(_fileName,_current);

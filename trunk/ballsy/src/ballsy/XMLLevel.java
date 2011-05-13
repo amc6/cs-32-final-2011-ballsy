@@ -1,5 +1,11 @@
 package ballsy;
 
+/** 
+ * Generic level for playing a level stored in XML Data. Is used to play all
+ * saved levels. Extends from AbstractLevel, and relies on much of its functionality
+ * (input and whatnot, for example)
+ */
+
 import graphics.Background;
 import graphics.TrackingCamera;
 
@@ -12,11 +18,17 @@ import ballsy.ScreenLoader.Screens;
 import bodies.AbstractBody;
 
 public class XMLLevel extends AbstractLevel {
-	private String _path, _nextLevelPath;
+	private String _path;
 	private Background _background;
 	private TrackingCamera _camera;
 	private MenuButton _myButton;
 	
+	/**
+	 * Instantiated with a path to load, and the button it is loaded from, if it's loaded
+	 * from the choose level screen.
+	 * @param path
+	 * @param myButton
+	 */
 	public XMLLevel(String path, MenuButton myButton) {
 		_path = path;
 		_myButton = myButton;
@@ -28,74 +40,51 @@ public class XMLLevel extends AbstractLevel {
 		
 	}
 	
+	/**
+	 * Set up the physics world & bodies with the provided bounds
+	 */
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
-		// set up the physics world && bodies
 		_world = new PhysicsWorld(_window);
 		_world.createWorld(minX, minY, maxX, maxY);
 		_world.setGravity(_gravity.x, _gravity.y);
 		_bodies = new ArrayList<AbstractBody>();
 	}
 	
+	/**
+	 * Draw loop: draw everything in the level!
+	 */
 	public void draw() {
 		// draw window stuffs
 		_window.background(_backgroundColor);
 		_background.draw();
 		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
-		
-		
 		// step physics world
 		if (!_paused && !_won) {
 			_world.step();
 		}
+		// and update camera
 		_camera.update();
-		
 		// display all objects
 		for (AbstractBody body : _bodies) { body.display(); }
-		
+		// and apply the input (stored in boolean array)
 		this.applyInput();
-		
-		/*
-		// handle keypresses
-		if (_window.keyPressed) {
-			// check for WASD, move accordingly
-			switch (_window.key){
-			case 'a': // left
-				_player.moveLeft();
-				break;
-			case 'd': // right
-				_player.moveRight();
-				break;
-			case 's': // extend
-				if (_player.isGrappled()) {
-					_player.extendGrapple();
-				}
-				break;
-			case 'w': // retract
-				if (_player.isGrappled()) {
-					_player.retractGrapple();
-				}
-				break;	
-			}
-		}
-		*/
+		// handle pausedness and wonness
 		if (_paused) {
 			_pauseScreen.draw();
 		}else if (_won) {
 			_winScreen.draw();
 			_player.setCrosshairVisible(false);
 			_player.setInPlay(false);
-		}		
-		
-//		_window.noCursor();
+		}
 	}
 	
+	/**
+	 * Loads the level following the currently loaded one, or the level menu if this was the last.
+	 */
 	public void nextLevel() {
 		_myButton = _myButton.getNextLevel();
 		if (_myButton != null) {
 			_path =_myButton.getLevelPath();
-			//_won = false;
-			//_window.noCursor();
-			//this.reload();
 			_window.loadScreen(Screens.XML_LEVEL, _path, _myButton);
 		}
 		else {
@@ -125,16 +114,18 @@ public class XMLLevel extends AbstractLevel {
 		this.setInstance(); // set this level as the singleton
 		_window.fadeIn();
 		XMLUtil.getInstance().readFile(this, _path);
-//		_background = new Background(); causes a little bug... how do we fix this?
 		_camera = new TrackingCamera(_player);
 	}
 	
+	/**
+	 * Set this level as won - once it's won. Called from UserBall
+	 */
 	public void setWon() {
 		super.setWon();
 		_myButton.getNextLevel().setLocked(false);
 		XMLUtil.getInstance().addMenuButton(_myButton.getNextLevel());
 	}
 	
-	// necessary empty overrides
+	// necessary empty override
 	public void setup() { }
 }
