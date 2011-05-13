@@ -13,7 +13,7 @@ import static menu.MenuConstants.*;
 public class MenuButton {
 	
 	private Window _window;
-	private PImage _thumbnail;
+	private PImage _thumbnail, _lock;
 	private int _minX, _minY, _maxX, _maxY;
 	private String _levelPath, _thumbnailPath, _nextLevelPath;
 	private MenuButton _nextLevel;
@@ -24,6 +24,7 @@ public class MenuButton {
 		_levelPath = levelPath;
 		_thumbnailPath = thumbPath;
 		_thumbnail = _window.loadImage(thumbPath);
+		_lock = _window.loadImage("res/lock.png");
 		_nextLevelPath = null;
 	}
 	
@@ -84,7 +85,9 @@ public class MenuButton {
 		_window.rect(_minX-3, _minY-3, THUMBNAIL_SIZE+6, THUMBNAIL_SIZE+6);
 
 		_window.imageMode(_window.CORNER);
-		if (_locked) _window.tint(100, 100, 100);
+		if (_locked) {
+			_window.tint(100, 100, 100);
+		}
 		else _window.tint(255, 255, 255);
 		_window.image(_thumbnail, _minX, _minY);
 		_window.tint(255, 255, 255);
@@ -93,6 +96,10 @@ public class MenuButton {
 			_window.fill(255, 100);
 			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 		}
+		if (_locked) {
+			_window.image(_lock, _minX, _minY);
+		}
+
 	}
 	
 	public void click() {
