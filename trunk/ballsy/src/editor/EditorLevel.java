@@ -1,6 +1,9 @@
 package editor;
 
 import static bodies.BodyConstants.USER_RADIUS;
+import graphics.Background;
+import graphics.Text;
+import graphics.TrackingCamera;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,14 +18,14 @@ import physics.PhysicsRectangle;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.AbstractLevel;
+import ballsy.WelcomeScreen;
 import ballsy.XMLUtil;
 import bodies.AbstractBody;
 import bodies.Ball;
+import bodies.BodyConstants;
 import bodies.EndPoint;
 import bodies.Rectangle;
 import bodies.UserBall;
-import graphics.Background;
-import graphics.TrackingCamera;
 
 public class EditorLevel extends AbstractLevel {
 	private final float MINIMUM_SIZE = 1; // radius or width-or-height/2
@@ -223,7 +226,7 @@ public class EditorLevel extends AbstractLevel {
 					// set selected object to object under mousepress, or null if none
 					AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
 					if (hovBody != null) this.resetSelected(hovBody);
-					if (_rotating && _selectedBody != null) {
+					if (_rotating && _selectedBody != null && !this.isBorder(_selectedBody)) {
 						_rotationCenter = _selectedBody.getWorldPosition();
 					}
 				}
@@ -252,6 +255,9 @@ public class EditorLevel extends AbstractLevel {
 	public void mouseDragged() {
 		if (_running) super.mouseDragged();
 		else {
+			if (_selectedBody != null && this.isBorder(_selectedBody))
+				return; // if it's a border don't let people drag it!
+			
 			System.out.println("placeMode: " + _placeMode);
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
@@ -455,6 +461,7 @@ public class EditorLevel extends AbstractLevel {
 						// add
 						_selectedBody.getPhysicsDef().setRotation((float) (_selectedBody.getPhysicsDef().getRotation() + (Math.PI/2 - offset)));
 					}
+					_editor.updateFieldValues();
 				}
 				break;
 			case 'z':
@@ -475,6 +482,7 @@ public class EditorLevel extends AbstractLevel {
 				_rotating = true;
 			} 
 		}
+		
 	}
 	
 	public void keyReleased() {
@@ -574,7 +582,15 @@ public class EditorLevel extends AbstractLevel {
 	}
 	
 	public void updateWorldDimensions(float width, float height){
-		_world.setBounds(width, height);
+	
+		Text message = new Text("Loading...", _window.width/2, _window.height/2);
+		message.setColor(0,175);
+		message.draw();
+		
+		this.removeBorders(); // remove by looking through list for expected placement/sizes 
+		_world.setBounds(width, height);		
+		this.createBorders();
+		
 		_savedState = XMLUtil.getInstance().genXML(this);
 		// load in saved state
 		XMLUtil.getInstance().restoreXML(this, _savedState);
@@ -583,7 +599,6 @@ public class EditorLevel extends AbstractLevel {
 		_paused = false; // just so we toggle off of that
 		this.togglePaused();
 		_background = new Background();
-		
 		
 	}
 	
@@ -614,6 +629,54 @@ public class EditorLevel extends AbstractLevel {
 		this.stop(); //lol this gets rid of crosshair and smoke. we should probs do it more directly iunno.
 		this.centerCamera();
 		
+	}
+	
+	private void removeBorders(){
+		for (int i = 0; i < _bodies.size(); i++){
+			AbstractBody object = _bodies.get(i);
+			
+			if (this.isBorder(object)){
+				_bodies.remove(object); 
+				i--;
+			}
+		}
+	}
+	
+	public boolean isBorder(AbstractBody object){
+		if (object.getPhysicsDef() instanceof physics.PhysicsRectangle){
+			boolean leftBorder = object.getWorldPosition().x == 2 && object.getWorldPosition().y == _world.getHeight()/2 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getWidth() == 4 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getHeight() == _world.getHeight(); 
+			boolean rightBorder = object.getWorldPosition().x == _world.getWidth()-2 && object.getWorldPosition().y == _world.getHeight()/2 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getWidth() == 4 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getHeight() == _world.getHeight();
+			boolean topBorder = object.getWorldPosition().x == _world.getWidth()/2 && object.getWorldPosition().y == _world.getHeight()-2 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getWidth() == _world.getWidth() && ((physics.PhysicsRectangle) object.getPhysicsDef()).getHeight() == 4;
+			boolean bottomBorder = object.getWorldPosition().x == _world.getWidth()/2 && object.getWorldPosition().y == 2 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getWidth() == _world.getWidth() && ((physics.PhysicsRectangle) object.getPhysicsDef()).getHeight() == 4;
+
+			if (leftBorder || rightBorder || topBorder || bottomBorder){
+				return true;
+			}		
+		}
+		return false;
+	}
+	
+	public void createBorders(){
+				
+		ArrayList<Rectangle> borders = new ArrayList<Rectangle>();
+		
+		Rectangle borderLeft = new Rectangle(2, _world.getHeight()/2, 4, _world.getHeight());
+		Rectangle borderRight = new Rectangle(_world.getWidth()-2, _world.getHeight()/2, 4, _world.getHeight());
+		Rectangle borderTop = new Rectangle(_world.getWidth()/2, 2, _world.getWidth(), 4);
+		Rectangle borderBottom = new Rectangle(_world.getWidth()/2, _world.getHeight() - 2, _world.getWidth(), 4);
+		
+		borders.add(borderLeft);
+		borders.add(borderRight);
+		borders.add(borderTop);
+		borders.add(borderBottom);
+		
+		for (AbstractBody border : borders){
+			border.getPhysicsDef().setMobile(false);
+			border.setDeadly(true);
+			border.setGrappleable(false);
+			_bodies.add(border);
+		}
+
 	}
 	
 }

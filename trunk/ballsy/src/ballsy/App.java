@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import processing.core.PApplet;
 
@@ -20,6 +21,13 @@ public class App {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, URISyntaxException {
+		
+		try { 
+			  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+		} catch (Exception e) { 
+			  e.printStackTrace();  
+		} 
+		
 		int runCode = 0; // by default, just run Ballsy
 		try {
 			// check this copy's version number against the online version, if online.

@@ -26,7 +26,7 @@ import processing.core.*;
 
 public class IFLookAndFeel {
 	public int baseColor, borderColor, highlightColor, selectionColor, 
-				activeColor, textColor, lightGrayColor, darkGrayColor;
+				activeColor, textColor, lightGrayColor, darkGrayColor, textBG;
 	public IFPGraphicsState defaultGraphicsState;
 	public static final char DEFAULT = 1;
 	
@@ -52,6 +52,7 @@ public class IFLookAndFeel {
 			textColor = parent.color (0);
 			lightGrayColor = parent.color(100);
 			darkGrayColor = parent.color(50);
+			textBG = parent.color(255,150);
 			
 //			System.out.println("===== DEFAULT GRAPHICS STATE =====\ntextAlign:\t" + parent.g.textAlign +
 //					"\nrectMode:\t" + parent.g.rectMode +

@@ -46,6 +46,7 @@ public class UserBall extends AbstractBody {
 		this.getPhysicsDef().setDensity(DEFAULT_BODY_DENSITY*3);
 		this.getPhysicsDef().setFriction(200f); // to make rolling work well
 		this.getGraphicsDef().setSmoke(new Smoke(this)); // make the trail
+		this.setGrappleable(false);
 	}
 
 	// begin move control helper methods (just make things simpler, you know?)

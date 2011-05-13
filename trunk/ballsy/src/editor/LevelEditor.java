@@ -43,7 +43,7 @@ public class LevelEditor extends Screen {
 	private Text _errorMessage;
 	private PImage _levelEditorTitle, _levelEditorBack;
 
-	private GUIController _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC;
+	private GUIController _togglesC, _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC, _pathbuttonC;
 	private IFButton _pathButton;
 	private IFCheckBox _grappleableCheckBox, _deadlyCheckBox;
 	private IFRadioButton _dynamicRadio, _staticRadio, _graphicalRadio;
@@ -90,19 +90,25 @@ public class LevelEditor extends Screen {
 		_errorMessage.setColor(_window.color(0));
 		_errorMessage.setSize(0); //sets to STUPID_FONT. really need to redo this shit lol.
 		
-		_mainC = new GUIController(_window,false);
+		_mainC = new GUIController(_window, false);
+
 		
 		//look and feel
 		IFLookAndFeel ballsyLook = new IFLookAndFeel(_window, IFLookAndFeel.DEFAULT);
 		ballsyLook.baseColor = _window.color(255, 0);
 		ballsyLook.highlightColor = _window.color(55, 100);	  
-		ballsyLook.borderColor = _window.color(255);
+		ballsyLook.borderColor = _window.color(150);
+		ballsyLook.textBG = _window.color(255,100);
 		_mainC.setLookAndFeel(ballsyLook);
 		_mainC.setVisible(false);
 
+		_togglesC = new GUIController(_window, false);
+		_togglesC.setLookAndFeel(ballsyLook);
+		_togglesC.setVisible(false);
+		
 		//title: Shape Properties
 		IFLabel shapeLabel = new IFLabel("Shape Properties:", 15, (int) topPart+30);
-		_mainC.add(shapeLabel);
+		_togglesC.add(shapeLabel);
 		
 		//check boxes
 		int checkBoxStart = topPart + 60;
@@ -111,8 +117,8 @@ public class LevelEditor extends Screen {
 		_grappleableCheckBox.setSelected(true);
 		_deadlyCheckBox = new IFCheckBox("Deadly", 15, checkBoxStart+20);
 		_deadlyCheckBox.addActionListener(this);	
-		_mainC.add(_grappleableCheckBox);
-		_mainC.add(_deadlyCheckBox);
+		_togglesC.add(_grappleableCheckBox);
+		_togglesC.add(_deadlyCheckBox);
 		
 		//radio buttons
 		IFRadioController rc = new IFRadioController("Mode Selector");
@@ -234,6 +240,8 @@ public class LevelEditor extends Screen {
 		_objectC.add(_centerY);
 				
 	
+		_pathbuttonC = new GUIController(_window);
+		_pathbuttonC.setLookAndFeel(ballsyLook);
 		
 		//path controls: display if there is a path
 		_pathC = new GUIController(_window);
@@ -242,7 +250,7 @@ public class LevelEditor extends Screen {
 		
 		_pathButton = new IFButton("Add Path", 15, pathStart, (int) (EditorConstants.LEFT_PANEL_WIDTH-30));
 		_pathButton.addActionListener(this);
-		_objectC.add(_pathButton);
+		_pathbuttonC.add(_pathButton);
 		
 		_pathSpeedLabel = new IFLabel("Path Speed", 15, (int) pathStart + 30);
 		_pathSpeed = new TextField("Path Speed", 90, (int) pathStart - 4 + 30, 60, this);
@@ -265,46 +273,48 @@ public class LevelEditor extends Screen {
 		//world properties
 		float propertiesStart = _window.height - 120;
 		IFLabel worldLabel = new IFLabel("World Properties:", 15, (int) propertiesStart-30);
-		_mainC.add(worldLabel);
+		_togglesC.add(worldLabel);
 		
 		_worldWidthLabel = new IFLabel("Width", 15, (int) propertiesStart);
 		_worldWidth = new TextField("World Width", 90, (int) propertiesStart - 4, 60, this);
 		_worldWidth.setValue(_level.getWorldWidth());
 		_worldWidth.addActionListener(this);
-		_mainC.add(_worldWidthLabel);
-		_mainC.add(_worldWidth);
+		_togglesC.add(_worldWidthLabel);
+		_togglesC.add(_worldWidth);
 		
 		_worldHeightLabel = new IFLabel("Height", 15, (int) propertiesStart + 30);
 		_worldHeight = new TextField("World Height", 90, (int) propertiesStart - 4 + 30, 60, this);
 		_worldHeight.setValue(_level.getWorldHeight());
 		_worldHeight.addActionListener(this);
-		_mainC.add(_worldHeightLabel);
-		_mainC.add(_worldHeight);
+		_togglesC.add(_worldHeightLabel);
+		_togglesC.add(_worldHeight);
 		
 		_gravityXLabel = new IFLabel("Gravity X", 15, (int) propertiesStart + 60);
 		_gravityX = new TextField("Gravity X", 90, (int) propertiesStart - 4 + 60, 60, this);
 		_gravityX.setValue(_level.getGravity().x);
 		_gravityX.addActionListener(this);
-		_mainC.add(_gravityXLabel);
-		_mainC.add(_gravityX);
+		_togglesC.add(_gravityXLabel);
+		_togglesC.add(_gravityX);
 		
 		_gravityYLabel = new IFLabel("Gravity Y", 15, (int) propertiesStart + 90);
 		_gravityY = new TextField("Gravity Y", 90, (int) propertiesStart - 4 + 90, 60, this);
 		_gravityY.setValue(_level.getGravity().y);
 		_gravityY.addActionListener(this);
-		_mainC.add(_gravityYLabel);
-		_mainC.add(_gravityY);
+		_togglesC.add(_gravityYLabel);
+		_togglesC.add(_gravityY);
 		
 		
 		this.addTopControls();
 
 		_components.addAll(_sidesC.getComponents());
 		_components.addAll(_mainC.getComponents());
+		_components.addAll(_togglesC.getComponents());
 		_components.addAll(_objectC.getComponents());
 		_components.addAll(_rectC.getComponents());
 		_components.addAll(_polyC.getComponents());
 		_components.addAll(_ballC.getComponents());
 		_components.addAll(_pathC.getComponents());
+		_components.addAll(_pathbuttonC.getComponents());
 		
 		temp.restoreSettingsToApplet(_window);
 	
@@ -384,7 +394,12 @@ public class LevelEditor extends Screen {
 				//nothing is selected
 				_factory.grappleable = _grappleableCheckBox.isSelected();
 			} else {
-				_level.getSelected().setGrappleable(_grappleableCheckBox.isSelected());
+				// Only set attribute if body is not the user's ball or the end
+				if (!(_level.getSelected() instanceof bodies.UserBall) && !(_level.getSelected() instanceof bodies.EndPoint)){
+					_level.getSelected().setGrappleable(_grappleableCheckBox.isSelected());
+				}else{
+					_grappleableCheckBox.setSelected(false);
+				}
 			}
 			
 		}
@@ -399,7 +414,12 @@ public class LevelEditor extends Screen {
 				//nothing is selected
 				_factory.deadly = _deadlyCheckBox.isSelected();
 			} else {
-				_level.getSelected().setDeadly(_deadlyCheckBox.isSelected());
+				// Only set attribute if body is not the user's ball or the end
+				if (!(_level.getSelected() instanceof bodies.UserBall) && !(_level.getSelected() instanceof bodies.EndPoint)){
+					_level.getSelected().setDeadly(_deadlyCheckBox.isSelected());
+				}else {
+					_deadlyCheckBox.setSelected(false);
+				}
 			}
 		} 
 		else if (e.getSource() == _dynamicRadio) {
@@ -409,7 +429,7 @@ public class LevelEditor extends Screen {
 				_factory.dynamic = _dynamicRadio.isSelected();
 				_factory.graphicalOnly = false;
 			} else {
-				System.out.println("here");
+				
 				_level.getSelected().getPhysicsDef().setMobile(true);
 				if (_level.getSelected().getPath() != null)
 					_level.getSelected().getPath().setStatic(false);
@@ -424,11 +444,16 @@ public class LevelEditor extends Screen {
 				_factory.dynamic = _dynamicRadio.isSelected();
 				_factory.graphicalOnly = false;
 			} else {
-				_level.getSelected().getPhysicsDef().setMobile(false);
-				if (_level.getSelected().getPath() != null)
-					_level.getSelected().getPath().setStatic(true);
-				
-				_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
+				// Only set attribute if body is not the user's ball or the end
+				if (!(_level.getSelected() instanceof bodies.UserBall)){
+					_level.getSelected().getPhysicsDef().setMobile(false);
+					if (_level.getSelected().getPath() != null)
+						_level.getSelected().getPath().setStatic(true);
+					
+					_level.getSelected().getPhysicsDef().setGraphicalOnly(false);
+				}else{
+					_dynamicRadio.setSelected(); // don't change the userball off of dynamic
+				}
 			}
 		}
 		else if (e.getSource() == _graphicalRadio) {
@@ -441,11 +466,19 @@ public class LevelEditor extends Screen {
 				_grappleableCheckBox.setSelected(false);
 				_deadlyCheckBox.setSelected(false);
 			} else {
-				_level.getSelected().getPhysicsDef().setGraphicalOnly(_graphicalRadio.isSelected());
-				_level.getSelected().setDeadly(false);
-				_level.getSelected().setGrappleable(false);
-				_grappleableCheckBox.setSelected(false);
-				_deadlyCheckBox.setSelected(false);
+				// Only set attribute if body is not the user's ball or the end
+				if (!(_level.getSelected() instanceof bodies.UserBall) && !(_level.getSelected() instanceof bodies.EndPoint)){
+					_level.getSelected().getPhysicsDef().setGraphicalOnly(_graphicalRadio.isSelected());
+					_level.getSelected().setDeadly(false);
+					_level.getSelected().setGrappleable(false);
+					_grappleableCheckBox.setSelected(false);
+					_deadlyCheckBox.setSelected(false);
+				}else{
+					if (_level.getSelected().getPhysicsDef().getMobile())
+						_dynamicRadio.setSelected();
+					else if (!_level.getSelected().getPhysicsDef().getMobile())
+						_staticRadio.setSelected();
+				}
 			}
 		}
 		else if (e.getSource() == _pathButton) {
@@ -511,7 +544,7 @@ public class LevelEditor extends Screen {
 			if (LevelEditor.isValidNumber(_centerX.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(Float.parseFloat(_centerX.getValue()), _level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
-					_level.getSelected().setPosition(newPos);
+					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
 				}
 			}
 		}
@@ -519,16 +552,16 @@ public class LevelEditor extends Screen {
 			if (LevelEditor.isValidNumber(_centerY.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x, Float.parseFloat(_centerY.getValue()));
-					_level.getSelected().setPosition(newPos);
+					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
 				}
 			}
 		}
 		else if (e == _rotation) {
 			if (LevelEditor.isValidNumber(_rotation.getValue())){
 				if (_level.getSelected() == null) {
-					_factory.rotation = Float.parseFloat(_rotation.getValue());
+					_factory.rotation = (float) Math.toRadians(Float.parseFloat(_rotation.getValue()));
 				} else {
-					_level.getSelected().getPhysicsDef().setRotation(Float.parseFloat(_rotation.getValue()));
+					_level.getSelected().getPhysicsDef().setRotation((float) Math.toRadians(Float.parseFloat(_rotation.getValue())));
 				}
 			}
 		}
@@ -562,7 +595,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _sides) {
-			if (LevelEditor.isPositive(_sides.getValue(), 3)){ // minimum of three sides
+			if (LevelEditor.isGreaterOrEqual(_sides.getValue(), 3)){ // minimum of three sides
 				// assume we're not selecting anything
 				_factory.polyPointCount = Integer.parseInt(_sides.getValue());
 			}
@@ -588,19 +621,19 @@ public class LevelEditor extends Screen {
 		else if (e == _pathRotation) {
 			if (LevelEditor.isValidNumber(_pathRotation.getValue())){
 				if (_level.getSelected() != null) {
-					_level.getSelected().getPath().setRotation(Float.parseFloat(_pathRotation.getValue()));
+					_level.getSelected().getPath().setRotation((float) Math.toRadians(Float.parseFloat(_pathRotation.getValue())));
 				}
 			}
 		}
 		else if (e == _worldWidth) {
 			//set gravity
-			if (LevelEditor.isPositive(_worldWidth.getValue(), 100)){ // 100 is minimum
+			if (LevelEditor.isGreaterLessEqual(_worldWidth.getValue(), 150, 400)){
 				_level.updateWorldDimensions(Float.parseFloat(_worldWidth.getValue()), _level.getWorldHeight());
 			}
 		}
 		else if (e == _worldHeight) {
 			//set gravity
-			if (LevelEditor.isPositive(_worldHeight.getValue(), 100)){ // 100 is minimum
+			if (LevelEditor.isGreaterLessEqual(_worldHeight.getValue(), 100, 400)){ 
 				_level.updateWorldDimensions(_level.getWorldWidth(), Float.parseFloat(_worldHeight.getValue()));
 			}
 		}
@@ -614,6 +647,7 @@ public class LevelEditor extends Screen {
 //		_level = new EditorLevel(this, _factory);
 //		_level.setup();
 		XMLUtil.getInstance().readFile(_level, _blankLevelPath);
+		_level.createBorders();
 		_level.play();
 		_level.stop();
 		_level.centerCamera();
@@ -681,28 +715,38 @@ public class LevelEditor extends Screen {
 			_polyC.setVisible(false);
 			_ballC.setVisible(false);
 			_pathC.setVisible(false);
+			_pathbuttonC.setVisible(false);
 			_sidesC.setVisible(false);
 			
-			_mainC.setVisible(true);
+			_togglesC.setVisible(true);
+			
+			if (!(_level.getSelected() != null && _level.isBorder(_level.getSelected()))){
+				_mainC.setVisible(true);
 	
-			if (_level.getSelected() != null){
-				_objectC.setVisible(true);
+		
+				if (_level.getSelected() != null){
+					_objectC.setVisible(true);
+				}
+				if (_level.getSelected() != null && !(_level.getSelected() instanceof bodies.UserBall)){
+					_pathbuttonC.setVisible(true);
+				}
+				if (_rectButton.isClicked() || _level.getSelected() instanceof bodies.Rectangle) {
+					_rectC.setVisible(true);
+				}
+				if (_level.getSelected() instanceof bodies.IrregularPolygon || _level.getSelected() instanceof bodies.RegularPolygon) {
+					_polyC.setVisible(true);
+				}
+				if (_triangleButton.isClicked() || _ballButton.isClicked() || _level.getSelected() instanceof bodies.Ball) {
+					_ballC.setVisible(true);
+				}
+				if (_triangleButton.isClicked()){
+					_sidesC.setVisible(true);
+				}			
+				if (_level.getSelected() != null && _level.getSelected().getPath() != null) {
+					_pathC.setVisible(true);
+				}
 			}
-			if (_rectButton.isClicked() || _level.getSelected() instanceof bodies.Rectangle) {
-				_rectC.setVisible(true);
-			}
-			if (_level.getSelected() instanceof bodies.IrregularPolygon || _level.getSelected() instanceof bodies.RegularPolygon) {
-				_polyC.setVisible(true);
-			}
-			if (_triangleButton.isClicked() || _ballButton.isClicked() || _level.getSelected() instanceof bodies.Ball) {
-				_ballC.setVisible(true);
-			}
-			if (_triangleButton.isClicked()){
-				_sidesC.setVisible(true);
-			}			
-			if (_level.getSelected() != null && _level.getSelected().getPath() != null) {
-				_pathC.setVisible(true);
-			}
+			
 			
 			_errorMessage.draw();
 		
@@ -711,14 +755,15 @@ public class LevelEditor extends Screen {
 	}
 
 	public void onClose() {
-//		System.out.println("hiding shit");
 		_mainC.setVisible(false);
+		_togglesC.setVisible(false);
 		_objectC.setVisible(false);
 		_rectC.setVisible(false);
 		_polyC.setVisible(false);
 		_sidesC.setVisible(false);
 		_ballC.setVisible(false);
 		_pathC.setVisible(false);
+		_pathbuttonC.setVisible(false);
 	}
 	
 	@Override
@@ -807,8 +852,12 @@ public class LevelEditor extends Screen {
 		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) > 0;
 	}
 	
-	private static boolean isPositive(String string, float min){
+	private static boolean isGreaterOrEqual(String string, float min){
 		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) >= min;
+	}
+	
+	private static boolean isGreaterLessEqual(String string, float min, float max){
+		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) >= min && Float.parseFloat(string) <= max;
 	}
 	
 	public void updateFieldValues(){
@@ -829,7 +878,7 @@ public class LevelEditor extends Screen {
 			_friction.setValue(_factory.friction);
 			_bounciness.setValue(_factory.bounciness);
 			
-			_rotation.setValue(_factory.rotation);
+			_rotation.setValue((float) Math.toDegrees(_factory.rotation));
 			
 			// For rectangles
 			_width.setValue(_factory.width);
@@ -862,7 +911,7 @@ public class LevelEditor extends Screen {
 			
 			_centerX.setValue(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x);
 			_centerY.setValue(_level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
-			_rotation.setValue(_level.getSelected().getPhysicsDef().getRotation());
+			_rotation.setValue((float) Math.toDegrees(_level.getSelected().getPhysicsDef().getRotation()));
 			
 			// For rectangles
 			if (_level.getSelected().getPhysicsDef() instanceof PhysicsRectangle){
@@ -883,7 +932,7 @@ public class LevelEditor extends Screen {
 			
 			if (_level.getSelected().getPath() != null){
 				_pathSpeed.setValue(_level.getSelected().getPath().getVelCoeff());
-				_pathRotation.setValue(_level.getSelected().getPath().getRotation());
+				_pathRotation.setValue((float) Math.toDegrees(_level.getSelected().getPath().getRotation()));
 				_pathButton.setLabel("Remove Path");
 			} else {
 				if (_pathButton.getLabel().equals("Remove Path") || (_pathButton.getLabel().equals("End Path") && !_level.selectingPoints())) 

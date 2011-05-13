@@ -75,6 +75,10 @@ public class Text {
 		_inactiveColor = color;
 	}
 	
+	public void setColor(int gray, int alpha) {
+		_inactiveColor = _window.color(gray, alpha);
+	}
+	
 	public void setActiveColor(int color) {
 		_activeColor = color;
 	}
