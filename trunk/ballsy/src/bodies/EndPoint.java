@@ -18,6 +18,7 @@ public class EndPoint extends AbstractBody{
 		GraphicsImage graphics = new GraphicsImage(ENDPOINT_IMAGE);
 		this.setPhysicsAndGraphics(physics, graphics);
 		this.setEndpoint(true);
+		this.getPhysicsDef().setMobile(false);
 	}
 	
 	public Element writeXML() {

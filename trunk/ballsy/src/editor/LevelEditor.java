@@ -57,7 +57,7 @@ public class LevelEditor extends Screen {
 	private BodyFactory _factory;
 	private GUIComponent _componentWithFocus; // managed in draw step
 	private ArrayList<GUIComponent> _components;
-	private String _blankLevelPath = "levels/GenericLevel.ball";
+	private String _blankLevelPath = "res/GenericLevel.ball";
 	
 	@Override
 	public void setup() {
@@ -131,10 +131,10 @@ public class LevelEditor extends Screen {
 
 		_mainC.add(_dynamicRadio);
 		_mainC.add(_staticRadio);
-		_mainC.add(_graphicalRadio);
+		//_mainC.add(_graphicalRadio); Future version maybe
 
 		//more default shape properties
-		int defaultStart = radioStart + 80;
+		int defaultStart = radioStart + 60;
 		_frictionLabel = new IFLabel("Friction", 15, (int) defaultStart);
 		_friction = new TextField("Friction", 90, (int) defaultStart - 4, 60, this);
 		_friction.setValue(_factory.friction);
