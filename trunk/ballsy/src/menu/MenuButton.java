@@ -17,6 +17,7 @@ public class MenuButton {
 	private int _minX, _minY, _maxX, _maxY;
 	private String _levelPath, _thumbnailPath, _nextLevelPath;
 	private MenuButton _nextLevel;
+	private boolean _locked = false, _custom = false;
 	
 	public MenuButton(String levelPath, String thumbPath) {
 		_window = Window.getInstance();
@@ -35,6 +36,22 @@ public class MenuButton {
 		_minY = y;
 		_maxX = x + THUMBNAIL_SIZE;
 		_maxY = y + THUMBNAIL_SIZE;
+	}
+	
+	public void setLocked(boolean b) {
+		_locked = b;
+	}
+	
+	public boolean isLocked() {
+		return _locked;
+	}
+	
+	public void setCustom(boolean b) {
+		_custom = b;
+	}
+	
+	public boolean isCustom() {
+		return _custom;
 	}
 	
 	public String getLevelPath() {
@@ -67,8 +84,11 @@ public class MenuButton {
 		_window.rect(_minX-3, _minY-3, THUMBNAIL_SIZE+6, THUMBNAIL_SIZE+6);
 
 		_window.imageMode(_window.CORNER);
+		if (_locked) _window.tint(100, 100, 100);
+		else _window.tint(255, 255, 255);
 		_window.image(_thumbnail, _minX, _minY);
-		if (mouseInBounds()) { //inactive
+		_window.tint(255, 255, 255);
+		if (mouseInBounds() && !_locked) { //inactive
 			_window.rectMode(_window.CORNER);
 			_window.fill(255, 100);
 			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
@@ -76,7 +96,7 @@ public class MenuButton {
 	}
 	
 	public void click() {
-		if (mouseInBounds()) {
+		if (mouseInBounds() && !_locked) {
 			//_window.setScreenAndSetup(new XMLLevel(_levelPath, this));
 			_window.loadScreen(Screens.XML_LEVEL,_levelPath,this);
 		}

@@ -8,6 +8,8 @@ import graphics.TrackingCamera;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import menu.MenuButton;
+
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 
@@ -613,7 +615,7 @@ public class EditorLevel extends AbstractLevel {
 		String thumbPathname = "levels/thumbs/" + name.substring(0, name.indexOf('.')) + ".png";
 		XMLUtil.getInstance().writeFile(this, pathname);
 		this.makeThumbnail(thumbPathname);
-		XMLUtil.getInstance().addMenuButton(pathname, thumbPathname);
+		XMLUtil.getInstance().addMenuButton(new MenuButton(pathname, thumbPathname));
 	}
 	
 	public void setLoad(String name){
