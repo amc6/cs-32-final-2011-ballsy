@@ -1,5 +1,7 @@
 package graphics;
 
+import org.jbox2d.common.Vec2;
+
 import processing.core.PImage;
 import ballsy.Window;
 
@@ -19,10 +21,7 @@ public class Image {
 		_height = _image.height;
 		_x = x;
 		_y = y;
-		_minX = x-_width/2;
-		_maxX = x+_width/2;
-		_minY = y-_height/2;
-		_maxY = y+_height/2;
+		this.updateBounds();
 	}
 	
 	/**
@@ -33,6 +32,13 @@ public class Image {
 		_window.image(_image, _x, _y);
 	}
 	
+	/**
+	 * 
+	 * @return location
+	 */
+	public Vec2 getLocation() {
+		return new Vec2(_x,_y);
+	}
 	
 	/**
 	 * Sets location of image
@@ -42,18 +48,29 @@ public class Image {
 	public void setLocation(int x, int y) {
 		_x = x;
 		_y = y;
-		_minX = x-_width/2;
-		_maxX = x+_width/2;
-		_minY = y-_height/2;
-		_maxY = y+_height/2;
+		this.updateBounds();
 	}
 	
 	public void setImageMode(int imageMode) {
 		_imageMode = imageMode;
 	}
 	
-	/**
-	 * 
+	public void updateBounds() {
+		if(_imageMode == _window.CORNER){
+			_minX = _x;
+			_maxX = _x+_width;
+			_minY = _y;
+			_maxY = _y+_height;
+		}
+		else if (_imageMode == _window.CENTER) {
+			_minX = _x-_width/2;
+			_maxX = _x+_width/2;
+			_minY = _y-_height/2;
+			_maxY = _y+_height/2;
+		}
+	}
+	
+	/** 
 	 * @return true if mouse is over image, false otherwise
 	 */
 	public boolean mouseOver() {
