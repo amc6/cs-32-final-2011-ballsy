@@ -8,7 +8,7 @@ import bodies.AbstractBody;
 
 public class TrackingCamera {
 	
-	public final float SCREEN_PERCENT = .3f;
+	public final float SCREEN_PERCENT = .4f;
 	
 	private PhysicsWorld _world;
 	private Window _window;
@@ -46,18 +46,36 @@ public class TrackingCamera {
 	public void update() {
 		
 		Vec2 pos = _body.getWorldPosition();
-		float dx = _world.scalarWorldToPixels(pos.x-_oldX);
-		float dy = _world.scalarWorldToPixels(pos.y-_oldY);
+		float dxpixel = _world.scalarWorldToPixels(pos.x-_oldX);
+		float dypixel = _world.scalarWorldToPixels(pos.y-_oldY);
+		float dxworld = pos.x-_oldX;
+		float dyworld = pos.y-_oldY;
 
-		Vec2 top = _world.coordPixelsToWorld(_window.width/2,dy);
-		Vec2 bottom = _world.coordPixelsToWorld(_window.width/2, _window.height+dy);
-		Vec2 farLeft = _world.coordPixelsToWorld(0+dx,_window.height/2);
-		Vec2 farRight = _world.coordPixelsToWorld(_window.width+dx, _window.height/2);
+		Vec2 top = _world.coordPixelsToWorld(_window.width/2,0);
+		Vec2 bottom = _world.coordPixelsToWorld(_window.width/2, _window.height+0);
+		Vec2 farLeft = _world.coordPixelsToWorld(0,_window.height/2);
+		Vec2 farRight = _world.coordPixelsToWorld(_window.width, _window.height/2);
 		
-		if (_world.worldXtoPixelX(pos.x) < _window.width*SCREEN_PERCENT && dx < 0 && _world.contains(farLeft.add(new Vec2(dx,0)))) _world.moveCamera(dx, 0);
-		if (_world.worldXtoPixelX(pos.x) > _window.width*(1-SCREEN_PERCENT) && dx > 0 && _world.contains(farRight.add(new Vec2(dx,0)))) _world.moveCamera(dx, 0);
-		if (_world.worldYtoPixelY(pos.y) < _window.height*SCREEN_PERCENT && dy > 0 && _world.contains(top.add(new Vec2(0,dy)))) _world.moveCamera(0, dy);
-		if (_world.worldYtoPixelY(pos.y) > _window.height*(1-SCREEN_PERCENT) && dy < 0 && _world.contains(bottom.add(new Vec2(0,dy)))) _world.moveCamera(0, dy);
+		if (_world.worldXtoPixelX(pos.x) < _window.width*SCREEN_PERCENT && dxpixel < 0) {
+			if (_world.contains(farLeft.add(new Vec2(dxworld,0)))) {
+				_world.moveCamera(dxpixel, 0);
+			}
+		}
+		if (_world.worldXtoPixelX(pos.x) > _window.width*(1-SCREEN_PERCENT) && dxpixel > 0) {
+			if (_world.contains(farRight.add(new Vec2(dxworld,0)))) {
+				_world.moveCamera(dxpixel, 0);
+			}
+		}
+		if (_world.worldYtoPixelY(pos.y) < _window.height*SCREEN_PERCENT && dypixel > 0 ) {
+			if (_world.contains(top.add(new Vec2(0,dyworld)))) {
+				_world.moveCamera(0, dypixel);
+			}
+		}
+		if (_world.worldYtoPixelY(pos.y) > _window.height*(1-SCREEN_PERCENT) && dypixel < 0) {
+			if (_world.contains(bottom.add(new Vec2(0,dyworld)))) {
+				_world.moveCamera(0, dypixel);
+			}
+		}
 		
 		
 		_oldX = pos.x;
