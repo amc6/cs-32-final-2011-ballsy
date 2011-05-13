@@ -117,7 +117,6 @@
 		<copy file="mac/libjogl.jnilib" todir="build"/>
 		<copy file="mac/libjogl_awt.jnilib" todir="build"/>
 		<copy file="mac/libjogl_cg.jnilib" todir="build"/>
-		<jarbundler dir="build" name="ballsy" mainclass="ballsy.App" jar="ballsy.jar"/>
 		<delete file="mac/ballsy_mac.zip"/>
 		<zip destfile="mac/ballsy_mac.zip" basedir="build"/>
 	</target>
@@ -140,5 +139,4 @@
 	<target name="test">
 		<echo message="ant.java.version: ${os.arch}" />
 	</target>
-	<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
 </project>
