@@ -74,6 +74,7 @@ public class IFButton extends GUIComponent {
 		int x = getX(), y = getY(), hgt = getHeight(), wid = getWidth();
 	
 		controller.parent.stroke(lookAndFeel.borderColor);
+		controller.parent.stroke(lookAndFeel.borderColor);
 		controller.parent.fill(currentColor);
 		controller.parent.rect(x, y, wid, hgt);
 		controller.parent.fill (lookAndFeel.textColor);

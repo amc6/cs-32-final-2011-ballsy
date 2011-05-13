@@ -747,9 +747,9 @@ public class IFTextField extends GUIComponent {
 			currentColor = lookAndFeel.baseColor;
 		}*/
 
-		// Draw the surrounding box
-		controller.parent.stroke(lookAndFeel.highlightColor);
-		controller.parent.fill(lookAndFeel.borderColor);
+		// Draw the surrounding box33
+		controller.parent.stroke(lookAndFeel.borderColor);
+		controller.parent.fill(lookAndFeel.textBG);
 		controller.parent.rect(getX(), getY(), getWidth(), getHeight());
 		controller.parent.noStroke();
 
