@@ -135,6 +135,7 @@ public class UserBall extends AbstractBody {
 	}
 	
 	public void retractGrapple() {
+		this.getPhysicsDef().getBody().wakeUp();
 		_grapple.retractGrapple();
 	}
 	
