@@ -125,8 +125,8 @@ public class XMLLevel extends AbstractLevel {
 	
 	public void setWon() {
 		super.setWon();
-		_myButton.setLocked(false);
-		XMLUtil.getInstance().addMenuButton(_myButton);
+		_myButton.getNextLevel().setLocked(false);
+		XMLUtil.getInstance().addMenuButton(_myButton.getNextLevel());
 	}
 	
 	// necessary empty overrides

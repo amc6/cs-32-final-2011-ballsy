@@ -17,7 +17,7 @@ public class MenuButton {
 	private int _minX, _minY, _maxX, _maxY;
 	private String _levelPath, _thumbnailPath, _nextLevelPath;
 	private MenuButton _nextLevel;
-	private boolean _locked = false, _custom = false;
+	private boolean _locked = false, _custom = true;
 	
 	public MenuButton(String levelPath, String thumbPath) {
 		_window = Window.getInstance();
