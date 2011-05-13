@@ -2,6 +2,8 @@ package ballsy;
 
 import graphics.Smoke;
 import graphics.Text;
+
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ import ddf.minim.AudioSample;
 import ddf.minim.Minim;
 
 import physics.PhysicsWorld;
+import processing.core.PConstants;
 import bodies.AbstractBody;
 import bodies.UserBall;
 
@@ -126,20 +129,24 @@ public abstract class AbstractLevel extends Screen {
 			if (!_won) this.togglePaused();
 		}
 		// handle control keypresses
-		switch (_window.key) {
-		case 'a':
+		switch (_window.keyCode) {
+		case KeyEvent.VK_A:
+		case KeyEvent.VK_LEFT:
 			// left
 			_keys[LEFT] = true;
 			break;
-		case 'd':
+		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT:
 			// right
 			_keys[RIGHT] = true;
 			break;
-		case 'w':
+		case KeyEvent.VK_W:
+		case KeyEvent.VK_UP:
 			// up
 			_keys[UP] = true;
 			break;
-		case 's':
+		case KeyEvent.VK_S:
+		case KeyEvent.VK_DOWN:
 			// down
 			_keys[DOWN] = true;
 			break;
@@ -151,20 +158,24 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public void keyReleased() {
 		// handle control keyreleases
-		switch (_window.key) {
-		case 'a':
+		switch (_window.keyCode) {
+		case KeyEvent.VK_A:
+		case KeyEvent.VK_LEFT:
 			// left
 			_keys[LEFT] = false;
 			break;
-		case 'd':
+		case KeyEvent.VK_D:
+		case KeyEvent.VK_RIGHT:
 			// right
 			_keys[RIGHT] = false;
 			break;
-		case 'w':
+		case KeyEvent.VK_W:
+		case KeyEvent.VK_UP:
 			// up
 			_keys[UP] = false;
 			break;
-		case 's':
+		case KeyEvent.VK_S:
+		case KeyEvent.VK_DOWN:
 			// down
 			_keys[DOWN] = false;
 			break;
