@@ -1,5 +1,9 @@
 package bodies;
 
+/**
+ * contains all constants associated with the bodies themselves.
+ */
+
 import ballsy.Window;
 
 public final class BodyConstants {

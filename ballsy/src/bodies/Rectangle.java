@@ -1,18 +1,13 @@
 package bodies;
 
-import static bodies.BodyConstants.DEFAULT_BODY_BOUNCINESS;
+/**
+ * Body wrapper for physics and graphics defs of the rectangle.
+ */
+
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
-import static bodies.BodyConstants.DEFAULT_BODY_DENSITY;
-import static bodies.BodyConstants.DEFAULT_BODY_FRICTION;
-import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
-import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
 import graphics.GraphicsRectangle;
-
 import org.dom4j.Element;
-
 import physics.PhysicsRectangle;
-import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
 
 public class Rectangle extends AbstractBody {
 

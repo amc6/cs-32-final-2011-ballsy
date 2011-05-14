@@ -1,5 +1,9 @@
 package bodies;
 
+/**
+ * A link in the grappleRope.
+ */
+
 import static bodies.BodyConstants.*;
 
 import org.jbox2d.dynamics.joints.DistanceJoint;

@@ -10,18 +10,12 @@ import static bodies.BodyConstants.USER_MAX_VELOCITY;
 import static bodies.BodyConstants.USER_MOVE_COEFFICIENT;
 import graphics.Crosshair;
 import graphics.Smoke;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
-
 import ballsy.AbstractLevel;
 import ballsy.XMLLevel;
-import ballsy.ScreenLoader.Screens;
-import ddf.minim.AudioSample;
-import ddf.minim.Minim;
 import editor.EditorLevel;
 
 public class UserBall extends AbstractBody {
@@ -31,13 +25,6 @@ public class UserBall extends AbstractBody {
 	private Point2D.Float _grapplePoint;
 	private boolean _grappled = false, _inPlay = true;
 	private GrappleLine _grapple;
-	
-	/* no sound for now
-		// sound shits.
-		private Minim _minim = new Minim(_window);
-		private AudioSample _sound = _minim.loadSample("res/boop.wav", 2048);
-		private float _maxVelocity = 50; // potential max velocity!?
-	*/
 	
 	public UserBall(float centerX, float centerY, float radius) {
 		this.setPhysicsAndGraphics(new physics.PhysicsBall(centerX, centerY, radius), new graphics.GraphicsUserBall());
@@ -196,20 +183,6 @@ public class UserBall extends AbstractBody {
 	 * handle UserBall collisions specially!
 	 */
 	public void handleCollision(AbstractBody other, float velocity) {
-		/* sound is out of the picture for now... maybe in a future version
-			// make a fun sound!
-			_sound.stop();
-			// scale the volume
-			float min = -40;
-			float max = 12f;
-			if (velocity > _maxVelocity) velocity = _maxVelocity;
-			float percent = velocity / _maxVelocity;
-			float gain = min + (max - min)*percent;
-			System.out.println(gain);
-			_sound.setGain(gain);
-			_sound.trigger();
-		*/
-		
 		if (other.isEndpoint()) {
 			// ahoy! We've reached an endpoint.
 			if (AbstractLevel.getInstance() instanceof EditorLevel) {
@@ -217,7 +190,6 @@ public class UserBall extends AbstractBody {
 				((EditorLevel) AbstractLevel.getInstance()).stop();
 			} else {
 				// it's a real level. make shit happen
-//				_window.loadScreen(Screens.WELCOME_SCREEN);
 				AbstractLevel.getInstance().setWon();
 
 			}

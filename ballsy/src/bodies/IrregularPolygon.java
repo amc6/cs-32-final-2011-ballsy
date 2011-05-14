@@ -1,16 +1,15 @@
 package bodies;
 
+/**
+ * Body wrapper for physics and graphics defs of the irregular polygon.
+ */
+
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
 import graphics.GraphicsPolygon;
-
 import java.util.ArrayList;
-
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
-
 import physics.PhysicsPolygon;
-import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
 
 public class IrregularPolygon extends AbstractBody {
 		

@@ -1,5 +1,10 @@
 package bodies;
 
+/**
+ * Endpoint definition. Most important for its constructor, which sets up the
+ * physics and graphical defs.
+ */
+
 import graphics.GraphicsImage;
 
 import org.dom4j.Element;
@@ -13,6 +18,13 @@ public class EndPoint extends AbstractBody{
 		this(x,y,ENDPOINT_WIDTH,ENDPOINT_HEIGHT);
 	}
 	
+	/**
+	 * Instantiate an endpoint, and set related properties in physics and graphics.
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public EndPoint(float x, float y, float width, float height) {
 		PhysicsRectangle physics = new PhysicsRectangle(x,y,width,height);
 		GraphicsImage graphics = new GraphicsImage(ENDPOINT_IMAGE);

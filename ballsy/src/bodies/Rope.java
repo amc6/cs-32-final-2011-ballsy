@@ -1,5 +1,10 @@
 package bodies;
 
+/**
+ * A rope-like object. Looks pretty good, but not yet nice enough for use as
+ * the grapple line. Will be incorporated into future Ballsy versions.
+ */
+
 import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 
 import java.util.Vector;
@@ -20,10 +25,8 @@ public class Rope {
 	private DistanceJoint _joint1, _joint2;
 	private int _numLinks = 40;
 
-	
-
 	/**
-	 * 
+	 * Instantiate a rope connected to two bodies
 	 * @param body1 first body rope is attached to
 	 * @param body2 first body rope is attached to
 	 * @param pos1 world location of first connection
@@ -73,8 +76,10 @@ public class Rope {
 		
 	}
 	
+	/**
+	 * Display the connected rope.
+	 */
 	public void display() {
-		
 		_window.strokeWeight(2);
 		_window.stroke(_window.color(255,20,20));
 		_window.fill(_window.color(255,20,20));
@@ -91,7 +96,6 @@ public class Rope {
 		//chain
 		for (int i = 1; i<_links.size(); i++) {
 			AbstractBody link = _links.get(i);
-//			link.display();
 			_window.line(lastLink.getPixelPosition().x, lastLink.getPixelPosition().y,
 					link.getPixelPosition().x, link.getPixelPosition().y);
 			lastLink = link;
@@ -100,12 +104,6 @@ public class Rope {
 		//last link
 		_window.line(_world.coordWorldToPixels(pos2).x, _world.coordWorldToPixels(pos2).y,
 				lastLink.getPixelPosition().x, lastLink.getPixelPosition().y);
-		
-		
 		_window.strokeWeight(DEFAULT_LINE_WIDTH);
-
 	}
-	
-
-
 }

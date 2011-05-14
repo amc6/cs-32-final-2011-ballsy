@@ -1,13 +1,13 @@
 package bodies;
 
+/**
+ * Body wrapper for physics and graphics defs of the regular polygon.
+ */
+
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
 import graphics.GraphicsPolygon;
-
 import org.dom4j.Element;
-
 import physics.PhysicsRegularPolygon;
-import physics.PhysicsWorld;
-import ballsy.AbstractLevel;
 
 public class RegularPolygon extends AbstractBody {
 		
