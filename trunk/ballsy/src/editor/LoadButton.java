@@ -1,14 +1,14 @@
 package editor;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+/**
+ * Subclass for specific "load file" button.
+ */
 
+import java.io.File;
 import processing.core.PConstants;
 import processing.core.PImage;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-
-import ballsy.Window;
 import ballsy.XMLUtil;
 
 public class LoadButton extends AbstractButton {
@@ -28,10 +28,7 @@ public class LoadButton extends AbstractButton {
 		} catch (Exception e) { 
 			  e.printStackTrace();  
 		} 
-
-		
 	}
-
 
 	public void display() {
 		super.display();
@@ -41,12 +38,11 @@ public class LoadButton extends AbstractButton {
 		_window.popMatrix();
 	}
 
-
-
+	/** 
+	 * handle loading a new file.
+	 */
 	public void select() {
-		
 		_clicked = false;
-
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
 				try {
@@ -88,10 +84,7 @@ public class LoadButton extends AbstractButton {
 	
 
 	@Override
-	public void unselect() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void unselect() { }
 	
 	public String tooltip(){
 		return "Click to load a saved level.";

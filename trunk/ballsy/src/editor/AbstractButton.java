@@ -1,8 +1,12 @@
 package editor;
 
+/**
+ * A button within our Editor GUI. This class handles display (of clicked/unclicked
+ * buttons) as well as their tooltips and actions.
+ */
+
 import static editor.EditorConstants.INFO;
 import interfascia.GUIController;
-import processing.core.PConstants;
 import ballsy.AbstractLevel;
 import ballsy.Window;
 
@@ -28,6 +32,9 @@ public abstract class AbstractButton {
 		_customController = new GUIController(_window,false);
 	}
 
+	/**
+	 * Display with whatever properties currently appropriate.
+	 */
 	public void display() {
 		_window.stroke(EditorConstants.BUTTON_BORDER_COLOR);
 		_window.strokeWeight(EditorConstants.BUTTON_BORDER_WIDTH);
@@ -41,24 +48,25 @@ public abstract class AbstractButton {
 				_window.fill(EditorConstants.BUTTON_INACTIVE_COLOR);
 			}
 		}
-		
-	
-		
 		_window.rect(_minX, _minY, _maxX - _minX, _maxY - _minY);
-//		_window.strokeWeight(1);
-			
-		
-
 	}
 	
+	/** accessor **/
 	public boolean isClicked() {
 		return _clicked;
 	}
 	
+	/**
+	 * Display the tooltip of the button.
+	 */
 	public void displayTooltip(){
 		_editor.setErrorMessage(this.tooltip(), INFO);
 	}
-		
+	
+	/**
+	 * Set active... if clicked or needed to be otherwise active (see selection arrow)
+	 * @param active
+	 */
 	public void setActive(boolean active) {
 		if (active){
 			_clicked = true;
@@ -69,6 +77,12 @@ public abstract class AbstractButton {
 		}
 	}
 	
+	/**
+	 * check if the mouse is within the button. Helper method.
+	 * @param mouseX
+	 * @param mouseY
+	 * @return
+	 */
 	public boolean mouseInBounds(int mouseX, int mouseY) {
 		return mouseX > _minX && mouseX < _maxX && mouseY > _minY && mouseY < _maxY;
 	}

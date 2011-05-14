@@ -1,14 +1,22 @@
 package editor;
 
+/**
+ * Class which handles points in the creation of a new irregular polygon. They
+ * must be in clockwise order and convex, so this class makes sure that happens.
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.jbox2d.common.Vec2;
 
-import processing.core.PApplet;
-
 public class PointMath {
-
+	/**
+	 * Comparision method.s
+	 * @param anchor
+	 * @param pointA
+	 * @param pointB
+	 * @return
+	 */
 	public static int compare(Vec2 anchor, Vec2 pointA, Vec2 pointB){
 		float ax = pointA.x - anchor.x;
 		float ay = pointA.y - anchor.y;
@@ -25,6 +33,11 @@ public class PointMath {
 			return -1;
 	}
 	
+	/**
+	 * Gets the center of a set of points.
+	 * @param points
+	 * @return
+	 */
 	public static Vec2 getCenter(ArrayList<Vec2> points) {
 		float xSum = 0;
 		float ySum = 0;
@@ -35,6 +48,12 @@ public class PointMath {
 		return new Vec2(xSum/points.size(), ySum/points.size());
 	}
 	
+	/**
+	 * Sort a set of points around an anchor in counter-clockwise order.
+	 * @param array
+	 * @param anchor
+	 * @return
+	 */
 	public static ArrayList<Vec2> sortCCW(ArrayList<Vec2> array, Vec2 anchor){
 		
 		// If array is empty, return as base case
@@ -43,7 +62,6 @@ public class PointMath {
 		
 		Random random = new Random();
 		int pivotIndex = random.nextInt(array.size());
-//		pivotIndex = array.size()/2; // temp
 		Vec2 pivot = array.get(pivotIndex);
 		array.remove(pivotIndex);
 		
@@ -69,6 +87,11 @@ public class PointMath {
 		
 	}
 	
+	/**
+	 * test if a set of points are convex
+	 * @param points
+	 * @return
+	 */
 	public static boolean isConvex(ArrayList<Vec2> points){
 		Boolean allPositive = null;
 		
@@ -103,32 +126,4 @@ public class PointMath {
 		
 		return true;
 	}
-
-	
-	public static void main(String[] args) {
-		ArrayList<Vec2> points = new ArrayList<Vec2>();
-//		points.add(new Vec2(5,0));
-//		points.add(new Vec2(7.4f, 1));
-//		points.add(new Vec2(2.5f,2.5f));
-//		points.add(new Vec2(5,5));
-//		points.add(new Vec2(7.5f,2.5f));
-//		points.add(new Vec2(4,5.1f));
-		
-		points.add(new Vec2(-34.8f,4.1f));
-		points.add(new Vec2(-51.5f,-1.2f));
-		points.add(new Vec2(-32.9f,-15.6f));
-		points.add(new Vec2(-1.4f,18.3f));
-		
-		Vec2 anchor = PointMath.getCenter(points);
-		ArrayList<Vec2> sortedPoints = PointMath.sortCCW(points, anchor);
-		
-		for (int i = 0; i < sortedPoints.size(); i++){
-			System.out.println(sortedPoints.get(i));
-		}
-		
-		System.out.println("Is convex: " + PointMath.isConvex(sortedPoints));
-		
-	}
-	
-	
 }

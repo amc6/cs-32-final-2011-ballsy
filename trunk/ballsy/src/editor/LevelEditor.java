@@ -1,5 +1,10 @@
 package editor;
 
+/**
+ * The level editor screen. Beast of a class, mostly manages GUI and interaction
+ * between the user and the editorLevel.
+ */
+
 import static editor.EditorConstants.ERROR;
 import static editor.EditorConstants.INFO;
 import static editor.EditorConstants.WARNING;
@@ -14,17 +19,12 @@ import interfascia.IFLookAndFeel;
 import interfascia.IFPGraphicsState;
 import interfascia.IFRadioButton;
 import interfascia.IFRadioController;
-
 import java.util.ArrayList;
-
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-
 import physics.PhysicsBall;
 import physics.PhysicsPolygon;
 import physics.PhysicsRectangle;
-import physics.PhysicsRegularPolygon;
-import physics.PhysicsWorld;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.GeneralConstants;
@@ -38,7 +38,6 @@ public class LevelEditor extends Screen {
 	private ArrayList<ButtonGroup> _buttonGroups;
 	private AbstractButton _cursorButton, _rectButton, _triangleButton, 
 			_irregPolyButton, _ballButton;
-
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
 	private Text _errorMessage;
 	private PImage _levelEditorTitle, _levelEditorBack;
@@ -59,15 +58,14 @@ public class LevelEditor extends Screen {
 	private ArrayList<GUIComponent> _components;
 	private String _blankLevelPath = "res/GenericLevel.ball";
 	
-	@Override
+	/**
+	 * Setup the screen, with all GUI elements and whatnot.
+	 */
 	public void setup() {
 		_factory = new BodyFactory();
 		_level = new EditorLevel(this, _factory);
 		_level.setup();
-		
-		
 		IFPGraphicsState temp = new IFPGraphicsState(_window);
-		
 		
 		_components = new ArrayList<GUIComponent>();
 			
@@ -82,7 +80,6 @@ public class LevelEditor extends Screen {
 		
 		_buttonGroups = new ArrayList<ButtonGroup>();
 
-		
 		///////// GUI STUFF: ////////////
 		
 		_errorMessage = new Text("", (int) (EditorConstants.LEFT_PANEL_WIDTH+5), _window.height-10);
@@ -92,7 +89,6 @@ public class LevelEditor extends Screen {
 		
 		_mainC = new GUIController(_window, false);
 
-		
 		//look and feel
 		IFLookAndFeel ballsyLook = new IFLookAndFeel(_window, IFLookAndFeel.DEFAULT);
 		ballsyLook.baseColor = _window.color(255, 0);
@@ -267,9 +263,6 @@ public class LevelEditor extends Screen {
 		_pathC.add(_pathRotation);
 		_pathC.setVisible(false);
 		
-		
-	
-		
 		//world properties
 		float propertiesStart = _window.height - 120;
 		IFLabel worldLabel = new IFLabel("World Properties:", 15, (int) propertiesStart-30);
@@ -303,7 +296,6 @@ public class LevelEditor extends Screen {
 		_togglesC.add(_gravityYLabel);
 		_togglesC.add(_gravityY);
 		
-		
 		this.addTopControls();
 
 		_components.addAll(_sidesC.getComponents());
@@ -319,9 +311,11 @@ public class LevelEditor extends Screen {
 		temp.restoreSettingsToApplet(_window);
 	
 		this.clear(); // show default level
-		
 	}
 	
+	/**
+	 * Add the controls on the top bar of the screen (shape creation, load, save, etc.)
+	 */
 	private void addTopControls(){
 		ButtonGroup topControls = new ButtonGroup();
 		_buttonGroups.add(topControls);
@@ -342,8 +336,6 @@ public class LevelEditor extends Screen {
 		NewButton newButton = new NewButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(newButton);
 		
-		
-		
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
@@ -362,9 +354,13 @@ public class LevelEditor extends Screen {
 		
 		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*1), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*1), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_ballButton);
-
 	}
 	
+	/**
+	 * Sets the notification in the bottom of the screen.
+	 * @param message
+	 * @param errorness
+	 */
 	public void setErrorMessage(String message, int errorness) {
 		switch(errorness) {
 		case ERROR:
@@ -379,7 +375,11 @@ public class LevelEditor extends Screen {
 		_errorMessage.setText(message);
 	}
 	
-	
+	/**
+	 * Listener for actions performed on GUI elements.
+	 * take appropriate actions here!
+	 * @param e
+	 */
 	public void actionPerformed(GUIEvent e){
 		
 		if (e.getSource() == _grappleableCheckBox) {
@@ -493,14 +493,16 @@ public class LevelEditor extends Screen {
 			else if (_pathButton.getLabel().equals("Remove Path")) {
 				_pathButton.setLabel("Add Path");
 				_level.getSelected().clearPath();
-			}
-			
-		}
-		
+			}	
+		}	
 	}
 	
+	/**
+	 * Called when a text field loses its focus, we'll want to set whatever value is
+	 * indicated therein
+	 * @param e
+	 */
 	public void focusLost(GUIComponent e){
-
 		if (e == _gravityX) {
 			//set gravity
 			if (LevelEditor.isValidNumber(_gravityX.getValue())){
@@ -514,6 +516,7 @@ public class LevelEditor extends Screen {
 			}
 		} 
 		else if (e == _bounciness) {
+			// set bounciness
 			if (LevelEditor.isPositive(_bounciness.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.bounciness = Float.parseFloat(_bounciness.getValue());
@@ -523,6 +526,7 @@ public class LevelEditor extends Screen {
 			}
 		} 
 		else if (e == _density) {
+			// set density
 			if (LevelEditor.isPositive(_density.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.density = Float.parseFloat(_density.getValue());
@@ -532,6 +536,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _friction) {
+			// set friction
 			if (LevelEditor.isPositive(_friction.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.friction = Float.parseFloat(_friction.getValue());
@@ -541,6 +546,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _centerX) {
+			// set x pos
 			if (LevelEditor.isValidNumber(_centerX.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(Float.parseFloat(_centerX.getValue()), _level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
@@ -549,6 +555,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _centerY) {
+			// set y pos
 			if (LevelEditor.isValidNumber(_centerY.getValue())){
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x, Float.parseFloat(_centerY.getValue()));
@@ -557,6 +564,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _rotation) {
+			// set rotation from degrees to radians
 			if (LevelEditor.isValidNumber(_rotation.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.rotation = (float) Math.toRadians(Float.parseFloat(_rotation.getValue()));
@@ -566,6 +574,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _width) {
+			// set width of rect
 			if (LevelEditor.isPositive(_width.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.width = Float.parseFloat(_width.getValue());
@@ -577,6 +586,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _height) {
+			// set height of rect
 			if (LevelEditor.isPositive(_height.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.height = Float.parseFloat(_height.getValue());
@@ -588,6 +598,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _size) {
+			// set size of polygon
 			if (LevelEditor.isPositive(_size.getValue())){
 				// assume a polygon
 				PhysicsPolygon physicsDef = (PhysicsPolygon) _level.getSelected().getPhysicsDef();
@@ -595,12 +606,14 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _sides) {
+			// set number of sides
 			if (LevelEditor.isGreaterOrEqual(_sides.getValue(), 3)){ // minimum of three sides
 				// assume we're not selecting anything
 				_factory.polyPointCount = Integer.parseInt(_sides.getValue());
 			}
 		}
 		else if (e == _radius) {
+			// set radius of circle
 			if (LevelEditor.isPositive(_radius.getValue())){
 				if (_level.getSelected() == null) {
 					_factory.radius = Float.parseFloat(_radius.getValue());
@@ -612,6 +625,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _pathSpeed) {
+			// set speed of path
 			if (LevelEditor.isPositive(_pathSpeed.getValue())){
 				if (_level.getSelected() != null) {
 					_level.getSelected().getPath().setVelCoeff(Float.parseFloat(_pathSpeed.getValue()));
@@ -619,6 +633,7 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _pathRotation) {
+			// path
 			if (LevelEditor.isValidNumber(_pathRotation.getValue())){
 				if (_level.getSelected() != null) {
 					_level.getSelected().getPath().setRotation((float) Math.toRadians(Float.parseFloat(_pathRotation.getValue())));
@@ -626,26 +641,24 @@ public class LevelEditor extends Screen {
 			}
 		}
 		else if (e == _worldWidth) {
-			//set gravity
+			//set world width 
 			if (LevelEditor.isGreaterLessEqual(_worldWidth.getValue(), 150, 400)){
 				_level.updateWorldDimensions(Float.parseFloat(_worldWidth.getValue()), _level.getWorldHeight());
 			}
 		}
 		else if (e == _worldHeight) {
-			//set gravity
+			//set world gravity
 			if (LevelEditor.isGreaterLessEqual(_worldHeight.getValue(), 100, 400)){ 
 				_level.updateWorldDimensions(_level.getWorldWidth(), Float.parseFloat(_worldHeight.getValue()));
 			}
 		}
-			
-		this.updateFieldValues();
-		
+		this.updateFieldValues(); // update field values, thus if user entered something wrong, it will get overwritten
 	}
 	
+	/**
+	 * Remove the GUI stuffs.
+	 */
 	public void clear() {
-//		_factory = new BodyFactory();
-//		_level = new EditorLevel(this, _factory);
-//		_level.setup();
 		XMLUtil.getInstance().readFile(_level, _blankLevelPath);
 		_level.createBorders();
 		_level.play();
@@ -653,7 +666,9 @@ public class LevelEditor extends Screen {
 		_level.centerCamera();
 	}
 
-	@Override
+	/**
+	 * Draw everything, if level isn't running.
+	 */
 	public void draw() {
 		
 		_level.draw();
@@ -661,8 +676,6 @@ public class LevelEditor extends Screen {
 		this.onClose();
 		
 		if (!_level.isRunning()){
-
-				
 			_window.cursor();
 	
 			_window.pushMatrix();
@@ -686,8 +699,7 @@ public class LevelEditor extends Screen {
 			_window.imageMode(PConstants.CORNER);
 			_window.image(_levelEditorTitle, 45, 17);
 			
-			
-			//if hover? ... gahhjustdoitherekthnx
+			//if hover
 			int mouseX = _window.mouseX;
 			int mouseY = _window.mouseY;
 			if (mouseX < 40 && mouseY > 17 && mouseY < 80) {
@@ -707,8 +719,6 @@ public class LevelEditor extends Screen {
 				group.displayTooltips();
 			}
 			
-
-				
 			//DISPLAY CUSTOM CONTROLS
 			_objectC.setVisible(false);
 			_rectC.setVisible(false);
@@ -746,14 +756,13 @@ public class LevelEditor extends Screen {
 					_pathC.setVisible(true);
 				}
 			}
-			
-			
 			_errorMessage.draw();
-		
 		}
-		
 	}
 
+	/**
+	 * Destructor, if you will.
+	 */
 	public void onClose() {
 		_mainC.setVisible(false);
 		_togglesC.setVisible(false);
@@ -766,9 +775,10 @@ public class LevelEditor extends Screen {
 		_pathbuttonC.setVisible(false);
 	}
 	
-	@Override
+	/**
+	 * Key pressed, handle. Manage esc differently.
+	 */
 	public void keyPressed() {
-		
 		if (_level.isRunning()) {
 			// act as normal, unless they press r or escape
 			if (_window.key == 27) { 
@@ -776,10 +786,8 @@ public class LevelEditor extends Screen {
 				_level.stop();
 			} else _level.keyPressed();
 		} else if (_level.selectingPoints()) {
-			//_level.clearPoints(); (why was this here???!)
 			this.updateFieldValues();
 		}
-		
 		_level.keyPressed();
 	}
 	
@@ -790,7 +798,9 @@ public class LevelEditor extends Screen {
 		
 	}
 
-	@Override
+	/**
+	 * handle the mouse pressed (pass to correct elements)
+	 */
 	public void mousePressed() {
 		
 		if (_componentWithFocus != null && !_componentWithFocus.isMouseOver(_window.mouseX, _window.mouseY)){
@@ -844,6 +854,8 @@ public class LevelEditor extends Screen {
 			_level.mouseDragged();
 	}
 	
+	/* functions for handling input to text fields, making sure they're right and whatnot.... */
+	
 	private static boolean isValidNumber(String string){
 		string = string.trim();
 		return (string.matches("((\\-)?[0-9]*(\\.[0-9]*)?)") && !string.equals("") && !string.equals(".") && !string.equals("-"));
@@ -861,6 +873,9 @@ public class LevelEditor extends Screen {
 		return LevelEditor.isValidNumber(string) && Float.parseFloat(string) >= min && Float.parseFloat(string) <= max;
 	}
 	
+	/**
+	 * Gather what the field values should be from editor level, and set them.
+	 */
 	public void updateFieldValues(){
 		// If no shape is selected we want to display factory values
 		if (_level.getSelected() == null) {
@@ -949,6 +964,11 @@ public class LevelEditor extends Screen {
 
 	}
 	
+	/**
+	 * Alters the clickedness of cursor button, so we can represent selection of 
+	 * newly created objects in the level editor.
+	 * @param b
+	 */
 	public void setCursorButton(boolean b) {
 		_cursorButton.setActive(b);
 		if (b) {
@@ -958,42 +978,4 @@ public class LevelEditor extends Screen {
 			_ballButton.setActive(false);
 		}
 	}
-
-//	public static void main(String[] args){
-//		ArrayList<String> list = new ArrayList<String>();
-//		list.add("1");
-//		list.add(".");
-//		list.add("1.");
-//		list.add("1.2");
-//		list.add(".1");
-//		list.add("1.2.3");
-//		list.add(".1.2");
-//		list.add("");
-//		list.add(".1.");
-//		list.add("0");
-//		list.add("0.0");
-//		list.add("0.0.0");
-//		list.add("..");
-//		list.add("1..2");
-//		list.add("-0.0");
-//		list.add("-0.0.0");
-//		list.add("-..");
-//		list.add("-1");
-//		list.add("-");
-//		list.add("-1.-5");
-//		list.add("-2");
-//		
-//		for (String str : list){
-//			System.out.println("Testing: " + str);
-//			System.out.println("Is valid: " + LevelEditor.isValidNumber(str));
-//		}
-//		
-//		for (String str : list){
-//			System.out.println("Testing: " + str);
-//			System.out.println("Is positive: " + LevelEditor.isPositive(str));
-//		}
-//	}
-
-
-
 }

@@ -1,5 +1,9 @@
 package editor;
 
+/**
+ * Subclass for specific "create ball" button.
+ */
+
 import ballsy.Window;
 
 public class BallButton extends AbstractButton {
@@ -31,8 +35,5 @@ public class BallButton extends AbstractButton {
 	}
 
 	@Override
-	public void unselect() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void unselect() { }
 }
