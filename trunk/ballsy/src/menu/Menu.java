@@ -1,19 +1,21 @@
 package menu;
+ 
+/**
+ * A level chooser menu. Manages alignment of buttons for levels, positioning them
+ * based on their customness and position in list (allowing viewing of more levels if there
+ * are more than can be viewed).
+ */
 
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.jbox2d.common.Vec2;
 
-import processing.core.PImage;
-
-import editor.LevelEditor;
+import processing.core.PConstants;
 import graphics.HoverImage;
 import graphics.Image;
 import graphics.ScreenBackground;
-import graphics.Text;
 import ballsy.Screen;
-import ballsy.XMLLevel;
 import ballsy.XMLUtil;
 import ballsy.ScreenLoader.Screens;
 import static menu.MenuConstants.*;
@@ -32,27 +34,28 @@ public class Menu extends Screen {
 	private boolean _custom = false; 
 	private boolean _animatingCustom = false;
 
-	@Override
+	/**
+	 * Set up GUI elements
+	 */
 	public void setup() {
 		_background = new ScreenBackground();
 		
 		_levelsTitle = new Image("res/levels_title.png", 70, 20);
-		_levelsTitle.setImageMode(_window.CORNER);
+		_levelsTitle.setImageMode(PConstants.CORNER);
 		_customLevelsTitle = new Image("res/custom_levels_title.png", 70+_window.width, 20);
-		_customLevelsTitle.setImageMode(_window.CORNER);
+		_customLevelsTitle.setImageMode(PConstants.CORNER);
 		_titleBack = new Image("res/pick_level_back.png", -20, 20);
-		_titleBack.setImageMode(_window.CORNER);
+		_titleBack.setImageMode(PConstants.CORNER);
 		_customLevelsTab = new Image("res/custom_levels_tab.png", _window.width-410, 20);
-		_customLevelsTab.setImageMode(_window.CORNER);
+		_customLevelsTab.setImageMode(PConstants.CORNER);
 		_levelsTab = new Image("res/levels_tab.png", _window.width-410+_window.width, 20);
-		_levelsTab.setImageMode(_window.CORNER);
+		_levelsTab.setImageMode(PConstants.CORNER);
 		
 		_slidingTop = new Vector<Image>();
 		_slidingTop.add(_levelsTitle);
 		_slidingTop.add(_customLevelsTitle);
 		_slidingTop.add(_customLevelsTab);
 		_slidingTop.add(_levelsTab);
-		
 		
 		_defaultLevels = XMLUtil.getInstance().loadMenuButtons(false);
 		_customLevels = XMLUtil.getInstance().loadMenuButtons(true);
@@ -126,11 +129,12 @@ public class Menu extends Screen {
 
 	}
 
-	@Override
+	/**
+	 * draw menu's current state.
+	 */
 	public void draw() {
 		_window.cursor();
 		_window.background(50,200,200);
-//		_window.background(255);
 		_background.draw();
 		_window.stroke(0);
 		
@@ -234,9 +238,10 @@ public class Menu extends Screen {
 
 	}
 
-	@Override
+	/**
+	 * Handle click. Back button, custom levels, specific buttons, etc.
+	 */
 	public void mousePressed() {
-		// TODO Auto-generated method stub
 		for (Iterator<MenuButton> i = _buttons.iterator(); i.hasNext();) {
 			MenuButton b = i.next();
 			b.click();
@@ -250,14 +255,12 @@ public class Menu extends Screen {
 		}
 		
 		if (_right.mouseOver() && _page < _maxPages) {
-			int dx = -(_window.width); 
 			_animating = true;
 			_maxSteps = (int) ((float)_window.width/60.f);
 			_dx = -60;
 			_page++;
 		}
 		if (_left.mouseOver() && _page > 1) {
-			int dx = (_window.width); 
 			_animating = true;
 			_maxSteps = (int) ((float)_window.width/60.f);
 			_dx = 60;
@@ -277,37 +280,23 @@ public class Menu extends Screen {
 		}
 	}
 	
-	public void addButtons() {
-		
-	}
+	public void addButtons() { }
 
 	@Override
-	public void mouseReleased() {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased() { }
 
 	@Override
 	public void keyPressed() {
-		// TODO Auto-generated method stub
-		
 		if (_window.key == 27 ) { //ESC
 			_window.key = 0;
 			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
-		
 	}
 
 	@Override
-	public void keyReleased() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased() { }
 
 	@Override
-	public void mouseDragged() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseDragged() { }
 
 }

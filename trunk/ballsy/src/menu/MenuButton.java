@@ -1,13 +1,16 @@
 package menu;
 
+/**
+ * A button in a menu, indicating a level which the user can play. Handles opening
+ * associated level, and management of lockedness and such things.
+ */
+
 import org.jbox2d.common.Vec2;
 
 import ballsy.ScreenLoader.Screens;
 import ballsy.Window;
-import ballsy.XMLLevel;
+import processing.core.PConstants;
 import processing.core.PImage;
-import editor.AbstractButton;
-import editor.BodyFactory;
 import static menu.MenuConstants.*;
 
 public class MenuButton {
@@ -19,6 +22,11 @@ public class MenuButton {
 	private MenuButton _nextLevel;
 	private boolean _locked = false, _custom = true;
 	
+	/**
+	 * Instantiate with a level path and thumbnailpath.
+	 * @param levelPath
+	 * @param thumbPath
+	 */
 	public MenuButton(String levelPath, String thumbPath) {
 		_window = Window.getInstance();
 		_levelPath = levelPath;
@@ -27,6 +35,8 @@ public class MenuButton {
 		_lock = _window.loadImage("res/lock.png");
 		_nextLevelPath = null;
 	}
+	
+	/* position management */
 	
 	public Vec2 getPosition() {
 		return new Vec2(_minX, _minY);
@@ -39,6 +49,8 @@ public class MenuButton {
 		_maxY = y + THUMBNAIL_SIZE;
 	}
 	
+	/* getter/setter for lockedness */
+	
 	public void setLocked(boolean b) {
 		_locked = b;
 	}
@@ -47,6 +59,8 @@ public class MenuButton {
 		return _locked;
 	}
 	
+	/* getter/setter for customness */
+	
 	public void setCustom(boolean b) {
 		_custom = b;
 	}
@@ -54,6 +68,8 @@ public class MenuButton {
 	public boolean isCustom() {
 		return _custom;
 	}
+	
+	/* path management */
 	
 	public String getLevelPath() {
 		return _levelPath;
@@ -71,6 +87,8 @@ public class MenuButton {
 		return _nextLevelPath;
 	}
 	
+	/* next level management */
+	
 	public void setNextLevel(MenuButton b) {
 		_nextLevel = b;
 	}
@@ -79,12 +97,15 @@ public class MenuButton {
 		return _nextLevel;
 	}
 	
+	/**
+	 * draw this button with the thumbnail associated.
+	 */
 	public void draw() {
 		_window.fill(255, 255);
 		_window.stroke(255, 0);
 		_window.rect(_minX-3, _minY-3, THUMBNAIL_SIZE+6, THUMBNAIL_SIZE+6);
 
-		_window.imageMode(_window.CORNER);
+		_window.imageMode(PConstants.CORNER);
 		if (_locked) {
 			_window.tint(100, 100, 100);
 		}
@@ -92,7 +113,7 @@ public class MenuButton {
 		_window.image(_thumbnail, _minX, _minY);
 		_window.tint(255, 255, 255);
 		if (mouseInBounds() && !_locked) { //inactive
-			_window.rectMode(_window.CORNER);
+			_window.rectMode(PConstants.CORNER);
 			_window.fill(255, 100);
 			_window.rect(_minX, _minY, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 		}
@@ -102,13 +123,19 @@ public class MenuButton {
 
 	}
 	
+	/**
+	 * Handle click: open if unlocked
+	 */
 	public void click() {
 		if (mouseInBounds() && !_locked) {
-			//_window.setScreenAndSetup(new XMLLevel(_levelPath, this));
 			_window.loadScreen(Screens.XML_LEVEL,_levelPath,this);
 		}
 	}
 	
+	/**
+	 * Helper method for hovering - is mouse over this button?
+	 * @return
+	 */
 	public boolean mouseInBounds() {
 		int mouseX = _window.mouseX;
 		int mouseY = _window.mouseY;
