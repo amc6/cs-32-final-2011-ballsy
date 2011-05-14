@@ -1,5 +1,10 @@
 package graphics;
 
+/**
+ * Superclass for all graphics definitions. Handles various variables of appearance, 
+ * including color, border, smoke effects, etc.
+ */
+
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
 
 import org.dom4j.DocumentHelper;
@@ -25,6 +30,9 @@ public abstract class GraphicsDef {
 	
 	public abstract void display();
 	
+	/**
+	 * Display the effects associated with this object. Smoke here.
+	 */
 	public void displayEffects(){
 		if (_smoke != null){
 			_smoke.display();
@@ -56,26 +64,52 @@ public abstract class GraphicsDef {
 		_color = w.color(val);
 	}
 	
+	/**
+	 * Sets the color, straight up from the RGB parameters
+	 * @param r
+	 * @param g
+	 * @param b
+	 */
 	public void setColor(int r, int g, int b) {
 		Window w = Window.getInstance();
 		_color = w.color(r, g, b);
 	}
 	
+	/**
+	 * Sets the color, from the processing color value and the percentage
+	 * (to darken it, if need be)
+	 * @param val
+	 * @param percent
+	 */
 	public void setColor(int val, double percent) {
 		Window w= Window.getInstance();
+		// apply the percent, first decomposing value into RGB
 		int r = (val & 0x00ff0000) >> 16;
 		int g = (val & 0x0000ff00) >> 8;
 		int b = val & 0x000000ff;
 		_color = w.color((int) (r * percent), (int) (g * percent), (int) (b * percent));
 	}
 	
+	/**
+	 * Set both stroke weight and color, in one fell swoop!
+	 * @param weight
+	 * @param color
+	 */
 	public void setStrokeWeightAndColor(int weight, int color) {
 		_strokeWeight = weight;
 		_strokeColor = color;
 	}
 	
+	/**
+	 * Set stroke weight and color, from provided variables, including a percent
+	 * for darkening the colors
+	 * @param weight
+	 * @param val
+	 * @param percent
+	 */
 	public void setStrokeWeightAndColor(int weight, int val, double percent) {
 		_strokeWeight = weight;
+		// apply the percent, first decomposing value into RGB
 		int r = (val & 0x00ff0000) >> 16;
 		int g = (val & 0x0000ff00) >> 8;
 		int b = val & 0x000000ff;

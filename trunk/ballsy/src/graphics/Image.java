@@ -1,7 +1,12 @@
 package graphics;
 
+/**
+ * Graphical image, utilized for HoverImage and GraphicsiImage.
+ */
+
 import org.jbox2d.common.Vec2;
 
+import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.Window;
 
@@ -33,7 +38,7 @@ public class Image {
 	}
 	
 	/**
-	 * 
+	 * get location
 	 * @return location
 	 */
 	public Vec2 getLocation() {
@@ -55,14 +60,17 @@ public class Image {
 		_imageMode = imageMode;
 	}
 	
+	/**
+	 * Reset the bounds of the image.
+	 */
 	public void updateBounds() {
-		if(_imageMode == _window.CORNER){
+		if(_imageMode == PConstants.CORNER){
 			_minX = _x;
 			_maxX = _x+_width;
 			_minY = _y;
 			_maxY = _y+_height;
 		}
-		else if (_imageMode == _window.CENTER) {
+		else if (_imageMode == PConstants.CENTER) {
 			_minX = _x-_width/2;
 			_maxX = _x+_width/2;
 			_minY = _y-_height/2;

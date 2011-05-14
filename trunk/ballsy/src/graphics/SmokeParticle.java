@@ -1,16 +1,16 @@
 package graphics;
 
+/**
+ * Represents the particles within a smoke cloud, and manages teir position and motion. 
+ */
+
 import java.util.Random;
-
 import org.jbox2d.common.Vec2;
-
 import ballsy.GeneralConstants;
 import ballsy.Window;
-
 import physics.PhysicsWorld;
 import processing.core.PConstants;
 import processing.core.PImage;
-import processing.core.PVector;
 
 public class SmokeParticle {
 	private Vec2 _loc;

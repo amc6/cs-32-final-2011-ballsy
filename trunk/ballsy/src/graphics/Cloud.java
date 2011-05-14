@@ -1,5 +1,9 @@
 package graphics;
 
+/**
+ * Procedurally generated cloud image, for use in teh menus.
+ */
+
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -12,6 +16,12 @@ public class Cloud {
 	private int _counter, _maxCount,_x,_y;
 	private Window _window;
 	
+	/**
+	 * Constructor: generate the image pieces
+	 * @param centerX
+	 * @param centerY
+	 * @param bigRadius
+	 */
 	public Cloud(int centerX, int centerY, int bigRadius) {
 		_window = Window.getInstance();
 		_cloud = new Vector<CloudPiece>();
@@ -27,6 +37,7 @@ public class Cloud {
 		_counter = 0;
 		_maxCount = (int) Math.ceil(40/bigRadius);
 		
+		// add some cloud pieces. 
 		_cloud.add(new CloudPiece(centerX, centerY, _radiusBig));
 		_cloud.add(new CloudPiece(centerX-_radiusBig, centerY, _radiusBig));
 		_cloud.add(new CloudPiece(centerX+_radiusBig, centerY, _radiusBig));
@@ -35,12 +46,19 @@ public class Cloud {
 		_cloud.add(new CloudPiece(centerX+_radiusBig+_radiusBig, centerY+_radiusMed/2, _radiusMed));
 	}
 	
+	/**
+	 * Draw the cloud.
+	 */
 	public void draw() {
 		for (Iterator<CloudPiece> i = _cloud.iterator(); i.hasNext();) {
 			i.next().draw(_red);
 		}
 	}
 
+	/**
+	 * Move the cloud a little in the x direction
+	 * @param dx
+	 */
 	public void drift(int dx) {
 		if (_x > _window.width*2) { //wrap
 			for (Iterator<CloudPiece> i = _cloud.iterator(); i.hasNext();) {

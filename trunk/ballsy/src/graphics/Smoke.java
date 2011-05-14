@@ -1,12 +1,14 @@
 package graphics;
 
+/**
+ * Class which creates a trail of smoke behind the user's as it rolls around.
+ * Helps to see which way you're flying in mid-air. 
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.jbox2d.common.Vec2;
-
 import processing.core.PImage;
-import processing.core.PVector;
 import ballsy.GeneralConstants;
 import ballsy.Window;
 import bodies.AbstractBody;
@@ -18,8 +20,11 @@ public class Smoke {
 	private ArrayList<SmokeParticle> _particles; 
 	private PImage _image;
 
+	/**
+	 * Set up the smoke, start its rendering
+	 * @param body
+	 */
 	public Smoke(AbstractBody body){
-		
 		_body = body;
 		_generator = new Random();
 		_particles = new ArrayList<SmokeParticle>();
@@ -36,8 +41,10 @@ public class Smoke {
 
 	}
 
+	/**
+	 * Draw the smoke around/behind the object.
+	 */
 	public void display() {
-
 		// Utilize the object's velocity as its smoke trail as if it were wind
 		Vec2 vel = _body.getPhysicsDef().getBody().getLinearVelocity();
 		Vec2 wind = new Vec2(-vel.x, -vel.y);

@@ -26,7 +26,6 @@ import org.jbox2d.common.RaycastResult;
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsWorld;
-import ballsy.GeneralConstants;
 import ballsy.Window;
 import bodies.AbstractBody;
 import bodies.UserBall;

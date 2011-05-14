@@ -1,13 +1,14 @@
 package graphics;
 
-import org.dom4j.DocumentHelper;
+/**
+ * Subclass of GraphicsDef to represent a ball.
+ */
+
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-
 import physics.PhysicsBall;
 import static ballsy.GeneralConstants.*;
-
 import ballsy.Window;
 
 public class GraphicsBall extends GraphicsDef {
@@ -27,7 +28,7 @@ public class GraphicsBall extends GraphicsDef {
 
 		Body body = _physicsDef.getBody();
 		Vec2 pos = _world.coordWorldToPixels(_physicsDef.getBodyWorldCenter());
-
+		// create a graphical ball shape
 		float a = body.getAngle();		
 		window.pushMatrix();
 		window.translate(pos.x, pos.y);
@@ -47,6 +48,10 @@ public class GraphicsBall extends GraphicsDef {
 		window.popMatrix();
 	}
 	
+	/**
+	 * Get the radius of the ball, as represented in pixels
+	 * @return
+	 */
 	public int getPixelRadius(){
 		PhysicsBall def = (PhysicsBall) _physicsDef;
 		return (int) _world.scalarWorldToPixels(def.getRadius());

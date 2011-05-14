@@ -1,14 +1,13 @@
 package graphics;
 
-import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
+/**
+ * Graphical representation of the UserBall, an image of a beach ball.
+ */
 
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-
 import physics.PhysicsBall;
-import processing.core.PImage;
-
 import ballsy.Window;
 
 public class GraphicsUserBall extends GraphicsDef {
@@ -24,7 +23,7 @@ public class GraphicsUserBall extends GraphicsDef {
 		Vec2 pos = _world.getBodyPixelCoord(body);
 		// Get its angle of rotation
 		float a = body.getAngle();
-		
+		// draw the image
 		window.pushMatrix();
 		window.translate(pos.x, pos.y);
 		window.rotate(-a);
