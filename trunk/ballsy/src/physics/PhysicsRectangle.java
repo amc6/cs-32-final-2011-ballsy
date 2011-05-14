@@ -1,10 +1,11 @@
 package physics;
 
 import org.dom4j.Element;
-import org.jbox2d.collision.MassData;
 import org.jbox2d.collision.shapes.PolygonDef;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyDef;
+
+/**
+ * Represents a rectangle within the physics world.
+ */
 
 public class PhysicsRectangle extends PhysicsDef {
 	
@@ -18,6 +19,9 @@ public class PhysicsRectangle extends PhysicsDef {
 		this.createBody();
 	}
 	
+	/**
+	 * Creates the ShapeDef and passes it up to the superclass.
+	 */
 	protected void createBody(){
 		PolygonDef polygonDef = new PolygonDef();
 		float halfWidth = _width/2; // because defined from center
@@ -37,6 +41,9 @@ public class PhysicsRectangle extends PhysicsDef {
 		if (_body != null) this.createBody(); // takes care of removing old body and creates a new one
 	}
 	
+	/**
+	 * @return the width of the rectangle
+	 */
 	public float getWidth(){
 		return _width;
 	}
@@ -49,6 +56,9 @@ public class PhysicsRectangle extends PhysicsDef {
 		if (_body != null) this.createBody(); // takes care of removing old body and creates a new one
 	}
 	
+	/**
+	 * @return the height of the rectangle
+	 */
 	public float getHeight(){
 		return _height;
 	}

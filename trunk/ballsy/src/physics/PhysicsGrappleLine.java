@@ -1,38 +1,33 @@
 package physics;
 
+import static bodies.BodyConstants.CROSSHAIR_RANGE;
+
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Steppable;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
-import ballsy.AbstractLevel;
-import bodies.UserBall;
-
-import static bodies.BodyConstants.*;
-
+/**
+ * Represents the grappling hook in the physics world.
+ */
 public class PhysicsGrappleLine extends PhysicsGrapple {
 	
 	private DistanceJoint _joint;
-	private UserBall _ball;
-//	private float _grappleLength;
-	
+
+	// Grapple line properties
 	private static final float FREQ = 1f;
 	private static final float DAMPING = .9f;
 
 	public PhysicsGrappleLine(bodies.UserBall ball) {
 		super(ball);
-		_ball = ball;
 	}
 	
+	/**
+	 * Generates the joint for the grappling hook.
+	 */
 	public void grapple() {
-		if (_ball.isGrappled()) {
-//			Vec2 pos1 = _ball.getWorldPosition();
-//			Vec2 pos2 = _ball.getWorldGrapplePointVec();
-//			Vec2 distVec = pos2.sub(pos1);
-//			_grappleLength = distVec.length();
-//			
-			
-			
+		// If the ball has been set to currently using its
+		// grapple, create the joint in the physics world.
+		if (_ball.isGrappled()) {		
 			bodies.AbstractBody grappledBody = _ball.getGrappleObject();
 			DistanceJointDef jointDef = new DistanceJointDef();
 			jointDef.initialize(_ball.getPhysicsDef().getBody(), grappledBody.getPhysicsDef().getBody(), _ball.getWorldPosition(), _ball.getWorldGrapplePointVec());
@@ -41,37 +36,41 @@ public class PhysicsGrappleLine extends PhysicsGrapple {
 			jointDef.dampingRatio = DAMPING;
 			_joint = (DistanceJoint) _world.createJoint(jointDef);
 			_joint.m_length -= 3;
-
 		}
 	}
 	
+	/**
+	 * Remove the joint in the physics world, releasing the grapple.
+	 */
 	public void releaseGrapple() {
-		//System.out.println("joint: " + _joint);
 		if (_joint != null) {
 			_world.destroyJoint(_joint);
 		}
 	}
 	
+	/**
+	 * Extend the grapple by extending its length.
+	 */
 	public void extendGrapple() {
 		if (_joint.m_length < CROSSHAIR_RANGE) {
 			_joint.m_length = _joint.m_length + .5F;
-//			_grappleLength += .5F;
 		}
 	}
 	
+	/**
+	 * Retract the grapple by decreasing the joint length.
+	 */
 	public void retractGrapple() {
-		// Don't let the ball get too small
+		// Don't let the grapple get too short
 		if (_joint.m_length > ((PhysicsBall) _ball.getPhysicsDef()).getRadius()){
 			_joint.m_length = _joint.m_length - .5F;
-//			_grappleLength -= .5;
 		}
 	}
 	
+	/**
+	 * Returns the point in the physics world to which the ball is grappled.
+	 */
 	public Vec2 getGrapplePoint(){
 		return _joint.getAnchor2();
-	}
-
-	// Required by PhysicsDef. How can we refactor this better?
-	protected void createBody() {
 	}
 }

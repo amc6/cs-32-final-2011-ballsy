@@ -1,12 +1,3 @@
-/**
- * PBox2d
- * This is a simple little wrapper to help integrate JBox2d with Processing
- * It doesn't do much right now and, in some ways, limits the user
- * It's an open question as to whether this should really be a library
- * or a set of examples. Right now, it's a little bit of both
- * Daniel Shiffman <http://www.shiffman.net>
- */
-
 package physics;
 
 import org.jbox2d.collision.AABB;
@@ -23,6 +14,13 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import ballsy.Window;
 
+/**
+ * @author Daniel Shiffman (http://www.shiffman.net/teaching/nature/box2d-processing/)
+ * @modified The Ballsy Team
+ * 
+ * Class is a wrapper around the JBox2D physics world. Some changes by 
+ * the Ballsy team, but the vast majority of code untouched.
+ */
 public class PhysicsWorld {
 
 	private static PhysicsWorld PHYSICS_WORLD;
@@ -32,10 +30,10 @@ public class PhysicsWorld {
 	private World world;
 
 	// Variables to keep track of translating between world and screen coordinates
-	public float transX;// = 320.0f;
-	public float transY;// = 240.0f;
-	public float scaleFactor;// = 10.0f;
-	public float yFlip;// = -1.0f; //flip y coordinate
+	public float transX;
+	public float transY;
+	public float scaleFactor;
+	public float yFlip;
 
 	private PContactListener contactlistener;
 

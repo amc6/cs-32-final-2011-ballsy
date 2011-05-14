@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
 
+/**
+ * Represents a regular polygon within the physics world.
+ */
+
 public class PhysicsRegularPolygon extends PhysicsPolygon {
 	private int _numSides;
 	private float _radius;
@@ -14,7 +18,7 @@ public class PhysicsRegularPolygon extends PhysicsPolygon {
 	}
 	
 	/**
-	 * Augments radius of regular polygon by a
+	 * Augments radius of regular polygon by an amount, a
 	 * @param a
 	 */
 	public void resizeBy(float a) {
@@ -24,10 +28,17 @@ public class PhysicsRegularPolygon extends PhysicsPolygon {
 		super.setPoints(newPoints);
 	}
 	
+	/**
+	 * @return the radius of the regular polygon
+	 */
 	public float getRadius() {
 		return _radius;
 	}
 	
+	/**
+	 * Generates the points of a regular polygon, specifying the number of sides
+	 * and the radius of the deired polygon.
+	 */
 	public static ArrayList<Vec2> calculateOffsets(int numSides, float radius){
 	
 		ArrayList<Vec2> offsets = new ArrayList<Vec2>();	
