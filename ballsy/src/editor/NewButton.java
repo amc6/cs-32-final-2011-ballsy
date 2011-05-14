@@ -1,5 +1,9 @@
 package editor;
 
+/**
+ * Subclass for specific "create new level" button.
+ */
+
 import processing.core.PConstants;
 import processing.core.PImage;
 
@@ -15,7 +19,6 @@ public class NewButton extends AbstractButton {
 
 	}
 
-
 	public void display() {
 		super.display();
 		_window.pushMatrix();
@@ -24,20 +27,17 @@ public class NewButton extends AbstractButton {
 		_window.popMatrix();
 	}
 
-
-
+	/**
+	 * clears the level to make a new one.
+	 */
 	public void select() {
-		System.out.println("NEW!");
 		_editor.clear();
 		_clicked = false;
 	}
 	
 
 	@Override
-	public void unselect() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void unselect() { }
 	
 	public String tooltip(){
 		return "Click to start from a blank level. You will lose all unsaved changes.";

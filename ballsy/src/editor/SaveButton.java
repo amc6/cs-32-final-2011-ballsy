@@ -1,5 +1,9 @@
 package editor;
 
+/**
+ * Subclass for specific "save level" button.
+ */
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -19,7 +23,6 @@ public class SaveButton extends AbstractButton {
 		_image = _window.loadImage("res/saveicon.png");
 	}
 
-
 	public void display() {
 		super.display();
 		_window.pushMatrix();
@@ -28,6 +31,9 @@ public class SaveButton extends AbstractButton {
 		_window.popMatrix();
 	}
 
+	/**
+	 * Handle saving, with save dialog and whatnot.
+	 */
 	public void select() {
 		_clicked = false; 
 	
@@ -52,9 +58,7 @@ public class SaveButton extends AbstractButton {
 						if(!filename.endsWith(".ball")){
 							filename = filename.concat(".ball");
 						}
-						
 						_level.setSave(filename);
-
 					}
 				}
 				catch (Exception e) {
@@ -67,13 +71,9 @@ public class SaveButton extends AbstractButton {
 	
 
 	@Override
-	public void unselect() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void unselect() {}
 	
 	public String tooltip(){
-		System.out.println("tooltip here");
 		return "Click to save your level.";
 	}
 	

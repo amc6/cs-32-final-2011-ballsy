@@ -1,5 +1,12 @@
 package editor;
 
+/**
+ * Used to create bodies, the properties of the body to be created are set in this
+ * class by the user from the level editor GUI, and then when they click to create
+ * a shape, a new one is created with whatever properties they had formerly indicated.
+ * Values set in here are considered "defaults"
+ */
+
 import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
 import static bodies.BodyConstants.DEFAULT_BODY_BOUNCINESS;
 import static bodies.BodyConstants.DEFAULT_BODY_COLOR;
@@ -7,12 +14,8 @@ import static bodies.BodyConstants.DEFAULT_BODY_DENSITY;
 import static bodies.BodyConstants.DEFAULT_BODY_FRICTION;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_HEIGHT;
 import static bodies.BodyConstants.DEFAULT_RECTANGLE_WIDTH;
-
 import java.util.ArrayList;
-
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-
 import bodies.AbstractBody;
 import bodies.Ball;
 import bodies.IrregularPolygon;
@@ -39,8 +42,6 @@ public class BodyFactory {
 	public boolean graphicalOnly = false;
 	public int polyPointCount = 3;
 	public ArrayList<Vec2> polyPoints = null;
-	
-	public BodyFactory() { }
 	
 	/**
 	 * Sets the currently selected body in the level editor.

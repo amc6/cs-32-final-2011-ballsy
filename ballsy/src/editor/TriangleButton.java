@@ -1,6 +1,8 @@
 package editor;
 
-import org.jbox2d.common.Vec2;
+/**
+ * Subclass for specific "create ball" button.
+ */
 
 import processing.core.PConstants;
 
@@ -11,8 +13,7 @@ public class TriangleButton extends AbstractButton {
 		super(editor, factory, minX, minY, maxX, maxY);
 
 	}
-
-
+	
 	public void display() {
 		super.display();
 		_window.fill(EditorConstants.TRIANGLE_COLOR);	
@@ -28,13 +29,9 @@ public class TriangleButton extends AbstractButton {
 		_level.setPlacemode(true);
 		_factory.setBody(BodyFactory.RPOLY);
 	}
-	
 
 	@Override
-	public void unselect() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void unselect() { }
 	
 	public String tooltip(){
 		return "Click to create regular polygons in the level.";

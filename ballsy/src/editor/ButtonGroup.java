@@ -1,5 +1,11 @@
 package editor;
 
+/**
+ * A button group, as in swing. Helpful for passing clicks down, for now we don't
+ * have to check for containment of clicks in buttons from the highest level of the
+ * level editor, that can be delegated to button groups.
+ */
+
 import java.util.ArrayList;
 
 import ballsy.Window;
@@ -12,10 +18,20 @@ public class ButtonGroup {
 		_buttons = new ArrayList<AbstractButton>();
 	}
 	
+	/**
+	 * Add a button.
+	 * @param button
+	 */
 	public void add(AbstractButton button){
 		_buttons.add(button);
 	}
 	
+	/**
+	 * This group has been clicked on... act accordingly (pass the click
+	 * on to the correct button).
+	 * @param mouseX
+	 * @param mouseY
+	 */
 	public void click(int mouseX, int mouseY){
 		AbstractButton clicked = null;
 		for (AbstractButton button : _buttons){
@@ -44,6 +60,9 @@ public class ButtonGroup {
 		}
 	}
 	
+	/** 
+	 * Display whatever appropriate tooltip
+	 */
 	public void displayTooltips(){
 		for (AbstractButton button : _buttons){
 			if (button.mouseInBounds(Window.getInstance().mouseX, Window.getInstance().mouseY))

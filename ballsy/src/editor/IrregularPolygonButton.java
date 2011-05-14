@@ -1,6 +1,8 @@
 package editor;
 
-import org.jbox2d.common.Vec2;
+/**
+ * Subclass for specific "create irregular polygon" button.
+ */
 
 import processing.core.PConstants;
 
@@ -15,6 +17,7 @@ public class IrregularPolygonButton extends AbstractButton {
 	public void display() {
 		super.display();
 		_window.fill(EditorConstants.IRREGULAR_POLYGON_COLOR);	
+		// the shape for the button
 		_window.beginShape();
 		_window.vertex(_minX+12, _maxY - 12);
 		_window.vertex(_minX+12, (_maxY+_minY)/2);
@@ -25,14 +28,11 @@ public class IrregularPolygonButton extends AbstractButton {
 
 	}
 
-
-
 	public void select() {
 		_level.setPlacemode(true);
 		_level.startPoints();
 		
-	}
-	
+	}	
 
 	@Override
 	public void unselect() {
@@ -42,5 +42,4 @@ public class IrregularPolygonButton extends AbstractButton {
 	public String tooltip(){
 		return "Click to create irregular, convex polygons in the level.";
 	}
-	
 }

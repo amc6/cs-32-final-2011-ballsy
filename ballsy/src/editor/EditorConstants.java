@@ -1,5 +1,9 @@
 package editor;
 
+/**
+ * All constants pertaining specifically to the editor.
+ */
+
 import processing.core.PFont;
 import ballsy.Window;
 

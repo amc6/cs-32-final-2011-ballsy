@@ -1,5 +1,12 @@
 package editor;
 
+/**
+ * Subclass of AbstractLevel which is used in the level editor. Since it's an 
+ * AbstractLevel, we can use it to play/preview the level easily, but also 
+ * extend it very greatly to allow creation of new things within the level,
+ * and saving it. (Saving is easy: just export the XML of the level)
+ */
+
 import graphics.Background;
 import graphics.Text;
 import graphics.TrackingCamera;
@@ -75,7 +82,6 @@ public class EditorLevel extends AbstractLevel {
 		} else {
 			_selectingPoints = false;
 		}
-		
 		// reset selected object
 		this.resetSelected(null);
 		// save the state of the level (temporarily)
@@ -91,7 +97,6 @@ public class EditorLevel extends AbstractLevel {
 	 * Stop the level and restore the saved beginning state.
 	 */
 	public void stop() {
-	
 		// load in saved state
 		XMLUtil.getInstance().restoreXML(this, _savedState);
 		// stop the running
@@ -109,6 +114,9 @@ public class EditorLevel extends AbstractLevel {
 		_world.centerCameraOn(_player.getWorldPosition().x, _player.getWorldPosition().y);
 	}
 	
+	/**
+	 * set up the world with provided bounds.
+	 */
 	public void setupWorld(float minX, float minY, float maxX, float maxY) {
 		_minX = minX;
 		_minY = minY;
@@ -120,9 +128,11 @@ public class EditorLevel extends AbstractLevel {
 		_bodies = new ArrayList<AbstractBody>();
 	}
 	
+	/**
+	 * Draw everything, depending on the current state of the level editor.
+	 */
 	public void draw() {
 		// draw window stuffs
-//		_window.background(_backgroundColor);
 		_background.draw();
 		// draw a line around the world
 		_window.stroke(0);
@@ -187,6 +197,9 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Handle mouse pressed, react as appropriate.
+	 */
 	public void mousePressed() {
 		if (_running) super.mousePressed();
 		else {
@@ -197,7 +210,6 @@ public class EditorLevel extends AbstractLevel {
 				_lastMouseY = _window.mouseY;
 				if (_selectingPoints) {
 					Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
-					//System.out.println("clicked point: " + newPoint);
 					if (_placeMode && _selectedPoints.size() > 1) {
 						// we're placing a polygon, so points need to be counterclockwise and convex
 						ArrayList<Vec2> newPoints = (ArrayList<Vec2>) _selectedPoints.clone();
@@ -241,11 +253,14 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Mouse released, reset stuff to handle dragging, panning, and whatnot.
+	 */
 	public void mouseReleased() {
 		if (_running) {
 			super.mouseReleased();
 		} else {
-			_objectPressed = false;
+			_objectPressed = false; // to help with panning when selected 
 			if (_panned) {
 				_panned = false;
 			} else {
@@ -258,6 +273,9 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Mouse dragged. Pan, resize, move, etc.
+	 */
 	public void mouseDragged() {
 		if (_running) super.mouseDragged();
 		else {
@@ -313,54 +331,11 @@ public class EditorLevel extends AbstractLevel {
 					if (dcxn < 0) rdx = -rdx;
 					if (dcxy < 0) rdy = -rdy;
 					// FINALLY actually do the resize
-					if (false && _rotating) { //remove false if code is fixed
-						Vec2 bodyPixelCenter = _selectedBody.getPixelPosition();
-						float mouseX = _window.mouseX;
-						float mouseY = _window.mouseY;
-						float mouseAngle = (float) -Math.atan2(mouseY-bodyPixelCenter.y, mouseX-bodyPixelCenter.x);
-						float rotatedMouseAngle = (float) mouseAngle + rectRotAng;
-						rotatedMouseAngle = (float) (((rotatedMouseAngle % (Math.PI*2)) + (Math.PI*2)) % (Math.PI*2));
-						System.out.println("angle:" + Math.toDegrees(mouseAngle));
-						System.out.println("rotation" + Math.toDegrees(rectRotAng));
-						System.out.println("rotated angle:" + Math.toDegrees(rotatedMouseAngle));
-						float xAngInc = 0, yAngInc = 0;
-						if (0<rotatedMouseAngle && rotatedMouseAngle<Math.PI/2) {
-							//quadrant 1
-							xAngInc = 0;
-							yAngInc = (float) (Math.PI/2);
-						}
-						else if (Math.PI/2<rotatedMouseAngle && rotatedMouseAngle<Math.PI) {
-							//quadrant 2
-							xAngInc = (float) (Math.PI/2);
-							yAngInc = (float) (Math.PI);
-						}
-						else if (Math.PI<rotatedMouseAngle && rotatedMouseAngle<3*Math.PI/2) {
-							//quadrant 3
-							xAngInc = (float) (Math.PI);
-							yAngInc = (float) (3*Math.PI/3);
-						}
-						else if (3*Math.PI/2<rotatedMouseAngle && rotatedMouseAngle<2*Math.PI) {
-							//quadrant 4
-							xAngInc = (float) (3*Math.PI/3);
-							yAngInc = (float)  (2*Math.PI);
-						}
-						
-						// if they're also pressing shift, we'll only resize in the direction primarily pulled
-						if (Math.abs(rdy) > Math.abs(rdx) && rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE) { // resize height
-							rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy);// move it in the direction of the cursor
-							rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (float) (rdy/2 * Math.cos(rectRotAng+xAngInc)), rectPhysDef.getBodyWorldCenter().y + (float) (rdy/2 * Math.sin(rectRotAng+yAngInc))));
-						} else if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE) { // resize width
-							rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
-							rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (float) (rdx/2 * Math.cos(rectRotAng+xAngInc)), rectPhysDef.getBodyWorldCenter().y + (float) (rdx/2 * Math.sin(rectRotAng+yAngInc))));
-						}
-					} else {
-						// just resize as expected
-						if (rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE)
-							rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy);
-						if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
-							rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
-						rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (distCXN-distCX)/2, rectPhysDef.getBodyWorldCenter().y + (distCYN-distCY)/2));
-					}
+					if (rectPhysDef.getHeight() + rdy * 2 > MINIMUM_SIZE)
+						rectPhysDef.setHeight(rectPhysDef.getHeight() + rdy);
+					if (rectPhysDef.getWidth() + rdx * 2 > MINIMUM_SIZE)
+						rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
+					rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (distCXN-distCX)/2, rectPhysDef.getBodyWorldCenter().y + (distCYN-distCY)/2));
 				} else if (_selectedBody.getPhysicsDef() instanceof PhysicsPolygon) {
 					System.out.println("resizing physicspolygon");
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
@@ -382,6 +357,11 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Place a new body (talks to the factory)
+	 * @param pos
+	 * @return
+	 */
 	private AbstractBody placeBody(Vec2 pos) {
 		AbstractBody newShape = _factory.getBody(pos);
 		_bodies.add(newShape);
@@ -438,6 +418,9 @@ public class EditorLevel extends AbstractLevel {
 		return null; // it didn't find an object, return null
 	}
 	
+	/**
+	 * A key has been pressed! Handle whatever it is.
+	 */
 	public void keyPressed() {
 		if (_running) {
 			super.keyPressed();
@@ -485,6 +468,9 @@ public class EditorLevel extends AbstractLevel {
 		
 	}
 	
+	/**
+	 * Handle keyrelease
+	 */
 	public void keyReleased() {
 		if (_running) super.keyReleased();
 		else if (_window.keyCode == PConstants.SHIFT) {
@@ -496,26 +482,34 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/** 
+	 * Accessor for runningness
+	 * @return
+	 */
 	public boolean isRunning(){
 		return _running;
 	}
 	
+	/**
+	 * Set the placemode of the editor (whether we're placing shapes or not)
+	 * @param placemode
+	 */
 	public void setPlacemode(boolean placemode){
 		this.resetSelected(null);
 		_placeMode = placemode;
 	}
 
+	/**
+	 * Right click to finish multi-point selection
+	 */
 	public void handleRightClick(){
-		
 		if (_placeMode) {
 			// finish/create the polygon
 			_selectingPoints = false;
 			Vec2 center = PointMath.getCenter(_selectedPoints);
-			AbstractBody newBody = null;
 			if (_world.contains(center) && _selectedPoints.size() > 2) {
 				_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
 				_factory.setBody(BodyFactory.IPOLY);
-				newBody = this.placeBody(center);
 			}
 		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
 			// stop selecting points, apply selected for pathing
@@ -528,6 +522,9 @@ public class EditorLevel extends AbstractLevel {
 		_panned = true; // so it doesn't deselect the body
 	}
 	
+	/**
+	 * Start a series of points, for either a irreg. polygon or path
+	 */
 	public void startPoints(){
 		// start or finish a chain of points
 		if (_placeMode) {
@@ -548,6 +545,9 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Clear the points being selected.
+	 */
 	public void clearPoints(){
 		_selectedPoints = null;
 		_selectingPoints = false;
@@ -561,6 +561,10 @@ public class EditorLevel extends AbstractLevel {
 		return _selectedBody;
 	}
 	
+	/** 
+	 * make a thumbnail image for the saving
+	 * @param path
+	 */
 	public void makeThumbnail(String path) {
 		System.out.println("makeThumbnail called");
 		this.play();
@@ -576,8 +580,12 @@ public class EditorLevel extends AbstractLevel {
 		thumb.save(path);
 	}
 	
+	/** 
+	 * change the size of the world (moving borders)
+	 * @param width
+	 * @param height
+	 */
 	public void updateWorldDimensions(float width, float height){
-	
 		Text message = new Text("Loading...", _window.width/2, _window.height/2);
 		message.setColor(0,175);
 		message.draw();
@@ -601,6 +609,10 @@ public class EditorLevel extends AbstractLevel {
 		_savefile = name;
 	}
 	
+	/** 
+	 * save the file!
+	 * @param name
+	 */
 	public void save(String name) {
 		_savefile = null;
 		this.resetSelected(null);
@@ -615,6 +627,10 @@ public class EditorLevel extends AbstractLevel {
 		_loadfile = name;
 	}
 	
+	/** 
+	 * load an existing level
+	 * @param name
+	 */
 	public void load(String name) {
 		_loadfile = null;
 		XMLUtil.getInstance().readFile(this, name);
@@ -625,6 +641,9 @@ public class EditorLevel extends AbstractLevel {
 		
 	}
 	
+	/**
+	 * delete the current borders, for use in world resize
+	 */
 	private void removeBorders(){
 		for (int i = 0; i < _bodies.size(); i++){
 			AbstractBody object = _bodies.get(i);
@@ -636,6 +655,11 @@ public class EditorLevel extends AbstractLevel {
 		}
 	}
 	
+	/**
+	 * Test if a given object is a border (these have special properties)
+	 * @param object
+	 * @return
+	 */
 	public boolean isBorder(AbstractBody object){
 		if (object.getPhysicsDef() instanceof physics.PhysicsRectangle){
 			boolean leftBorder = object.getWorldPosition().x == 2 && object.getWorldPosition().y == _world.getHeight()/2 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getWidth() == 4 && ((physics.PhysicsRectangle) object.getPhysicsDef()).getHeight() == _world.getHeight(); 
@@ -650,8 +674,10 @@ public class EditorLevel extends AbstractLevel {
 		return false;
 	}
 	
+	/**
+	 * Create new borders around the world.
+	 */
 	public void createBorders(){
-				
 		ArrayList<Rectangle> borders = new ArrayList<Rectangle>();
 		
 		Rectangle borderLeft = new Rectangle(2, _world.getHeight()/2, 4, _world.getHeight());

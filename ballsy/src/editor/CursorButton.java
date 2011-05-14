@@ -1,5 +1,9 @@
 package editor;
 
+/**
+ * Subclass for specific "select" button.
+ */
+
 import processing.core.PConstants;
 import processing.core.PImage;
 
@@ -38,7 +42,7 @@ public class CursorButton extends AbstractButton {
 
 	@Override
 	public void unselect() {
-		_level.setPlacemode(true);
+		_level.setPlacemode(true); // alter stuff in level editor
 	}
 	
 }
