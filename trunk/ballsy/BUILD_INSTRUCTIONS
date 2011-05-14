@@ -1,0 +1,11 @@
+Quick instructions on how to build with ant.
+To build for mac use the command: ant mac
+For windows running 32bit java: ant win32
+For windows running 64bit java: ant win64
+
+You can also try building for linux using ant linux64 or ant linux586
+These last two for linux are completely untested and will probably not work.
+
+Once you have run the command, a zip file will appear in the respective folder.
+You can also run ballsy.jar from the build directory. build will contain the last
+version that was built.
