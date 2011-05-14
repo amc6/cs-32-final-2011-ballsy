@@ -96,7 +96,7 @@ public class Background {
 	 */
 	public void draw() {
 		_world = PhysicsWorld.getInstance();
-		_window.background(150);
+		_window.background(118, 187, 255);
 		Vec2[] bounds = _world.getBounds();
 		
 		_window.imageMode(PConstants.CORNER);
