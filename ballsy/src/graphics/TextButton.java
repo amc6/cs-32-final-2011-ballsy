@@ -1,5 +1,9 @@
 package graphics;
 
+/**
+ * A button which is composed of text, for example the buttons on the main menu.
+ */
+
 import static ballsy.GeneralConstants.*;
 import ballsy.Window;
 import static ballsy.Window.*;
@@ -13,7 +17,12 @@ public class TextButton extends Text {
 	private String _text;
 	private Text _shadow;
 
-
+	/**
+	 * Create the button.
+	 * @param text
+	 * @param x
+	 * @param y
+	 */
 	public TextButton(String text, int x, int y) {
 		super(text, x, y);
 		_window = Window.getInstance();
@@ -30,7 +39,14 @@ public class TextButton extends Text {
 		_shadow.setFont(_font);
 	}
 	
-
+	/**
+	 * Create the button, with color and alignment.
+	 * @param text
+	 * @param x
+	 * @param y
+	 * @param color
+	 * @param align
+	 */
 	public TextButton(String text, int x, int y, int color, int align) {
 		super(text, x, y, color, align);
 		_window = Window.getInstance();
@@ -46,12 +62,20 @@ public class TextButton extends Text {
 		_shadow.setColor(_window.color(0,100));
 		_shadow.setFont(_font);
 	}
-		
+	
+	/**
+	 * Set the size of the button.
+	 */
 	public void setSize(int size) {
 		super.setSize(size);
 		_height = _font.getFont().getSize();
 	}
 	
+	/**
+	 * Set the mouseover actions, dependent on alignment.
+	 * Mostly just change the size. 
+	 * @return
+	 */
 	public boolean mouseOver() {
 		int x = _window.mouseX;
 		int y = _window.mouseY;
@@ -74,6 +98,9 @@ public class TextButton extends Text {
 		return xMin < x && x < xMax && yMin < y && y < yMax;
 	}
 	
+	/**
+	 * Paint the text.
+	 */
 	public void draw() {
 		if (mouseOver()) {
 			_shadow.setFont(DEFAULT_FONT_BIGGER);

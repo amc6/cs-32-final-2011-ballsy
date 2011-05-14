@@ -1,12 +1,13 @@
 package graphics;
 
-import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
+/**
+ * Graphical representation of a polygon. Works for both irregular and regular,
+ * for both just takes in a set of points.
+ */
 
 import java.util.List;
-
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
-
 import physics.PhysicsPolygon;
 import processing.core.PConstants;
 import ballsy.Window;
@@ -28,7 +29,7 @@ public class GraphicsPolygon extends GraphicsDef {
 		Vec2 pos = _world.getBodyPixelCoord(_physicsDef.getBody());
 
 		float a = _physicsDef.getBody().getAngle();
-
+		// create the shape
 		window.pushMatrix();
 		window.beginShape();
 		window.translate(pos.x,pos.y);

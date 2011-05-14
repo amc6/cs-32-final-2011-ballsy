@@ -1,5 +1,11 @@
 package graphics;
 
+/**
+ * Graphical representation of the grapple rope, which was not ultimately
+ * used in this version. Maybe in the future, the grapple line will be bendy 
+ * and physically present in the world, as with this rope.
+ */
+
 import static ballsy.GeneralConstants.DEFAULT_LINE_WIDTH;
 
 import java.util.Vector;
@@ -71,10 +77,6 @@ public class GraphicsGrappleRope extends GraphicsDef{
 		
 		}
 	}
-	
-//	public Point2D.Float getGrapplePoint() {
-//		return _ball.getGrapplePoint();
-//	}
 	
 	public Element writeXML() {
 		return null; // never write XML for grapple!

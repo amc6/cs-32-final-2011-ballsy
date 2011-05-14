@@ -1,5 +1,10 @@
 package graphics;
 
+/**
+ * Graphical representation of the vertex surface, never used in this version
+ * of Ballsy.
+ */
+
 import java.util.List;
 
 import org.dom4j.Element;
@@ -19,11 +24,6 @@ public class GraphicsVertexSurface extends GraphicsDef {
 		PhysicsVertexSurface surfaceDef = (PhysicsVertexSurface) _physicsDef;
 		List<Vec2> vertices = surfaceDef.getWorldPoints();
 		
-		//Vec2 pos = _world.coordWorldToPixels(_physicsDef.getBodyWorldCenter());
-		//float a = _physicsDef.getBody().getAngle();
-		
-		//System.out.println("center: " + pos);
-		
 		window.pushMatrix();
 		window.beginShape();
 		window.stroke(this.getColor());
@@ -35,11 +35,7 @@ public class GraphicsVertexSurface extends GraphicsDef {
 		}
 		
 		window.endShape();
-
 		window.popMatrix();
-		
-		//System.out.println("never");
-		
 	}
 	
 	public Element writeXML() {

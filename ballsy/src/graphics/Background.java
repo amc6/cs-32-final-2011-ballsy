@@ -1,5 +1,12 @@
 package graphics;
 
+/**
+ * Class which creates awesome procedurally generated backgrounds.
+ * Has a little trouble on machines with low memory or low memory allocation,
+ * so if a config.txt file is specified with draw_background: false as the
+ * first line, it won't draw.
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -19,6 +26,9 @@ public class Background {
 	
 	public static final int HORIZON_DISTANCE = 600;
 	
+	/**
+	 * Constructor: generate the background!
+	 */
 	public Background() {
 		
 		int worldPixelWidth = (int) _world.scalarWorldToPixels(_world.getWidth());
@@ -81,6 +91,9 @@ public class Background {
 		_img.updatePixels();
 	}
 	
+	/**
+	 * Draws the background, unless a config file exists and says not to
+	 */
 	public void draw() {
 		_world = PhysicsWorld.getInstance();
 		_window.background(150);
@@ -97,8 +110,7 @@ public class Background {
 				return; // exit if they don't want the background drawn
 			}
 		} catch (Exception e) {
-			// if there's a problem, exit by default.
-			return;
+			// if there's a problem, just continue.
 		}
 		
 		float pixelX = _world.worldXtoPixelX(bounds[0].x);

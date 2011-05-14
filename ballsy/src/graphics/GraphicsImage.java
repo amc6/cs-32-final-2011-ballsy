@@ -1,5 +1,10 @@
 package graphics;
 
+/**
+ * Graphics image, used for things such as the ball and pail which have
+ * graphics defined in images. 
+ */
+
 import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -17,7 +22,9 @@ public class GraphicsImage extends GraphicsDef {
 		_filename = filename;
 	}
 
-	@Override
+	/**
+	 * Display the picture as a graphical object
+	 */
 	public void display() {
 		Window window = Window.getInstance();
 		
@@ -53,7 +60,9 @@ public class GraphicsImage extends GraphicsDef {
 
 	}
 
-	@Override
+	/**
+	 * Write it to XML
+	 */
 	public Element writeXML() {
 		Element newEl = super.writeXML("graphics_image");
 		newEl.addAttribute("FILENAME", _filename);

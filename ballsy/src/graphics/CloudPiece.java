@@ -1,5 +1,9 @@
 package graphics;
 
+/**
+ * Class to model the pieces of the cloud.
+ */
+
 import ballsy.Window;
 
 public class CloudPiece {

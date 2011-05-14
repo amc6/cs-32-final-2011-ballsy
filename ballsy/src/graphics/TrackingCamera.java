@@ -1,5 +1,10 @@
 package graphics;
 
+/**
+ * Tracking camera! Moves the view to follow the ball as it moves near the edge
+ * of the visible world, but doesn't strictly center around it.
+ */
+
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsWorld;
@@ -15,7 +20,10 @@ public class TrackingCamera {
 	private AbstractBody _body;
 	private float _oldX, _oldY;
 	
-	
+	/**
+	 * Instantiate a tracking camera on a given body
+	 * @param body
+	 */
 	public TrackingCamera(AbstractBody body) {
 		_world = PhysicsWorld.getInstance();
 		_window = Window.getInstance();
@@ -43,8 +51,10 @@ public class TrackingCamera {
 		_oldY = pos.y;
 	}
 	
+	/**
+	 * Updates the camera based on the position of it's body
+	 */
 	public void update() {
-		
 		Vec2 pos = _body.getWorldPosition();
 		float dxpixel = _world.scalarWorldToPixels(pos.x-_oldX);
 		float dypixel = _world.scalarWorldToPixels(pos.y-_oldY);
@@ -77,10 +87,7 @@ public class TrackingCamera {
 			}
 		}
 		
-		
 		_oldX = pos.x;
-		_oldY = pos.y;
-		
+		_oldY = pos.y;	
 	}
-
 }

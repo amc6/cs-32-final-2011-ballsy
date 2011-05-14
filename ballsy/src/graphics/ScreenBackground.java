@@ -1,8 +1,14 @@
 package graphics;
+
+/**
+ * Background for a screen. Different than background for a level, as it's a set size
+ * and scale. And it will display no matter what is indicated in config.txt.
+ */
+
 import java.util.Iterator;
 import java.util.Vector;
 
-import physics.PhysicsWorld;
+import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.Window;
@@ -10,13 +16,14 @@ import ballsy.Window;
 public class ScreenBackground {
 	
 	private Window _window = Window.getInstance();
-	private PhysicsWorld _world = PhysicsWorld.getInstance();
 	private float[] _y;
 	private PImage _img;
-	private int _minX, _initMinY, _minY, _initTransY, _transY;
 	
 	private Vector<Cloud> _clouds;
 	
+	/**
+	 * Constructor: generate the background.
+	 */
 	public ScreenBackground() {
 		
 		int screenWidth = _window.width;
@@ -37,10 +44,10 @@ public class ScreenBackground {
 
 		for (int x = 0; x< screenWidth; x++) {
 			if (rand == 0) {
-				_y[x] = (ylast + _window.sin(a/m1)*.1f + _window.cos(a/m2)*.2f + _window.sin(a/m3)*.15f);
+				_y[x] = (ylast + PApplet.sin(a/m1)*.1f + PApplet.cos(a/m2)*.2f + PApplet.sin(a/m3)*.15f);
 			}
 			else {
-				_y[x] = (ylast + _window.cos(a/m1)*.1f + _window.sin(a/m2)*.2f + _window.cos(a/m3)*.15f);
+				_y[x] = (ylast + PApplet.cos(a/m1)*.1f + PApplet.sin(a/m2)*.2f + PApplet.cos(a/m3)*.15f);
 			}
 			a+=inc;
 			ylast=_y[x];
@@ -48,7 +55,7 @@ public class ScreenBackground {
 
 		System.out.println(screenWidth + ", " + screenHeight);
 		
-		_img = _window.createImage(screenWidth, screenHeight, _window.RGB);
+		_img = _window.createImage(screenWidth, screenHeight, PConstants.RGB);
 		_img.loadPixels();
 		ylast = 500;
 		a = 0.0f;
@@ -106,14 +113,13 @@ public class ScreenBackground {
 		}
 	}
 	
+	/**
+	 * Render the background.
+	 */
 	public void draw() {
-		
 		_window.background(150);
-		
-
 		_window.imageMode(PConstants.CORNER);
 		_window.image(_img, 0, 0);
-
 		
 		for (Iterator<Cloud> i = _clouds.iterator(); i.hasNext();) {
 			Cloud c = i.next();
