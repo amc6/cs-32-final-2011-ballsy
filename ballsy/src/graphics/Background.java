@@ -1,5 +1,8 @@
 package graphics;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 import org.jbox2d.common.Vec2;
 
 import physics.PhysicsWorld;
@@ -84,6 +87,19 @@ public class Background {
 		Vec2[] bounds = _world.getBounds();
 		
 		_window.imageMode(PConstants.CORNER);
+
+		// read config file to make sure user wants us to draw backgrounds
+		try {
+			FileReader input = new FileReader("config.txt");
+			BufferedReader br = new BufferedReader(input);
+			String line = br.readLine();
+			if (line.equals("draw_background: false")) {
+				return; // exit if they don't want the background drawn
+			}
+		} catch (Exception e) {
+			// if there's a problem, exit by default.
+			return;
+		}
 		
 		float pixelX = _world.worldXtoPixelX(bounds[0].x);
 		float pixelY = _world.worldYtoPixelY(bounds[1].y);

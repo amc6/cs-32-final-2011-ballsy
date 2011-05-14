@@ -263,8 +263,6 @@ public class EditorLevel extends AbstractLevel {
 		else {
 			if (_selectedBody != null && this.isBorder(_selectedBody))
 				return; // if it's a border don't let people drag it!
-			
-			System.out.println("placeMode: " + _placeMode);
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
 			float distY = _window.mouseY - _lastMouseY;
@@ -445,9 +443,6 @@ public class EditorLevel extends AbstractLevel {
 			super.keyPressed();
 		} else {
 			switch (_window.key) {
-			case 'q':
-				System.exit(0);
-				break;
 			case 'd':
 				if (_selectedBody != null && !_placeMode && 
 						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) {
@@ -522,8 +517,6 @@ public class EditorLevel extends AbstractLevel {
 				_factory.setBody(BodyFactory.IPOLY);
 				newBody = this.placeBody(center);
 			}
-//			this.resetSelected(newBody);
-//			_placeMode = false;
 		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
 			// stop selecting points, apply selected for pathing
 			_selectingPoints = false;
@@ -570,11 +563,8 @@ public class EditorLevel extends AbstractLevel {
 	
 	public void makeThumbnail(String path) {
 		System.out.println("makeThumbnail called");
-		//PhysicsWorld world = PhysicsWorld.getInstance();
 		this.play();
-//		_player.setCrosshairVisible(false);
 		this.draw();
-//		_player.setCrosshairVisible(true);
 		this.stop();
 		_window.save("levels/thumbs/tempThumb.png");
 		PImage img = _window.loadImage("levels/thumbs/tempThumb.png");
@@ -627,7 +617,6 @@ public class EditorLevel extends AbstractLevel {
 	
 	public void load(String name) {
 		_loadfile = null;
-		
 		XMLUtil.getInstance().readFile(this, name);
 		_background = new Background();
 		this.play();
