@@ -1,5 +1,11 @@
 package bodies;
 
+/**
+ * The Vertex Surface... ideally a platform without shape which the bodies
+ * can interact with. Doesn't work for now, may be incorporated into future
+ * versions of Ballsy.
+ */
+
 import java.util.ArrayList;
 
 import org.dom4j.Element;

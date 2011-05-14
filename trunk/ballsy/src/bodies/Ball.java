@@ -1,6 +1,9 @@
 package bodies;
 
-import static bodies.BodyConstants.DEFAULT_BALL_RADIUS;
+/**
+ * Ball definition. Most important for its constructor, which sets up the
+ * physics and graphical defs.
+ */
 
 import org.dom4j.Element;
 

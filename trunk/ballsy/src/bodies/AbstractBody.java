@@ -1,5 +1,10 @@
 package bodies;
 
+/**
+ * Superclass for all bodies, manages physics and graphics defs, and contains lots of
+ * getters and setters for important stuff.
+ */
+
 import graphics.GraphicsDef;
 
 import java.awt.geom.Point2D;
@@ -37,10 +42,6 @@ public abstract class AbstractBody {
 	 * in world coordinates.
 	 */
 	public boolean done() {
-//		Vec2 pos = _physicsDef.getBodyWorldCenter();
-//		if (pos.y  < 0) {
-//			return true;
-//		}
 		return false;
 	}
 	
@@ -48,19 +49,7 @@ public abstract class AbstractBody {
 	 * Display the object using processing graphics.
 	 */
 	public void display(){
-		_graphicsDef.displayEffects(); // effects should be behind the object itself
-//		if (_grappleable && !_deadly) {
-//			_graphicsDef.setColor(50, 250, 100);
-//		}
-//		else if (!_grappleable && !_deadly) {
-//			_graphicsDef.setColor(0);
-//		}
-//		else if (_grappleable && _deadly) {
-//			
-//		}
-//		else if (!_grappleable && _deadly) {
-//			
-//		}
+		_graphicsDef.displayEffects();
 		if (_grappleable) {
 			if (!_graphicsDef.getSelected()) _graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR);
 			else _graphicsDef.setStrokeWeightAndColor(GRAPPLEABLE_STROKE_WEIGHT,GRAPPLEABLE_BORDER_COLOR, SELECTED_OPACITY);
@@ -86,11 +75,20 @@ public abstract class AbstractBody {
 		_graphicsDef.display();
 	}
 	
+	/**
+	 * setter for both physics and graphics defs
+	 * @param physics
+	 * @param graphics
+	 */
 	public void setPhysicsAndGraphics(PhysicsDef physics, GraphicsDef graphics){
 		_physicsDef = physics;
 		this.setGraphics(graphics);
 	}
 	
+	/**
+	 * Setter for just graphics def
+	 * @param graphics
+	 */
 	public void setGraphics(GraphicsDef graphics) {
 		_graphicsDef = graphics;
 		_graphicsDef.setPhysicsDef(_physicsDef);
@@ -112,6 +110,11 @@ public abstract class AbstractBody {
 		return _physicsDef;
 	}
 	
+	/**
+	 * Sets the position of the object and its path, if object and all path points are
+	 * still inside the world
+	 * @param pos
+	 */
 	public void setPosition(Vec2 pos) {
 		if (!PhysicsWorld.getInstance().contains(pos)) return; // don't put it there if it's out of this world
 		if (this.getPath() != null) {
@@ -147,7 +150,6 @@ public abstract class AbstractBody {
 	public void setPath(ArrayList<Vec2> p) {
 		Vector<Point2D.Float> vec = new Vector <Point2D.Float>();
 		for (Vec2 v : p) {
-			//System.out.println(v.x + " " + v.y);
 			vec.add(new Point2D.Float(v.x, v.y));
 		}
 		this.setPath(vec);
@@ -170,7 +172,7 @@ public abstract class AbstractBody {
 	}
 	
 	/**
-	 * Clears teh path of the current object and set its velocity to nothing.
+	 * Clears the path of the current object and set its velocity to nothing.
 	 */
 	public void clearPath() {
 		_world.unregisterPostStep(_pathDef);
