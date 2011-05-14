@@ -2,9 +2,10 @@ package physics;
 
 import org.dom4j.Element;
 import org.jbox2d.collision.shapes.CircleDef;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.Body;
+
+/**
+ * Represents a ball object within the physics world.
+ */
 
 public class PhysicsBall extends PhysicsDef {
 
@@ -36,7 +37,7 @@ public class PhysicsBall extends PhysicsDef {
 	}
 	
 	/**
-	 * @return property as stored in this instance
+	 * @return Property as stored in this instance
 	 */
 	public float getRadius(){
 		return _radius;

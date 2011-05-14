@@ -1,55 +1,67 @@
 package physics;
 
+import static bodies.BodyConstants.LINK_DIST;
+
 import java.util.Vector;
 
-import org.dom4j.Element;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.joints.DistanceJoint;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
 
-import ballsy.Window;
-import bodies.AbstractBody;
-import bodies.Ball;
 import bodies.Link;
-import bodies.Rope;
-import bodies.UserBall;
-import static ballsy.GeneralConstants.*;
-import static bodies.BodyConstants.*;
 
 
+/**
+ * Represents a slack, rope-like grappling hook unseen in the
+ * first release of Ballsy. Ultimately the ease of controlling the 
+ * line grapple was better than the rope, and so we cut this 
+ * feature.
+ */
 public class PhysicsGrappleRope extends PhysicsGrapple {
 	
 	private Vector<Link> _links;
-	private PhysicsWorld _world;
-	private Window _window;
 	private DistanceJoint _firstJoint, _secondJoint, _lastJoint;
 	private int _numLinks = 40;
-	private float _maxLenth = CROSSHAIR_RANGE;
 	
 	private static final float LINK_PER_DISTANCE = 2f;
 	private static final float FREQ = 0f;
 	private static final float DAMPING = 1f;
 
+	
+	/**
+	 * Associates the rope grapple with a ball and instantiates
+	 * a list of physics links.
+	 */
 	public PhysicsGrappleRope(bodies.UserBall ball) {
-		super(ball); // Super class PhysicsDef requires this...how can we refactor this better?
-		_window = Window.getInstance();
-		_world = PhysicsWorld.getInstance();
+		super(ball);
 		_links = new Vector<Link>();
 	}
 	
+	/**
+	 * @return the list of links of this grapple
+	 */
 	public Vector<Link> getLinks() {
 		return _links;
 	}
 	
+	/**
+	 * @return the first joint connecting the ball to the rope
+	 */
 	public DistanceJoint getFirstJoint() {
 		return _firstJoint; //connects ball to rope
 	}
 	
+	/**
+	 * @return the last joint connecting the rope to the object
+	 */
 	public DistanceJoint getLastJoint() {
 		return _lastJoint; //connects rope to object
 	}
 	
+	/**
+	 * Establishes the chain between the ball and its opposite object.
+	 */
 	public void grapple() {
 		if (_ball.isGrappled()) {
 			//grapple
@@ -61,7 +73,6 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 			Vec2 dist = pos2.sub(pos1);
 			float magDist = dist.length();
 			_numLinks = (int) (magDist*LINK_PER_DISTANCE);
-			//System.out.println("numlinks: " + _numLinks);
 			float dx = dist.x/_numLinks;
 			float dy = dist.y/_numLinks;
 			
@@ -123,6 +134,9 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 		}
 	}
 	
+	/**
+	 * Releases the grapple by destroying the links and joints in the world.
+	 */
 	public void releaseGrapple() {
 		_world.destroyJoint(_firstJoint);
 		_world.destroyJoint(_lastJoint);
@@ -133,6 +147,9 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 		_links = new Vector<Link>();
 	}
 	
+	/**
+	 * Extends the grapple by adding links in the world.
+	 */
 	public void extendGrapple() {
 		Body ballBody = _ball.getPhysicsDef().getBody();
 		Vec2 ballAnchor = _ball.getWorldPosition();
@@ -142,7 +159,6 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 		
 		_world.destroyJoint(_firstJoint);
 		
-		float dist = ballAnchor.sub(firstLinkAnchor).length();
 		Vec2 midpt = ballAnchor.add(firstLinkAnchor).mul(.5F);
 		
 		Link linkToInsert = new Link(midpt.x, midpt.y);
@@ -165,6 +181,9 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 
 	}
 	
+	/**
+	 * Retracts the grapple by removing links from the world.
+	 */
 	public void retractGrapple() {
 		if (_links.size() > 1) {
 			Link linkToRemove = _links.get(0);
@@ -193,13 +212,13 @@ public class PhysicsGrappleRope extends PhysicsGrapple {
 		}
 	}
 
-	// Required by PhysicsDef. How can we refactor this better?
+	// There is no physics body to be created
 	protected void createBody() {
 	}
-
+	
+	// No grapple point to return
 	@Override
 	public Vec2 getGrapplePoint() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

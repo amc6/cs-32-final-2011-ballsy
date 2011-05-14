@@ -13,8 +13,11 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
-
-
+/**
+ * Superclass definition of objects within the physics world.
+ * Contains setters and getters for frequent operations on objects
+ * in addition to adding the object to the world.
+ */
 public abstract class PhysicsDef {
 	
 	protected PhysicsWorld _world = PhysicsWorld.getInstance();
@@ -25,16 +28,19 @@ public abstract class PhysicsDef {
 	private boolean _mobile = true;
 	private boolean _graphicalOnly = false;
 	protected Body _body;
-	private FilterData _fd = null;
-		
+	
+			
+	/**
+	 * Stores the initial position of an object.
+	 */
 	public PhysicsDef(float x, float y){
 		_initialPos = new Vec2(x, y);
 	}
 	
 	/**
-	 * Require subclasses to implement.
-	 * Should call PhysicsDef.createBody(...) with the specific ShapeDef
-	 * of the subclass.
+	 * Require that subclasses can create themselves to some degree.
+	 * Subclasses should call PhysicsDef.createBody(...) with their specific
+	 * ShapeDef.
 	 */
 	protected abstract void createBody();
 	
@@ -42,9 +48,13 @@ public abstract class PhysicsDef {
 	 * Must be called in the subclasses constructor to properly create the body
 	 */
 	protected void createBody(ShapeDef shape) {
-		this.createBody(shape, _initialPos, 0);
+		this.createBody(shape, _initialPos, 0); // create an object with no rotation
 	}
 	
+	/**
+	 * Create an object in the physics world with a pre-created ShapeDef
+	 * at some initial position and a starting angle.
+	 */
 	protected void createBody(ShapeDef shape, Vec2 pos, float angle) {
 		
 		// If we're re-creating a body, we need to remove the old one
@@ -52,6 +62,7 @@ public abstract class PhysicsDef {
 			_world.destroyBody(_body); 
 		}
 		
+		// Set shape properties
 		shape.density = _density;
 		shape.friction = _friction;
 		shape.restitution = _bounciness;
@@ -59,6 +70,7 @@ public abstract class PhysicsDef {
 		bodyDef.position.set(pos);
 		bodyDef.angle = angle;
 		
+		// Create physics body
 		_body = _world.createBody(bodyDef);
 		_body.createShape(shape);
 		_body.m_sweep.a = angle;
@@ -67,10 +79,16 @@ public abstract class PhysicsDef {
 		this.setMobile(_mobile);
 	}
 	
+	/**
+	 * Set an existing body's rotation in radians.
+	 */
 	public void setRotation(float r) {
 		this.getBody().setXForm(this.getBody().getXForm().position, r);
 	}
 	
+	/**
+	 * Get the existing body's rotation in radians.
+	 */
 	public float getRotation(){
 		return this.getBody().getAngle();
 	}
@@ -78,8 +96,8 @@ public abstract class PhysicsDef {
 	/**
 	 * If the object exists in the PhysicsWorld, we edit the property
 	 * directly and change the corresponding instance variable. Otherwise
-	 * we just change the instance variable in preparation of createObject(...)
-	 * @param density
+	 * we just change the instance variable in preparation of createObject(...)'s
+	 * invocation.
 	 */
 	public void setDensity(float density){
 		_density = density;
@@ -96,8 +114,8 @@ public abstract class PhysicsDef {
 	/**
 	 * If the object exists in the PhysicsWorld, we edit the property
 	 * directly and change the corresponding instance variable. Otherwise
-	 * we just change the instance variable in preparation of createObject(...)
-	 * @param density
+	 * we just change the instance variable in preparation of createObject(...)'s
+	 * invocation.
 	 */
 	public void setFriction(float friction){
 		_friction = friction;
@@ -114,8 +132,8 @@ public abstract class PhysicsDef {
 	/**
 	 * If the object exists in the PhysicsWorld, we edit the property
 	 * directly and change the corresponding instance variable. Otherwise
-	 * we just change the instance variable in preparation of createObject(...)
-	 * @param density
+	 * we just change the instance variable in preparation of createObject(...)'s
+	 * invocation.
 	 */
 	public void setBounciness(float bounciness){
 		_bounciness = bounciness;
@@ -129,32 +147,55 @@ public abstract class PhysicsDef {
 		return _bounciness;
 	}
 	
+	/**
+	 * @return the reference to the Body object in the physics world.
+	 */
 	public Body getBody(){
 		return _body;
 	}
 	
+	/**
+	 * @return true if the shape is dynamic, false if the shape is static
+	 * within the physics world.
+	 */
 	public boolean getMobile(){
 		return _mobile;
 	}
 		
+	/**
+	 * Sets the instance variable for mobility accordingly and, if
+	 * the shape has already been instantiated in the physcis world,
+	 * sets its mobility directly.
+	 */
 	public void setMobile(boolean mobile){
 		_mobile = mobile;
 		if (_body != null){
 			if (_mobile) {
-				_body.setMassFromShapes();
+				_body.setMassFromShapes(); // dynamic
 			}else {
 				MassData md = new MassData();
-				md.mass = 0f;
+				md.mass = 0f; // static by lack of mass
 				_body.setMass(md);
 			}
 		}
 	}
 	
+	/**
+	 * @return true if the object is graphical only, otherwise false.
+	 */
 	public boolean getGraphicalOnly(){
 		return _graphicalOnly;
 	}
-	
-	// possibly functional?!
+
+	/**
+	 * Sets the instance variable for graphical only accordingly and, if
+	 * the shape has already been instantiated in the physcis world,
+	 * sets its graphical-only-ness directly.
+	 * 
+	 * This feature has been removed from the first release of Ballsy.
+	 * The functionality is there, but it has been removed from the GUI
+	 * of the Level Editor.
+	 */
 	public void setGraphicalOnly(boolean graphicalOnly){
 		_graphicalOnly = graphicalOnly;
 		if (_body != null) {
@@ -175,10 +216,6 @@ public abstract class PhysicsDef {
 		}
 	}
 	
-	public boolean isGraphicalOnly() {
-		return _graphicalOnly;
-	}
-	
 	/**
 	 * Applies a force given by the parameter to the object's center of mass.
 	 * @param vector
@@ -196,18 +233,30 @@ public abstract class PhysicsDef {
 	}
 	
 	
+	/**
+	 * Sets the linear velocity of the object.
+	 */
 	public void setLinearVelocity(Vec2 vec){
 		_body.setLinearVelocity(vec);
 	}
 	
+	/**
+	 * Sets the the angular velocity of the object.
+	 */
 	public void setAngularVelocity(float vel){
 		_body.setAngularVelocity(vel);
 	}		
 	
+	/**
+	 * @return the world coordinates of the body's center.
+	 */
 	public Vec2 getBodyWorldCenter(){
 		return _world.getBodyWorldCoord(_body);
 	}
 	
+	/**
+	 * Sets the location of the body.
+	 */
 	public void setBodyWorldCenter(Vec2 vec){
 		_initialPos = vec;
 		if (_body != null) _body.setXForm(vec, _body.getAngle());
@@ -215,7 +264,7 @@ public abstract class PhysicsDef {
 	
 	/**
 	 * Return the representation of the object as a dom4j element to write into a saved XML file.
-	 * @return
+	 * @return DOM4J element
 	 */
 	public abstract Element writeXML();
 	
@@ -225,12 +274,12 @@ public abstract class PhysicsDef {
 	 * @param type
 	 * @param width
 	 * @param height
-	 * @return
+	 * @return DOM4J element
 	 */
 	public Element writeXML(String type, float width, float height) {
 		// create the element for the XML representation of the physics ball def
 		Element newEl = DocumentHelper.createElement("PHYSICS_DEF");
-		// add appropriate attributes for ball
+		// Add the properties for all objects
 		newEl.addAttribute("TYPE", type);
 		newEl.addAttribute("X", Float.toString(_body.getPosition().x));
 		newEl.addAttribute("Y", Float.toString(_body.getPosition().y));
@@ -257,7 +306,7 @@ public abstract class PhysicsDef {
 	public Element writeXML(String type) {
 		// create the element for the XML representation of the physics ball def
 		Element newEl = DocumentHelper.createElement("PHYSICS_DEF");
-		// add appropriate attributes for ball
+		// Add the properties for objects with no width or height
 		newEl.addAttribute("TYPE", type);
 		newEl.addAttribute("X", Float.toString(_body.getPosition().x));
 		newEl.addAttribute("Y", Float.toString(_body.getPosition().y));

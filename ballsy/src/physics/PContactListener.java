@@ -9,15 +9,18 @@ import org.jbox2d.dynamics.contacts.ContactResult;
 
 import processing.core.PApplet;
 
+/**
+ * Handles passing collision handling to individual objects using Java reflection.
+ */
 public class PContactListener implements ContactListener {
-	PApplet parent;
+	private PApplet parent;
 
-	Method addMethod;
-	Method persistMethod;
-	Method removeMethod;
-	Method resultMethod;
+	private Method addMethod;
+	private Method persistMethod;
+	private Method removeMethod;
+	private Method resultMethod;
 
-	PContactListener(PApplet p){
+	public PContactListener(PApplet p){
 		parent = p;
 
 		try {
@@ -40,10 +43,7 @@ public class PContactListener implements ContactListener {
 			resultMethod = parent.getClass().getMethod("resultContact", new Class[] { ContactResult.class });
         } catch (Exception e) {
             System.out.println("You are missing the resultContact() method. " + e);
-        }
-
-        
-
+        } 
 	}
 
 	// This function is called when a new collision occurs
@@ -97,7 +97,6 @@ public class PContactListener implements ContactListener {
                 resultMethod = null;
             }
         }
-
 	}
 
 

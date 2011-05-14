@@ -12,8 +12,8 @@ import ballsy.Window;
 public class Cloud {
 	
 	private Vector<CloudPiece> _cloud;
-	private int _radiusBig,_radiusMed,_radiusSmall, _red;
-	private int _counter, _maxCount,_x,_y;
+	private int _radiusBig,_radiusMed, _radiusSmall, _red;
+	private int _counter, _maxCount,_x, _y;
 	private Window _window;
 	
 	/**

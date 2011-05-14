@@ -31,7 +31,6 @@ public class PhysicsPath implements Steppable{
 		_physDef = p;
 		_pathPoints = new Vector<Point2D.Float>();
 		_initPos = new Point2D.Float(p.getBodyWorldCenter().x, p.getBodyWorldCenter().y);
-		
 	}
 	
 	public PhysicsPath(PhysicsDef p, Vector<Point2D.Float> v) {
