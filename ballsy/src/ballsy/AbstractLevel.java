@@ -203,7 +203,6 @@ public abstract class AbstractLevel extends Screen {
 	 * so we need to do this for both.
 	 */
 	public void mouseDragged() {
-		if (_player == null) System.out.println("player null");
 		if (!_paused && !_player.isGrappled()) _player.fireGrapple();
 	}
 	

@@ -55,10 +55,10 @@ public class XMLUtil {
     	Document doc;
 		try { doc = reader.read(new FileReader(path));} 
 		catch (FileNotFoundException e) { 
-			System.out.println("file not found");
+			// File not found
 			return _buttons; } 
 		catch (DocumentException e) { 
-			System.out.println("document exception");
+			// Document exception
 			return _buttons; }
     	Element root = doc.getRootElement();
     	MenuButton lastButton = null;
@@ -166,10 +166,10 @@ public class XMLUtil {
     	Document doc;
 		try { doc = reader.read(new FileReader(path));} 
 		catch (FileNotFoundException e) { 
-			System.out.println("file not found");
+			// File not found
 			return false; } 
 		catch (DocumentException e) { 
-			System.out.println("document exception");
+			// Document exception
 			return false; }
     	Element root = doc.getRootElement();
     	this.restoreXML(level, root);

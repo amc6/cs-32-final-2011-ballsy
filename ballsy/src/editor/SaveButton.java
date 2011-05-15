@@ -59,6 +59,8 @@ public class SaveButton extends AbstractButton {
 							filename = filename.concat(".ball");
 						}
 						_level.setSave(filename);
+						
+						
 					}
 				}
 				catch (Exception e) {

@@ -52,8 +52,6 @@ public class ScreenBackground {
 			a+=inc;
 			ylast=_y[x];
 		}
-
-		System.out.println(screenWidth + ", " + screenHeight);
 		
 		_img = _window.createImage(screenWidth, screenHeight, PConstants.RGB);
 		_img.loadPixels();

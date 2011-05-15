@@ -189,10 +189,16 @@ public class EditorLevel extends AbstractLevel {
 		if (_rotating && _rotationCenter != null && !_resizing) _window.line(_world.worldXtoPixelX(_rotationCenter.x), _world.worldYtoPixelY(_rotationCenter.y), _window.mouseX, _window.mouseY);
 
 		if (_savefile != null){
+			Text message = new Text("Loading...", _window.width/2, _window.height/2);
+			message.setColor(0,175);
+			message.draw();
 			this.save(_savefile);
 		}
 		
 		if (_loadfile != null){
+			Text message = new Text("Loading...", _window.width/2, _window.height/2);
+			message.setColor(0,175);
+			message.draw();
 			this.load(_loadfile);
 		}
 	}
@@ -303,7 +309,6 @@ public class EditorLevel extends AbstractLevel {
 				float angle = _selectedBody.getPhysicsDef().getBody().getAngle();
 				_selectedBody.getPhysicsDef().setRotation(angle + angleDiff);
 			} else if (_selectedBody != null && (_resizing || _placeMode)) {
-				System.out.println("resizing!");
 				// resizing object. Respond depending on what it is.
 				float distXW = - _world.scalarPixelsToWorld(distX);
 				float distYW = - _world.scalarPixelsToWorld(distY);
@@ -337,14 +342,11 @@ public class EditorLevel extends AbstractLevel {
 						rectPhysDef.setWidth(rectPhysDef.getWidth() + rdx);// move it in the direction of the cursor
 					rectPhysDef.setBodyWorldCenter(new Vec2(rectPhysDef.getBodyWorldCenter().x + (distCXN-distCX)/2, rectPhysDef.getBodyWorldCenter().y + (distCYN-distCY)/2));
 				} else if (_selectedBody.getPhysicsDef() instanceof PhysicsPolygon) {
-					System.out.println("resizing physicspolygon");
 					float distLast = (float) Math.sqrt(distCX * distCX + distCY * distCY);
 					float ratio = 1;
 					if (distLast != 0) {
 						ratio = Math.abs((distLast + distTotal) / distLast); // so no mirroring with a negative ratio
 					}
-					System.out.println("distlast:" + distLast);
-					System.out.println("ratio:" + ratio);
 					PhysicsPolygon polyPhysDef = (PhysicsPolygon) _selectedBody.getPhysicsDef();
 					polyPhysDef.scalePoints(ratio); // will check for size and not execute if it'll be too small
 				}
@@ -566,7 +568,6 @@ public class EditorLevel extends AbstractLevel {
 	 * @param path
 	 */
 	public void makeThumbnail(String path) {
-		System.out.println("makeThumbnail called");
 		this.play();
 		this.draw();
 		this.stop();

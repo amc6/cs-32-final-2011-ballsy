@@ -5,10 +5,14 @@ package editor;
  */
 
 import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+
 import processing.core.PConstants;
 import processing.core.PImage;
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import ballsy.XMLUtil;
 
 public class LoadButton extends AbstractButton {
@@ -73,8 +77,7 @@ public class LoadButton extends AbstractButton {
 		});	
 		
 		if (_load) {
-			System.out.println("loading.. " + _name);
-			System.out.println(XMLUtil.getInstance().readFile(_level, _name));
+			XMLUtil.getInstance().readFile(_level, _name);
 			_level.play();
 			_level.stop(); //lol this gets rid of crosshair and smoke. we should probs do it more directly iunno.
 			_level.centerCamera();
