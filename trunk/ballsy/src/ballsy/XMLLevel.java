@@ -7,15 +7,20 @@ package ballsy;
  */
 
 import graphics.Background;
+import graphics.Text;
 import graphics.TrackingCamera;
 
 import java.util.ArrayList;
 
 import menu.MenuButton;
 
+import org.jbox2d.common.Vec2;
+
 import physics.PhysicsWorld;
+import processing.core.PConstants;
 import ballsy.ScreenLoader.Screens;
 import bodies.AbstractBody;
+import bodies.BodyConstants;
 
 public class XMLLevel extends AbstractLevel {
 	private String _path;
@@ -48,6 +53,7 @@ public class XMLLevel extends AbstractLevel {
 		_world.createWorld(minX, minY, maxX, maxY);
 		_world.setGravity(_gravity.x, _gravity.y);
 		_bodies = new ArrayList<AbstractBody>();
+		
 	}
 	
 	/**
@@ -64,10 +70,56 @@ public class XMLLevel extends AbstractLevel {
 		}
 		// and update camera
 		_camera.update();
+		
+		
+		
 		// display all objects
 		for (AbstractBody body : _bodies) { body.display(); }
 		// and apply the input (stored in boolean array)
 		this.applyInput();
+		
+		// If first level, display controls as a tutorial
+		if (_path.contains("builtin_levels/LevelOne-Final.ball")){
+			
+			Vec2 point = new Vec2(112,70);
+			Text msg1 = new Text("Ballsy Controls", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg1.setColor(_window.color(0));
+			msg1.setSize(38);
+			
+			point.addLocal(0, -5);
+			Text msg2 = new Text("A/LEFT: Roll or Sway Left", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg2.setColor(_window.color(255));
+			msg2.setSize(30);
+						
+			point.addLocal(0, -4);
+			Text msg3 = new Text("D/RIGHT: Roll or Sway Right", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg3.setColor(_window.color(255));
+			msg3.setSize(30);
+			
+			point.addLocal(0, -4);
+			Text msg6 = new Text("CLICK: Fire Grapple", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg6.setColor(_window.color(255));
+			msg6.setSize(30);
+			
+			point.addLocal(0, -4);
+			Text msg4 = new Text("W/UP: Retract Grapple", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg4.setColor(_window.color(255));
+			msg4.setSize(30);
+			
+			point.addLocal(0, -4);
+			Text msg5 = new Text("S/DOWN: Extend Grapple", (int) _world.coordWorldToPixels(point).x, (int) _world.coordWorldToPixels(point).y);
+			msg5.setColor(_window.color(255));
+			msg5.setSize(30);
+			
+			msg1.draw();
+			msg2.draw();
+			msg3.draw();
+			msg6.draw();
+			msg4.draw();
+			msg5.draw();
+			
+		}
+		
 		// handle pausedness and wonness
 		if (_paused) {
 			_pauseScreen.draw();
@@ -76,6 +128,9 @@ public class XMLLevel extends AbstractLevel {
 			_player.setCrosshairVisible(false);
 			_player.setInPlay(false);
 		}
+		
+		
+		
 	}
 	
 	/**

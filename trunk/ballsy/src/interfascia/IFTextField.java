@@ -244,7 +244,6 @@ public class IFTextField extends GUIComponent {
 			int start = Math.min(startSelect, endSelect);
 			int end = Math.max(startSelect, endSelect);
 			if (start >= end || start < 0 || end > contents.length()) {
-				System.out.println("Brendan needs to check array bounds.");
 				return;
 			}
 			
@@ -312,7 +311,6 @@ public class IFTextField extends GUIComponent {
 		int start = Math.min(startString, endString);
 		int end = Math.max(startString, endString);
 		if (start >= end || start < 0 || end > contents.length()) {
-			System.out.println("Brendan needs to check array bounds.");
 			return;
 		}
 		

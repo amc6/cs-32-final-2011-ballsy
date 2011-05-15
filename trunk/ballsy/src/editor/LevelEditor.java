@@ -835,9 +835,9 @@ public class LevelEditor extends Screen {
 	@Override
 	public void mouseReleased() {
 		// Checks to ensure that a mouse click is not within the control area before passing down unless running
-		// if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
+		if (_window.mouseX > _window.width - _newLevelWidth && _window.mouseY > _window.height - _newLevelHeight || _level.isRunning())
 		// uncomment the above to do selective mouseRelease passing... as it is, this is less buggy to do it all the time
-		_level.mouseReleased();
+			_level.mouseReleased();
 	}
 
 	/**

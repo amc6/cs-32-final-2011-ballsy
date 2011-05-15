@@ -51,7 +51,6 @@ public class PauseScreen {
 	 * figure out where it is, and either continue, exit, or load welcome screen
 	 */
 	public void mousePressed() {
-		System.out.println("clicked pause screen");
 		if (_resume.mouseOver()) {
 			_level.togglePaused();
 		}

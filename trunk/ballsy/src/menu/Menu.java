@@ -72,7 +72,6 @@ public class Menu extends Screen {
 		
 		_page = 1;
 		_maxPages = (int) Math.ceil((float)_buttons.size()/(float)numPerPage);
-		System.out.println("pages: " + _maxPages);
 		
 		int menuWidth = (numCols)*THUMBNAIL_SIZE + (numCols-1)*THUMBNAIL_PADDING;
 		_sidePadding = (_window.width - menuWidth)/2;
@@ -85,9 +84,7 @@ public class Menu extends Screen {
 		int numLevelsPerPage = 0;
 		int xStart = _sidePadding;
 		for (Iterator<MenuButton> i = _defaultLevels.iterator(); i.hasNext(); rowCounter++, numLevelsPerPage++) {
-			System.out.println("xStart: " + xStart);
 			MenuButton b = i.next();
-			System.out.println(b);
 			b.setPosition(x, y);
 			x = x + THUMBNAIL_SIZE + THUMBNAIL_PADDING;
 			if (rowCounter == numCols-1) {
@@ -109,9 +106,7 @@ public class Menu extends Screen {
 		numLevelsPerPage = 0;
 		xStart = _sidePadding;
 		for (Iterator<MenuButton> i = _customLevels.iterator(); i.hasNext(); rowCounter++, numLevelsPerPage++) {
-			System.out.println("xStart: " + xStart);
 			MenuButton b = i.next();
-			System.out.println(b);
 			b.setPosition(x, y);
 			x = x + THUMBNAIL_SIZE + THUMBNAIL_PADDING;
 			if (rowCounter == numCols-1) {
@@ -158,7 +153,6 @@ public class Menu extends Screen {
 			if (_step == _maxSteps) {
 				_animatingCustom = false;
 				_step = 0;
-				System.out.println("custom:" + _custom);
 				if (_custom) { //custom
 					_customLevelsTitle.setLocation(70, 20);
 					_levelsTab.setLocation(_window.width-410, 20);

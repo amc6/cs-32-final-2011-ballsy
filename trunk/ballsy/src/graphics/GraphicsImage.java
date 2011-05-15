@@ -38,23 +38,24 @@ public class GraphicsImage extends GraphicsDef {
 		window.rotate(-a);
 		window.fill(this.getColor());
 		window.stroke(0);
-		float pixelHeight = 0;
-		float pixelWidth = 0;
-		if (_physicsDef instanceof PhysicsRectangle) {
-			PhysicsRectangle recdef = (PhysicsRectangle) _physicsDef;
-			pixelWidth = _world.scalarWorldToPixels(recdef.getWidth());
-			pixelHeight = _world.scalarWorldToPixels(recdef.getHeight());
-		}
-		else if (_physicsDef instanceof PhysicsBall) {
-			PhysicsBall balldef = (PhysicsBall) _physicsDef;
-			pixelHeight = pixelWidth = _world.scalarWorldToPixels(balldef.getRadius());
-		}
-		else {
-			throw new RuntimeException("A Graphics Image can only use a Rectangle or Ball PhysicsDef");
-		}
-		if (_image == null) _image = new Image(_filename , 0,0);
-		_image.draw();
 		
+//		float pixelHeight = 0;
+//		float pixelWidth = 0;
+//		if (_physicsDef instanceof PhysicsRectangle) {
+//			PhysicsRectangle recdef = (PhysicsRectangle) _physicsDef;
+//			pixelWidth = _world.scalarWorldToPixels(recdef.getWidth());
+//			pixelHeight = _world.scalarWorldToPixels(recdef.getHeight());
+//		}
+//		else if (_physicsDef instanceof PhysicsBall) {
+//			PhysicsBall balldef = (PhysicsBall) _physicsDef;
+//			pixelHeight = pixelWidth = _world.scalarWorldToPixels(balldef.getRadius());
+//		}
+//		else {
+//			throw new RuntimeException("A GraphicsImage can be paired with only a PhysicsRectangle or a PhysicsBall.");
+//		}
+
+		if (_image == null) _image = new Image(_filename, 0,0);
+		_image.draw();		
 	
 		window.popMatrix();
 
