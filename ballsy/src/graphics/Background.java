@@ -109,13 +109,15 @@ public class Background {
 	 */
 	public void draw() {
 		_world = PhysicsWorld.getInstance();
-		_window.background(118, 187, 255);
 		Vec2[] bounds = _world.getBounds();
-		
 		_window.imageMode(PConstants.CORNER);
 
-		if (!_drawBG) return; // break out if they don't want the background.
+		if (!_drawBG) {
+			_window.background(118, 187, 255);
+			return; // break out if they don't want the background.
+		}
 		
+		_window.background(150);
 		float pixelX = _world.worldXtoPixelX(bounds[0].x);
 		float pixelY = _world.worldYtoPixelY(bounds[1].y);
 		_window.image(_img, pixelX, pixelY);
