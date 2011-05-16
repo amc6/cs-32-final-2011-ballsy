@@ -52,7 +52,7 @@ public class EditorLevel extends AbstractLevel {
 	private LevelEditor _editor;
 	private float _savedViewX, _savedViewY;
 	private String _savefile, _loadfile;
-	private boolean _panned = false, _objectPressed = false; // object pressed when clicked on object
+	private boolean _modified = false, _objectPressed = false; // object pressed when clicked on object
 	
 	public EditorLevel(LevelEditor editor, BodyFactory factory) {
 		_editor = editor;
@@ -267,8 +267,8 @@ public class EditorLevel extends AbstractLevel {
 			super.mouseReleased();
 		} else {
 			_objectPressed = false; // to help with panning when selected 
-			if (_panned) {
-				_panned = false;
+			if (_modified) {
+				_modified = false;
 			} else {
 				this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
 			}
@@ -299,7 +299,7 @@ public class EditorLevel extends AbstractLevel {
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
 				if (!_objectPressed) _world.moveCamera(distX, distY);
-				_panned = true;
+				_modified = true;
 			} else if (_selectedBody != null && _rotating && _rotationCenter != null && !_resizing) {
 				// we're rotating the object. Calculate the angle...
 				float angleNow = (float) Math.atan2(_world.pixelYtoWorldY(_window.mouseY) - _rotationCenter.y, (_world.pixelXtoWorldX(_window.mouseX) - _rotationCenter.x));
@@ -308,6 +308,7 @@ public class EditorLevel extends AbstractLevel {
 				// set angle
 				float angle = _selectedBody.getPhysicsDef().getBody().getAngle();
 				_selectedBody.getPhysicsDef().setRotation(angle + angleDiff);
+				_modified = true;
 			} else if (_selectedBody != null && (_resizing || _placeMode)) {
 				// resizing object. Respond depending on what it is.
 				float distXW = - _world.scalarPixelsToWorld(distX);
@@ -521,7 +522,7 @@ public class EditorLevel extends AbstractLevel {
 			_selectedPoints = null;
 			_editor.updateFieldValues();
 		}
-		_panned = true; // so it doesn't deselect the body
+		_modified = true; // so it doesn't deselect the body
 	}
 	
 	/**
