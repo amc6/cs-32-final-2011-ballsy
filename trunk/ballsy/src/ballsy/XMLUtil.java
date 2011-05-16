@@ -118,7 +118,7 @@ public class XMLUtil {
 		OutputFormat pretty = OutputFormat.createPrettyPrint();
 		try {
 			// write that shit out, pretty style
-			XMLWriter fileWriter = new XMLWriter(new FileWriter("levels/list.xml"), pretty);
+			XMLWriter fileWriter = new XMLWriter(new FileWriter("builtin_levels/list.xml"), pretty);
 			fileWriter.write(doc);
 			fileWriter.flush();
 			fileWriter.close();
@@ -306,7 +306,6 @@ public class XMLUtil {
     		else if (bodyType.compareTo("ball") == 0) {
     			// it's a ball
     			Ball newBall = new Ball(xPos, yPos, width/2);
-//    			newBall.getPhysicsDef().setMobile(mobile);
     			newBall.getGraphicsDef().setColor(color);
     			newBall.setGrappleable(grappleable);
     			newBall.setEndpoint(endpoint);
@@ -315,18 +314,15 @@ public class XMLUtil {
     			boolean showLine = Boolean.parseBoolean(currGraphDef.attributeValue("DISPLAY_LINE"));
     			((graphics.GraphicsBall) newBall.getGraphicsDef()).setLine(showLine);
     			this.setGeneralPhysicsProperties(newBall, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
-//    			newBall.getPhysicsDef().setRotation(rotation);
     			body = newBall.getPhysicsDef().getBody();
     			newBodies.add(newBall);
     		} else if (bodyType.compareTo("rectangle") == 0) {
     			// it's a rectangle
     			Rectangle newRect = new Rectangle(xPos, yPos, width, height);
-//    			newRect.getPhysicsDef().setMobile(mobile);
     			newRect.getGraphicsDef().setColor(color);
     			newRect.setGrappleable(grappleable);
     			newRect.setEndpoint(endpoint);
     			newRect.setDeadly(deadly);
-//    			newRect.getPhysicsDef().setRotation(rotation);
     			this.setGeneralPhysicsProperties(newRect, mobile, graphicalOnly, rotation, xVel, yVel, aVel, friction, restitution, density);
     			body = newRect.getPhysicsDef().getBody();
     			newBodies.add(newRect);
