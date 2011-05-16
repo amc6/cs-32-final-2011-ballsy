@@ -28,7 +28,7 @@ public class Menu extends Screen {
 	private Vector<MenuButton> _buttons, _customLevels, _defaultLevels;
 	private ScreenBackground _background;
 	private HoverImage _right, _left;
-	private int _page, _maxPages;
+	private int _pageDefault, _maxPagesDefault, _pageCustom, _maxPagesCustom;
 	private boolean _animating = false;
 	private int _dx, _step, _maxSteps;
 	private boolean _custom = false; 
@@ -70,8 +70,10 @@ public class Menu extends Screen {
 		int numRows = (int) Math.floor(_window.height/(2*THUMBNAIL_SIZE)) - 1;
 		int numPerPage = numCols * numRows;
 		
-		_page = 1;
-		_maxPages = (int) Math.ceil((float)_buttons.size()/(float)numPerPage);
+		_pageDefault = 1;
+		_maxPagesDefault = (int) Math.ceil((float)_defaultLevels.size()/(float)numPerPage);
+		_pageCustom = 1;
+		_maxPagesCustom = (int) Math.ceil((float)_customLevels.size()/(float)numPerPage);
 		
 		int menuWidth = (numCols)*THUMBNAIL_SIZE + (numCols-1)*THUMBNAIL_PADDING;
 		_sidePadding = (_window.width - menuWidth)/2;
@@ -223,13 +225,22 @@ public class Menu extends Screen {
 		}
 		
 		//left right buttons
-		if (_page < _maxPages) {
-			_right.draw();
+		if (_custom) {
+			if (_pageCustom < _maxPagesCustom) {
+				_right.draw();
+			}
+			if (_pageCustom > 1 ) {
+				_left.draw();
+			}
 		}
-		if (_page > 1 ) {
-			_left.draw();
+		else {
+			if (_pageDefault < _maxPagesDefault) {
+				_right.draw();
+			}
+			if (_pageDefault > 1 ) {
+				_left.draw();
+			}
 		}
-
 	}
 
 	/**
@@ -247,18 +258,37 @@ public class Menu extends Screen {
 		if (mouseX < 50 && mouseY > 20 && mouseY < 110) {
 			_window.loadScreen(Screens.WELCOME_SCREEN);
 		}
-		
-		if (_right.mouseOver() && _page < _maxPages) {
-			_animating = true;
-			_maxSteps = (int) ((float)_window.width/60.f);
-			_dx = -60;
-			_page++;
+		if (_custom) {
+			if (_right.mouseOver() && _pageCustom < _maxPagesCustom) {
+				int dx = -(_window.width); 
+				_animating = true;
+				_maxSteps = (int) ((float)_window.width/60.f);
+				_dx = -60;
+				_pageCustom++;
+			}
+			if (_left.mouseOver() && _pageCustom > 1) {
+				int dx = (_window.width); 
+				_animating = true;
+				_maxSteps = (int) ((float)_window.width/60.f);
+				_dx = 60;
+				_pageCustom--;
+			}
 		}
-		if (_left.mouseOver() && _page > 1) {
-			_animating = true;
-			_maxSteps = (int) ((float)_window.width/60.f);
-			_dx = 60;
-			_page--;
+		else {
+			if (_right.mouseOver() && _pageDefault < _maxPagesDefault) {
+				int dx = -(_window.width); 
+				_animating = true;
+				_maxSteps = (int) ((float)_window.width/60.f);
+				_dx = -60;
+				_pageDefault++;
+			}
+			if (_left.mouseOver() && _pageDefault > 1) {
+				int dx = (_window.width); 
+				_animating = true;
+				_maxSteps = (int) ((float)_window.width/60.f);
+				_dx = 60;
+				_pageDefault--;
+			}
 		}
 		if (_customLevelsTab.mouseOver()) {
 			_animatingCustom = true;
