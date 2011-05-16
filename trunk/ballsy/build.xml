@@ -88,48 +88,55 @@
 		<copy todir="build/data">
 			<fileset dir="data"/>
 		</copy>
+		<delete dir="Ballsy"/>
+		<mkdir dir="Ballsy"/>
+		<mkdir dir="Ballsy/Ballsy"/>
+		<copy todir="Ballsy/Ballsy">
+			<fileset dir="build"/>
+		</copy>
+		<delete file="Ballsy/Ballsy/res/bitting.txt"/>
 	</target>
 	<target name="win64" depends="jar">
-		<copy file="windows64/jogl.dll" todir="build"/>
-		<copy file="windows64/jogl_awt.dll" todir="build"/>
-		<copy file="windows64/jogl_cg.dll" todir="build"/>
-		<copy file="windows64/bitting.txt" todir="build/res"/>
+		<copy file="windows64/jogl.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows64/jogl_awt.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows64/jogl_cg.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows64/bitting.txt" todir="Ballsy/Ballsy/res"/>
 		<delete file="windows64/ballsy_win64.zip"/>
-		<zip destfile="windows64/ballsy_win64.zip" basedir="build"/>
+		<zip destfile="windows64/ballsy_win64.zip" basedir="Ballsy"/>
 	</target>
 	<target name="win32" depends="jar">
-		<copy file="windows32/jogl.dll" todir="build"/>
-		<copy file="windows32/jogl_awt.dll" todir="build"/>
-		<copy file="windows32/jogl_cg.dll" todir="build"/>
-		<copy file="windows32/gluegen-rt.dll" todir="build"/>
-		<copy file="windows32/bitting.txt" todir="build/res"/>
+		<copy file="windows32/jogl.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows32/jogl_awt.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows32/jogl_cg.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows32/gluegen-rt.dll" todir="Ballsy/Ballsy"/>
+		<copy file="windows32/bitting.txt" todir="Ballsy/Ballsy/res"/>
 		<delete file="windows32/ballsy_win32.zip"/>
-		<zip destfile="windows32/ballsy_win32.zip" basedir="build"/>
+		<zip destfile="windows32/ballsy_win32.zip" basedir="Ballsy"/>
 	</target>
 	<target name="mac" depends="jar">
-		<copy file="mac/libgluegen-rt.jnilib" todir="build"/>
-		<copy file="mac/libjogl.jnilib" todir="build"/>
-		<copy file="mac/libjogl_awt.jnilib" todir="build"/>
-		<copy file="mac/libjogl_cg.jnilib" todir="build"/>
-		<copy file="mac/bitting.txt" todir="build/res"/>
+		<copy file="mac/libgluegen-rt.jnilib" todir="Ballsy/Ballsy"/>
+		<copy file="mac/libjogl.jnilib" todir="Ballsy/Ballsy"/>
+		<copy file="mac/libjogl_awt.jnilib" todir="Ballsy/Ballsy"/>
+		<copy file="mac/libjogl_cg.jnilib" todir="Ballsy/Ballsy"/>
+		<copy file="mac/bitting.txt" todir="Ballsy/Ballsy/res"/>
 		<delete file="mac/ballsy_mac.zip"/>
-		<zip destfile="mac/ballsy_mac.zip" basedir="build"/>
+		<zip destfile="mac/ballsy_mac.zip" basedir="Ballsy"/>
 	</target>
 	<target name="linux64" depends="jar">
-		<copy file="linux64/libgluegen-rt.so" todir="build"/>
-		<copy file="linux64/libjogl.so" todir="build"/>
-		<copy file="linux64/libjogl_awt.so" todir="build"/>
-		<copy file="linux64/libjogl_cg.so" todir="build"/>
+		<copy file="linux64/libgluegen-rt.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux64/libjogl.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux64/libjogl_awt.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux64/libjogl_cg.so" todir="Ballsy/Ballsy"/>
 		<delete file="linux64/ballsy_linux64.zip"/>
-		<zip destfile="linux64/ballsy_linux64.zip" basedir="build"/>
+		<zip destfile="linux64/ballsy_linux64.zip" basedir="Ballsy"/>
 	</target>
 	<target name="linux586" depends="jar">
-		<copy file="linux586/libgluegen-rt.so" todir="build"/>
-		<copy file="linux586/libjogl.so" todir="build"/>
-		<copy file="linux586/libjogl_awt.so" todir="build"/>
-		<copy file="linux586/libjogl_cg.so" todir="build"/>
+		<copy file="linux586/libgluegen-rt.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux586/libjogl.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux586/libjogl_awt.so" todir="Ballsy/Ballsy"/>
+		<copy file="linux586/libjogl_cg.so" todir="Ballsy/Ballsy"/>
 		<delete file="linux586/ballsy_linux586.zip"/>
-		<zip destfile="linux586/ballsy_linux586.zip" basedir="build"/>
+		<zip destfile="linux586/ballsy_linux586.zip" basedir="Ballsy"/>
 	</target>
 	<target name="test">
 		<echo message="ant.java.version: ${os.arch}" />
