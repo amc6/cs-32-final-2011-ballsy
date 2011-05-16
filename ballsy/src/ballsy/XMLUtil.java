@@ -50,7 +50,7 @@ public class XMLUtil {
 	 */
 	public Vector<MenuButton> loadMenuButtons(boolean loadCustom) {
     	Vector<MenuButton> _buttons = new Vector<MenuButton>();
-		String path = "levels/list.xml";
+		String path = "builtin_levels/list.xml";
     	SAXReader reader = new SAXReader();
     	Document doc;
 		try { doc = reader.read(new FileReader(path));} 
