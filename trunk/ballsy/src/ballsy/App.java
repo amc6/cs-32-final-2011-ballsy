@@ -5,6 +5,7 @@ package ballsy;
  */
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -34,13 +35,17 @@ public class App {
 		/* check online (if online) if this version is up to date. if so, run it, else, notify. */
 		int runCode = 0; // by default, just run Ballsy
 		try {
+			// get this copy's version from file
+			FileReader input = new FileReader("res/version_info.txt");
+			BufferedReader br = new BufferedReader(input);
+			String line = br.readLine();
 			// check this copy's version number against the online version, if online.
 			URL versionFile = new URL("http://www.beballsy.com/version_info.txt");
 			URLConnection conn = versionFile.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String inputLine;
 			boolean upToDate = false;
-			if ((inputLine = in.readLine()) != null && inputLine.equals(GeneralConstants.VERSION_NUMBER)) upToDate = true;
+			if ((inputLine = in.readLine()) != null && inputLine.equals(line)) upToDate = true;
 			if (!upToDate) {
 				String message = "A newer version of Ballsy is available. For best performance, " +
 			    "please update to the most recent release.\n\n" +
@@ -48,8 +53,8 @@ public class App {
 				while ((inputLine = in.readLine()) != null && inputLine != "") {
 					message = message + "\n" + "-> " + inputLine;
 				}
-				
-				Object[] options = {"Play Outdated Version", "Get Update"};
+				message = message + "\n\nNavigate to www.beballsy.com to get your update!";
+				Object[] options = {"Play Outdated Version", "Exit"};
 				runCode = JOptionPane.showOptionDialog(null,
 				    wrapKinda(message, 60),
 				    "Ballsy Update",
@@ -64,12 +69,12 @@ public class App {
 		} catch (Exception e) {
 			// maybe we're offline. Do nothing.
 			System.out.println("No version information available.");
-			e.printStackTrace();
 		}
 		// do the right thing
 		if (runCode == 1) {
-			// open the website
-			java.awt.Desktop.getDesktop().browse(new URI("http://www.beballsy.com"));
+			// open the website - not supported in 1.5, so just notivy
+			// java.awt.Desktop.getDesktop().browse(new URI("http://www.beballsy.com"));
+			System.exit(0); 
 		} else {
 			// run ballsy
 			PApplet.main(new String[] { "--present", "ballsy.Window" });
