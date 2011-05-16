@@ -25,12 +25,40 @@ public class App {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, URISyntaxException {
+		
+		
+		
 		// make the eventual textbox the current OS's theme
 		try { 
 			  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
 		} catch (Exception e) { 
 			  e.printStackTrace();  
 		} 
+		
+		FileReader file = new FileReader("res/bitting.txt");
+		BufferedReader reader = new BufferedReader(file);
+		String bitting = reader.readLine();
+		
+		if (bitting.equals(System.getProperty("sun.arch.data.model"))){
+			// The user's Java architecture matches the files they have
+		}else{
+
+			String message = "The version of Ballsy you have downloaded does not match the version of Java you have installed. Go to www.beballsy.com to download the proper version.";
+			Object[] options = {"Exit"};
+			JOptionPane.showOptionDialog(null,
+			    wrapKinda(message, 60),
+			    "Ballsy Error",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,
+			    options,
+			    options[0]);
+			
+			System.exit(0);
+			
+		}
+		
+		
 		/* check online (if online) if this version is up to date. if so, run it, else, notify. */
 		int runCode = 0; // by default, just run Ballsy
 		try {
