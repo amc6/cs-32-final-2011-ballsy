@@ -39,6 +39,7 @@ public class Background {
 			String line = br.readLine();
 			if (line.equals("draw_background: false")) {
 				_drawBG = false; // if they don't want the background drawn
+				return; // don't do all the other shit.
 			}
 		} catch (Exception e) {
 			// if there's a problem, just continue.
