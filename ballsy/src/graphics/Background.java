@@ -23,6 +23,7 @@ public class Background {
 	private Window _window = Window.getInstance();
 	private PhysicsWorld _world = PhysicsWorld.getInstance();
 	private PImage _img;
+	private boolean _drawBG = true;
 	
 	public static final int HORIZON_DISTANCE = 600;
 	
@@ -30,6 +31,18 @@ public class Background {
 	 * Constructor: generate the background!
 	 */
 	public Background() {
+		
+		// read config file to make sure user wants us to draw backgrounds
+		try {
+			FileReader input = new FileReader("res/config.txt");
+			BufferedReader br = new BufferedReader(input);
+			String line = br.readLine();
+			if (line.equals("draw_background: false")) {
+				_drawBG = false; // if they don't want the background drawn
+			}
+		} catch (Exception e) {
+			// if there's a problem, just continue.
+		}
 		
 		int worldPixelWidth = (int) _world.scalarWorldToPixels(_world.getWidth());
 		int worldPixelHeight = (int) _world.scalarWorldToPixels(_world.getHeight());
@@ -101,17 +114,7 @@ public class Background {
 		
 		_window.imageMode(PConstants.CORNER);
 
-		// read config file to make sure user wants us to draw backgrounds
-		try {
-			FileReader input = new FileReader("config.txt");
-			BufferedReader br = new BufferedReader(input);
-			String line = br.readLine();
-			if (line.equals("draw_background: false")) {
-				return; // exit if they don't want the background drawn
-			}
-		} catch (Exception e) {
-			// if there's a problem, just continue.
-		}
+		if (!_drawBG) return; // break out if they don't want the background.
 		
 		float pixelX = _world.worldXtoPixelX(bounds[0].x);
 		float pixelY = _world.worldYtoPixelY(bounds[1].y);
