@@ -38,12 +38,9 @@
     <target name="clean">
         <delete dir="bin"/>
 		<delete dir="build"/>
-		<delete file="mac/ballsy_mac.zip"/>
-		<delete file="windows64/ballsy_win64.zip"/>
-		<delete file="windows32/ballsy_win32.zip"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-project" name="build"/>
+    <target depends="clean,build-project" name="build"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
@@ -96,19 +93,16 @@
 		<copy file="windows64/jogl.dll" todir="build"/>
 		<copy file="windows64/jogl_awt.dll" todir="build"/>
 		<copy file="windows64/jogl_cg.dll" todir="build"/>
-		<mkdir dir="Ballsy"/>
-		<copy todir="Ballsy">
-			<fileset dir="build"/>
-		</copy>
+		<copy file="windows64/bitting.txt" todir="build/res"/>
 		<delete file="windows64/ballsy_win64.zip"/>
-		<zip destfile="windows64/ballsy_win64.zip" basedir="Ballsy"/>
-		<delete dir="Ballsy"/>
+		<zip destfile="windows64/ballsy_win64.zip" basedir="build"/>
 	</target>
 	<target name="win32" depends="jar">
 		<copy file="windows32/jogl.dll" todir="build"/>
 		<copy file="windows32/jogl_awt.dll" todir="build"/>
 		<copy file="windows32/jogl_cg.dll" todir="build"/>
 		<copy file="windows32/gluegen-rt.dll" todir="build"/>
+		<copy file="windows32/bitting.txt" todir="build/res"/>
 		<delete file="windows32/ballsy_win32.zip"/>
 		<zip destfile="windows32/ballsy_win32.zip" basedir="build"/>
 	</target>
@@ -117,6 +111,7 @@
 		<copy file="mac/libjogl.jnilib" todir="build"/>
 		<copy file="mac/libjogl_awt.jnilib" todir="build"/>
 		<copy file="mac/libjogl_cg.jnilib" todir="build"/>
+		<copy file="mac/bitting.txt" todir="build/res"/>
 		<delete file="mac/ballsy_mac.zip"/>
 		<zip destfile="mac/ballsy_mac.zip" basedir="build"/>
 	</target>
