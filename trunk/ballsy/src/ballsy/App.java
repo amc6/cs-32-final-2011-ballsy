@@ -62,7 +62,7 @@ public class App {
 				    JOptionPane.WARNING_MESSAGE,
 				    null,
 				    options,
-				    options[1]); // now: 1 = get update, 0 = play outdated, -1 = message box closed
+				    options[1]); // now: 1 = exit, 0 = play outdated, -1 = message box closed
 			}
 			// close connection
 			in.close();
