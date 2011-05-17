@@ -36,7 +36,7 @@ public class Window extends PApplet {
 		// Get the current screen size and set to max width
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		_screenSize = toolkit.getScreenSize();
-		this.size(_screenSize.width, _screenSize.height, PConstants.OPENGL);
+		this.size(_screenSize.width, _screenSize.height - 1, PConstants.OPENGL); // -1 so Mac fullscreen doesn't cap at 30fps...
 		this.hint(PConstants.ENABLE_OPENGL_2X_SMOOTH);	
 		this.frameRate(60);
 		this.loadScreen(Screens.WELCOME_SCREEN);

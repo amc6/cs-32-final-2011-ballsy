@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="pbox2d.jar"/>
-	<classpathentry kind="lib" path="gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="jogl.jar"/>
-	<classpathentry kind="lib" path="opengl.jar"/>
-	<classpathentry kind="lib" path="processing-core.jar"/>
-	<classpathentry kind="lib" path="dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="minim_library/jl1.0.jar"/>
-	<classpathentry kind="lib" path="minim_library/jsminim.jar"/>
-	<classpathentry kind="lib" path="minim_library/minim-spi.jar"/>
-	<classpathentry kind="lib" path="minim_library/minim.jar"/>
-	<classpathentry kind="lib" path="minim_library/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="minim_library/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="minim_library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/jogl.jar"/>
+	<classpathentry kind="lib" path="lib/opengl.jar"/>
+	<classpathentry kind="lib" path="lib/pbox2d.jar"/>
+	<classpathentry kind="lib" path="lib/processing-core.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/minim-spi.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/minim_library/tritonus_share.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
