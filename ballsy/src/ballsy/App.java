@@ -27,7 +27,6 @@ public class App {
 	public static void main(String[] args) throws IOException, URISyntaxException {
 		
 		
-		
 		// make the eventual textbox the current OS's theme
 		try { 
 			  UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
@@ -35,29 +34,8 @@ public class App {
 			  e.printStackTrace();  
 		} 
 		
-		FileReader file = new FileReader("res/bitting.txt");
-		BufferedReader reader = new BufferedReader(file);
-		String bitting = reader.readLine();
-		
-		if (bitting.equals(System.getProperty("sun.arch.data.model"))){
-			// The user's Java architecture matches the files they have
-		}else{
-
-			String message = "The version of Ballsy you have downloaded does not match the version of Java you have installed. Go to www.beballsy.com to download the proper version.";
-			Object[] options = {"Exit"};
-			JOptionPane.showOptionDialog(null,
-			    wrapKinda(message, 60),
-			    "Ballsy Error",
-			    JOptionPane.YES_NO_OPTION,
-			    JOptionPane.WARNING_MESSAGE,
-			    null,
-			    options,
-			    options[0]);
-			
-			System.exit(0);
-			
-		}
-		
+		App.checkJavaVersion();
+		App.checkBitting();
 		
 		/* check online (if online) if this version is up to date. if so, run it, else, notify. */
 		int runCode = 0; // by default, just run Ballsy
@@ -95,7 +73,7 @@ public class App {
 			in.close();
 		} catch (Exception e) {
 			// maybe we're offline. Do nothing.
-			System.out.println("No version information available.");
+			System.out.println("No Ballsy version information available.");
 		}
 		// do the right thing
 		if (runCode == 1) {
@@ -129,6 +107,57 @@ public class App {
 			} else output = output + s; // else just add it
 		}
 		return output;
+	}
+	
+	private static void checkJavaVersion(){
+		String version = System.getProperty("java.version");
+		if (!version.startsWith("1.6")){
+			String message = "Ballsy requires Java 1.6 in order to run properly. Please visit www.java.com to update your version of Java.";
+			Object[] options = {"Exit"};
+			JOptionPane.showOptionDialog(null,
+			    wrapKinda(message, 60),
+			    "Java Update Required",
+			    JOptionPane.YES_NO_OPTION,
+			    JOptionPane.WARNING_MESSAGE,
+			    null,
+			    options,
+			    options[0]);
+			
+			System.exit(0);
+		}
+	}
+	
+	private static void checkBitting(){
+		
+		if(System.getProperty("os.name").contains("Windows")){
+			FileReader file;
+			try {
+				file = new FileReader("res/bitting.txt");
+				BufferedReader reader = new BufferedReader(file);
+				String bitting = reader.readLine();
+				
+				if (bitting.equals(System.getProperty("sun.arch.data.model"))){
+					// The user's Java architecture matches the files they have
+				}else{
+		
+					String message = "The version of Ballsy you have downloaded does not match the version of Java you have installed. Go to www.beballsy.com to download the proper version.";
+					Object[] options = {"Exit"};
+					JOptionPane.showOptionDialog(null,
+					    wrapKinda(message, 60),
+					    "Ballsy Error",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.WARNING_MESSAGE,
+					    null,
+					    options,
+					    options[0]);
+					
+					System.exit(0);
+					
+				}
+			} catch (Exception e) {
+				// Could not read from file
+			}
+		}
 	}
 	
 }
