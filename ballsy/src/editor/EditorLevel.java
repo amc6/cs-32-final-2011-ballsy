@@ -513,6 +513,7 @@ public class EditorLevel extends AbstractLevel {
 			if (_world.contains(center) && _selectedPoints.size() > 2) {
 				_factory.polyPoints = PhysicsPolygon.getOffsets(_selectedPoints, center);
 				_factory.setBody(BodyFactory.IPOLY);
+				_selectedBody = this.placeBody(center);
 			}
 		} else if (_selectedBody != null && !(_selectedBody instanceof UserBall)){
 			// stop selecting points, apply selected for pathing
