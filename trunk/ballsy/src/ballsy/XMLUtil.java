@@ -203,8 +203,9 @@ public class XMLUtil {
 	}
 	
 	public Element genXML(AbstractLevel level) {
-		// get the bodies, to iterate through
+		// get the bodies and checkpoints, to iterate through
 		ArrayList<AbstractBody> bodies = level.getBodies();
+		ArrayList<Checkpoint> checkpoints = level.getCheckpoints();
 		// move player to the end (for cursor shit)
 		int index = bodies.indexOf(level.getPlayer());
 		for (int i = index; i < bodies.size() - 1; i++) {
@@ -229,6 +230,12 @@ public class XMLUtil {
 		for (AbstractBody b : bodies) {
 			Element newEl = b.writeXML();
 			root.add(newEl);
+		}
+		for (Checkpoint c : checkpoints) {
+			if (!c.isFirst()) {
+				Element newEl = c.writeXML();
+				root.add(newEl);
+			}
 		}
 		
 		return root;
@@ -384,9 +391,25 @@ public class XMLUtil {
     			lastBody.setPath(newPath); // apply the new path to this body
     		}
     	}
+    	// iterate through checkpoints
+    	ArrayList<Checkpoint> newCheckpoints = new ArrayList<Checkpoint>();
+    	for (Iterator i = root.elementIterator("CHECKPOINT"); i.hasNext();) {
+    		Element currCP = (Element) i.next();
+    		float cpx = Float.parseFloat(currCP.attributeValue("X"));
+    		float cpy = Float.parseFloat(currCP.attributeValue("Y"));
+    		Checkpoint newCP = new Checkpoint(cpx, cpy);
+    		newCheckpoints.add(newCP);
+    	}
     	// set the bodies and player to be the new objects as determined above.
     	level.setBodies(newBodies);
     	level.setPlayer(newPlayer);
+    	// add a checkpoint around the player to start it off, and add the others
+    	Vec2 playerPos = newPlayer.getPhysicsDef().getBodyWorldCenter();
+    	Checkpoint playerCP = new Checkpoint(playerPos.x, playerPos.y);
+    	playerCP.setFirst(true);
+    	newCheckpoints.add(playerCP);
+    	level.setCheckpoints(newCheckpoints);
+    	level.setActiveCheckpoint(playerCP);
 	}
 	
 	/**

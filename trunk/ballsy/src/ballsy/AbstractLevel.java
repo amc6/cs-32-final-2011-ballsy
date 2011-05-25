@@ -21,6 +21,7 @@ public abstract class AbstractLevel extends Screen {
 	protected PhysicsWorld _world = new PhysicsWorld(Window.getInstance()); // reference to the world of the level
 	private static AbstractLevel LEVEL;
 	protected ArrayList<AbstractBody> _bodies; // an array of the bodies in a given level
+	protected ArrayList<Checkpoint> _checkpoints; // array of the checkpoints in a given level.
 	protected UserBall _player; // the player instance, also contained in bodies
 	protected int _backgroundColor = 255; // color of the background, defaults to white
 	protected Vec2 _gravity = new Vec2(0, -30);
@@ -30,6 +31,7 @@ public abstract class AbstractLevel extends Screen {
 	private static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	protected PauseScreen _pauseScreen = new PauseScreen(this);
 	protected WinScreen _winScreen = new WinScreen(this);
+	private Checkpoint _currCP = null; // so we don't have to iterate every time.
 	protected static Text _debug = new Text("",100,100); // for println to screen
 
 	/** sets this as the current instance of level in the singleton **/
@@ -48,7 +50,9 @@ public abstract class AbstractLevel extends Screen {
 	
 	// methods for use in XML reading
 	public ArrayList<AbstractBody> getBodies() { return _bodies; }
+	public ArrayList<Checkpoint> getCheckpoints() { return _checkpoints; }
 	public void setBodies(ArrayList<AbstractBody> bodies) { _bodies = bodies; }
+	public void setCheckpoints(ArrayList<Checkpoint> checkpoints) {_checkpoints = checkpoints; }
 	public UserBall getPlayer() { return _player; }
 	public void setPlayer(UserBall b) { _player = b; }
 	public void setBGColor(int c) { _backgroundColor = c; }
@@ -229,6 +233,28 @@ public abstract class AbstractLevel extends Screen {
 	 */
 	public boolean isPaused() {
 		return _paused;
+	}
+	
+	/**
+	 * Sets all checkpoints to active:false, to precede activation of a new one
+	 */
+	public void setActiveCheckpoint(Checkpoint c) {
+		if (c != _currCP) {
+			_currCP = c;
+			for (Checkpoint curr : _checkpoints) { curr.setActive(false); }
+			c.setActive(true);
+		}
+	}
+	
+	
+	public void setActiveCheckpoint(Vec2 position) {
+		for (Checkpoint curr : _checkpoints) {
+			if (curr.contains(position)) { this.setActiveCheckpoint(curr); }
+		}
+	}
+	
+	public Checkpoint getActiveCheckpoint() {
+		return _currCP;
 	}
 	
 	/**

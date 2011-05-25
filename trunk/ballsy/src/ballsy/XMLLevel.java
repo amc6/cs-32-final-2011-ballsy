@@ -70,9 +70,8 @@ public class XMLLevel extends AbstractLevel {
 		}
 		// and update camera
 		_camera.update();
-		
-		
-		
+		// display checkpoints
+		for (Checkpoint checkpoint : _checkpoints) checkpoint.display();
 		// display all objects
 		for (AbstractBody body : _bodies) { body.display(); }
 		// and apply the input (stored in boolean array)
@@ -154,21 +153,25 @@ public class XMLLevel extends AbstractLevel {
 	public void mousePressed() {
 		if (_paused) {
 			_pauseScreen.mousePressed();
-		}
-		if (_won) {
+		} else if (_won) {
 			_winScreen.mousePressed();
+		} else {
+			if (!_player.isGrappled()) _player.fireGrapple();
+			else _player.releaseGrapple();
 		}
-		if (!_player.isGrappled()) _player.fireGrapple();
-		else _player.releaseGrapple();
 	}
 
 	/**
 	 * load the level from the file again - its starting place
 	 */
 	public void reload() {
+		Vec2 ballPos = this.getActiveCheckpoint().center();
 		this.setInstance(); // set this level as the singleton
 		_window.fadeIn();
 		XMLUtil.getInstance().readFile(this, _path);
+		// put the ball at the point of last checkpoint.
+		this.setActiveCheckpoint(ballPos);
+		_player.setPosition(ballPos);
 		_camera = new TrackingCamera(_player);
 	}
 	

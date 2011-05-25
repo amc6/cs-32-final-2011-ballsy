@@ -37,12 +37,12 @@ public class LevelEditor extends Screen {
 	private EditorLevel _level;
 	private ArrayList<ButtonGroup> _buttonGroups;
 	private AbstractButton _cursorButton, _rectButton, _triangleButton, 
-			_irregPolyButton, _ballButton;
+			_irregPolyButton, _ballButton, _checkpointButton;
 	private float _newLevelWidth, _scaleFactor, _newLevelHeight;
 	private Text _errorMessage;
 	private PImage _levelEditorTitle, _levelEditorBack;
 
-	private GUIController _togglesC, _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC, _pathbuttonC;
+	private GUIController _worldC, _togglesC, _mainC, _objectC, _rectC, _polyC, _sidesC, _ballC, _pathC, _pathbuttonC;
 	private IFButton _pathButton;
 	private IFCheckBox _grappleableCheckBox, _deadlyCheckBox;
 	private IFRadioButton _dynamicRadio, _staticRadio, _graphicalRadio;
@@ -101,6 +101,10 @@ public class LevelEditor extends Screen {
 		_togglesC = new GUIController(_window, false);
 		_togglesC.setLookAndFeel(ballsyLook);
 		_togglesC.setVisible(false);
+		
+		_worldC = new GUIController(_window, false);
+		_worldC.setLookAndFeel(ballsyLook);
+		_worldC.setVisible(false);
 		
 		//title: Shape Properties
 		IFLabel shapeLabel = new IFLabel("Shape Properties:", 15, (int) topPart+30);
@@ -266,35 +270,35 @@ public class LevelEditor extends Screen {
 		//world properties
 		float propertiesStart = _window.height - 120;
 		IFLabel worldLabel = new IFLabel("World Properties:", 15, (int) propertiesStart-30);
-		_togglesC.add(worldLabel);
+		_worldC.add(worldLabel);
 		
 		_worldWidthLabel = new IFLabel("Width", 15, (int) propertiesStart);
 		_worldWidth = new TextField("World Width", 90, (int) propertiesStart - 4, 60, this);
 		_worldWidth.setValue(_level.getWorldWidth());
 		_worldWidth.addActionListener(this);
-		_togglesC.add(_worldWidthLabel);
-		_togglesC.add(_worldWidth);
+		_worldC.add(_worldWidthLabel);
+		_worldC.add(_worldWidth);
 		
 		_worldHeightLabel = new IFLabel("Height", 15, (int) propertiesStart + 30);
 		_worldHeight = new TextField("World Height", 90, (int) propertiesStart - 4 + 30, 60, this);
 		_worldHeight.setValue(_level.getWorldHeight());
 		_worldHeight.addActionListener(this);
-		_togglesC.add(_worldHeightLabel);
-		_togglesC.add(_worldHeight);
+		_worldC.add(_worldHeightLabel);
+		_worldC.add(_worldHeight);
 		
 		_gravityXLabel = new IFLabel("Gravity X", 15, (int) propertiesStart + 60);
 		_gravityX = new TextField("Gravity X", 90, (int) propertiesStart - 4 + 60, 60, this);
 		_gravityX.setValue(_level.getGravity().x);
 		_gravityX.addActionListener(this);
-		_togglesC.add(_gravityXLabel);
-		_togglesC.add(_gravityX);
+		_worldC.add(_gravityXLabel);
+		_worldC.add(_gravityX);
 		
 		_gravityYLabel = new IFLabel("Gravity Y", 15, (int) propertiesStart + 90);
 		_gravityY = new TextField("Gravity Y", 90, (int) propertiesStart - 4 + 90, 60, this);
 		_gravityY.setValue(_level.getGravity().y);
 		_gravityY.addActionListener(this);
-		_togglesC.add(_gravityYLabel);
-		_togglesC.add(_gravityY);
+		_worldC.add(_gravityYLabel);
+		_worldC.add(_gravityY);
 		
 		this.addTopControls();
 
@@ -324,36 +328,39 @@ public class LevelEditor extends Screen {
 		
 		float padding = (topPart - EditorConstants.TOP_BUTTONS_SIZE)/2;
 		
-		PlayButton playButton = new PlayButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding), (int) padding, (int) (_window.width - padding), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		PlayButton playButton = new PlayButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding/2), (int) padding, (int) (_window.width - padding/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(playButton);
 		
-		SaveButton saveButton = new SaveButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		SaveButton saveButton = new SaveButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*2/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE - padding*2/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(saveButton);
 		
-		LoadButton loadButton = new LoadButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		LoadButton loadButton = new LoadButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*3/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*2 - padding*3/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(loadButton);
 		
-		NewButton newButton = new NewButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		NewButton newButton = new NewButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*4 - padding*4/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*3 - padding*4/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		topControls.add(newButton);
 		
 		ButtonGroup shapeGroup = new ButtonGroup();
 		_buttonGroups.add(shapeGroup);	
 		
-		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*5), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*5), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_cursorButton = new CursorButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*12 - padding*6/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*6/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		_cursorButton.setActive(true);
 		shapeGroup.add(_cursorButton);
 		
-		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*4), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*4), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_rectButton = new RectangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*11 - padding*5/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*5/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_rectButton);
 		
-		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*3), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*3), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_triangleButton = new TriangleButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*10 - padding*4/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*4/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_triangleButton);
 		
-		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_irregPolyButton = new IrregularPolygonButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*9 - padding*3/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*3/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_irregPolyButton);
 		
-		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*1), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*1), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		_ballButton = new BallButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*8 - padding*2/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*2/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
 		shapeGroup.add(_ballButton);
+		
+		_checkpointButton = new CheckpointButton(this, _factory, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*7 - padding*1/2), (int) padding, (int) (_window.width - EditorConstants.TOP_BUTTONS_SIZE*6 - padding*1/2), (int) (padding + EditorConstants.TOP_BUTTONS_SIZE));
+		shapeGroup.add(_checkpointButton);
 	}
 	
 	/**
@@ -551,6 +558,8 @@ public class LevelEditor extends Screen {
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(Float.parseFloat(_centerX.getValue()), _level.getSelected().getPhysicsDef().getBodyWorldCenter().y);
 					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
+				} else if (_level.getSelectedCP() != null) {
+					_level.getSelectedCP().setPos(Float.parseFloat(_centerX.getValue()), _level.getSelectedCP().center().y);
 				}
 			}
 		}
@@ -560,6 +569,8 @@ public class LevelEditor extends Screen {
 				if (_level.getSelected() != null) {
 					Vec2 newPos = new Vec2(_level.getSelected().getPhysicsDef().getBodyWorldCenter().x, Float.parseFloat(_centerY.getValue()));
 					_level.getSelected().getPhysicsDef().setBodyWorldCenter(newPos);
+				} else if (_level.getSelectedCP() != null) {
+					_level.getSelectedCP().setPos(_level.getSelectedCP().center().x, Float.parseFloat(_centerY.getValue()));
 				}
 			}
 		}
@@ -729,8 +740,14 @@ public class LevelEditor extends Screen {
 			_sidesC.setVisible(false);
 			
 			_togglesC.setVisible(true);
+			_worldC.setVisible(true);
 			
-			if (!(_level.getSelected() != null && _level.isBorder(_level.getSelected()))){
+			if (_level.getSelectedCP() != null) {
+				_objectC.setVisible(true);
+				_togglesC.setVisible(false);
+			} else if (_checkpointButton.isClicked()) {
+				_togglesC.setVisible(false);
+			} else if (!(_level.getSelected() != null && _level.isBorder(_level.getSelected()))){
 				_mainC.setVisible(true);
 	
 		
@@ -766,6 +783,7 @@ public class LevelEditor extends Screen {
 	public void onClose() {
 		_mainC.setVisible(false);
 		_togglesC.setVisible(false);
+		_worldC.setVisible(false);
 		_objectC.setVisible(false);
 		_rectC.setVisible(false);
 		_polyC.setVisible(false);
@@ -878,7 +896,7 @@ public class LevelEditor extends Screen {
 	 */
 	public void updateFieldValues(){
 		// If no shape is selected we want to display factory values
-		if (_level.getSelected() == null) {
+		if (_level.getSelected() == null && _level.getSelectedCP() == null) {
 			
 			//check boxes
 			_grappleableCheckBox.setSelected(_factory.grappleable);
@@ -906,9 +924,11 @@ public class LevelEditor extends Screen {
 			// For polygon sides
 			_sides.setValue((_factory.polyPointCount));
 					
-			
-		//Alternatively if a shape is selected, display its values
-		} else {
+		} else if (_level.getSelectedCP() != null) { // if a checkpoint is selected..
+			//text fields
+			_centerX.setValue(_level.getSelectedCP().center().x);
+			_centerY.setValue(_level.getSelectedCP().center().y);
+		} else if (_level.getSelected() != null) { //Alternatively if a shape is selected, display its values
 
 			//check boxes
 			_grappleableCheckBox.setSelected(_level.getSelected().isGrappleable());
@@ -976,6 +996,7 @@ public class LevelEditor extends Screen {
 			_triangleButton.setActive(false);
 			_irregPolyButton.setActive(false);
 			_ballButton.setActive(false);
+			_checkpointButton.setActive(false);
 		}
 	}
 }

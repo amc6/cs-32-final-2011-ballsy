@@ -26,6 +26,7 @@ import physics.PhysicsRectangle;
 import processing.core.PConstants;
 import processing.core.PImage;
 import ballsy.AbstractLevel;
+import ballsy.Checkpoint;
 import ballsy.XMLUtil;
 import bodies.AbstractBody;
 import bodies.Ball;
@@ -41,7 +42,9 @@ public class EditorLevel extends AbstractLevel {
 	private float _lastMouseX, _lastMouseY;
 	private Element _savedState;
 	private AbstractBody _selectedBody;
+	private Checkpoint _selectedCheckpoint;
 	private boolean _placeMode = false; // either placing or modifying (or running, I guess)
+	private boolean _placeCheckpoint = false;
 	private BodyFactory _factory;
 	private ArrayList<Vec2> _selectedPoints; // WORLD positions of selected points
 	private boolean _selectingPoints = false;
@@ -84,6 +87,7 @@ public class EditorLevel extends AbstractLevel {
 		}
 		// reset selected object
 		this.resetSelected(null);
+		this.resetSelectedCP(null);
 		// save the state of the level (temporarily)
 		_savedState = XMLUtil.getInstance().genXML(this);
 		// set the game and player to running
@@ -143,6 +147,8 @@ public class EditorLevel extends AbstractLevel {
 		_window.line(_world.worldXtoPixelX(_maxX), _world.worldYtoPixelY(_minY), _world.worldXtoPixelX(_maxX), _world.worldYtoPixelY(_maxY)); //right		
 		// reset line width
 		_window.stroke(ballsy.GeneralConstants.DEFAULT_LINE_WIDTH);
+		// display checkpoints
+		for (Checkpoint checkpoint : _checkpoints) checkpoint.display();
 		// display all objects
 		for (AbstractBody body : _bodies) { 
 			// if not running and not selecting points, display the path behind the selected body body
@@ -211,10 +217,17 @@ public class EditorLevel extends AbstractLevel {
 		else {
 			if (_window.mouseButton == PConstants.RIGHT && _selectingPoints){
 				this.handleRightClick();
-			}else if (_window.mouseButton == PConstants.LEFT){
+			} else if (_window.mouseButton == PConstants.LEFT){
 				_lastMouseX = _window.mouseX;
 				_lastMouseY = _window.mouseY;
-				if (_selectingPoints) {
+				if (_placeCheckpoint) {
+					// put a checkpoint at the mouse position
+					Vec2 newPos = new Vec2(_world.pixelXtoWorldX(_lastMouseX), _world.pixelYtoWorldY(_lastMouseY));
+					if (_world.contains(newPos)){
+						this.placeCheckpoint(newPos);
+						_objectPressed = true;
+					}
+				} else if (_selectingPoints) {
 					Vec2 newPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
 					if (_placeMode && _selectedPoints.size() > 1) {
 						// we're placing a polygon, so points need to be counterclockwise and convex
@@ -244,9 +257,14 @@ public class EditorLevel extends AbstractLevel {
 				} else {
 					// we're selecting stuff or moving
 					// set selected object to object under mousepress, or null if none
-					AbstractBody hovBody = getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY)));
+					Vec2 clickedWorldPoint = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
+					AbstractBody hovBody = getBody(clickedWorldPoint);
+					Checkpoint hovCP = getCheckpoint(clickedWorldPoint);
 					if (hovBody != null) {
 						this.resetSelected(hovBody);
+						_objectPressed = true;
+					} else if (hovCP != null && !hovCP.isFirst()) { // if we didn't click on a body, but we did on a checkpoint...
+						this.resetSelectedCP(hovCP);
 						_objectPressed = true;
 					}
 					if (_rotating && _selectedBody != null && !this.isBorder(_selectedBody)) {
@@ -270,7 +288,15 @@ public class EditorLevel extends AbstractLevel {
 			if (_modified) {
 				_modified = false;
 			} else {
-				this.resetSelected(getBody(new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY))));
+				Vec2 p = new Vec2(_world.pixelXtoWorldX(_window.mouseX), _world.pixelYtoWorldY(_window.mouseY));
+				
+				if (getCheckpoint(p) == null && _selectedCheckpoint == null) this.resetSelected(getBody(p));
+				else if (getCheckpoint(p) != null && getCheckpoint(p).isFirst()) {
+					// act just like clicking on empty space.
+					this.resetSelectedCP(null);
+					this.resetSelected(null);
+				}
+				if (_selectedBody == null) this.resetSelectedCP(getCheckpoint(p));
 			}
 			// the rotation center should be null now
 			_rotationCenter = null;
@@ -290,12 +316,26 @@ public class EditorLevel extends AbstractLevel {
 			// it's not running, so perform editing stuff
 			float distX = - _window.mouseX + _lastMouseX;
 			float distY = _window.mouseY - _lastMouseY;
-			if (_selectedBody != null && _objectPressed && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
+			if (_selectedCheckpoint != null && _objectPressed && !_selectedCheckpoint.isFirst()) {
+				// we're dragging a checkpoint around
+				float xNew = _selectedCheckpoint.center().x - _world.scalarPixelsToWorld(distX);
+				float yNew = _selectedCheckpoint.center().y - _world.scalarPixelsToWorld(distY);
+				_selectedCheckpoint.setPos(xNew, yNew);
+			} else if (_selectedBody != null && _objectPressed && !_selectingPoints && !_rotating && !_resizing && !_placeMode) {
 				// we're dragging a body around
 				PhysicsDef physDef = _selectedBody.getPhysicsDef();
 				float xNew = physDef.getBody().getXForm().position.x - _world.scalarPixelsToWorld(distX);
 				float yNew = physDef.getBody().getXForm().position.y - _world.scalarPixelsToWorld(distY);
 				_selectedBody.setPosition(new Vec2(xNew, yNew)); // set the position (won't set, if body or its path is/are not in world
+				// reposition the first savepoint
+				if (_selectedBody instanceof UserBall) {
+					for (Checkpoint checkpoint : _checkpoints) {
+						if (checkpoint.isFirst()) {
+							Vec2 playerPos = _player.getPhysicsDef().getBodyWorldCenter();
+							checkpoint.setPos(playerPos.x, playerPos.y);
+						}
+					}
+				}
 			} else if (!_placeMode && !_rotating && !_resizing){
 				// we're not, move the camera
 				if (!_objectPressed) _world.moveCamera(distX, distY);
@@ -375,12 +415,22 @@ public class EditorLevel extends AbstractLevel {
 		return newShape;
 	}
 	
+	private Checkpoint placeCheckpoint(Vec2 pos) {
+		Checkpoint newCP = new Checkpoint(pos.x, pos.y);
+		_checkpoints.add(newCP);
+		_placeCheckpoint = false;
+		_editor.setCursorButton(true);
+		this.resetSelectedCP(newCP);
+		return newCP;
+	}
+	
 	/**
 	 * Helper method to select a new body, as passed in.
 	 * if passed null, then simply deselects currently selected body
 	 * @param newSelected
 	 */
 	private void resetSelected(AbstractBody newSelected) {
+		if (newSelected != null) resetSelectedCP(null);
 		if (!_selectingPoints) {
 			// if we're not making a path
 			if (_selectedBody != null && _selectedBody != newSelected) {
@@ -403,6 +453,23 @@ public class EditorLevel extends AbstractLevel {
 	}
 	
 	/**
+	 * Helper to select new checkpoint. Deselects if passed null.
+	 * @param cp
+	 */
+	private void resetSelectedCP(Checkpoint newSelected) {
+		if (newSelected != null && newSelected.isFirst()) return;
+		if (newSelected != null) resetSelected(null);
+		if (_selectedCheckpoint != null && _selectedCheckpoint != newSelected) {
+			_selectedCheckpoint.setSelected(false);
+		}
+		if (newSelected != null && _selectedCheckpoint != newSelected) {
+			newSelected.setSelected(true);
+		}
+		_selectedCheckpoint = newSelected;
+		_editor.updateFieldValues(); 
+	}
+	
+	/**
 	 * Helper method to find which object contains a given point. Returns null if no containment.
 	 * @param point
 	 * @return
@@ -421,6 +488,20 @@ public class EditorLevel extends AbstractLevel {
 		return null; // it didn't find an object, return null
 	}
 	
+	private Checkpoint getCheckpoint(Vec2 point) {
+		if (point == null) return null; // if passed a null point, output should be null
+		ArrayList<Checkpoint> list = this.getCheckpoints();
+		for (int i = list.size() - 1; i>=0; i--) {
+			// iterate through all bodies backwards, checking for containment of point
+			// backwards, because that's how they're drawn
+			Checkpoint c = list.get(i);
+			if (c.containsClick(point)) {
+				return c;
+			}
+		}
+		return null; // it didn't find an object, return null
+	}
+	
 	/**
 	 * A key has been pressed! Handle whatever it is.
 	 */
@@ -431,9 +512,13 @@ public class EditorLevel extends AbstractLevel {
 			switch (_window.key) {
 			case 'd':
 				if (_selectedBody != null && !_placeMode && 
-						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint)) {
+						!(_selectedBody instanceof UserBall) && !(_selectedBody instanceof EndPoint) &&
+						!(this.isBorder(_selectedBody))) {
 					_selectedBody.killBody();
 					this.resetSelected(null);
+				} else if (_selectedCheckpoint != null && !_placeMode && !_selectedCheckpoint.isFirst()) {
+					_checkpoints.remove(_selectedCheckpoint);
+					this.resetSelectedCP(null);
 				}
 				break;
 			case 'x':
@@ -499,9 +584,18 @@ public class EditorLevel extends AbstractLevel {
 	 */
 	public void setPlacemode(boolean placemode){
 		this.resetSelected(null);
+		this.resetSelectedCP(null);
 		_placeMode = placemode;
 	}
 
+	/**
+	 * Set if this is placing a checkpoint or not.
+	 * @param pc
+	 */
+	public void setPlaceCheckpoint(boolean pc) {
+		_placeCheckpoint = pc;
+	}
+	
 	/**
 	 * Right click to finish multi-point selection
 	 */
@@ -565,6 +659,10 @@ public class EditorLevel extends AbstractLevel {
 		return _selectedBody;
 	}
 	
+	public Checkpoint getSelectedCP() {
+		return _selectedCheckpoint;
+	}
+	
 	/** 
 	 * make a thumbnail image for the saving
 	 * @param path
@@ -619,6 +717,7 @@ public class EditorLevel extends AbstractLevel {
 	public void save(String name) {
 		_savefile = null;
 		this.resetSelected(null);
+		this.resetSelectedCP(null);
 		String pathname = "levels/" + name;
 		String thumbPathname = "levels/thumbs/" + name.substring(0, name.indexOf('.')) + ".png";
 		XMLUtil.getInstance().writeFile(this, pathname);
