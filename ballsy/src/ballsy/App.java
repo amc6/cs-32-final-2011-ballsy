@@ -51,7 +51,7 @@ public class App {
 			String inputLine;
 			boolean upToDate = false;
 			if ((inputLine = in.readLine()) != null && inputLine.equals(line)) upToDate = true;
-			if (!upToDate) {
+			if (!upToDate && inputLine != null && !inputLine.startsWith("<")) { // should not fire if in a captured portal, i.e. accessing a webpage other than ours
 				String message = "A newer version of Ballsy is available. For best performance, " +
 			    "please update to the most recent release.\n\n" +
 			    "Revision " + inputLine + ":";

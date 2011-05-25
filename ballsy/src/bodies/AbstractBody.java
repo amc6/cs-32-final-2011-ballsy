@@ -38,7 +38,7 @@ public abstract class AbstractBody {
 	
 	/**
 	 * Should check to see if the object can be removed from the world. 
-	 * This implementation causes the object to dissapear if it falls below y = 0
+	 * This implementation causes the object to dissappear if it falls below y = 0
 	 * in world coordinates.
 	 */
 	public boolean done() {
