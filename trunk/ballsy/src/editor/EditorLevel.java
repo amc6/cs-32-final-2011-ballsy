@@ -294,7 +294,7 @@ public class EditorLevel extends AbstractLevel {
 				else if (getCheckpoint(p) != null && getCheckpoint(p).isFirst()) {
 					// act just like clicking on empty space.
 					this.resetSelectedCP(null);
-					this.resetSelected(null);
+					if (getBody(p) == null) this.resetSelected(null); // to allow selection of the userball
 				}
 				if (_selectedBody == null) this.resetSelectedCP(getCheckpoint(p));
 			}
